@@ -123,7 +123,7 @@ const ResidentDashboard = () => {
   };
 
   const nearestBusinesses = [...businesses]
-    .filter(b => b.isActive && (!b.flagCount || b.flagCount < 3))
+    .filter(b => b.isActive && (!b.flagCount || b.flagCount < 3) && calculateDistance(user.location, getLandmarkById(b.landmarkId)?.latLng) !== null)
     .sort((a, b) => {
       const distA = parseFloat(calculateDistance(user.location, getLandmarkById(a.landmarkId)?.latLng));
       const distB = parseFloat(calculateDistance(user.location, getLandmarkById(b.landmarkId)?.latLng));

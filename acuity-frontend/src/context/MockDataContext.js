@@ -269,7 +269,7 @@ export const MockDataProvider = ({ children }) => {
 
     // Calculate real-world distance using Haversine formula (km)
     const calculateDistance = (coord1, coord2) => {
-        if (!coord1 || !coord2) return 0;
+        if (!coord1 || !coord2) return null;
         
         // coord1 and coord2 should be {lat, lng} or array [lat, lng]
         const lat1 = coord1.lat !== undefined ? coord1.lat : (Array.isArray(coord1) ? coord1[0] : null);
@@ -277,7 +277,7 @@ export const MockDataProvider = ({ children }) => {
         const lat2 = coord2.lat !== undefined ? coord2.lat : (Array.isArray(coord2) ? coord2[0] : null);
         const lon2 = coord2.lng !== undefined ? coord2.lng : (Array.isArray(coord2) ? coord2[1] : null);
 
-        if (lat1 === null || lon1 === null || lat2 === null || lon2 === null) return 0;
+        if (lat1 === null || lon1 === null || lat2 === null || lon2 === null) return null;
 
         const R = 6371; // Earth's radius in km
         const dLat = (lat2 - lat1) * Math.PI / 180;
