@@ -1,16 +1,39 @@
-# React + Vite
+# ACUITY Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the administrative dashboard for the ACUITY framework, built with React and Vite. 
+It provides the necessary tools for administrators to manage the business registry, handle verifications, and moderate flagged profiles.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Dashboard Home:** Overview of system statistics and pending actions.
+- **Registry Management:** View and edit the database of extracted and verified local micro-enterprises.
+- **Verification Queue:** Interface for validating business profiles extracted from community posts.
+- **Flagged Profiles:** Moderation tools for handling user-reported or anomalous business entries.
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
 
-## Expanding the ESLint configuration
+### Installation
+1. Navigate to the admin directory:
+   ```bash
+   cd acuity-admin
+   ```
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Running the Development Server
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:5173`.
+
+### Building for Production
+```bash
+npm run build
+```
+The compiled assets will be output to the `dist/` folder.
