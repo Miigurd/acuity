@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Results for "{{ query }}" — ACUITY{% endblock %}
+{% block content %}
+<section id="results">
+    <h2>Results for "{{ query }}"</h2>
+    {% if results %}
+    {% for biz in results %}
+    <article class="result-card">
+        <h3>{{ biz.business_name or "Unnamed Business" }}</h3>
+        <p>{{ biz.description[:200] }}...</p>
+        {% if biz.distance_km is not none %}
+        <span class="distance">{{ biz.distance_km }} km away</span>
+        {% endif %}
+        <span class="score">Relevance: {{ biz.final_score }}</span>
+    </article>
+    {% endfor %}
+    {% else %}
+    <p>No results found. Try a different search term.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+# =============================================================================
+# ACUITY — Git Ignore
+# =============================================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# --- Environment ---
+.env
+
+# --- Data (raw scraped data, models, chrome sessions) ---
+data/raw/
+data/processed/
+data/models/
+data/chrome_session/
+data/acuity.db
+*.csv
+
+# --- Chrome / Selenium ---
+user_data/
+user_data_uc/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Custom (Models & Archives) ---
+*.zip
+*.pkl
+*.pdf
+acuity_env/
+search_output.json
+instance/
+best-model/
+
+

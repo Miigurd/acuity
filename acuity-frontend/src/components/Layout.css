@@ -1,0 +1,170 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-deep);
+}
+
+/* ====== NAVBAR ====== */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    height: 64px;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+}
+
+.logo-text span {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.main-wrapper {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 var(--spacing-4);
+}
+
+/* ====== SIDEBAR ====== */
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    padding-top: var(--spacing-6);
+    padding-right: var(--spacing-4);
+    border-right: 1px solid var(--border);
+    margin-right: var(--spacing-4);
+    display: none;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    position: sticky;
+    top: 88px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: rgba(220, 38, 38, 0.06);
+    color: var(--primary);
+}
+
+.sidebar-link.active {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.sidebar-link .icon {
+    font-size: 1.15rem;
+    display: flex;
+}
+
+/* ====== MAIN CONTENT ====== */
+.main-content {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    /* Prevent flex overflow */
+    padding-top: var(--spacing-4);
+    padding-bottom: 90px;
+    /* Space for bottom nav */
+}
+
+/* ====== BOTTOM NAV ====== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: var(--z-nav);
+    border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--text-muted);
+    width: 100%;
+    height: 100%;
+    transition: color 0.2s;
+    font-size: 0.9rem;
+}
+
+.bottom-nav-item .icon {
+    font-size: 1.3rem;
+    display: flex;
+}
+
+.bottom-nav-item .label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.bottom-nav-item.active {
+    color: var(--primary);
+}
+
+/* ====== VISIBILITY ====== */
+.hidden-desktop {
+    display: flex;
+}
+
+.hidden-mobile {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hidden-desktop {
+        display: none !important;
+    }
+
+    .hidden-mobile {
+        display: flex;
+    }
+
+    .sidebar {
+        display: block;
+    }
+
+    .main-content {
+        padding-bottom: var(--spacing-8);
+    }
+
+    .main-wrapper {
+        padding: 0 var(--spacing-6);
+    }
+}

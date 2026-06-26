@@ -1,0 +1,8 @@
+{
+    "root": ".",
+    "pythonVersion": "3.11",
+    "pythonPlatform": "Windows",
+    "extraPaths": ["."],
+    "reportMissingModuleSource": false,
+    "reportMissingTypeStubs": false
+}

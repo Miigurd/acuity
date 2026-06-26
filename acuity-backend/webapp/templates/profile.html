@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ business.business_name if business else "Business" }} — ACUITY{% endblock %}
+{% block content %}
+<section id="profile">
+    {% if business %}
+    <h2>{{ business.business_name }}</h2>
+    <p>{{ business.description }}</p>
+    <ul>
+        {% if business.categories %}<li><strong>Category:</strong> {{ business.categories | join(", ") }}</li>{% endif
+        %}
+        {% if business.phones %}<li><strong>Contact:</strong> {{ business.phones | join(", ") }}</li>{% endif %}
+        {% if business.hours %}<li><strong>Hours:</strong> {{ business.hours | join(", ") }}</li>{% endif %}
+        {% if business.locations %}<li><strong>Location:</strong> {{ business.locations | join(", ") }}</li>{% endif %}
+    </ul>
+    {% else %}
+    <p>Business not found.</p>
+    {% endif %}
+</section>
+{% endblock %}

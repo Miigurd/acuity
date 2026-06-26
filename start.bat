@@ -1,0 +1,13 @@
+@echo off
+echo Starting Acuity Services...
+
+echo Starting Backend...
+start "Acuity Backend" cmd /k "cd acuity-backend && .venv\Scripts\activate && python -m webapp.app"
+
+echo Starting User Frontend...
+start "Acuity User Frontend" cmd /k "cd acuity-frontend && npm start"
+
+echo Starting Admin Frontend...
+start "Acuity Admin Frontend" cmd /k "cd acuity-admin && npm run dev"
+
+echo All services started!

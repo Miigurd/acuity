@@ -1,0 +1,5 @@
+# Root project specific files to ignore
+*.pdf
+*.xlsx
+*.csv
+extracted_text.txt

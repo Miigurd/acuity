@@ -1,0 +1,2554 @@
+[
+{
+  "index": 4,
+  "poster": "Jonathan Bascruz Laviña Verified account",
+  "text": "Kamustahin po natin ang aking mahal na nanay Lourdes Lavina  \n Mini VLOG number 1.. \nPaFOLLOW,SHARE at \n naman po salamat guys!\n#minivlog \n#minivlogreels \n#NanaySerye \n#konsionatvlog \n#reelsviralシfb",
+  "scraped_at": 1773230050.5767546,
+  "id": 1,
+  "annotator": 1,
+  "annotation_id": 1,
+  "created_at": "2026-03-11T12:45:37.303635Z",
+  "updated_at": "2026-03-11T12:45:37.303635Z",
+  "lead_time": 3.75
+},
+{
+  "index": 7,
+  "poster": "Foúr Colórs",
+  "text": "Open Daily 9am to 7pm\nPrint \/ Printer Convert \/ Repair \/ Refill \/ Ciss \/ Sintra Board \nDirect  Messenger \nor  \n09926276735  \n09665238163\n Brgy Platero , Biñan Laguna\n#PrinterConvert \n#PrinterRepair \n#CISS \n#InkRefill \n#Cartridgerefill \n#print\n#photocopy \n#sintraboard \n#walldecor \n#phototile \n#picture \n#IDpicture \n#laminate \n#photoprinting",
+  "scraped_at": 1773230057.6189718,
+  "id": 2,
+  "label": [
+    {
+      "start": 138,
+      "end": 165,
+      "text": "Brgy Platero , Biñan Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 22,
+      "end": 27,
+      "text": "Print",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 30,
+      "end": 45,
+      "text": "Printer Convert",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 48,
+      "end": 54,
+      "text": "Repair",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 57,
+      "end": 63,
+      "text": "Refill",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 2,
+  "created_at": "2026-03-11T12:46:15.830944Z",
+  "updated_at": "2026-03-11T12:46:15.830944Z",
+  "lead_time": 37.224
+},
+{
+  "index": 9,
+  "poster": "Sabrienatics Prime Boutique is live now.",
+  "text": "PASOK MGA GUSTONG MAG RESELLER \nSHOPEE CHECK OUT \n LALAMOVE PICK UP\nRESSELER PRICE\n BRAND NEW CURTAINS, BEDSHEETS,BLANKET,PUNDA\n  BASA MUNA!  \n No joy\/ bogus buyer please!!!Wag na po mag-mine kung walang budget at wala ka palang time.\n No cancellation after live\n No long reservation (1-2days only)\nAll joyjoy\/bogus miner will be posted\nNote:\nkung hindi po  agad makukuha, please settle your payment agad\n \n Shipping via J&T and Shopee check out\nMOP: GCash, UCPB or Palawan \nNo to 711 to direct to our gcash account, or palawan to our gcash account\nHappy Shopping!",
+  "scraped_at": 1773230062.526348,
+  "id": 3,
+  "annotator": 1,
+  "annotation_id": 3,
+  "created_at": "2026-03-11T12:46:31.815261Z",
+  "updated_at": "2026-03-11T12:46:31.816904Z",
+  "lead_time": 10.852
+},
+{
+  "index": 11,
+  "poster": "Aris Lluz",
+  "text": ":CLEANING SERVICE RATES:\nSPLIT TYPE \n1-1.5hp (₱1100.00)\n2-3hp (₱1,300.00)\nWINDOW TYPE \nNon-Inverter \n.5-1hp (₱550.00)\n1.5-2hp (₱700.00)\n2.5-3hp (₱800.00)\n WINDOW TYPE INVERTER\nAny hp (₱900.00)\nFLOORMOUNTED\nStarting at (2.000)\nFREE CHECK-UP UPON CLEANING\nNO HIDDEN CHARGES\nHOME SERVICE\nOTHER SERVICES OFFERD:\nRECHARGING FREON\nSYSTEMREPROCESS\nGENERAL CLEANING \nPULL DOWN CLEANING\nINSTALLING\nDISMANTLE\nRELOCATE\nREPAIR\nBOOK NA PO KAYO\n09709527627\n#09516173647\nWe are in standard price for good quality service....",
+  "scraped_at": 1773230068.320373,
+  "id": 4,
+  "label": [
+    {
+      "start": 1,
+      "end": 9,
+      "text": "CLEANING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 341,
+      "end": 357,
+      "text": "GENERAL CLEANING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 359,
+      "end": 377,
+      "text": "PULL DOWN CLEANING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 378,
+      "end": 388,
+      "text": "INSTALLING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 389,
+      "end": 398,
+      "text": "DISMANTLE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 399,
+      "end": 407,
+      "text": "RELOCATE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 408,
+      "end": 414,
+      "text": "REPAIR",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 4,
+  "created_at": "2026-03-11T12:47:17.690280Z",
+  "updated_at": "2026-03-11T12:47:17.690280Z",
+  "lead_time": 44.213
+},
+{
+  "index": 13,
+  "poster": "Online status indicatorActive",
+  "text": "8 Small Bilao Package ₱2,049 \n \n7 Small Bilao Package ₱1,749\n9 Large Bilao Package ₱2,549\nJewel's Bilao Package \nRUSH ORDER ACCEPTED\nADVANCE RESERVATION ACCEPTED\nSAMEDAY DELIVERY ACCEPTED\nCASH ON DELIVERY or Gcash Payment\nFor inquiry Direct Message or Call\nCall# 09074541772 # 09641900312\nLet's make your celebration extra special\n•Special Ocation•\nBirthday \nCelebration\nMiryenda\nBaon for Outing\nCristmas Party\nEtc.\nLarge\/Medium\/Small Spaghetti\nLarge\/Medium\/Small Carbonara\nLarge\/Medium\/Small Palabok\nLarge \/Medium\/ Small Pansit\n80 pcs shanghai\n45 pcs Puto\n25 pcs Kutsinta\n20 pcs Fried Chicken\nXs Maja\nAlso available;\nULAM TRAY\nCostumize Cake\nCup Cake\nParty Need\n#affordableaffordablebilao\n#murangbilaopackage \n#handaanpackage \n#ReserveNow \n#orderonline\nWe Deliver via lalamove\/Contract Rider\nCalamba•Cabuyao•Cavite•Sn Pedro•Muntinlupa•Manila•Batangas",
+  "scraped_at": 1773230073.364188,
+  "id": 5,
+  "label": [
+    {
+      "start": 90,
+      "end": 111,
+      "text": "Jewel's Bilao Package",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 8,
+      "end": 21,
+      "text": "Bilao Package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 5,
+  "created_at": "2026-03-11T12:48:03.923928Z",
+  "updated_at": "2026-03-11T12:48:03.923928Z",
+  "lead_time": 32.499
+},
+{
+  "index": 18,
+  "poster": "Cheran Sarza",
+  "text": "MCC KITCHEN \nSILOG, SIZZLING AT MGA INIHAW MEALS BA ANG HANAP MO\nUNLI SABAW NA! UNLI RICE PA\nTARA NA!!\nKain na rito sa aming Unlimited rice w\/ soup \nPurok 1 Cavitehan Road Gulod Cabuyao Laguna- Near gate ng Ph 5 SJV7\nOpen every 10am-12mn!\nDINE IN\nTAKE OUT\nDELIVERY\nFREE DELIVERY w\/ Minimum orders\nHanggang madaling araw tayo, mga suki!!\nKaya, tara na!!\nGcash payment Accepted\nPM FOR ORDERS",
+  "scraped_at": 1773230087.5368302,
+  "id": 6,
+  "label": [
+    {
+      "start": 0,
+      "end": 11,
+      "text": "MCC KITCHEN",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 13,
+      "end": 18,
+      "text": "SILOG",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 20,
+      "end": 28,
+      "text": "SIZZLING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 36,
+      "end": 42,
+      "text": "INIHAW",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 43,
+      "end": 48,
+      "text": "MEALS",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 149,
+      "end": 192,
+      "text": "Purok 1 Cavitehan Road Gulod Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 6,
+  "created_at": "2026-03-11T12:48:31.063328Z",
+  "updated_at": "2026-03-11T12:48:31.063328Z",
+  "lead_time": 25.951
+},
+{
+  "index": 20,
+  "poster": "Shieng Abing",
+  "text": "CABUYAO HOMEBASE STUDIO St.Joseph 7 Phase 5a Near Circle and basketball court pathway ng Carenderia\/Mlhulier Available for walk-in\/ Homeservice AFFORDABLE AND QUALITY GAWANG PULIDO Price start 349 Glow Babe Lash.Nails.Brows kindly check my page for work portfolio and feedbacks Homeservice (cabuyao,calamba,sta.rosa,binan,sanpedro,alabang,makati,pasay via advance appointment)LEGIT TECHNICIAN ARTIST WITH GOLD SEALED OF CERTIFICATES TO ATTEND SINCE 2024  CERTIFIED LASH ARTIST CERTIFIED NAIL ARTIST CERTIFIED SEMI-PERMANENT MAKE-UPwith Basic facial and hair removal.NO RUSH APPOINTMENT WITH DOWN PAYMENT TO SECURE SLOT NO REFUND FOR CANCELLATION! PROPER PROCEDURES AND TOOLS PULIDO AND QUALITY WITH AIRCONDITION FREE WIFIDURATION 2\/3\/4 HRS DEPENDE SA SERVICES NA IPAPAGAWA.#nails #lash #servicesnear #CertifiedArtist #glowbabelashnailsbrows",
+  "scraped_at": 1773230086.3023748,
+  "id": 7,
+  "label": [
+    {
+      "start": 24,
+      "end": 108,
+      "text": "St.Joseph 7 Phase 5a Near Circle and basketball court pathway ng Carenderia\/Mlhulier",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 197,
+      "end": 223,
+      "text": "Glow Babe Lash.Nails.Brows",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 487,
+      "end": 498,
+      "text": "NAIL ARTIST",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 542,
+      "end": 565,
+      "text": "facial and hair removal",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 7,
+  "created_at": "2026-03-11T12:50:21.491426Z",
+  "updated_at": "2026-03-11T12:50:21.491426Z",
+  "lead_time": 101.416
+},
+{
+  "index": 23,
+  "poster": "Online status indicatorActive",
+  "text": "Everyday is a Blessing  Wednesday  BENTO Combo - 290.00Location: St Joseph 6 Butong Cabuyao Laguna Message lang po. May extra po today",
+  "scraped_at": 1773230097.1031926,
+  "id": 8,
+  "label": [
+    {
+      "start": 65,
+      "end": 98,
+      "text": "St Joseph 6 Butong Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 35,
+      "end": 40,
+      "text": "BENTO",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 8,
+  "created_at": "2026-03-11T12:50:43.531795Z",
+  "updated_at": "2026-03-11T12:50:43.531795Z",
+  "lead_time": 20.101
+},
+{
+  "index": 26,
+  "poster": "Online status indicatorActive",
+  "text": "꧁♕Anniversarry Promo Discount♕꧂ Thank you for choosing Nails Glam by: Cris  ꧁♕SOFTGEL NAIL EXTENSIONBOOK YOUR APPOINTMENT NOW ♕꧂✿◉●•◦Nails are just like your smile, they're one of the first thing people notice about you! Great nails require a great nail technician. A great technician requires passion.✿◉●•◦  Some affordable nail extensions, so what are you waiting for?  Just DM me! Nails Glam by: CRIS Nail Tech SERVICES: Softgel Nail Extension Softgel Removal Pls send your photo inspo or preffered designs to check availability.  Homebase  Please manage your expectations.  NO to Home serviceLoc: Mamatid Mabuhay Ph2 Cabuyao Laguna.(Back of Puregold) #nailsofinstagram #softgelextensions #nailtech #nailart #nailtech #nailsinspiration #nailideas #nailartistnearme",
+  "scraped_at": 1773230099.6559908,
+  "id": 9,
+  "label": [
+    {
+      "start": 55,
+      "end": 65,
+      "text": "Nails Glam",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 86,
+      "end": 100,
+      "text": "NAIL EXTENSION",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 384,
+      "end": 394,
+      "text": "Nails Glam",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 404,
+      "end": 413,
+      "text": "Nail Tech",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 432,
+      "end": 446,
+      "text": "Nail Extension",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 601,
+      "end": 635,
+      "text": "Mamatid Mabuhay Ph2 Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 9,
+  "created_at": "2026-03-11T12:51:21.538030Z",
+  "updated_at": "2026-03-11T12:51:21.538030Z",
+  "lead_time": 36.774
+},
+{
+  "index": 32,
+  "poster": "Online status indicatorActive",
+  "text": "WELCOME BACK SALEEE!!! 20PHP EACH 20PHP EACH  20PHP EACH  20PHP EACH  MUST HAVE SHARER BADGE NEW MINER PM DIRECT SA PAGE, STRICTLY PAYMENT FIRST POLICY  NO PM, NO MINE  SHOPEE CHECKOUT NATIONWIDE  KANLURAN, SANTA ROSA LAGUNA",
+  "scraped_at": 1773230117.6970494,
+  "id": 10,
+  "annotator": 1,
+  "annotation_id": 10,
+  "created_at": "2026-03-11T12:51:26.925937Z",
+  "updated_at": "2026-03-11T12:51:26.925937Z",
+  "lead_time": 3.263
+},
+{
+  "index": 35,
+  "poster": "Bike Park",
+  "text": "Available MTB  - Size 27.5\/29\nAs of 11 Mar 2026\nMTB 27.5 \nP5,400 - Garuda 350 Alloy 27.5 MTB \nP8,500 - Trinx Edge Elite (3x8) 27.5 Hydrau MTB \nP7,000 - Ruijue 3x9 27.5 Hydra MTB\nP7,000 - Rhino GX 304 1x9 Hydraulic 27.5 MTB \nP7,400 - Promax PM18 1x9 27.5 Mechl MTB \nP7,500 - Hyx Eagle 27.5 Hydrau MTB\nP7,500 - Rhino Cratos (213) Hydraulic 27.5 MTB\nP7,500 - Garuda Vantta 3x9 Hydraulic 27.5 MTB\nP8,000 - Even Crossover (1x10) 27.5 MTB\nP8,200 - Foxter FT203 (Tourney 3x8) Hydrau 27.5 MTB \nP8,400 - Promax PM30 27.5 1x8 Hydraulic MTB\nP8,500 - Tirich MS-8 1x8 Hydrau 27.5 MTB\nP8,500 - Trinx Edge Elite (3x8) 27.5 Hydrau MTB\nP8,800 - Aeroic Warrior 650 (1x10) 27.5 MTB\nP8,800 - Tirich Cosmo 1x9 27.5 MTB\nP9,000 - Totem Musketeer (Alivio 3x9) 27.5 MTB\nP9,200 - Phantom Quest (Altus 3x9) 27.5 MTB\nP9,400 - Trinx Q500 (1x10) 27.5 MTB \nP9,800 - Keysto Elite (3x11) 27.5 MTB\nP9,800 - Toseek X-Force 2.0 1x10 27.5 MTB\nP10,200 - Ryder X8 (Cues 1x10 ) 27.5 MTB\nP11,200 - Foxter Evans FT3.3 (1x10) Hydrau 27.5 MTB\nP11,200 - Trinx M800 Elite 27.5 (Cues 1x9) MTB\nP12,000 - Spanker Glorious (Cues 1x10) 27.5 MTB\nP15,000 - Marcus Cosmos (Altus 1x9) 27.5 MTB, Rigid Fork\nP15,000 - Marcus Cosmos (Marvo 1x9) 27.5 MTB, Air Fork\nP15,500 - Marcus Cosmos (Altus 1x9) 27.5 MTB, Air Fork\nP20,800 - Mountainpeak Explore 2000 27.5 MTB (Carbon)\nMTB 29\nP6,500 - Fusion (3x8) Hydrau 29 MTB \nP7,250 - Crosta R180 (1x9) 29 MTB\nP7,500 - Promax PM18 1x9 29 Mechl MTB\nP7,600 - Rhino Sport Alloy 29 Hydrau MTB (326) \nP8,600 - Tirich MS-8 1x8 Hydrau 29 MTB\nP8,600 - Trinx Edge Quest (3x8) 29 Hydrau MTB \nP8,800 - Fort (Altus 3x9) Hydrau 29 MTiB\nP10,000 - Toseek X-Force 2.0 1x10 29.0 MTB\nP10,500 - Ryder X8 (Cues 1x10 ) 29 MTB\nP11,400 - Trinx M800 fQuest 29 (Cues 1x9) MTB \nP14,200 - Foxter Vinson (1x12) 29 MTB\nP32,500 - Mountainpeak Explore (Deore 1x12) 29 MTB (Carbon) \nP37,000 - Marcus E7 700c Gravel Bike (Pedal Assist)\nP38,500 - Trinx S1700 Pro (1x12) Carbon 29 MTB\nPayment Options\nCash\nCredit card\nFor card installment (BPI)\nFor straight payment (all locally issued Card)\nDebit Card\nHome credit installment\nSalmon Financing\nBank transfer \nGcash \nMaya\nWe are open daily 7:30AM to 7PM\nVisit us at the following \nBike Park - Grandshoppe Center Banlic \nStall G1, Grandshoppe Center\nBanlic, Cabuyao, Laguna\n(\nWith wide  parking area\n)\n150-200meters away from Jolibee Mamatid\nBike Park - Mabuhay\nBlock 111 Lot 43, Phase 2 Mabuhay City Rd, Cabuyao, Laguna\n#BikePark\n#YourBikeYourStyle\n#JoyOfCycling #bikelovers #bikelife #stayhealthyandhappy \n#bike #bikelife #bikeislife #bike4life #mtb #cycling #biking\n#cyclinglife #bikeride #mountainbike #roadbike #gravelbike #gravel #cyclocross",
+  "scraped_at": 1773230127.393323,
+  "id": 11,
+  "label": [
+    {
+      "start": 2178,
+      "end": 2215,
+      "text": "Bike Park - Grandshoppe Center Banlic",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 2217,
+      "end": 2245,
+      "text": "Stall G1, Grandshoppe Center",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 2246,
+      "end": 2269,
+      "text": "Banlic, Cabuyao, Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 2338,
+      "end": 2357,
+      "text": "Bike Park - Mabuhay",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 10,
+      "end": 13,
+      "text": "MTB",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 2418,
+      "end": 2422,
+      "text": "Bike",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 11,
+  "created_at": "2026-03-11T12:52:33.677520Z",
+  "updated_at": "2026-03-11T12:52:33.677520Z",
+  "lead_time": 65.58
+},
+{
+  "index": 36,
+  "poster": "Online status indicatorActive",
+  "text": "Burger\nPasta\nFries\nChicken\nHotdog\nRice meals\nHot&cold coffee\nMilkte&fruitea\nSmoothie&frappee\nOpen from 10am to 10pm \nCapo chino  cravings satisfy\nCapochino ready to serve!\nLocated at Blk 12 Lot 41 Windfield 2 Cabuyao.\n(malapit sa clubhouse, likod ng hardware)\nFREE DELIVER din. Order na Capo",
+  "scraped_at": 1773230134.415074,
+  "id": 12,
+  "label": [
+    {
+      "start": 117,
+      "end": 127,
+      "text": "Capo chino",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 146,
+      "end": 155,
+      "text": "Capochino",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 183,
+      "end": 216,
+      "text": "Blk 12 Lot 41 Windfield 2 Cabuyao",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 6,
+      "text": "Burger",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 7,
+      "end": 12,
+      "text": "Pasta",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 13,
+      "end": 18,
+      "text": "Fries",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 19,
+      "end": 26,
+      "text": "Chicken",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 27,
+      "end": 33,
+      "text": "Hotdog",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 34,
+      "end": 44,
+      "text": "Rice meals",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 45,
+      "end": 60,
+      "text": "Hot&cold coffee",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 76,
+      "end": 84,
+      "text": "Smoothie",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 85,
+      "end": 91,
+      "text": "frappe",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 12,
+  "created_at": "2026-03-11T12:53:17.269415Z",
+  "updated_at": "2026-03-11T12:53:17.269415Z",
+  "lead_time": 42.027
+},
+{
+  "index": 49,
+  "poster": "𝓜𝒂𝓂𝒾𝒾 𝐒𝒶𝓻𝒶𝓱'𝓼 𝓥𝓵ℴ𝓰",
+  "text": "Good morning po! \nPasuyo naman po sa nasakyan ko po na Jeep kahapon March 10, 2026 around 4:30am byaheng \"COMPLEX* diko po tanda ang plate no.# at diko rin po kilala ang driver. Pasuyo po importante po yung nakalagay sa envelope mga gamit ko po yun at may name ko din po. \"SARAH SILVESTRE* may name sa notebook na SARAH. same po ng nasa picture yung mga laman nya po. \nPa share naman if may kakilala kayo na jeepney driver or yung nakasabay ko po kahapon sa Jeep. Salamat po! \n#fyp #fypシ #fypageシ",
+  "scraped_at": 1773230168.931663,
+  "id": 13,
+  "annotator": 1,
+  "annotation_id": 13,
+  "created_at": "2026-03-11T12:53:24.667951Z",
+  "updated_at": "2026-03-11T12:53:24.667951Z",
+  "lead_time": 6.249
+},
+{
+  "index": 50,
+  "poster": "Marinella Orjalesa",
+  "text": "7,200 NALANG FIX\niphone 11 128gb\nWIFI USE ONLY\nBAWAL RESET\/UPDATE \nmakinis pa\n93% battery health \ntruetone working \nface id working\nsuper smooth gamitin \ncheck muna bago bayaran\nunit and cord only",
+  "scraped_at": 1773230173.40655,
+  "id": 14,
+  "annotator": 1,
+  "annotation_id": 14,
+  "created_at": "2026-03-11T12:53:35.881990Z",
+  "updated_at": "2026-03-11T12:53:35.881990Z",
+  "lead_time": 9.324
+},
+{
+  "index": 51,
+  "poster": "Online status indicatorActive",
+  "text": "₱80 — ALL ITEMS\n( Except sa may naka indicate )\n• Medida size not size on tag\n• MINE BASIS\nREMINDERS:\n— strictly no cancellation once item\/s confirmed yours!\n— no rush meet up | shipping\n— no unpaid reservation!\n— all items are steam ironed only, wash before use\n— please manage your expectations, colors may vary due to lighting \n— no to bogus buyer and joyjoy miner \n— do not order if you cannot pay on time\n PLEASE SEND A MESSAGE ONCE THE ITEM IS CONFIRMED YOURS . \n PLEASE MAKE SURE TO READ OUR PINNED POST BEFORE PLACING YOUR ORDERS.\nMOP: \n•CASH upon Meet up\/ Deliver \n•GCASH \n•BANK TRANSFER\nSHIPMENT VIA: \n•Shopee Checkout ( Payment First Checkout at your own risk )\n•Tiktok COD\nMarinig Cabuyao Laguna\n♡ Shop responsibly! please respect our time & efforts. Thank you♡",
+  "scraped_at": 1773230174.6518412,
+  "id": 15,
+  "label": [
+    {
+      "start": 685,
+      "end": 707,
+      "text": "Marinig Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 15,
+  "created_at": "2026-03-11T12:54:28.861213Z",
+  "updated_at": "2026-03-11T12:54:28.861213Z",
+  "lead_time": 50.466
+},
+{
+  "index": 58,
+  "poster": "Wish 107.5 Verified account",
+  "text": "SECURE YOUR TICKETS FOR WISH DATE: ENDLESS NOW! \nGrab your tickets at our official outlets or secure yours online via https:\/\/forms.gle\/zmPRRqgUCKDiJtQs5.",
+  "scraped_at": 1773230193.5591133,
+  "id": 16,
+  "annotator": 1,
+  "annotation_id": 16,
+  "created_at": "2026-03-11T12:54:33.593466Z",
+  "updated_at": "2026-03-11T12:54:33.593466Z",
+  "lead_time": 3.731
+},
+{
+  "index": 59,
+  "poster": "Bhaby Castillo",
+  "text": "Rebond with color Brazilian botox at protein straight pm na mga sis may 2heads prin pwd homeservice may mani pedi paschedule na",
+  "scraped_at": 1773230196.0280335,
+  "id": 17,
+  "label": [
+    {
+      "start": 0,
+      "end": 6,
+      "text": "Rebond",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 17,
+  "created_at": "2026-03-11T12:54:50.689174Z",
+  "updated_at": "2026-03-11T12:54:50.689174Z",
+  "lead_time": 15.861
+},
+{
+  "index": 63,
+  "poster": "Milʼs Affordable Food Package",
+  "text": "RUSH ORDER ACCEPTED\nADVANCE RESERVATION ACCEPTED\nSAMEDAY DELIVERY ACCEPTED\nCASH ON DELIVERY or Gcash Payment\nFor inquiry Direct Message a\nPage\nhttps:\/\/www.facebook.com\/profile.php?id=61566536645950\n#affordablefoodpackage \n#murangbilaopackage \n#handaanpackage \n#ReserveNow \n#orderonline",
+  "scraped_at": 1773230202.9867165,
+  "id": 18,
+  "annotator": 1,
+  "annotation_id": 18,
+  "created_at": "2026-03-11T12:54:57.339239Z",
+  "updated_at": "2026-03-11T12:54:57.339239Z",
+  "lead_time": 4.797
+},
+{
+  "index": 65,
+  "poster": "Mal Rin Kata",
+  "text": "BRANDNEW DOUBLE BURNER \nASTRON ' 850 pesos only !! \n1 pc lang po ito , paunahan nalang \nBago po ito \nDon Vicente villas pulo cabuyao laguna",
+  "scraped_at": 1773230209.9376917,
+  "id": 19,
+  "annotator": 1,
+  "annotation_id": 19,
+  "created_at": "2026-03-11T12:55:06.371302Z",
+  "updated_at": "2026-03-11T12:55:06.371302Z",
+  "lead_time": 6.558
+},
+{
+  "index": 66,
+  "poster": "lykalicious bilao foods",
+  "text": "MARCH 11,2026\nORDER FOR TODAY\n-THANKYOU  PO MADAM Lle ELLATOT  NG STA.ROSA\nCRISPY SISIG\nCHICKEN CURRY\nPANCIT BIHON\nSHANGHAI\nBOUND TO Papajack resort barangay, pulong Santa Cruz\nVIA LALAMOVE  50.00\nMY NEWLY CUSTOMER\nTHANKYOU THANKYOU PO  SA PAGAVAIL  NG AKING  FOODS \nAT NPKA SUPER VERY SMOOTH NG TRANSACTION  NATIN\nGODBLESS PO\nTHANKYOU MADAM SA PAG AVAIL NG CRUSPY SISIG,PANCIT BIHON,SHANGHAI & CHICKEN CURRY FOR TODAY,SALAMAT PO  LAGI SA IYONG TIWALA \nGODBLESS PO\nPM PM LANG PO SA MGA GUSTONG UMORDER MAPA RUSH MAN PO YAN,MAPA GABI O MADALING ARAW YAN ,TATANGGAPIN AT TATANGGAPIN KO PO YAN\nSALAMAT DIN PO SA MGA  UMUULIT SA AKING BILAO FOODS\nGODBLESS PO SA LAHAT\nTHANKYOU LORD SA BLESSINGS ARAW ARAW\nLOCATION;PHASE 5 MABUHAY MAMATID CABUYAO LAGUNA ko",
+  "scraped_at": 1773230212.5044188,
+  "id": 20,
+  "label": [
+    {
+      "start": 82,
+      "end": 87,
+      "text": "SISIG",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 102,
+      "end": 108,
+      "text": "PANCIT",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 88,
+      "end": 95,
+      "text": "CHICKEN",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 115,
+      "end": 122,
+      "text": "SHANGHA",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 710,
+      "end": 748,
+      "text": "PHASE 5 MABUHAY MAMATID CABUYAO LAGUNA",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 20,
+  "created_at": "2026-03-11T12:55:44.349943Z",
+  "updated_at": "2026-03-11T12:55:44.349943Z",
+  "lead_time": 34.242
+},
+{
+  "index": 75,
+  "poster": "Ingrid Ohao Castillo",
+  "text": "MALABANAN EXPERT\n  PERMISSION TO POST ADMIN \nINQUIRE NOW!!\n09533722944\n09679316809\n09813193327\n09451437798\nAlso available Viber and whatsapp\n09533722944\n LOOK MISS ANGEL \nEXPERT AND LEGIT\nMALABANAN SIPHONING OF SEPTIC TANK, DECLOGGING AND PLUMBING .\nTHE TRUSTED AND TESTED MALABANAN \n SIPHONING OF SEPTIC TANK\n SIP-SIP POZO NEGRO\n DECLOGGING\n TANGGAL BARADO\n PLUMBING OF SEPTIC PIPELINES\nPLUMBING USING ROUTER MACHINE\nREPIPING OF PIPELINES\nMANUAL CLEANING OF SEPTIC TANK\n GARBAGE REMOVAL INSIDE SEPTIC\n INSTALLATION OF NEW SEPTIC TANK\nALL TYPE OF DRAIN \navailable 24\/7 Daily.\nOpen and Always available for on call in Daily, Weekly, Monthly, and Annual Contract.\nFor RESIDENCIAL, COMMERCIAL, & INDUSTRIAL Establishment.\nKeep Safe and God Bless",
+  "scraped_at": 1773230238.5167675,
+  "id": 21,
+  "label": [
+    {
+      "start": 198,
+      "end": 222,
+      "text": "SIPHONING OF SEPTIC TANK",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 224,
+      "end": 234,
+      "text": "DECLOGGING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 239,
+      "end": 247,
+      "text": "PLUMBING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 359,
+      "end": 367,
+      "text": "PLUMBING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 388,
+      "end": 396,
+      "text": "PLUMBING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 418,
+      "end": 426,
+      "text": "REPIPING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 440,
+      "end": 455,
+      "text": "MANUAL CLEANING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 472,
+      "end": 487,
+      "text": "GARBAGE REMOVAL",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 503,
+      "end": 534,
+      "text": "INSTALLATION OF NEW SEPTIC TANK",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 16,
+      "text": "MALABANAN EXPERT",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 21,
+  "created_at": "2026-03-11T12:56:44.558925Z",
+  "updated_at": "2026-03-11T12:56:44.558925Z",
+  "lead_time": 58.933
+},
+{
+  "index": 76,
+  "poster": "Super Siomai - Poblacion Tres Cabuyao City Laguna",
+  "text": "Super sa lasa, Super sa Kasa\nTIKMAN NG MALAMAN!!!\nOpen 24\/7 \nBrgy.Poblacion Tres Cabuyao City, laguna (Landmark near PureGold Jr. & BDO Cabuyao)\n For delivery PM DIRECT TO OUR PAGE CALL OR TEXT \n0936 328 1569\nOur delivery partner \nARPG 24\/7 LAGUNA delivery services",
+  "scraped_at": 1773230243.4602306,
+  "id": 22,
+  "label": [
+    {
+      "start": 61,
+      "end": 101,
+      "text": "Brgy.Poblacion Tres Cabuyao City, laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 22,
+  "created_at": "2026-03-11T12:57:06.841978Z",
+  "updated_at": "2026-03-11T12:57:06.841978Z",
+  "lead_time": 15.912
+},
+{
+  "index": 77,
+  "poster": "0:00 \/ 0:16",
+  "text": "FROM;   BIRMINGHAM CABUYAO ANOTHER DAY \/ ANOTHER CLIENT THANKYOU SIR sa Pagtitiwala sa Serbisyo namin ! GOD BLESSDONECleaning Split Type airconELECTRICAL WORKS APPLIANCES REPAIR         ANY KIND LIKEAUTOMATIC WASHINGMANUAL WASHING MACHINE AIRCON ANY TYPES DEEP CLEANING AUTOMATIC WASHING MACHINE DEEP CLEANING AIRCONAIRCON TECH HERE AIRCON INSTALLATIONCHARGING REFRIGERANT RELOCATIONDISMANTLING SYSTEM REPROCESSPUMP DOWN\/PULL DOWN CLEANING REPLACEMENT OF PARTS**WITH WARRANTY**PLEASE CONTACT ME FOR MORE DETAILSOR MESSAGE ME TO MY MESSENGER OR TEXTING MEROSE ANN ARCITA ANTERO09853662868— with EL Francisco and Rose Ann Antero.",
+  "scraped_at": 1773230238.5167675,
+  "id": 23,
+  "label": [
+    {
+      "start": 8,
+      "end": 26,
+      "text": "BIRMINGHAM CABUYAO",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 143,
+      "end": 159,
+      "text": "ELECTRICAL WORKS",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 160,
+      "end": 177,
+      "text": "APPLIANCES REPAIR",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 23,
+  "created_at": "2026-03-11T13:04:18.619594Z",
+  "updated_at": "2026-03-11T13:04:18.619594Z",
+  "lead_time": 422.785
+},
+{
+  "index": 83,
+  "poster": "Caily's Affordable Food Bilao Package",
+  "text": "CAILY'S AFFORDABLE BILAO PACKAGE \n7 Bilao Package ₱1,550\n8 Bilao Package ₱2,000\n9 Medium Bilao Package ₱2,200\n9 Large Bilao Package ₱2,500\n9 XL Bilao Package ₱3,500\nInclusions;\nLarge\/Medium Spaghetti\nLarge\/Medium  Palabok\nLarge\/Medium Carbonara\nLarge \/Medium Pansit\n80 pcs shanghai\n40 pcs Puto\n20 pcs. kutsinta\n18 pcs Fried Chicken\nXs Maja\nALSO AVAILABLE:\nULAM TRAY\nPACK LUNCH\nCOSTUMIZED CAKE\nWE ACCEPT RUSH ORDER\nWE ACCEPT ADVANCE RESERVATION\nWE ACCEPT SAMEDAY DELIVERY\nCASH ON DELIVERY or Gcash Payment\nNOTE*\"Delivery Fee will be shouldered by the costumer\"\nFor inquiry Direct Message me or Call look for Eunice Mirabete\nCall# 09057818975\nWe deliver in this following areas \nBiñan\nSta Rosa\nSn Pedro\nPacita\nMuntinlupa??Cabuyao\nCalamba\nCavite\n#affordablebilao\n#murangbilaopackage\n#quinncailybilaopackage\n#cailysbilaopackage",
+  "scraped_at": 1773230261.1832674,
+  "id": 24,
+  "label": [
+    {
+      "start": 0,
+      "end": 32,
+      "text": "CAILY'S AFFORDABLE BILAO PACKAGE",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 36,
+      "end": 49,
+      "text": "Bilao Package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 190,
+      "end": 199,
+      "text": "Spaghetti",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 214,
+      "end": 221,
+      "text": "Palabok",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 235,
+      "end": 244,
+      "text": "Carbonara",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 259,
+      "end": 265,
+      "text": "Pansit",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 273,
+      "end": 281,
+      "text": "shanghai",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 289,
+      "end": 293,
+      "text": "Puto",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 302,
+      "end": 310,
+      "text": "kutsinta",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 318,
+      "end": 331,
+      "text": "Fried Chicken",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 24,
+  "created_at": "2026-03-11T13:05:21.541048Z",
+  "updated_at": "2026-03-11T13:05:21.541048Z",
+  "lead_time": 61.787
+},
+{
+  "index": 85,
+  "poster": "Online status indicatorActive",
+  "text": "Everyday is a Blessing  March 7,2026 Saturday Biyaya  Thank you Lord! ALL glory belongs to you! Maam Joann Terencio  It was truly our honor to be part of your special celebration.Thank you for trusting us to help create lasting memories, and we hope our services added joy to your day. We look forward to serving you again soon! Thank you! Location: St Joseph 6 Butong Cabuyao Laguna Send us DM for your inquiry.",
+  "scraped_at": 1773230266.994027,
+  "id": 25,
+  "label": [
+    {
+      "start": 350,
+      "end": 383,
+      "text": "St Joseph 6 Butong Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 25,
+  "created_at": "2026-03-11T13:05:46.185161Z",
+  "updated_at": "2026-03-11T13:05:46.185161Z",
+  "lead_time": 23.05
+},
+{
+  "index": 88,
+  "poster": "Cristy Maganto",
+  "text": "hipon pang sigang \nMedium size \nMaganda po yan \ntalaba \nalimango \ntabagwang \ngulay \nsibuyas red 75 kilo\npm po",
+  "scraped_at": 1773230277.111634,
+  "id": 26,
+  "annotator": 1,
+  "annotation_id": 26,
+  "created_at": "2026-03-11T13:05:49.453915Z",
+  "updated_at": "2026-03-11T13:05:49.453915Z",
+  "lead_time": 2.268
+},
+{
+  "index": 89,
+  "poster": "Boss NyelVerified account",
+  "text": "Maraming nagtatanong kung saan daw kami nag pagawa ng Uniform ng A&D Auto Trading mga boss ito na napaka ganda ng gawa nila polido at mabilis sila gumawa Naroline Apparel Yan ang Facebook nila sa mga gusto mag pagawa pm nyo na agad sila may discount pag followers natin",
+  "scraped_at": 1773230272.2280264,
+  "id": 27,
+  "annotator": 1,
+  "annotation_id": 27,
+  "created_at": "2026-03-11T13:06:00.902508Z",
+  "updated_at": "2026-03-11T13:06:00.902508Z",
+  "lead_time": 10.009
+},
+{
+  "index": 92,
+  "poster": "Sheryl Balbin Pablo",
+  "text": "PINAKA MURANG TOWNHOUSE WITH GARAGE SA CABUYAO NGAYON!!Inner- 48 sqmSunriseNear gateLast 1 unitBlock 27 Tcp: 1.9MRes. Fee: 6kTotal equity; 479k15k monthly equity if 30 months 13k monthly if 36 monthsPag ibig; 9,770 monthlyRequired salary: 25kPromo: free move in fee, saves as much as 17k LAST ONE UNIT PO ITONG MA OFFER KO!!PM IF INTERESTED!!ALSO AVAILABLE. DUPLEX WITH GARAGEMAG AASSIST PO KAMI HANGGANG MAKALIPAT KAYO",
+  "scraped_at": 1773230278.4525738,
+  "id": 28,
+  "annotator": 1,
+  "annotation_id": 28,
+  "created_at": "2026-03-11T13:06:04.284042Z",
+  "updated_at": "2026-03-11T13:06:04.284042Z",
+  "lead_time": 2.248
+},
+{
+  "index": 106,
+  "poster": "0:00 \/ 0:18",
+  "text": "Iphone 7 plus 128gb 100 battery original pa lcd nan gana fingerprint anysim pede malinaw camera issue nya andyan na unli reset unli check din sa meet up medyo may white lang sa gilid pero hindi nakakaapekto 2500 nalang po",
+  "scraped_at": 1773230307.7566075,
+  "id": 29,
+  "annotator": 1,
+  "annotation_id": 29,
+  "created_at": "2026-03-11T13:06:07.966869Z",
+  "updated_at": "2026-03-11T13:06:07.966869Z",
+  "lead_time": 1.453
+},
+{
+  "index": 109,
+  "poster": "Meralco Newsroom",
+  "text": "READ: Meralco Executive Vice President and Chief Operating Officer Ronnie Aperocho details the company’s proactive efforts to mitigate the possible effect of the continuous tension in the Middle East. #SerbisyongMeralco",
+  "scraped_at": 1773230309.5598223,
+  "id": 30,
+  "annotator": 1,
+  "annotation_id": 30,
+  "created_at": "2026-03-11T13:06:13.074361Z",
+  "updated_at": "2026-03-11T13:06:13.074361Z",
+  "lead_time": 2.298
+},
+{
+  "index": 112,
+  "poster": "Ruby Rosa Ladip Espenida",
+  "text": "Don Vicente villas pulo cab lag \nNo details no mine \nNo cancellation after live \nBawal po sa masilan sekondamano po ito",
+  "scraped_at": 1773230341.4702356,
+  "id": 31,
+  "annotator": 1,
+  "annotation_id": 31,
+  "created_at": "2026-03-11T13:06:20.672056Z",
+  "updated_at": "2026-03-11T13:06:20.672056Z",
+  "lead_time": 6.274
+},
+{
+  "index": 115,
+  "poster": "Hannah Castro",
+  "text": "Tres Marias Food Bilao Packages \nALWAYS AVAILABLE \nBook now \n CELEBRATE WITH US \nBirthday \n Anniversary \n Christening \nFamily Gathering \n Etc. Kahit na anong okasyon pa yan \n \nJust message us and we will help you plan your event! \n Yes to Pick - up\n Yes to Deliver via Lalamove w\/ minimal delivery charge\n No to Meet - ups\nMode of Payment \n Cash on Delivery \n GCash on Delivery\nWhat are you waiting for \n BOOK NOW \nFOR RESERVATION CONTACT 09750418934",
+  "scraped_at": 1773230347.2046697,
+  "id": 32,
+  "label": [
+    {
+      "start": 17,
+      "end": 30,
+      "text": "Bilao Package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 31,
+      "text": "Tres Marias Food Bilao Packages",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 32,
+  "created_at": "2026-03-11T13:06:56.338075Z",
+  "updated_at": "2026-03-11T13:06:56.338075Z",
+  "lead_time": 34.542
+},
+{
+  "index": 118,
+  "poster": "Online status indicatorActive",
+  "text": "Capo chino\n10am to 10pm\n Blk12 Lot41 Windfield 2 Gulod Cabuyao Laguna https:\/\/maps.app.goo.gl\/9kFZph2jmgYx7zuB8\nDine In, \nTake Out, \nPick Up, \nDeliver",
+  "scraped_at": 1773230355.6234534,
+  "id": 33,
+  "label": [
+    {
+      "start": 0,
+      "end": 10,
+      "text": "Capo chino",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 25,
+      "end": 69,
+      "text": "Blk12 Lot41 Windfield 2 Gulod Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 33,
+  "created_at": "2026-03-11T13:07:07.416594Z",
+  "updated_at": "2026-03-11T13:07:07.416594Z",
+  "lead_time": 9.451
+},
+{
+  "index": 119,
+  "poster": "Von Dexter L. Asumbrado",
+  "text": "LEGIT TECHNICIAN \nRef and aircon services\nGood day \nAircon Maintenance \nAircon Services:\n Aircon General Cleaning\n Pump down Cleaning\n Charging Freon\n Leak Repair\n Aircon Installation \n Aircon Relocation\n Aircon Repair (Board, Compressor, Capacitor etc...)\n Aircon Over all check up\nContact Us and Book Now\n09758795860",
+  "scraped_at": 1773230357.2541535,
+  "id": 34,
+  "label": [
+    {
+      "start": 6,
+      "end": 16,
+      "text": "TECHNICIAN",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 34,
+  "created_at": "2026-03-11T13:07:19.916416Z",
+  "updated_at": "2026-03-11T13:07:19.916416Z",
+  "lead_time": 11.411
+},
+{
+  "index": 127,
+  "poster": "Ann Rie's Sweet Cakes",
+  "text": "Hello Kitty Cake (Gender Reveal Design) \nThank you for choosing us to be part of your special occasion \nFor inquiries kindly send us a message \n-------------------------------------------------------------------------",
+  "scraped_at": 1773230380.5163703,
+  "id": 35,
+  "annotator": 1,
+  "annotation_id": 35,
+  "created_at": "2026-03-11T13:07:25.314472Z",
+  "updated_at": "2026-03-11T13:07:25.314472Z",
+  "lead_time": 3.162
+},
+{
+  "index": 128,
+  "poster": "Ann Rie's Sweet Cakes",
+  "text": "Hello Kitty Cake (Gender Reveal Design) Thank you for choosing us to be part of your special occasion For inquiries kindly send us a message -------------------------------------------------------------------------",
+  "scraped_at": 1773230371.0502088,
+  "id": 36,
+  "annotator": 1,
+  "annotation_id": 36,
+  "created_at": "2026-03-11T13:07:29.024830Z",
+  "updated_at": "2026-03-11T13:07:29.024830Z",
+  "lead_time": 1.567
+},
+{
+  "index": 129,
+  "poster": "𝐉𝐀𝐒𝐓 𝐂𝐋𝐎𝐓𝐇𝐈𝐍𝐆 𝐒𝐇𝐎𝐏",
+  "text": "SALE BUNDLE & SEALEDCHOOSE your BUNDLEPAYMENT 1STNO CODDP 300 bago mineGcash :Aileen Tarel09498781873Sta.Rosa laguna",
+  "scraped_at": 1773230371.0502088,
+  "id": 37,
+  "annotator": 1,
+  "annotation_id": 37,
+  "created_at": "2026-03-11T13:07:32.526281Z",
+  "updated_at": "2026-03-11T13:07:32.526281Z",
+  "lead_time": 1.996
+},
+{
+  "index": 135,
+  "poster": "Marie Viray",
+  "text": "M.L RENTALS \nOpen for reservations na po\nLocation: Cabuyao Laguna \nWe do deliver and Lalamove booking.\nJust Dm \n— with Eliza Jhoiy Burca in Cabuyao.",
+  "scraped_at": 1773230400.8544326,
+  "id": 38,
+  "annotator": 1,
+  "annotation_id": 38,
+  "created_at": "2026-03-11T13:07:50.139574Z",
+  "updated_at": "2026-03-11T13:07:50.139574Z",
+  "lead_time": 1.126
+},
+{
+  "index": 136,
+  "poster": "Ghie Loyaga II",
+  "text": "PM FOR EARLY BOOKED\nBOOKED YOUR PARTY\nKUYAGHIE clown and magician\n*OPEN BOOKED* DIRECT PM na poh MAM\/SIR\n           PM PM PM\nHOST \nGAME FACILITATOR\n \nCLOWN\nMAGICIAN\nMAGIC SHOW\nPUPPETSHOW\nFACEPAINT\nBUBBLESHOW\nPHOTOBOOTH",
+  "scraped_at": 1773230404.3605196,
+  "id": 39,
+  "label": [
+    {
+      "start": 150,
+      "end": 155,
+      "text": "CLOWN",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 156,
+      "end": 164,
+      "text": "MAGICIAN",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 165,
+      "end": 175,
+      "text": "MAGIC SHOW",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 176,
+      "end": 186,
+      "text": "PUPPETSHOW",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 187,
+      "end": 196,
+      "text": "FACEPAINT",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 197,
+      "end": 207,
+      "text": "BUBBLESHOW",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 208,
+      "end": 218,
+      "text": "PHOTOBOOTH",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 32,
+      "end": 37,
+      "text": "PARTY",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 39,
+  "created_at": "2026-03-11T13:08:17.042201Z",
+  "updated_at": "2026-03-11T13:08:17.042201Z",
+  "lead_time": 16.402
+},
+{
+  "index": 143,
+  "poster": "Rom & Son’s Signage maker \/ Welding Works",
+  "text": "NEW SIGNAGE  DM FOR MORE INQUIRIESRom & Son’s Signage maker \/ Welding Works  SIGNAGE MAKER FOR  INDOOR AND OUTDOOR  WE SPECIALIZE IN PRODUCING AND INSTALLING VARIOUS TYPES OF SIGNAGE SUCH AS:Acrylic SignageStainless Build upMetal SignagePanaflex SignageGasoline Station Signage Mall sign Bill Board signageBusiness SignageTarpaulinParking SignageHousing Electrical ServicesWE OFFER: FREE : SITE VISIT  FREE : QUOTATION ASK FOR QUOTATION?Kindly send your signage plan, perspectives & proposed design • VIBER  :09661333859 • VIBER : 09661333854 : joanemariebarachina340@gmail.comOr you can directly message me in  messenger.Location: 251 A Capinpin Street Brgy San Vicente Biñan Laguna",
+  "scraped_at": 1773230416.5866733,
+  "id": 40,
+  "label": [
+    {
+      "start": 34,
+      "end": 75,
+      "text": "Rom & Son’s Signage maker \/ Welding Works",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 77,
+      "end": 90,
+      "text": "SIGNAGE MAKER",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 632,
+      "end": 683,
+      "text": "251 A Capinpin Street Brgy San Vicente Biñan Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 40,
+  "created_at": "2026-03-11T13:08:41.122069Z",
+  "updated_at": "2026-03-11T13:08:41.122069Z",
+  "lead_time": 23.077
+},
+{
+  "index": 144,
+  "poster": "Lranes Ukay Ollshope",
+  "text": "NEW ARRIVAL \nNEW ARRIVAL \n50 ALL ITEMS \n50 ALL ITEMS \nPAYMENT FIRST \nMAGAGANDA YARN \n \nLAHAT COTTON \n \nBAWAL ANG MASELAN \nBAWAL ANG UTANG \n \n MAMAYANG HAPON DELIVER \n( MARCH 11,2026 )\n MEETUP PICKUP ONLY \n \n LOCATION: CABUYAO PULO LAGUNA",
+  "scraped_at": 1773230434.2795684,
+  "id": 41,
+  "annotator": 1,
+  "annotation_id": 41,
+  "created_at": "2026-03-11T13:08:51.669955Z",
+  "updated_at": "2026-03-11T13:08:51.669955Z",
+  "lead_time": 9.437
+},
+{
+  "index": 145,
+  "poster": "MJ Meliano",
+  "text": "PTPA;\nboss\/madam namimili po ako ng mga sirang appliances at mga sirang motor na ayaw ng ipagawa at nkatambak nlng pm lang po Kyu\nAircon,kahit anung HP.\nRef, Freezer \n Washing,Driyer \n Welding,Makina \n Compressor,Chiller \nTv,Eletricfan \n Sirang motor \n Sirang ebike \n sirang sidecar \n sirang bike \n sirang battery \ntanso,\nalum,\nbakal,\nyero,\n CPU,bord \np.e,kulot \npm direct lang po free pick up kuna po,,,\nnag hahakot din ako ng panambak \nnag tatapon din ako ng basura \nnag hahakot din ako ng mga full out na gamit",
+  "scraped_at": 1773230437.3890123,
+  "id": 42,
+  "annotator": 1,
+  "annotation_id": 42,
+  "created_at": "2026-03-11T13:08:57.120365Z",
+  "updated_at": "2026-03-11T13:08:57.120365Z",
+  "lead_time": 4.452
+},
+{
+  "index": 149,
+  "poster": "Teach A HL Banaybanay",
+  "text": "Nakakabasa nga pero hindi naman naiintindihan yun binasa? \nLet our student-centered approach help your child get the expert guidance so they can NOT ONLY READ but COMPREHEND WHAT they are reading.\nHindi lang memorization, but reading with COMPREHENSION.\nINQUIRE NOW!!!!",
+  "scraped_at": 1773230439.998001,
+  "id": 43,
+  "annotator": 1,
+  "annotation_id": 43,
+  "created_at": "2026-03-11T13:09:04.750356Z",
+  "updated_at": "2026-03-11T13:09:04.750356Z",
+  "lead_time": 6.418
+},
+{
+  "index": 160,
+  "poster": "Gi Na",
+  "text": "\"TAKE A BREAK FROM THE HUSTLE AND BUSTLE OF EVERYDAY LIFE AND INDULGE IN A SOOTHING MASSAGE AT THE COMFORT OF YOUR HOME \n.YOU DESERVE IT!\nSERVICES OFFERED:\nTRADITIONAL HILOT\nANGAT MATR*S\nNGALAY\nHILOT SA BAGONG PANGANAK\nHILOT SA BATA\nTRADITIONAL VENTOSA\nTHERAPEUTIC MASSAGE\nSCIATICA\nLUMBAR PAIN\nCRANIO THERAPY\nMUSCLE SPASM\nFROZEN SHOULDER\nSTIFF NECK \nPRENATAL MASSAGE\nPRESSURE:\nSOFT \nMODERATE \nHARD\nHURRY UP AND NEVER LET THE STRESS FILE UP!",
+  "scraped_at": 1773230487.8443985,
+  "id": 44,
+  "label": [
+    {
+      "start": 84,
+      "end": 91,
+      "text": "MASSAGE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 168,
+      "end": 173,
+      "text": "HILOT",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 245,
+      "end": 252,
+      "text": "VENTOSA",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 301,
+      "end": 308,
+      "text": "THERAPY",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 44,
+  "created_at": "2026-03-11T13:09:34.196099Z",
+  "updated_at": "2026-03-11T13:09:34.196099Z",
+  "lead_time": 28.299
+},
+{
+  "index": 162,
+  "poster": "Online status indicatorActive",
+  "text": "Everyday is a Blessing \n \nWednesday \n \nBENTO Combo - 290.00\nLocation: St Joseph 6 Butong Cabuyao Laguna \nMessage lang po. May extra po today",
+  "scraped_at": 1773230493.939826,
+  "id": 45,
+  "annotator": 1,
+  "annotation_id": 45,
+  "created_at": "2026-03-11T13:09:45.312424Z",
+  "updated_at": "2026-03-11T13:09:45.312424Z",
+  "lead_time": 10.066
+},
+{
+  "index": 163,
+  "poster": "MJ MelianoSJV7 ONLINE PALENGKE GROUP",
+  "text": "PTPA;\nboss\/madam namimili po ako ng mga sirang appliances at mga sirang motor na ayaw ng ipagawa at nkatambak nlng pm lang po Kyu\n... See more",
+  "scraped_at": 1773230479.9897945,
+  "id": 46,
+  "annotator": 1,
+  "annotation_id": 46,
+  "created_at": "2026-03-11T13:09:48.745138Z",
+  "updated_at": "2026-03-11T13:09:48.745138Z",
+  "lead_time": 1.878
+},
+{
+  "index": 168,
+  "poster": "Pinky and Be SJV7 Marinig branch",
+  "text": "SHAWARMA \nLARGE SIZE \nBuy 1 take 1\nFor Only 110 petot\n Single =60\n Cheesy shawarma - 120\nNACHOS\n 70\nWalk in, pick up, dine in and deliver \nPm your order",
+  "scraped_at": 1773230515.0982783,
+  "id": 47,
+  "label": [
+    {
+      "start": 0,
+      "end": 8,
+      "text": "SHAWARMA",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 89,
+      "end": 95,
+      "text": "NACHOS",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 47,
+  "created_at": "2026-03-11T13:09:57.660581Z",
+  "updated_at": "2026-03-11T13:09:57.660581Z",
+  "lead_time": 7.962
+},
+{
+  "index": 171,
+  "poster": "Y Nails and Lashes",
+  "text": "Book your appointment nowMonday - SundayFb page: Y nails and lashesIg: @ynlshaistudoContact no: +639919170042Homebased studio is located in: Phase 6 Mabuhay Brgy Mamatid Cabuyao Laguna. (Near St Mary \/ palengke)",
+  "scraped_at": 1773230517.6713212,
+  "id": 48,
+  "label": [
+    {
+      "start": 51,
+      "end": 56,
+      "text": "nails",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 61,
+      "end": 67,
+      "text": "lashes",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 49,
+      "end": 67,
+      "text": "Y nails and lashes",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 141,
+      "end": 184,
+      "text": "Phase 6 Mabuhay Brgy Mamatid Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 48,
+  "created_at": "2026-03-11T13:10:42.921364Z",
+  "updated_at": "2026-03-11T13:10:42.921364Z",
+  "lead_time": 44.236
+},
+{
+  "index": 176,
+  "poster": "Africa-Completo Jessica",
+  "text": "Bilhin ko na “Disconnected Wifi Modem” nyo. Legit buyer ako, kesa maitapon at masira sainyo bilhin ko na yan pwede mo maging “Pera” yan. \n Nag hahanap din ako ng “MARAMIHAN, BULTO, PULL OUT sagad price yan basta “PM” moko usap tayo. \n— pwede isahan depende sa location mo.\n— basta working pa “POWER, LOS, WLAN”\n— pass sa sirang modem\/madilaw\/repair na.\n— mas okay with adaptor.\nPM\nPM\nPM\n— FREE PICK- UP NA SA AREA MO.\n— SAGOT KO NA BAYAD SA PICK- UP.\n— PM NA GAWIN MO NG PERA YANG NAKATAMBAK NYO.",
+  "scraped_at": 1773230549.326331,
+  "id": 49,
+  "annotator": 1,
+  "annotation_id": 49,
+  "created_at": "2026-03-11T13:10:50.045074Z",
+  "updated_at": "2026-03-11T13:10:50.045074Z",
+  "lead_time": 5.482
+},
+{
+  "index": 177,
+  "poster": "Chickmiss Koleksyon",
+  "text": "• Medida size not size on tag\n• MINE BASIS\nREMINDERS:\n— strictly no cancellation once item\/s confirmed yours!\n— no rush meet up | shipping\n— no unpaid reservation!\n— all items are steam ironed only, wash before use\n— please manage your expectations, colors may vary due to lighting \n— no to bogus buyer and joyjoy miner \n— do not order if you cannot pay on time\n PLEASE SEND A MESSAGE ONCE THE ITEM IS CONFIRMED YOURS . \n PLEASE MAKE SURE TO READ OUR PINNED POST BEFORE PLACING YOUR ORDERS.\nMOP: \n•CASH upon Meet up\/ Deliver \n•GCASH \n•BANK TRANSFER\nSHIPMENT VIA: \n•Shopee Checkout ( Payment First Checkout at your own risk )\n•Tiktok COD\nMarinig Cabuyao Laguna\n♡ Shop responsibly! please respect our time & efforts. Thank you♡",
+  "scraped_at": 1773230551.8596892,
+  "id": 50,
+  "annotator": 1,
+  "annotation_id": 50,
+  "created_at": "2026-03-11T13:11:01.369778Z",
+  "updated_at": "2026-03-11T13:11:01.369778Z",
+  "lead_time": 9.721
+},
+{
+  "index": 178,
+  "poster": "EliShek's Sweet Tooth",
+  "text": "Another Bento Cake order delivered to Ma'am Zyra from Windfield 2  Thank you so much po for trusting us.  We’re grateful to be part of your celebration.For those who want to order customized cakes and cupcakes for any event, message our page anytime.",
+  "scraped_at": 1773230531.8671937,
+  "id": 51,
+  "annotator": 1,
+  "annotation_id": 51,
+  "created_at": "2026-03-11T13:11:06.839992Z",
+  "updated_at": "2026-03-11T13:11:06.839992Z",
+  "lead_time": 2.31
+},
+{
+  "index": 182,
+  "poster": "Mark Anthony Miñoza Mangubat",
+  "text": "SAME DAY ORDERAVAILABLE NOW160 California Maki 12pcsChessy Maki 12pcsSpicy Tuna 12pcsKimbap 12pcsMaki\/Kimbap 12pcsMaki\/Spicy Tuna 12pcsKimbap\/Spicy Tuna 12pcs180Kani Salad 10pcsMaki\/Kani 11pcsKimbap\/Kani 11pcsSpicy Tuna\/Kani 11pcs200 Crispy Chicken Salad Roll 10pcs250 BAKED SUSHI FREE 1 NORIMAKI BAKEDKANI BAKEDSPICY TUNA BAKEDSPINACH BAKEDWE ALSO HAVE SUSHI BILAO FOR SHARINGPm me directly for more details Available for Delivery via Lalamove",
+  "scraped_at": 1773230559.466495,
+  "id": 52,
+  "annotator": 1,
+  "annotation_id": 52,
+  "created_at": "2026-03-11T13:11:16.668896Z",
+  "updated_at": "2026-03-11T13:11:16.668896Z",
+  "lead_time": 8.63
+},
+{
+  "index": 183,
+  "poster": "Rina Lyn",
+  "text": "OPPO F27 PRO 5G 8\/256GB\n—₱4700 ONLY!!!\nBRANDNEW AND SEALED\nWITH WARRANTY\nCHECK TO SAWA BAGO BAYAD\nKAYO MISMO MAG OPENBOX\n5000 MAH BATTERY\nMALINAW BOTH CAM\nORIGINAL REFURB \nHAVE TO WIDE LENSE\n8GB RAM 256GB ROM\nINCLUSION: CASE TEMPERED EARPHONE CHARGER PIN MANUAL BOX\nPWEDE MEET UP AT COD",
+  "scraped_at": 1773230577.6697495,
+  "id": 53,
+  "annotator": 1,
+  "annotation_id": 53,
+  "created_at": "2026-03-11T13:11:20.595163Z",
+  "updated_at": "2026-03-11T13:11:20.595163Z",
+  "lead_time": 2.766
+},
+{
+  "index": 188,
+  "poster": "Cali Scarlet Florendo Jacinto",
+  "text": "PASS SA PASEND VID TAPOS WALA MAN LNG TY OR PASS SEEN LANG WALANG VID LAHAT NG SWIMSUIT PERO MAY SAMPLE AKO YUNG TOPS MERON VIDEO PASS SA BARAT BRAND NEW YAN TOPS MGA TIRA SA PANINDA NEED LANG MAG BAWAS MAY STOCK NA 50pcs tops\/45pcs simsuit50pcs tops 1200 40pcs tops1k 45pcs swimsuit1100may 3in1 dyansantarosa laguna loc ko lalamove or pick up only",
+  "scraped_at": 1773230583.1064525,
+  "id": 54,
+  "annotator": 1,
+  "annotation_id": 54,
+  "created_at": "2026-03-11T13:12:03.775820Z",
+  "updated_at": "2026-03-11T13:12:03.775820Z",
+  "lead_time": 42.214
+},
+{
+  "index": 201,
+  "poster": "Jody Ann Flores Marcorde",
+  "text": "ABOT KAYANG EBIKE - BATTERY\nINSTALLMENT EBIKE BATTERY\nNOT HOME CREDIT\nFREE DELIVERY,FREE INSTALL AND COD\nLOC. CABUYAO LAGUNA \nPM LANG PO",
+  "scraped_at": 1773230626.231974,
+  "id": 55,
+  "label": [
+    {
+      "start": 40,
+      "end": 53,
+      "text": "EBIKE BATTERY",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 55,
+  "created_at": "2026-03-11T13:12:21.261504Z",
+  "updated_at": "2026-03-11T13:12:21.261504Z",
+  "lead_time": 12.014
+},
+{
+  "index": 202,
+  "poster": "Nam Español",
+  "text": "Message us today for inquiries and orders!\n Viber \/ WhatsApp: 09701843773\n Delivery Available | \n Pick-up Option\n Open Daily: Monday – Sunday | 8:00 AM – 6:00 PM\n Send us a PM now and let’s upgrade your workspace",
+  "scraped_at": 1773230647.960016,
+  "id": 56,
+  "annotator": 1,
+  "annotation_id": 56,
+  "created_at": "2026-03-11T13:12:27.807489Z",
+  "updated_at": "2026-03-11T13:12:27.807489Z",
+  "lead_time": 5.595
+},
+{
+  "index": 204,
+  "poster": "Joshua & Ckhelsy's Essentials",
+  "text": "SUPER SALESHEIN KID'S OOTD TAKE ALL 4pcs.PRICE: P300 onlySize: 4 - 7 years oldCheck mo sa app baka magulat ka mas mura sakin • free shipping nationwide! • BRANDNEW • 4-7 days eta • no rush orders! Mode of payment: GcashPm for more information#highlightsシ゚ #everyoneactivefollowersシfypシ゚viralシalシ",
+  "scraped_at": 1773230650.489044,
+  "id": 57,
+  "annotator": 1,
+  "annotation_id": 57,
+  "created_at": "2026-03-11T13:12:37.926557Z",
+  "updated_at": "2026-03-11T13:12:37.926557Z",
+  "lead_time": 9.098
+},
+{
+  "index": 205,
+  "poster": "Fixfone Pc Trading",
+  "text": "P8,500Dell Optiplex 5050Intel Core i3-6100 3.7GHz8GB RAM500GB HDD21\"Led Monitor I-O DATAKeyboard,MouseVga & PowercordsW\/ OS Window10 pre-activated & free AppsPm for OrderFixfone Pc Trading Located at:Cabuyao Branch:Blk 220 Lot 33 Phase 2Mabuhay City Mamatid Cabuyao LagunaTxt 09499367654 or 09958877768Nearest Landmark:Near OLACNear Christ the King SchoolWazable Fixfone Pc Trading-Cabuyao Branch (sa katabi nun)Calamba Pick Up:Blk 1 Lot 36 Tiffany Village Brgy Makiling Calamba LagunaNearest Landmark:Walter Mart Makiling,Lpu Calamba,Makiling Elementary School",
+  "scraped_at": 1773230650.489044,
+  "id": 58,
+  "label": [
+    {
+      "start": 170,
+      "end": 188,
+      "text": "Fixfone Pc Trading",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 200,
+      "end": 272,
+      "text": "Cabuyao Branch:Blk 220 Lot 33 Phase 2Mabuhay City Mamatid Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 58,
+  "created_at": "2026-03-11T13:13:10.769138Z",
+  "updated_at": "2026-03-11T13:13:10.769138Z",
+  "lead_time": 25.419
+},
+{
+  "index": 208,
+  "poster": "Ku Ya Joshua",
+  "text": "Riza  food bilao package available everyday\npang handa at ulam sa bilao at tray \n cash on delivery COD\n accepting rush order\n accepting reservations \nwe have proof of orders and feedback from costumers \n accepting reservation na rin po kami . we can provide quality food for graduation and outing \ndirectly message us or call or text 09635292645. 09187560781",
+  "scraped_at": 1773230671.319562,
+  "id": 59,
+  "label": [
+    {
+      "start": 11,
+      "end": 24,
+      "text": "bilao package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 24,
+      "text": "Riza food bilao package",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 59,
+  "created_at": "2026-03-11T13:13:24.100265Z",
+  "updated_at": "2026-03-11T13:13:24.100265Z",
+  "lead_time": 12.365
+},
+{
+  "index": 211,
+  "poster": "Smoke Shack K-BBQ Grill",
+  "text": "STOP SCROLLING \nIf you’re seeing this, it’s your sign to eat SAMGYUPSAL today. \nWE ARE OPEN\n28 JP Rizal St. Brgy. Sala, Cabuyao Laguna\n 09276202016\n CREDIT CARD PAYMENT ACCEPTED",
+  "scraped_at": 1773230686.499604,
+  "id": 60,
+  "label": [
+    {
+      "start": 61,
+      "end": 71,
+      "text": "SAMGYUPSAL",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 92,
+      "end": 134,
+      "text": "28 JP Rizal St. Brgy. Sala, Cabuyao Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 60,
+  "created_at": "2026-03-11T13:13:35.378422Z",
+  "updated_at": "2026-03-11T13:13:35.378422Z",
+  "lead_time": 10.163
+},
+{
+  "index": 220,
+  "poster": "Online status indicatorActive",
+  "text": "MANICURE \/ PEDICURE \/ GEL POLISH \/ NAIL & EYELASH EXTENSION \/ FOOTSPA WITH LEG\/FOOT MASSAGE\nOpen for Home Service\nAccept walk in's at SJV7 \/ Book yours now \n#nailtech #nailgel #footspa #footspawithpedicure #nailtechnear #gelnails #pedicure #ManicureGoals",
+  "scraped_at": 1773230716.9437668,
+  "id": 61,
+  "label": [
+    {
+      "start": 0,
+      "end": 8,
+      "text": "MANICURE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 11,
+      "end": 19,
+      "text": "PEDICURE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 22,
+      "end": 32,
+      "text": "GEL POLISH",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 35,
+      "end": 59,
+      "text": "NAIL & EYELASH EXTENSION",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 62,
+      "end": 69,
+      "text": "FOOTSPA",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 79,
+      "end": 91,
+      "text": "FOOT MASSAGE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 134,
+      "end": 138,
+      "text": "SJV7",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 61,
+  "created_at": "2026-03-11T13:14:02.014437Z",
+  "updated_at": "2026-03-11T13:14:02.014437Z",
+  "lead_time": 25.672
+},
+{
+  "index": 223,
+  "poster": "Mrd Collection",
+  "text": "—• NEW COLLECTION •—\nJ O R T S  | B E R M U D A  | M O M S H O R T \n REMINDERS \n• All item is All Washed !\n• No return , No Exchange , No Refund ( Sure mo size mo )\n• No to joyjoy miner , Auto post sa lahat ng groups\n SHIPPING\n• Tiktok Checkout only\n( PAYMENT 1ST POLICY )\n MEET-UP \n• PAYMENT 1ST POLICY\n• Every Sunday Meetup\n( May Work ang seller )\n• With Additional Handling fee\n• Open For pickup\n MODE OF PAYMENT !\n• CASH || GCASH Only\nLOCATION\n• Southville 4 Pooc Starosa Laguna.",
+  "scraped_at": 1773230730.1696768,
+  "id": 62,
+  "label": [
+    {
+      "start": 450,
+      "end": 483,
+      "text": "Southville 4 Pooc Starosa Laguna.",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 62,
+  "created_at": "2026-03-11T13:14:12.168740Z",
+  "updated_at": "2026-03-11T13:14:12.168740Z",
+  "lead_time": 8.711
+},
+{
+  "index": 224,
+  "poster": "Mico Makoy Delfin",
+  "text": "HULUGAN, HULUGAN, HULUGAN OPEN FOR INSTALLMENT BAKA KAILANGAN MO NA NG BAGONG PHONE MOSSING.INSTALLMENT through financing partners HOME CREDIT SALMON SKYRO TONIK BILLEASEJust bring 1 valid government ID, cellphone with active number, enough cash for downpayment.NOTE : Downpayment may vary, it depends on your credit offer Available here at FC HOME CENTER - MAMATID, located at Block 180 Lot 5 Phase 2 Mabuhay City Subd. Brgy. Mamatid Cabuyao City Laguna. Malapit po kami sa PUREGOLD EXTRA - Mamatid.If you want to avail these kind of gadgets, kindly send me a private message",
+  "scraped_at": 1773230716.9437668,
+  "id": 63,
+  "label": [
+    {
+      "start": 341,
+      "end": 365,
+      "text": "FC HOME CENTER - MAMATID",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 378,
+      "end": 454,
+      "text": "Block 180 Lot 5 Phase 2 Mabuhay City Subd. Brgy. Mamatid Cabuyao City Laguna",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 63,
+  "created_at": "2026-03-11T13:18:13.487966Z",
+  "updated_at": "2026-03-11T13:18:13.487966Z",
+  "lead_time": 70.57
+},
+{
+  "index": 226,
+  "poster": "Brenda Otremam Suelto",
+  "text": "Summer Is WavingOur ServicesAircon CleaningAircon InstallationAircon RelocationAircon PulldownAircon DismantlingFreon ChargingCleaning ServicesWindow Type 500Window Type Inverter 700Split Type 1200Split Type Inverter 1500Just Cómment or pm",
+  "scraped_at": 1773230716.9437668,
+  "id": 64,
+  "annotator": 1,
+  "annotation_id": 64,
+  "created_at": "2026-03-11T13:18:18.791900Z",
+  "updated_at": "2026-03-11T13:18:18.791900Z",
+  "lead_time": 4.001
+},
+{
+  "index": 228,
+  "poster": "Junjun Del Rosario Batallones",
+  "text": "Patuloy na inilalapit sa komunidad ang serbisyong pangkalusugan sa pamamagitan ng FREE ECG Program na isinagawa sa Poblacion  Tres \nLayunin ng programang ito na mabigyan ang mga residente ng maagap na pagsusuri sa kalagayan ng kanilang puso at mapalakas ang kamalayan sa kahalagahan ng regular na pagpapatingin sa kalusugan.\nSa bawat serbisyong ating inilalapit, mas pinagtitibay natin ang isang mas malusog at handang komunidad para sa lahat ng Cabuyeño.\n#VICEMAYORJunjunBatallones #batangCABUYAO",
+  "scraped_at": 1773230742.5589435,
+  "id": 65,
+  "annotator": 1,
+  "annotation_id": 65,
+  "created_at": "2026-03-11T13:18:26.377153Z",
+  "updated_at": "2026-03-11T13:18:26.377153Z",
+  "lead_time": 5.223
+},
+{
+  "index": 230,
+  "poster": "Thathome Cabuyao",
+  "text": "APPLIANCE SALE – REF • TV • WASHING MACHINE \nUpgrade your home today! \nQuality appliances at affordable prices!\n Refrigerator – Keep your food fresh everyday\n Television – Enjoy movies and shows with the family\n Washing Machine – Easy laundry, less hassle\n AVAILABLE ON INSTALLMENT!\n 3 Months\n 6 Months\n 12 Months\n 10% MONTHLY REBATE\n  1 YEAR WARRANTY\n \n  FAST APPROVAL\n LOW DOWN PAYMENT\n DOOR-TO-DOOR DELIVERY\n INSTALLMENT REQUIREMENTS:\n• Proof of Billing\n• Proof of Income\n• 1 Valid ID (Maker)\n• 1 Valid ID (Co-Maker)\n Easy, fast, and convenient!\n \n  LIMITED STOCK ONLY!\n PM NOW for prices and details!\nFirst come, first served!",
+  "scraped_at": 1773230748.4222145,
+  "id": 66,
+  "label": [
+    {
+      "start": 79,
+      "end": 89,
+      "text": "appliances",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 14,
+      "text": "APPLIANCE SALE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 113,
+      "end": 125,
+      "text": "Refrigerator",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 159,
+      "end": 169,
+      "text": "Television",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 212,
+      "end": 227,
+      "text": "Washing Machine",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 66,
+  "created_at": "2026-03-11T13:18:53.710969Z",
+  "updated_at": "2026-03-11T13:18:53.710969Z",
+  "lead_time": 26.286
+},
+{
+  "index": 235,
+  "poster": "Thania Laviña",
+  "text": "Thania Beauty salon and Spa\nBEAT THE HEAT \n HAIR SUMMER PROMO \nSTART UP THE PRICE HAIR PACKAGE \nYES \n GOOD QUALITY HAIR  SERVICES \nDEPENDS TO YOUR HAIR HISTORY'?\nFREE\nHAIR CONSULT AND ANALYST YOUR HAIR BEFORE GIVEN,HAIR SERVICES \n#LICENSE HAIR COSMETOLOGY 2010\n#LICENSE MASSAGE THERAPIST 2019 \n#MAKE UP ARTIST 2010\nTHANK YOU AND GOD BLESS\nJUST KINDLY DM \/ PM IN\nMY PAGE OR FB PAGE \nPIN LOCATION ;\nTHANIA BEAUTY SALON AND SPA\n      BLK14 LOT 49 PHASE 5 \n      ST ,JOSEPH 7 VILLAGE \n      BRGY,GULOD CABUYAO LAGUNA\n      MAIN ROAD BESIDE TIANGIAN SA PHASE 5 \n      PARD food HouSe ihaw-ihaw ATB.\nTHANIA BEAUTY SALON AND SPA \n      UNIT 1 GENEROSA TRINOS APARTMENT \n       MILLWOOD SUBDIVISION \n      BRGY ,PULO CABUYAO LAGUNA\n#nocopyrightinfringementintendedmusicbelongstotherightfulowner \n#nocopyrightinfringementintendedmusic",
+  "scraped_at": 1773230774.893968,
+  "id": 67,
+  "label": [
+    {
+      "start": 0,
+      "end": 27,
+      "text": "Thania Beauty salon and Spa",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    },
+    {
+      "start": 431,
+      "end": 512,
+      "text": "BLK14 LOT 49 PHASE 5\\nST ,JOSEPH 7 VILLAGE\\nBRGY,GULOD CABUYAO LAGUNA",
+      "labels": [
+        "LOCATION"
+      ]
+    },
+    {
+      "start": 215,
+      "end": 228,
+      "text": "HAIR SERVICES",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 67,
+  "created_at": "2026-03-11T13:19:26.778887Z",
+  "updated_at": "2026-03-11T13:19:26.778887Z",
+  "lead_time": 27.93
+},
+{
+  "index": 237,
+  "poster": "Eliana'Equipment Rental",
+  "text": "M.L RENTALS \nOpen for reservations na po\nLocation: Cabuyao Laguna \nWe do deliver and Lalamove booking.\nJust Dm",
+  "scraped_at": 1773230783.874831,
+  "id": 68,
+  "annotator": 1,
+  "annotation_id": 68,
+  "created_at": "2026-03-11T13:19:29.921854Z",
+  "updated_at": "2026-03-11T13:19:29.921854Z",
+  "lead_time": 2.021
+},
+{
+  "index": 238,
+  "poster": "Janneth Alvez",
+  "text": "NAIL EXTENSIONGEL POLISH\/BIAB\/BUILDER GEL OVERLAYHARD GELMANICURE\/PEDICURE GEL POLISHWE DO HOME SERVICEPM LANG PO FOR INQUIRYS",
+  "scraped_at": 1773230774.8950748,
+  "id": 69,
+  "label": [
+    {
+      "start": 0,
+      "end": 14,
+      "text": "NAIL EXTENSION",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 57,
+      "end": 65,
+      "text": "MANICURE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 66,
+      "end": 74,
+      "text": "PEDICURE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 69,
+  "created_at": "2026-03-11T13:20:19.772021Z",
+  "updated_at": "2026-03-11T13:20:19.772021Z",
+  "lead_time": 48.899
+},
+{
+  "index": 243,
+  "poster": "Mega Cabuyao Pension Loan",
+  "text": "GRADUATION FINANCIAL ASSISTANCE FOR PENSIONERS! \n Dear Pensioners,\nIs your child or grandchild graduating this year? Let us help you make this milestone extra special! \nWe understand that graduation comes with expenses — toga, pictures, celebration, and school balances. That’s why we’re offering an Affordable Pension Loan for Graduation Needs!\n Use your loan for:\n Graduation fees\n Photo packages\n Clothes \/ Toga\n Simple celebration expenses\n Loan Highlights:\n Fast approval process\n Low and affordable monthly deductions\n No hidden charges\nFOR INQURIES:\n \nCall: 0910-016-1487\nLocated at: 21 J.P Rizal St. Brgy. 3 Cabuyao laguna \n(Tapat ng Robinson Easymart Gilid ng Lamart)\nOur Office open- Monday to Friday 8am to 5pm\n Because your child’s success is your success too. Let’s celebrate this proud moment together!",
+  "scraped_at": 1773230809.3164282,
+  "id": 70,
+  "annotator": 1,
+  "annotation_id": 70,
+  "created_at": "2026-03-11T13:20:25.643169Z",
+  "updated_at": "2026-03-11T13:20:25.643169Z",
+  "lead_time": 4.99
+},
+{
+  "index": 244,
+  "poster": "Dab Yong",
+  "text": "Nag hahanap po b kayo ng Sangla tira meron po akong alam \n60k sanlga at tira pede niyo paupahan \nMay tubo 30k\ntotal of 90k pag tutubusin na \nNote walang usapan kung ilan buwan or taon tutubusin basta naka fix sa 90k pag tutubusin na nasa inyo kung papaupahan niyo or kayo ang titira\nComplete papers \nKung gusto niyo makita ang bahay meet up po para maituro ko \nPm nalang po kayo mabilisan po ito need lng ng may ari ng pera \n Location Lakesidenest \nMeet up Alpha",
+  "scraped_at": 1773230814.747368,
+  "id": 71,
+  "annotator": 1,
+  "annotation_id": 71,
+  "created_at": "2026-03-11T13:20:29.711773Z",
+  "updated_at": "2026-03-11T13:20:29.711773Z",
+  "lead_time": 2.974
+},
+{
+  "index": 245,
+  "poster": "Edith 's Kakanin Atbp",
+  "text": "SOLD OUT- maraming salamat sa inyo mga suki\nHalohalokhiemmm, mga sukiii kooo...\nAvailable po MAMAYA:\n03-11-2026 | Wednesday | 3PM onwards po...\nPUTO BALANGHOY (Kamoteng Kahoy) \n- 5pcs. for 100 pesos\n \nMga suki pa-add na po tayo ng DF, para po 'yan sa EBIKE or SIDECAR na maghahatid ng mga order niyo po.\n Di po mapupunta sa akin, wala pa po akong service.\nPwede po pick up, or via Lalamove (shoulder by costumer po).\nCash\/GCash accepted \nLooking\/Open po for active Reseller...\n          Pareserve na po, limited lang po...\n \nThank you and God bless y'all. \n#edithskakaninatbp #putobalinghoy #putongbalanghoy #putokamotengkahoy  #highlightsシ゚ #everyoneシ゚ #followersシ゚ #fypシ゚",
+  "scraped_at": 1773230818.4759223,
+  "id": 72,
+  "label": [
+    {
+      "start": 564,
+      "end": 571,
+      "text": "kakanin",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 558,
+      "end": 575,
+      "text": "edithskakaninatbp",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 72,
+  "created_at": "2026-03-11T13:22:29.271828Z",
+  "updated_at": "2026-03-11T13:22:29.271828Z",
+  "lead_time": 118.629
+},
+{
+  "index": 246,
+  "poster": "𝓐𝓵𝔂-𝓫𝓪-𝓫𝓾𝔂",
+  "text": "TEASER — PREMIUM COLLECTION \n— Posting date : March 12, 7:30 PM\n— No early reservations!!\n— No asking of price and size yet \nComment your favorite emoji to get notified.\nMine is \"\n\"\n#ukayukay #ukayukayphilippines #preloved #trendyoutfits #ootd #",
+  "scraped_at": 1773230825.2698848,
+  "id": 73,
+  "annotator": 1,
+  "annotation_id": 73,
+  "created_at": "2026-03-11T13:22:32.239118Z",
+  "updated_at": "2026-03-11T13:22:32.239118Z",
+  "lead_time": 1.917
+},
+{
+  "index": 248,
+  "poster": "Jean Blas",
+  "text": "RUSH180k Cash Out langTransfer of OwnershipVilla de Charlotte Dila Sta.Rosa,LagunaNeed Requirements(ipapangalan agad sayo)Inner Lot(36sqm baretype)9k estimated monthly sa Pag Ibigwith 122k additional equity(pwede ipaapproved na 6months to pay)2-6months for process kay Pag IbigPm me for viewing09930950359",
+  "scraped_at": 1773230821.6417718,
+  "id": 74,
+  "annotator": 1,
+  "annotation_id": 74,
+  "created_at": "2026-03-11T13:22:38.400845Z",
+  "updated_at": "2026-03-11T13:22:38.400845Z",
+  "lead_time": 5.027
+},
+{
+  "index": 251,
+  "poster": "AG Ref, Aircon & Washing Machine Repair",
+  "text": "AG REF, AIRCON, WASHING MACHINE HOME SERVICE REPAIR SERVICES WE OFFERED:-Installation-Cleaning-Repair-Charging Freon-Relocation\/Dismantle-Refrigerator Repair-Washing Machine Repair (Automatic\/Manual)Inquire now! Kindly call me or Pm me 09187708678  Thank you for trusting us!Godbless",
+  "scraped_at": 1773230840.2815442,
+  "id": 75,
+  "label": [
+    {
+      "start": 8,
+      "end": 14,
+      "text": "AIRCON",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 16,
+      "end": 31,
+      "text": "WASHING MACHINE",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 45,
+      "end": 51,
+      "text": "REPAIR",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 73,
+      "end": 85,
+      "text": "Installation",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 86,
+      "end": 94,
+      "text": "Cleaning",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 95,
+      "end": 101,
+      "text": "Repair",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 128,
+      "end": 137,
+      "text": "Dismantle",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 138,
+      "end": 150,
+      "text": "Refrigerator",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 75,
+  "created_at": "2026-03-11T13:23:18.269081Z",
+  "updated_at": "2026-03-11T13:23:18.269081Z",
+  "lead_time": 38.176
+},
+{
+  "index": 261,
+  "poster": "Rudy Mendozajr",
+  "text": "Magtatawag na po. \nGud day mga Suki,  Open na po kami, tara punta na po kayo, \nPurok 2, dita sta. rosa laguna\nTapat po kami ng mt. Zion po, \nMadaling makita\nHappy Wed. SsDios.",
+  "scraped_at": 1773230873.5668569,
+  "id": 76,
+  "annotator": 1,
+  "annotation_id": 76,
+  "created_at": "2026-03-11T13:23:22.931964Z",
+  "updated_at": "2026-03-11T13:23:22.931964Z",
+  "lead_time": 3.789
+},
+{
+  "index": 265,
+  "poster": "Michelle Briones Peril",
+  "text": "Lshape sofa with free 5 pillows \nMadami pagpipilian na design. \nOrder na po\nPm lang po\n#LEGITONLINESELLER",
+  "scraped_at": 1773230888.3223925,
+  "id": 77,
+  "annotator": 1,
+  "annotation_id": 77,
+  "created_at": "2026-03-11T13:23:26.387444Z",
+  "updated_at": "2026-03-11T13:23:26.387444Z",
+  "lead_time": 2.484
+},
+{
+  "index": 271,
+  "poster": "Lranes Ukay Ollshope",
+  "text": "NEW ARRIVAL \nNEW ARRIVAL \n50 ALL ITEMS \n50 ALL ITEMS \nPAYMENT FIRST \nMAGAGANDA YARN \n \nBAWAL ANG UTANG \n \nBAWAL ANG MASELAN \n MAMAYANG HAPON DELIVER \n( MARCH 11,2026 )\n MEETUP PICKUP ONLY \n \n LOCATION: CABUYAO PULO LAGUNA",
+  "scraped_at": 1773230915.3766425,
+  "id": 78,
+  "label": [
+    {
+      "start": 202,
+      "end": 221,
+      "text": "CABUYAO PULO LAGUNA",
+      "labels": [
+        "LOCATION"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 78,
+  "created_at": "2026-03-11T13:25:47.821381Z",
+  "updated_at": "2026-03-11T13:25:47.821381Z",
+  "lead_time": 139.271
+},
+{
+  "index": 272,
+  "poster": "Aikal Aipocal",
+  "text": "700 MONTHLY!!Converge SURF 2 SAWA Prepaid Fiber Internet (S2S)KABIT MUNA BAGO BAYAD700 LANG MONTHLY- 999Total Cash out    Upon INSTALLATION- 700 pesos only for 30 days- Fiber Internet - No Data Capping- Unlimited Internet- No Contract\/ No Lock-in period- Speed up to 60mbps- 6 Gadgets Capacity - Lanport Disable (WIFI ONLY)-Super easy mag load DM ME",
+  "scraped_at": 1773230915.3766425,
+  "id": 79,
+  "annotator": 1,
+  "annotation_id": 79,
+  "created_at": "2026-03-11T13:25:51.349090Z",
+  "updated_at": "2026-03-11T13:25:51.349090Z",
+  "lead_time": 2.144
+},
+{
+  "index": 273,
+  "poster": "Online status indicatorActive",
+  "text": "RETAIL ONLY\nGcash-09498781873\nAileen Tarel\nPAYMENT FIRST\nNO COD\nNO FREE SF\n1DAY PROCESS ONLY\nNEW & OLD MINERS \nDP atleast 150 UP\nNO DP,NO MINE\nMine now pay later\nAutomatic CANCEL \nIf not paid on time\nDP is not REFUNDABLE\nShipping Nationwide! \nShoppe & Tiktok CO\nLalamove\nPick up\nSta.Rosa laguna",
+  "scraped_at": 1773230929.8125818,
+  "id": 80,
+  "annotator": 1,
+  "annotation_id": 80,
+  "created_at": "2026-03-11T13:25:55.087301Z",
+  "updated_at": "2026-03-11T13:25:55.087301Z",
+  "lead_time": 2.486
+},
+{
+  "index": 276,
+  "poster": "Rizas Ro Wena",
+  "text": "New Born Baby Clothes Set 100%Cotton Baby Boy Girl Romper Strawberry Star Pattern Fashion Baby Clothes Baby Pants 0-12Months Soft Baby Pajamas Onesies For Newborn\n for ₱1,018 - ₱1,299\n Get it on Shopee now\n \n#BabyStyle #ParentingTips #BabyFashion2024 #TikTokMadeMeBuyIt\n#BabyBoyGirl #NewbornEssentials #0to12Months #SoftBabyClothes",
+  "scraped_at": 1773230946.968964,
+  "id": 81,
+  "annotator": 1,
+  "annotation_id": 81,
+  "created_at": "2026-03-11T13:25:59.107813Z",
+  "updated_at": "2026-03-11T13:25:59.107813Z",
+  "lead_time": 2.919
+},
+{
+  "index": 282,
+  "poster": "Hannah Castro",
+  "text": "Tres Marias Food Bilao Packages ALWAYS AVAILABLE Book now  CELEBRATE WITH US Birthday  Anniversary  Christening Family Gathering  Etc. Kahit na anong okasyon pa yan  Just message us and we will help you plan your event!  Yes to Pick - up Yes to Deliver via Lalamove w\/ minimal delivery charge No to Meet - upsMode of Payment  Cash on Delivery  GCash on DeliveryWhat are you waiting for  BOOK NOW FOR RESERVATION CONTACT 09750418934",
+  "scraped_at": 1773230962.5266695,
+  "id": 82,
+  "label": [
+    {
+      "start": 17,
+      "end": 30,
+      "text": "Bilao Package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 0,
+      "end": 31,
+      "text": "Tres Marias Food Bilao Packages",
+      "labels": [
+        "BUSINESS_NAME"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 82,
+  "created_at": "2026-03-11T13:26:14.706731Z",
+  "updated_at": "2026-03-11T13:26:14.706731Z",
+  "lead_time": 14.571
+},
+{
+  "index": 284,
+  "poster": "Happy Future Steel and Wood Center",
+  "text": "1 rl  Flexible hose1\/2x50 Flexible hose 1\/2x100  .  Flexible hose 3\/4 x50For inquiries kindly direct message  on our official page Happy Future Steel and Wood CenterLocated at bgrh. Dila cuty of Santa rosa.",
+  "scraped_at": 1773230955.1203072,
+  "id": 83,
+  "annotator": 1,
+  "annotation_id": 83,
+  "created_at": "2026-03-11T13:26:18.102367Z",
+  "updated_at": "2026-03-11T13:26:18.102367Z",
+  "lead_time": 2.319
+},
+{
+  "index": 286,
+  "poster": "Happy Future Steel and Wood Center",
+  "text": "1 rl  Flexible hose1\/2x50 \nFlexible hose 1\/2x100  .  \nFlexible hose 3\/4 x50\nFor inquiries kindly direct message  on our official page \nHappy Future Steel and Wood Center\nLocated at bgrh. Dila cuty of Santa rosa.",
+  "scraped_at": 1773230985.8280053,
+  "id": 84,
+  "annotator": 1,
+  "annotation_id": 84,
+  "created_at": "2026-03-11T13:26:21.339222Z",
+  "updated_at": "2026-03-11T13:26:21.339222Z",
+  "lead_time": 1.867
+},
+{
+  "index": 292,
+  "poster": "Online status indicatorActive",
+  "text": "INSTALLMENT\n INSTALLMENT\nAppliances and Cellphones Available for Installment Via Homecredit \nRequirements atleast 1 Valid ID \nMust Have Source of income\naircon (split type\/window type)\nReff\nTV\nWashing Machine\nLaptops\nCellphones\nSpeaker\nGass Range\nLocation: Robinsons Appliances Centro Mall Cabuyao Laguna.\nDm me for more inquiries\nContact# 09517410933 (TNT)\n#oppo #samsung #iphone #tv #reff #aircon #washing #speakers #centromallcabuyao #gassrange",
+  "scraped_at": 1773231007.4665074,
+  "id": 85,
+  "annotator": 1,
+  "annotation_id": 85,
+  "created_at": "2026-03-11T13:26:40.989203Z",
+  "updated_at": "2026-03-11T13:26:40.989203Z",
+  "lead_time": 18.648
+},
+{
+  "index": 293,
+  "poster": "Michelle Briones Peril",
+  "text": "AFFORDABLE WOODEN SALA SET\n \nTAIWAN\nBUTTERFLY\nTOKYO\nWITH FOAM\nWITH OUT FOAM\nMAHOGANY WOOD\/SOLID WOOD\nFREE DELIVERY CASH ON DELIVERY\nNO INSTALLMENT \nORDER NA PO \nPM LANG FOR FAST TRANSACTION\n#LEGITONLINESELLER",
+  "scraped_at": 1773231017.6586325,
+  "id": 86,
+  "annotator": 1,
+  "annotation_id": 86,
+  "created_at": "2026-03-11T13:26:43.597777Z",
+  "updated_at": "2026-03-11T13:26:43.597777Z",
+  "lead_time": 1.656
+},
+{
+  "index": 294,
+  "poster": "Milʼs Affordable Food Package",
+  "text": "MARCH PROMO\n2026 New Menu\nSulit Deal #1 ₱6,000 (Old)\n1. Pork Caldereta\n2. Pork Menudo\n3. Chicken afritada\n4. Chicken Curry\n5. Mix Veggies\n6. Free 1 Tub Rice\nSulit Deal #2 ₱6,000\n1. Pork Caldereta\n2. Pork Afritada\n3. Chicken Curry\n4. Pininyahang manok\n5. Mix Veggies\n6. Free 1 Tub Rice\nSulit Deal #3 ₱6,000 \n1. Pork Hamonado\n2. Fish fillet\n3. Chicken Caldereta\n4. Chicken curry\n5. Sisig\n6. Free 1 tub Rice\nSulit Deal #4 ₱6,000\n1. Sisig\n2. Pork Menudo\n3. Cordon bleu\n4. Mix Veggies\n5. Garlic Buttered Shrimp\n6. Free 1 Tub Rice\nSulit Deal #5 ₱6,000\n1. Pork Hamonado\n2. Dinakdakan\n3. Cordon bleu\n4. Chicken curry\n5. Mix veggies\n6. Free 1 Tub Rice\nSulit Deal #6 ₱6,000\n1. Pork Caldereta\n2. Bicol express\n3. Pininyahang manok\n4. Fruit Salad\n5. 40 pcs Chicken Wings\n6. Free 1 Tub Rice\nPROMO\nPROMO\nPROMO\n8 Bilao Package 2,050\n \n7 Bilao Package 1,750\n9 Bilao Package \nLet's make your celebration extra special\nLarge\/Medium\/Small Spaghetti\nLarge\/Medium\/Small Carbonara\nLarge\/Medium\/Small Palabok\nLarge \/Medium\/ Small Pansit\n80 pcs shanghai\n45 pcs Puto\n25 pcs Kutsinta\n20 pcs Fried Chicken\nXs Maja\nAlso available;\nULAM TRAY\nCostumize Cake\nParty Needs\nDirect Message\n*For more promo bundles*\nRUSH ORDER ACCEPTED\nADVANCE RESERVATION ACCEPTED\nSAMEDAY DELIVERY ACCEPTED\nCASH ON DELIVERY or Gcash Payment\nFor inquiry Direct Message or Call\nCall# 09276327124\nLocation: Sta rosa \nDelivery via lalamove \nBiñan\nCalamba\nCabuyao\nLosbaños\nCavite\nSn Pedro\nMuntinlupa\nBatangas\nRUSH ORDER ACCEPTED\nADVANCE RESERVATION ACCEPTED\nSAMEDAY DELIVERY ACCEPTED\nCASH ON DELIVERY or Gcash Payment\nPage\nhttps:\/\/www.facebook.com\/profile.php?id=61566536645950\n#affordablefoodpackage \n#murangbilaopackage \n#handaanpackage \n#ReserveNow \n#orderonlinetoday",
+  "scraped_at": 1773231021.122116,
+  "id": 87,
+  "label": [
+    {
+      "start": 822,
+      "end": 835,
+      "text": "Bilao Package",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 87,
+  "created_at": "2026-03-11T13:29:23.692792Z",
+  "updated_at": "2026-03-11T13:29:23.692792Z",
+  "lead_time": 159.171
+},
+{
+  "index": 296,
+  "poster": "WhatsApp",
+  "text": "Flowers for those who matter the most\"We believe flowers have the power to express love, celebrate life's biggest moments, and bring comfort when words fall short. Whether it's a birthday, an anniversary, a wedding or simple \"Just because\" moment. We create each arrangement with care, knowing it's for someone special. SAME DAY DELIVERYADVANCE BOOKINGAVAILABLE PROMOPACKAGES :FLOWER BOUQUET & CUSTOMIZE BALLOONFLOWER BOUQUET & HOT AIR BALLOONFLOWER BOUQUET & CAKEFLOWER BOUQUET & TEDDY BEARFLOWER BOUQUET & CHOCOLATEMONEY BOUQUETDM me for fast transactionPwede rin Call Or Text 09918503250\/09679936260",
+  "scraped_at": 1773231033.7793603,
+  "id": 88,
+  "label": [
+    {
+      "start": 0,
+      "end": 7,
+      "text": "Flowers",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 377,
+      "end": 391,
+      "text": "FLOWER BOUQUET",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 88,
+  "created_at": "2026-03-11T13:38:13.282876Z",
+  "updated_at": "2026-03-11T13:38:13.282876Z",
+  "lead_time": 528.417
+},
+{
+  "index": 298,
+  "poster": "Mikaella Mae",
+  "text": "ONLINE DOCUMENTS ASSISTANCE  WE ASSIST ALL DOCUMENTS YOU NEEDED SSS  SSS New Member  SSS Verify Number SSS New\/Reset Online Account SSS E1 \/ E1-E6 \/ Static Info \/ Slip SSS PRN SSS Copy of Contribution SSS Copy of Employment History SSS Update Info (change info\/blank info  SSS Tempo Permanent SSS Loan ( salary\/calamity) SSS Maternity Benefits PAG-IBIG  PAG-IBIG New Member (MDF) PAG-IBIG Verify Number (MDF) PAG-IBIG RTN to MIDPSA  PSA Birth Certificate PSA Marriage Certificate PSA Death Certificate PSA CenomarPHILHEALTH  New Member with ID & MDR  Old Member ID  Old Member MDR  Verify Number TIN \/ BIR  New Member with ID  Old Member ID Verify Number Other services :  PSA APPOINTMENT NBI APPOINTMENT  (new\/renewal) PASSPORT APPOINTMENT (new\/renewal)",
+  "scraped_at": 1773231033.781845,
+  "id": 89,
+  "annotator": 1,
+  "annotation_id": 89,
+  "created_at": "2026-03-11T13:38:30.356231Z",
+  "updated_at": "2026-03-11T13:38:30.356231Z",
+  "lead_time": 2.21
+},
+{
+  "index": 305,
+  "poster": "Dhel's Boquet of Flowers and Other Surprise Gift",
+  "text": "FUNERAL FLOWER ARRANGEMENTS \nSYMPATHY FLOWERS \nFLORAL STANDINGS \n SAME DAY DELIVERY ! \nSend thoughts and sympathy at the comfort of your seats . \nAlso offers:\nCORONA STANDEE\nSYMPATHY FLOWERS STANDEE\nWREATH STANDEE\nBURIAL FLOWERS ARRANGEMENT\nBURIAL SET UP\nFUNERAL SYMPATHY FLOWERS\nURN FLOWERS ARRANGEMENT\nGARDEN, THAIGRASS, FLATSPRAY, URN\n Designed by yours truly \nFor Inquiries , Message us directly for Faster transaction \nSmart # 09219101306\n( available on whatsapp & viber )\n- \nMode of Payment: \nGcash,Bank transfer, COD",
+  "scraped_at": 1773231086.5946023,
+  "id": 90,
+  "label": [
+    {
+      "start": 8,
+      "end": 27,
+      "text": "FLOWER ARRANGEMENTS",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 90,
+  "created_at": "2026-03-11T13:38:42.376780Z",
+  "updated_at": "2026-03-11T13:38:42.376780Z",
+  "lead_time": 11.115
+},
+{
+  "index": 310,
+  "poster": "Wilmay Belgera Dayo",
+  "text": "Febuary 11 morning order 4:30am pick up8 medium bilao package P2,900Pick up Thank you mam Marry Grace Mortera  #dayobilaofood #everyoneactivefollowersシfypシ゚viralシalシ #FoodBilaoPackage #bilaofoodpackage #highlighteveryone #bilaomeals #crewmeals #bentomeals",
+  "scraped_at": 1773231097.6869304,
+  "id": 91,
+  "annotator": 1,
+  "annotation_id": 91,
+  "created_at": "2026-03-11T13:38:46.433590Z",
+  "updated_at": "2026-03-11T13:38:46.433590Z",
+  "lead_time": 3.148
+},
+{
+  "index": 311,
+  "poster": "Yanzkie Cruz",
+  "text": "Try nio bka maapprove kau wla nmn mawawala at bka magkaron p kau \n dont wory wlang babayadan jan bka swertihin ka pa",
+  "scraped_at": 1773231103.2101038,
+  "id": 92,
+  "annotator": 1,
+  "annotation_id": 92,
+  "created_at": "2026-03-11T13:38:50.446187Z",
+  "updated_at": "2026-03-11T13:38:50.446187Z",
+  "lead_time": 3.103
+},
+{
+  "index": 314,
+  "poster": "Aris Lluz",
+  "text": ":CLEANING SERVICE RATES:SPLIT TYPE 1-1.5hp (₱1100.00)2-3hp (₱1,300.00)WINDOW TYPE Non-Inverter .5-1hp (₱550.00)1.5-2hp (₱700.00)2.5-3hp (₱800.00) WINDOW TYPE INVERTERAny hp (₱900.00)FLOORMOUNTEDStarting at (2.000)FREE CHECK-UP UPON CLEANINGNO HIDDEN CHARGESHOME SERVICEOTHER SERVICES OFFERD:RECHARGING FREONSYSTEMREPROCESSGENERAL CLEANING PULL DOWN CLEANINGINSTALLINGDISMANTLERELOCATEREPAIRBOOK NA PO KAYO09709527627#09516173647We are in standard price for good quality service....",
+  "scraped_at": 1773231125.2043035,
+  "id": 93,
+  "label": [
+    {
+      "start": 1,
+      "end": 9,
+      "text": "CLEANING",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 93,
+  "created_at": "2026-03-11T13:40:57.973467Z",
+  "updated_at": "2026-03-11T13:40:57.973467Z",
+  "lead_time": 126.307
+},
+{
+  "index": 315,
+  "poster": "She Daños",
+  "text": "HELLO MGA KABAHAY! GOOD NEWS! May AFFORDABLE SINGLE ATTACHED HOUSE na ngayon sa CABUYAO, LAGUNA! ₱20,000 RESERVATION FEE LANG!Yes! Totoo po – 20K lang para makapag reserve ng sariling bahay!  WHY CHOOSE THIS HOUSE? Modern Single Attached House Perfect para sa Family Maluwag ang paligid Accessible sa schools, market at main road Magandang investment habang maaga pa LIMITED UNITS ONLY! PAUNAHAN SA SLOT! PM NA AGAD for details, computation & site viewing!Baka ito na ang dream house mo sa Cabuyao! 09308362996",
+  "scraped_at": 1773231122.713179,
+  "id": 94,
+  "annotator": 1,
+  "annotation_id": 94,
+  "created_at": "2026-03-11T13:41:01.527103Z",
+  "updated_at": "2026-03-11T13:41:01.527103Z",
+  "lead_time": 2.496
+},
+{
+  "index": 317,
+  "poster": "Yel MC",
+  "text": "Glow. Refresh. Nourish.  Experience the delicious way to support your beauty and wellness with Hubbybee Collagen Booster Mix!  Now available in 4 refreshing flavors you'll surely love: Watermelon – sweet, juicy, and perfectly refreshing Melon Cucumber – light, crisp, and soothing Calamansi & Green Tea – zesty with a healthy antioxidant boost Mango – tropical sweetness in every sipEach glass helps support: glowing, hydrated skin healthier hair & stronger nails collagen replenishment everyday wellnessMasarap na, beauty drink pa! Perfect for your daily glow routine. I-pm mo na ako! Or icheck-out mo dito  Orange apphttps:\/\/ph.shp.ee\/dA8Sj2WdBlack apphttps:\/\/vt.tiktok.com\/ZS9dV5XKmKfFL-3klpt\/#hubbybees #hubbybeepremiumcollagenboostermix #davidandrye #beautyroutine #Skincare #BeautyAndWellness #skincareproducts",
+  "scraped_at": 1773231138.0972805,
+  "id": 95,
+  "annotator": 1,
+  "annotation_id": 95,
+  "created_at": "2026-03-11T13:41:59.413727Z",
+  "updated_at": "2026-03-11T13:41:59.413727Z",
+  "lead_time": 56.621
+},
+{
+  "index": 319,
+  "poster": "Rico Torres",
+  "text": "Service offer:°Dismantling & Re-install°Installation of any type of Aircon (split type,floor mounted, casket type, ceiling type)°Cleaning (window type\/split type)°Charging Freon°Pm or call & txt me @ 09552008352Pa schedule na poh kau#everyonehighlights#everyonefollowers #CabuyaoLaguna#Cabuyao",
+  "scraped_at": 1773231138.0972805,
+  "id": 96,
+  "label": [
+    {
+      "start": 15,
+      "end": 26,
+      "text": "Dismantling",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 40,
+      "end": 52,
+      "text": "Installation",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 129,
+      "end": 137,
+      "text": "Cleaning",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    },
+    {
+      "start": 163,
+      "end": 177,
+      "text": "Charging Freon",
+      "labels": [
+        "SERVICE_CATEGORY"
+      ]
+    }
+  ],
+  "annotator": 1,
+  "annotation_id": 96,
+  "created_at": "2026-03-11T13:46:21.524417Z",
+  "updated_at": "2026-03-11T13:46:21.524417Z",
+  "lead_time": 88.852
+},
+{
+  "index": 320,
+  "poster": "Marie Cabrera",
+  "text": "ptpa;\nboss\/madam namimili po Ako ng mga sirang appliances at mga sirang motor na ayaw ng ipagawa at nkatambak na lang presyong junk shop lang po Ako pm lng,,,",
+  "scraped_at": 1773231138.0972805,
+  "id": 97,
+  "annotator": 1,
+  "annotation_id": 97,
+  "created_at": "2026-03-11T13:46:24.191366Z",
+  "updated_at": "2026-03-11T13:46:24.191366Z",
+  "lead_time": 1.644
+},
+{
+  "index": 321,
+  "poster": "Online status indicatorActive",
+  "text": "INSTALLATION COMPLETED Kreative Dental 14-CAMERA CCTV PACKAGE Successfully Installed!Your security should never be optional.With Primoworks CCTV, your property and loved ones are protected 24\/7. Wider coverage Minimal blind spots Real-time viewing on a 24-inch monitor Clear, high-definition footage Excellent work by the Primoworks Team! Still thinking about it?Every second without security is a risk. Don’t wait for an incident to happen — secure your home or business TODAY! WHY CHOOSE PRIMOWORKS CCTV? FREE Installation High-quality CCTV systems at competitive prices 4-Camera Package with 24” Monitor Reliable after-sales support & professional service Message us NOW for inquiries and bookings!#PrimoworksCCTV#CCTVInstallation#SecurityMatters#Hikvision#DahuaTechnology#ProtectWhatMatters#SafetyFirst#PeaceOfMind#CalambaLaguna#StaRosaLaguna#CabuyaoLaguna#cctvcamerainstallation#cctvservices#freecctvinstallation#cctvinstallationservices",
+  "scraped_at": 1773231148.1061835,
+  "id": 98,
+  "annotator": 1,
+  "annotation_id": 98,
+  "created_at": "2026-03-11T13:46:35.581456Z",
+  "updated_at": "2026-03-11T13:46:35.581456Z",
+  "lead_time": 0.821
+},
+{
+  "index": 327,
+  "poster": "0:00 \/ 0:11",
+  "text": "Home of the BEST ENSAYMADA  ang trending na ensaymada! PasaBUYAvailable tomorrow or thursday! Pick up only, if deliver add DF po hehe  malayo din po ang pinagkukuhanan.  Purok 2 Brgy Marinig Cabuyao LagunaPm pm.",
+  "scraped_at": 1773231180.7348635,
+  "id": 99,
+  "annotator": 1,
+  "annotation_id": 99,
+  "created_at": "2026-03-11T13:46:57.162221Z",
+  "updated_at": "2026-03-11T13:46:57.162221Z",
+  "lead_time": 20.56
+},
+{
+  "index": 339,
+  "poster": "Yanzkie Cruz",
+  "text": "Try nio bka maapprove kau wla nmn mawawala at bka magkaron p kau  dont wory wlang babayadan jan bka swertihin ka pa",
+  "scraped_at": 1773231233.1150832,
+  "id": 100,
+  "annotator": 1,
+  "annotation_id": 100,
+  "created_at": "2026-03-11T13:47:00.172320Z",
+  "updated_at": "2026-03-11T13:47:00.172320Z",
+  "lead_time": 1.17
+}
+]

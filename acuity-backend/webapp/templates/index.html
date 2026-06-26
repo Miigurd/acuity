@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}ACUITY — Discover Local Services{% endblock %}
+{% block content %}
+<section id="hero">
+    <h1>Find Local Services Near You</h1>
+    <p>Discover micro-enterprises in Barangay Banay-Banay</p>
+    <form action="/search" method="GET">
+        <input type="text" name="q" placeholder="Search for food, services, stores..." required>
+        <button type="submit">Search</button>
+    </form>
+</section>
+{% endblock %}
