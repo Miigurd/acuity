@@ -95,7 +95,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
                                 <span>{Math.round((business.final_score || business.relevance_score) * 100)}%</span>
                             </div>
                             <div style={{ marginTop: '6px', fontSize: '0.65rem', color: 'var(--text-muted)' }}>
-                                Formula: (Text × 1.0) + (Proximity × 0.0)
+                                Formula: (Text × 0.6) + (Proximity × 0.4)
                             </div>
                         </div>
                     )}
