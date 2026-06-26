@@ -6,6 +6,11 @@ const QueueCard = styled.div`
   margin-bottom: var(--spacing-6);
   display: flex;
   gap: var(--spacing-8);
+  position: relative;
+  
+  &:hover {
+    z-index: 10;
+  }
 `;
 
 const ProfileSection = styled.div`
@@ -30,6 +35,45 @@ const ActionButtons = styled.div`
   min-width: 150px;
 `;
 
+const InfoTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  width: 250px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-align: left;
+  z-index: 50;
+  display: none;
+  cursor: default;
+
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--warning);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+`;
+
+const TooltipContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  
+  &:hover ${InfoTooltip} {
+    display: block;
+  }
+`;
+
 import { useAdminData } from '../context/AdminDataContext';
 
 function VerificationQueue() {
@@ -44,15 +88,27 @@ function VerificationQueue() {
           <ProfileSection divider>
             <h4>Extracted Profile</h4>
             <p><strong className="text-secondary">Name:</strong> {item.extracted.name}</p>
-            <p><strong className="text-secondary">Address:</strong> {item.extracted.address}</p>
           </ProfileSection>
           
           <ProfileSection>
             <h4>Best BPLO Match</h4>
             <p><strong className="text-secondary">Name:</strong> {item.registry.name}</p>
-            <p><strong className="text-secondary">Address:</strong> {item.registry.address}</p>
             <div style={{ marginTop: 'var(--spacing-4)', textAlign: 'center' }}>
-               <span className="badge badge-warning" style={{ fontSize: 'var(--font-size-sm)' }}>Fuzzy Match Score: {item.score}</span>
+              <TooltipContainer>
+                <span className="badge badge-warning" style={{ fontSize: 'var(--font-size-sm)', cursor: 'help' }}>Fuzzy Match Score: {item.score}</span>
+                <InfoTooltip>
+                  <h4>Levenshtein Distance</h4>
+                  <p style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>Calculated via custom dynamic programming matrix.</p>
+                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.4', marginBottom: '8px' }}>This measures the minimum number of single-character edits required to change the extracted name into the official BPLO name.</p>
+                  <div style={{ background: 'var(--bg-deep)', padding: '8px', borderRadius: '6px', fontSize: '0.7rem', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Longest Name:</span> <strong>{item.max_len} chars</strong></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Edits Required:</span> <strong>{item.edits}</strong></div>
+                    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '4px', marginTop: '4px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                      <em>1 - ({item.edits} / {item.max_len}) = <strong>{item.score}</strong></em>
+                    </div>
+                  </div>
+                </InfoTooltip>
+              </TooltipContainer>
             </div>
           </ProfileSection>
           
