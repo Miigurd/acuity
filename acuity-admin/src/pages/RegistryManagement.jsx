@@ -52,6 +52,44 @@ const ModalContainer = styled.div`
 function RegistryManagement() {
   const { registry, isLoading } = useAdminData();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [isUploading, setIsUploading] = useState(false);
+
+  const filteredRegistry = registry.filter(item => {
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          String(item.id).toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter ? item.status === statusFilter : true;
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedRegistry = [...filteredRegistry].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    
+    const valA = a[sortConfig.key];
+    const valB = b[sortConfig.key];
+
+    if (sortConfig.key === 'id') {
+      const numA = parseInt(String(valA).replace(/\D/g, '')) || 0;
+      const numB = parseInt(String(valB).replace(/\D/g, '')) || 0;
+      if (numA !== numB) {
+        return sortConfig.direction === 'asc' ? numA - numB : numB - numA;
+      }
+    }
+    
+    return sortConfig.direction === 'asc' 
+      ? String(valA).localeCompare(String(valB)) 
+      : String(valB).localeCompare(String(valA));
+  });
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -59,6 +97,8 @@ function RegistryManagement() {
 
     const formData = new FormData();
     formData.append('file', file);
+
+    setIsUploading(true);
 
     try {
       const res = await fetch('http://localhost:5000/api/bplo/upload', {
@@ -76,9 +116,10 @@ function RegistryManagement() {
     } catch (err) {
       console.error(err);
       alert('Network error while uploading');
+    } finally {
+      setIsUploading(false);
+      event.target.value = null;
     }
-    // reset input
-    event.target.value = null;
   };
 
   return (
@@ -93,25 +134,54 @@ function RegistryManagement() {
             style={{ display: 'none' }} 
             onChange={handleFileUpload} 
           />
-          <button className="btn btn-primary" onClick={() => document.getElementById('bplo-upload').click()}>
-            Upload BPLO CSV
+          <button 
+            className="btn btn-primary" 
+            onClick={() => document.getElementById('bplo-upload').click()}
+            disabled={isUploading}
+            style={{ opacity: isUploading ? 0.7 : 1, cursor: isUploading ? 'not-allowed' : 'pointer' }}
+          >
+            {isUploading ? 'Matching Records...' : 'Upload BPLO CSV'}
           </button>
         </div>
       </HeaderActions>
 
       {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
-      <div className="glass-card" style={{ padding: 0 }}>
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Business Name</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {registry.map(item => (
+      <>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+          <input 
+            type="text" 
+            placeholder="Search by ID or Name..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', flex: 1, outline: 'none' }}
+          />
+          <select 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', outline: 'none', background: 'var(--bg-surface)' }}
+          >
+            <option value="">All Statuses</option>
+            <option value="Verified">Verified</option>
+            <option value="Pending Verification">Pending Verification</option>
+            <option value="Unverified">Unverified</option>
+          </select>
+        </div>
+        <div className="glass-card" style={{ padding: 0 }}>
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th onClick={() => handleSort('id')} style={{ cursor: 'pointer', userSelect: 'none', width: '15%' }}>
+                  ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                </th>
+                <th onClick={() => handleSort('name')} style={{ cursor: 'pointer', userSelect: 'none', width: '45%' }}>
+                  Business Name {sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                </th>
+                <th style={{ width: '25%' }}>Status</th>
+                <th style={{ width: '15%' }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedRegistry.map(item => (
               <tr key={item.id}>
                 <td className="text-secondary">{item.id}</td>
                 <td className="font-semibold">{item.name}</td>
@@ -133,9 +203,15 @@ function RegistryManagement() {
                 </td>
               </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+            </tbody>
+          </table>
+          {sortedRegistry.length === 0 && (
+            <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+              No businesses match your filters.
+            </div>
+          )}
+        </div>
+      </>
       )}
 
       {selectedBusiness && (
