@@ -1,7 +1,58 @@
 import csv
-import difflib
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
 from sqlalchemy.orm import selectinload
+
+def levenshtein_ratio(s1, s2):
+    if not s1 or not s2:
+        return 0.0
+    
+    rows = len(s1) + 1
+    cols = len(s2) + 1
+    distance = [[0 for _ in range(cols)] for _ in range(rows)]
+    
+    for i in range(1, rows):
+        distance[i][0] = i
+    for k in range(1, cols):
+        distance[0][k] = k
+        
+    for col in range(1, cols):
+        for row in range(1, rows):
+            cost = 0 if s1[row-1] == s2[col-1] else 1
+            distance[row][col] = min(
+                distance[row-1][col] + 1,      # Deletion
+                distance[row][col-1] + 1,      # Insertion
+                distance[row-1][col-1] + cost  # Substitution
+            )
+                                     
+                                     
+    max_len = max(len(s1), len(s2))
+    return 1.0 - (distance[len(s1)][len(s2)] / max_len)
+
+def levenshtein_details(s1, s2):
+    if not s1 or not s2:
+        return {"score": 0.0, "edits": 0, "max_len": 0}
+    
+    rows = len(s1) + 1
+    cols = len(s2) + 1
+    distance = [[0 for _ in range(cols)] for _ in range(rows)]
+    
+    for i in range(1, rows):
+        distance[i][0] = i
+    for k in range(1, cols):
+        distance[0][k] = k
+        
+    for col in range(1, cols):
+        for row in range(1, rows):
+            cost = 0 if s1[row-1] == s2[col-1] else 1
+            distance[row][col] = min(
+                distance[row-1][col] + 1,
+                distance[row][col-1] + 1,
+                distance[row-1][col-1] + cost
+            )
+                                     
+    max_len = max(len(s1), len(s2))
+    edits = distance[len(s1)][len(s2)]
+    return {"score": 1.0 - (edits / max_len), "edits": edits, "max_len": max_len}
 
 def upload_bplo_csv(records, fieldnames):
     name_col = None
@@ -46,6 +97,9 @@ def upload_bplo_csv(records, fieldnames):
     queued = 0
     
     for profile in unverified_profiles:
+        # Reset any previous pending statuses
+        profile.status = "Unverified"
+        
         profile_name = (profile.business_name or "").lower()
         if not profile_name: continue
         
@@ -56,13 +110,18 @@ def upload_bplo_csv(records, fieldnames):
             auto_verified += 1
             continue
             
-        # Fuzzy Path: Use optimized get_close_matches instead of O(N*M) nested loops
-        close_matches = difflib.get_close_matches(profile_name, bplo_lower_names, n=1, cutoff=0.6)
+        # Fuzzy Path: Levenshtein Distance
+        best_bplo_name = None
+        best_score = 0.0
         
-        if close_matches:
-            best_bplo_name = close_matches[0]
+        for bplo_name in bplo_lower_names:
+            score = levenshtein_ratio(profile_name, bplo_name)
+            if score > best_score:
+                best_score = score
+                best_bplo_name = bplo_name
+        
+        if best_bplo_name and best_score >= 0.6:
             best_match = bplo_name_map[best_bplo_name]
-            best_score = difflib.SequenceMatcher(None, profile_name, best_bplo_name).ratio()
             
             if best_score >= 0.8:
                 profile.is_verified = True
@@ -100,17 +159,23 @@ def get_bplo_queue():
         bplo = m.bplo
         address = extracted.locations[0].location if extracted.locations else extracted.address
         
+        extracted_name = extracted.business_name or ""
+        bplo_name = bplo.name or ""
+        details = levenshtein_details(extracted_name.lower(), bplo_name.lower())
+        
         queue.append({
             "id": m.id,
             "extracted": {
-                "name": extracted.business_name,
+                "name": extracted_name,
                 "address": address or "Unknown"
             },
             "registry": {
-                "name": bplo.name,
+                "name": bplo_name,
                 "address": bplo.address or "Unknown"
             },
-            "score": f"{int(m.confidence_score * 100)}%"
+            "score": f"{int(m.confidence_score * 100)}%",
+            "edits": details["edits"],
+            "max_len": details["max_len"]
         })
     return queue
 

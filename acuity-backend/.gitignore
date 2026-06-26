@@ -47,5 +47,7 @@ acuity_env/
 search_output.json
 instance/
 best-model/
+*.sqlite3
+
 
 
