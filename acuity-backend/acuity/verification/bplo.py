@@ -6,42 +6,33 @@ import difflib
 from typing import List, Dict, Optional, Any
 from ..config import AcuityConfig, default_config
 
-def levenshtein_distance(s1: str, s2: str) -> int:
-    if len(s1) < len(s2):
-        return levenshtein_distance(s2, s1)
-    if len(s2) == 0:
-        return len(s1)
+def levenshtein_ratio(s1: str, s2: str) -> float:
+    """Calculate 1-to-1 levenshtein ratio matching bplo_service.py"""
+    if not s1 or not s2:
+        return 0.0
     
-    previous_row = list(range(len(s2) + 1))
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1
-            deletions = current_row[j] + 1
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
+    rows = len(s1) + 1
+    cols = len(s2) + 1
+    distance = [[0 for _ in range(cols)] for _ in range(rows)]
+    
+    for i in range(1, rows):
+        distance[i][0] = i
+    for k in range(1, cols):
+        distance[0][k] = k
         
-    return previous_row[-1]
-
-def token_sort_ratio(s1: str, s2: str) -> float:
-    """Calculate the token-sort ratio using Levenshtein distance."""
-    import string
-    
-    # Strip punctuation and tokenize
-    trans = str.maketrans('', '', string.punctuation)
-    s1_clean = s1.translate(trans).strip()
-    s2_clean = s2.translate(trans).strip()
-    
-    t1 = " ".join(sorted(s1_clean.split()))
-    t2 = " ".join(sorted(s2_clean.split()))
-    
-    total_len = len(t1) + len(t2)
-    if total_len == 0:
+    for col in range(1, cols):
+        for row in range(1, rows):
+            cost = 0 if s1[row-1] == s2[col-1] else 1
+            distance[row][col] = min(
+                distance[row-1][col] + 1,      # Deletion
+                distance[row][col-1] + 1,      # Insertion
+                distance[row-1][col-1] + cost  # Substitution
+            )
+                                     
+    max_len = max(len(s1), len(s2))
+    if max_len == 0:
         return 1.0
-        
-    dist = levenshtein_distance(t1, t2)
-    return (total_len - dist) / total_len
+    return 1.0 - (distance[len(s1)][len(s2)] / max_len)
 
 
 class BPLOVerifier:
@@ -83,7 +74,7 @@ class BPLOVerifier:
             if not bplo_name:
                 continue
                 
-            score = token_sort_ratio(name_lower, bplo_name)
+            score = levenshtein_ratio(name_lower, bplo_name)
             if score > best_score:
                 best_score = score
                 best_match = entry

@@ -210,6 +210,7 @@ def reject_bplo_route(id):
         result = reject_bplo_match(id)
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
+        socketio.emit("business_updated", {"type": "bplo_rejection"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

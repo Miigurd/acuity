@@ -7,9 +7,19 @@ from datetime import datetime
 def migrate():
     app = create_app()
     with app.app_context():
-        # Clear existing data just in case
-        db.drop_all()
-        db.create_all()
+        # Clear existing data for businesses only (preserve BPLORegistry)
+        BusinessStat.query.delete()
+        BusinessPrice.query.delete()
+        BusinessLocation.query.delete()
+        BusinessHour.query.delete()
+        BusinessPhone.query.delete()
+        BusinessService.query.delete()
+        BusinessCategory.query.delete()
+        FlagLog.query.delete()
+        EditHistoryLog.query.delete()
+        VerificationMatch.query.delete()
+        BusinessProfile.query.delete()
+        db.session.commit()
         
         frontend_path = os.path.join(os.path.dirname(__file__), "data", "processed", "frontend_businesses.json")
         logs_path = os.path.join(os.path.dirname(__file__), "data", "processed", "interaction_logs.json")
@@ -70,6 +80,17 @@ def migrate():
                 for r in reasons:
                     flag = FlagLog(business_id=profile.id, reason=r)
                     db.session.add(flag)
+                    
+                matched_name = b.get("matched_registry_name")
+                if matched_name:
+                    bplo_record = BPLORegistry.query.filter_by(name=matched_name).first()
+                    if bplo_record:
+                        vmatch = VerificationMatch(
+                            business_id=profile.id,
+                            bplo_id=bplo_record.id,
+                            confidence_score=b.get("verification_score", 0.0)
+                        )
+                        db.session.add(vmatch)
         
 
         db.session.commit()
