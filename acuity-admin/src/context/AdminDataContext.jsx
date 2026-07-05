@@ -113,7 +113,7 @@ export const AdminDataProvider = ({ children }) => {
     try {
       const res = await fetch(`http://localhost:5000/api/bplo/queue/${id}/approve`, { method: 'POST' });
       if (res.ok) {
-        setQueue(prev => prev.filter(item => item.id !== id));
+        setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
     } catch (err) {
       console.error('Failed to approve queue item', err);
@@ -124,7 +124,7 @@ export const AdminDataProvider = ({ children }) => {
     try {
       const res = await fetch(`http://localhost:5000/api/bplo/queue/${id}/reject`, { method: 'POST' });
       if (res.ok) {
-        setQueue(prev => prev.filter(item => item.id !== id));
+        setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
     } catch (err) {
       console.error('Failed to reject queue item', err);
