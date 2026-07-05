@@ -4,6 +4,14 @@ Merges NER outputs and rule-based fields into a unified business profile,
 performs validation, and assigns confidence scores.
 """
 from __future__ import annotations
+import re
+
+def format_business_name(name: str) -> str:
+    if not name: return name
+    cleaned = re.sub(r'[#.,!_]', ' ', name)
+    cleaned = re.sub(r'([a-z])([A-Z])', r'\1 \2', cleaned)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned.title()
 
 
 def build_business_profile(
@@ -26,9 +34,11 @@ def build_business_profile(
         A business profile dict, or None if insufficient information was extracted.
     """
     b_names = entities.get("business_name", [])
-    business_name = " ".join(b_names) if b_names else None
-    if not business_name and poster_name:
-        business_name = poster_name
+    raw_business_name = " ".join(b_names) if b_names else None
+    if not raw_business_name and poster_name:
+        raw_business_name = poster_name
+        
+    business_name = format_business_name(raw_business_name) if raw_business_name else None
 
     profile = {
         "business_name": business_name,

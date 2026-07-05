@@ -1,4 +1,5 @@
 import csv
+import re
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
 from sqlalchemy.orm import selectinload
 
@@ -23,7 +24,6 @@ def levenshtein_ratio(s1, s2):
                 distance[row][col-1] + 1,      # Insertion
                 distance[row-1][col-1] + cost  # Substitution
             )
-                                     
                                      
     max_len = max(len(s1), len(s2))
     return 1.0 - (distance[len(s1)][len(s2)] / max_len)
@@ -108,32 +108,48 @@ def upload_bplo_csv(records, fieldnames):
             profile.is_verified = True
             profile.status = "Verified"
             auto_verified += 1
+            
+            match_entry = VerificationMatch(
+                business_id=profile.id,
+                bplo_id=bplo_name_map[profile_name].id,
+                confidence_score=1.0
+            )
+            db.session.add(match_entry)
             continue
             
         # Fuzzy Path: Levenshtein Distance
-        best_bplo_name = None
-        best_score = 0.0
+        matches_above_threshold = []
         
         for bplo_name in bplo_lower_names:
             score = levenshtein_ratio(profile_name, bplo_name)
-            if score > best_score:
-                best_score = score
-                best_bplo_name = bplo_name
+            if score >= 0.6:
+                matches_above_threshold.append((bplo_name, score))
         
-        if best_bplo_name and best_score >= 0.6:
-            best_match = bplo_name_map[best_bplo_name]
+        if matches_above_threshold:
+            matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
+            best_score = matches_above_threshold[0][1]
             
             if best_score >= 0.8:
                 profile.is_verified = True
                 profile.status = "Verified"
                 auto_verified += 1
-            elif best_score >= 0.6:
+                
+                best_match = bplo_name_map[matches_above_threshold[0][0]]
                 match_entry = VerificationMatch(
                     business_id=profile.id,
                     bplo_id=best_match.id,
                     confidence_score=round(best_score, 2)
                 )
                 db.session.add(match_entry)
+            else:
+                for bplo_name, score in matches_above_threshold:
+                    best_match = bplo_name_map[bplo_name]
+                    match_entry = VerificationMatch(
+                        business_id=profile.id,
+                        bplo_id=best_match.id,
+                        confidence_score=round(score, 2)
+                    )
+                    db.session.add(match_entry)
                 profile.status = "Pending Verification"
                 queued += 1
                 
@@ -148,12 +164,15 @@ def upload_bplo_csv(records, fieldnames):
 
 def get_bplo_queue():
     # Eager load the business and its locations to avoid N+1 queries during queue rendering
-    matches = VerificationMatch.query.options(
+    matches = VerificationMatch.query.join(BusinessProfile).filter(
+        BusinessProfile.is_verified == False
+    ).options(
         selectinload(VerificationMatch.business).selectinload(BusinessProfile.locations),
         selectinload(VerificationMatch.bplo)
     ).all()
     
-    queue = []
+    grouped_queue = {}
+    
     for m in matches:
         extracted = m.business
         bplo = m.bplo
@@ -163,21 +182,32 @@ def get_bplo_queue():
         bplo_name = bplo.name or ""
         details = levenshtein_details(extracted_name.lower(), bplo_name.lower())
         
-        queue.append({
-            "id": m.id,
-            "extracted": {
-                "name": extracted_name,
-                "address": address or "Unknown"
-            },
+        if extracted.id not in grouped_queue:
+            grouped_queue[extracted.id] = {
+                "business_id": extracted.id,
+                "extracted": {
+                    "name": extracted_name,
+                    "address": address or "Unknown"
+                },
+                "matches": []
+            }
+            
+        grouped_queue[extracted.id]["matches"].append({
+            "match_id": m.id,
             "registry": {
                 "name": bplo_name,
                 "address": bplo.address or "Unknown"
             },
             "score": f"{int(m.confidence_score * 100)}%",
+            "score_val": m.confidence_score,
             "edits": details["edits"],
             "max_len": details["max_len"]
         })
-    return queue
+        
+    for b_id in grouped_queue:
+        grouped_queue[b_id]["matches"].sort(key=lambda x: x["score_val"], reverse=True)
+        
+    return list(grouped_queue.values())
 
 def approve_bplo_match(match_id):
     match = VerificationMatch.query.options(selectinload(VerificationMatch.business)).get(match_id)
@@ -188,7 +218,7 @@ def approve_bplo_match(match_id):
     profile.is_verified = True
     profile.status = "Verified"
     
-    db.session.delete(match)
+    VerificationMatch.query.filter(VerificationMatch.business_id == profile.id, VerificationMatch.id != match_id).delete()
     db.session.commit()
     return {"status": "success", "message": "Approved and verified", "code": 200}
     

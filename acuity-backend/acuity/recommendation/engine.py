@@ -35,8 +35,15 @@ class RecommendationEngine:
     def set_profiles(self, profiles: list[dict]):
         """Load business profiles from an in-memory list."""
         self.profiles = profiles
-        # Build TF-IDF matrix from profile names and descriptions
-        texts = [f"{p.get('name', p.get('business_name', ''))} {p.get('description', '')}" for p in self.profiles]
+        # Build TF-IDF matrix from profile names, descriptions, categories, and services
+        texts = []
+        for p in self.profiles:
+            name = p.get('name') or p.get('business_name') or ''
+            desc = p.get('description') or ''
+            cats = " ".join(p.get('categories') or [])
+            srvs = " ".join(p.get('services') or [])
+            
+            texts.append(f"{name} {desc} {cats} {srvs}")
         self._vectorizer, self._tfidf_matrix = build_tfidf_matrix(texts)
         print(f"Loaded {len(self.profiles)} profiles. TF-IDF matrix built.")
 

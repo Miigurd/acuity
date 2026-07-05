@@ -44,6 +44,18 @@ class BusinessProfile(db.Model):
         lat = landmark_data.get('lat')
         lon = landmark_data.get('lon')
 
+        bplo_match_info = None
+        if self.verification_matches:
+            # We can take the first match or highest confidence. Assuming the first one since it's verified.
+            match = self.verification_matches[0]
+            if match.bplo:
+                bplo_match_info = {
+                    "bplo_id": match.bplo_id,
+                    "name": match.bplo.name,
+                    "address": match.bplo.address,
+                    "confidence_score": match.confidence_score
+                }
+
         return {
             "id": self.id,
             "business_name": self.business_name,
@@ -63,6 +75,7 @@ class BusinessProfile(db.Model):
             "is_verified": self.is_verified,
             "status": self.status,
             "stats": stats_dict,
+            "bplo_match": bplo_match_info,
             
             # Frontend required
             "services": [s.service for s in self.services],

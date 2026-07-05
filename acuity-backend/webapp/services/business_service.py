@@ -1,7 +1,15 @@
 import json
+import re
 from datetime import datetime, timedelta
 from sqlalchemy.orm import selectinload
 from webapp.models import db, BusinessProfile, EditHistoryLog, HeldEdit, BusinessCategory, BusinessService, BusinessLocation, BusinessPrice, BusinessHour, BusinessPhone, BusinessStat, FlagLog
+
+def format_business_name(name: str) -> str:
+    if not name: return name
+    cleaned = re.sub(r'[#.,!_]', ' ', name)
+    cleaned = re.sub(r'([a-z])([A-Z])', r'\1 \2', cleaned)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned.title()
 
 def get_base_query():
     return BusinessProfile.query.options(
@@ -14,7 +22,8 @@ def get_base_query():
         selectinload(BusinessProfile.stats),
         selectinload(BusinessProfile.flags),
         selectinload(BusinessProfile.history_logs),
-        selectinload(BusinessProfile.held_edits)
+        selectinload(BusinessProfile.held_edits),
+        selectinload(BusinessProfile.verification_matches)
     )
 
 def get_business_by_id(business_id):
@@ -48,8 +57,9 @@ def update_businesses(data, ip_address):
     if history_count >= 3:
         # Divert to HeldEdit
         for b in data:
-            name = b.get("name") or b.get("business_name")
-            if not name: continue
+            raw_name = b.get("name") or b.get("business_name")
+            if not raw_name: continue
+            name = format_business_name(raw_name)
             biz_id = b.get("id")
             profile = BusinessProfile.query.get(biz_id) if biz_id else BusinessProfile.query.filter_by(business_name=name).first()
             if profile:
@@ -64,10 +74,11 @@ def update_businesses(data, ip_address):
 
     # Apply changes
     for b in data:
-        name = b.get("name") or b.get("business_name")
-        if not name:
+        raw_name = b.get("name") or b.get("business_name")
+        if not raw_name:
             continue
             
+        name = format_business_name(raw_name)
         biz_id = b.get("id")
         profile = get_base_query().get(biz_id) if biz_id else get_base_query().filter_by(business_name=name).first()
             
@@ -133,6 +144,7 @@ def update_businesses(data, ip_address):
     return {"status": "success", "message": "Business profiles successfully updated", "code": 200}
 
 def flag_business(name_to_flag, reason="Community Flag"):
+    name_to_flag = format_business_name(name_to_flag)
     profile = BusinessProfile.query.filter_by(business_name=name_to_flag).first()
     if not profile:
         profile = BusinessProfile(

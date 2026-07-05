@@ -38,6 +38,9 @@ def create_app() -> Flask:
         # Ensure database tables are created
         db.create_all()
 
+    from .extensions import socketio # type: ignore
+    socketio.init_app(app)
+
     # Register blueprints
     from .routes.api import api_bp  # type: ignore
     from .routes.search import search_bp  # type: ignore
@@ -54,8 +57,11 @@ def create_app() -> Flask:
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(
+    from .extensions import socketio # type: ignore
+    socketio.run(
+        app,
         host=os.getenv("FLASK_HOST", "0.0.0.0"),
         port=int(os.getenv("FLASK_PORT", "5000")),
         debug=os.getenv("FLASK_DEBUG", "true").lower() == "true",
+        allow_unsafe_werkzeug=True
     )

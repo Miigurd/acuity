@@ -3,7 +3,7 @@ ACUITY — API Routes
 Serves data extracted by the pipeline to the frontend from the SQLite database.
 """
 from flask import Blueprint, jsonify, request  # type: ignore
-
+from webapp.extensions import socketio
 from webapp.services import (
     get_business_by_id,
     get_all_businesses,
@@ -21,7 +21,24 @@ from webapp.services import (
     track_interaction_event
 )
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+from acuity.extraction.ner_crf import extract_entities
+
 api_bp = Blueprint("api", __name__)
+
+@api_bp.route("/extract", methods=["POST"])
+def extract_route():
+    """Live extraction endpoint for the IT Expert module."""
+    payload = request.json
+    if not payload or "text" not in payload:
+        return jsonify({"error": "Missing text payload"}), 400
+    try:
+        results = extract_entities(payload["text"])
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @api_bp.route("/businesses/<int:id>", methods=["GET"])
 def get_business(id):
@@ -61,6 +78,7 @@ def update_businesses_route():
         elif result["status"] == "held":
             return jsonify({"message": result["message"]}), result.get("code", 202)
         else:
+            socketio.emit("business_updated", {"type": "update"})
             return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         print(f"Error writing to database: {e}")
@@ -78,6 +96,7 @@ def flag_business():
 
     try:
         result = flag_business_service(name_to_flag, reason)
+        socketio.emit("business_flagged", {"name": name_to_flag})
         return jsonify({"message": result["message"]}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -108,6 +127,7 @@ def track_event():
     
     try:
         result = track_interaction_event(event_type, biz_name)
+        socketio.emit("analytics_updated", {"businessName": biz_name, "event": event_type})
         return jsonify({"message": result["message"]}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -179,6 +199,7 @@ def approve_bplo_route(id):
         result = approve_bplo_match(id)
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
+        socketio.emit("business_updated", {"type": "bplo_approval"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -209,6 +230,7 @@ def approve_held_edit_route(id):
         result = approve_held_edit(id)
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
+        socketio.emit("business_updated", {"type": "held_edit_approval"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

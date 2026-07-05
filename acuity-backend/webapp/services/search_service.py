@@ -54,7 +54,7 @@ def search_businesses(query, user_lat=None, user_lon=None):
     } for r in results if (r.get("name") or r.get("business_name")) and (not query or r.get("relevance_score", 0) > 0)]
     
     returned_names = [r["name"] for r in res_data]
-    if returned_names:
+    if returned_names and query:
         # Update impressions stat in DB - eager load stats to avoid N+1
         profiles_to_update = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter(BusinessProfile.business_name.in_(returned_names)).all()
         for p in profiles_to_update:

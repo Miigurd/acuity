@@ -93,7 +93,7 @@ class CustomTfidfVectorizer:
             
         return tfidf_vectors
 
-    def transform(self, documents: list[str]) -> list[dict[str, float]]:
+    def transform(self, documents: list[str], partial_match: bool = False) -> list[dict[str, float]]:
         tfidf_vectors = []
         for doc in documents:
             tokens = self._tokenize_and_ngrams(doc)
@@ -101,6 +101,12 @@ class CustomTfidfVectorizer:
             for token in tokens:
                 if token in self.vocabulary:
                     term_counts[token] += 1
+                
+                # Bi-directional prefix matching ("print" matches "printing", and "printing" matches "print")
+                if partial_match and len(token) >= 3:
+                    for vocab_term in self.vocabulary:
+                        if vocab_term != token and (vocab_term.startswith(token) or token.startswith(vocab_term)):
+                            term_counts[vocab_term] += 1
             
             vector = {}
             for term, count in term_counts.items():
@@ -119,4 +125,4 @@ def build_tfidf_matrix(documents: list[str]) -> tuple[CustomTfidfVectorizer, lis
 
 def transform_query(vectorizer: CustomTfidfVectorizer, query: str) -> list[dict[str, float]]:
     """Transform a user query string into the fitted TF-IDF vector space."""
-    return vectorizer.transform([query])
+    return vectorizer.transform([query], partial_match=True)
