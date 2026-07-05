@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { MockDataProvider } from './context/MockDataContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
 import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
 import ResidentDashboard from './pages/ResidentDashboard';
@@ -13,6 +14,7 @@ import BusinessProfileView from './pages/BusinessProfileView';
 import ResidentProfile from './pages/ResidentProfile';
 import EditBusinessProfile from './pages/EditBusinessProfile';
 import MapPage from './pages/MapPage';
+import ITExpertValidation from './pages/ITExpertValidation';
 
 const Placeholder = ({ title }) => (
   <div className="container py-4 flex-col items-center justify-center h-full">
@@ -41,6 +43,9 @@ const AppRoutes = () => {
         {/* User Preferences */}
         <Route path="profile" element={<ResidentProfile />} />
 
+        {/* IT Expert Validation Module (Hidden Route) */}
+        <Route path="it-expert-validation" element={<ITExpertValidation />} />
+
         {/* Fallback */}
         <Route path="*" element={<Placeholder title="404 - Page Not Found" />} />
       </Route>
@@ -48,14 +53,17 @@ const AppRoutes = () => {
   );
 };
 
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <MockDataProvider>
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
+          <ToastProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </ToastProvider>
         </MockDataProvider>
       </AuthProvider>
     </ThemeProvider>

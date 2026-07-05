@@ -11,19 +11,9 @@ const BusinessCard = ({ business, distance, recommended }) => {
 
     const isFlagged = business.flagCount >= 3;
 
-    const handleClick = () => {
-        if (trackEvent) {
-            trackEvent({
-                eventType: 'click',
-                businessName: business.name
-            });
-        }
-    };
-
     return (
         <Link
             to={`/business/${business.id}`}
-            onClick={handleClick}
             style={{
                 display: 'block',
                 minWidth: '280px',

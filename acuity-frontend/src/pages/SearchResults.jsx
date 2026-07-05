@@ -20,13 +20,10 @@ const SearchResults = () => {
   const [sortBy, setSortBy] = useState('nearest'); // 'nearest' or 'newest'
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
+  const [rankedData, setRankedData] = useState(null);
 
   useEffect(() => {
-    const fetchResults = async () => {
-      if (mockDataLoading) return;
-      setLoading(true);
-      let filtered = businesses.filter(b => b.isActive && (!b.flagCount || b.flagCount < 3));
-
+    const fetchRankings = async () => {
       try {
         let fetchUrl = `http://localhost:5000/api/search?q=${encodeURIComponent(initialQuery || '')}`;
         const userLandmark = getLandmarkById(user.landmarkId);
@@ -36,46 +33,57 @@ const SearchResults = () => {
         
         const res = await fetch(fetchUrl);
         if (res.ok) {
-          const rankedData = await res.json();
-          const matched = [];
-          for (const rankItem of rankedData) {
-            const localBusiness = filtered.find(b => b.name === rankItem.name);
-            if (localBusiness) {
-              matched.push({ 
-                ...localBusiness, 
-                relevance_score: rankItem.relevance_score, 
-                proximity_score: rankItem.proximity_score,
-                distance_km: rankItem.distance_km,
-                final_score: rankItem.final_score 
-              });
-            }
-          }
-          filtered = matched;
+          const data = await res.json();
+          setRankedData(data);
+        } else {
+          setRankedData([]);
         }
       } catch (e) {
         console.error("Backend search failed", e);
+        setRankedData([]);
       }
-
-      if (initialCategory) {
-        filtered = filtered.filter(b => b.categoryId === initialCategory);
-      }
-
-      const activeSortBy = initialQuery ? 'relevance' : sortBy;
-
-      if (activeSortBy === 'nearest') {
-        filtered.sort((a, b) => (a.distance_km ?? Infinity) - (b.distance_km ?? Infinity));
-      } else if (activeSortBy === 'newest') {
-        filtered.sort((a, b) => new Date(b.stats.created) - new Date(a.stats.created));
-      } else if (activeSortBy === 'relevance') {
-        filtered.sort((a, b) => (b.final_score || 0) - (a.final_score || 0));
-      }
-
-      setResults(filtered);
-      setLoading(false);
     };
+    fetchRankings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery, user.landmarkId]);
 
-    fetchResults();
-  }, [initialQuery, initialCategory, sortBy, businesses, user.location, calculateDistance, getLandmarkById, mockDataLoading]);
+  useEffect(() => {
+    if (mockDataLoading || !rankedData) return;
+    setLoading(true);
+    let filtered = businesses.filter(b => b.isActive && (!b.flagCount || b.flagCount < 3));
+
+    const matched = [];
+    for (const rankItem of rankedData) {
+      const localBusiness = filtered.find(b => b.name === rankItem.name);
+      if (localBusiness) {
+        matched.push({ 
+          ...localBusiness, 
+          relevance_score: rankItem.relevance_score, 
+          proximity_score: rankItem.proximity_score,
+          distance_km: rankItem.distance_km,
+          final_score: rankItem.final_score 
+        });
+      }
+    }
+    filtered = matched;
+
+    if (initialCategory) {
+      filtered = filtered.filter(b => b.categoryId === initialCategory);
+    }
+
+    const activeSortBy = initialQuery ? 'relevance' : sortBy;
+
+    if (activeSortBy === 'nearest') {
+      filtered.sort((a, b) => (a.distance_km ?? Infinity) - (b.distance_km ?? Infinity));
+    } else if (activeSortBy === 'newest') {
+      filtered.sort((a, b) => new Date(b.stats.created) - new Date(a.stats.created));
+    } else if (activeSortBy === 'relevance') {
+      filtered.sort((a, b) => (b.final_score || 0) - (a.final_score || 0));
+    }
+
+    setResults(filtered);
+    setLoading(false);
+  }, [rankedData, businesses, initialCategory, sortBy, initialQuery, mockDataLoading]);
 
   const handleSearch = (e) => {
     e.preventDefault();

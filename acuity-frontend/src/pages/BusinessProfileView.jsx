@@ -4,11 +4,13 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useMockData } from '../context/MockDataContext';
 import { FiArrowLeft, FiMapPin, FiClock, FiPhoneCall, FiMessageCircle, FiCheckCircle, FiInfo, FiFlag, FiAlertTriangle, FiEdit2, FiX, FiRotateCcw } from 'react-icons/fi';
 import BanayBanayMap from '../components/BanayBanayMap';
+import { useToast } from '../context/ToastContext';
 
 const BusinessProfileView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getCategoryById, getLandmarkById, flagBusiness, rollbackBusiness } = useMockData();
+  const { getCategoryById, getLandmarkById, flagBusiness, rollbackBusiness, trackEvent } = useMockData();
+  const { showToast } = useToast();
 
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,6 +35,11 @@ const BusinessProfileView = () => {
         }
         const data = await response.json();
         setBusiness(data);
+        
+        // Track the view/click as soon as the profile loads successfully
+        if (trackEvent && data.name) {
+          trackEvent({ eventType: 'click', businessName: data.name });
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -40,6 +47,7 @@ const BusinessProfileView = () => {
       }
     };
     fetchBusiness();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading) {
@@ -70,7 +78,7 @@ const BusinessProfileView = () => {
     flagBusiness(business.id, flagReason);
     setShowFlagSection(false);
     setFlagReason('');
-    alert('Thank you for reporting. The community has been alerted.');
+    showToast('Thank you for reporting. The community has been alerted.', 'success');
   };
 
   const handleRollback = async (timestamp) => {
@@ -84,10 +92,10 @@ const BusinessProfileView = () => {
         });
         
         if (response.ok) {
-          alert('Successfully rolled back to previous version.');
-          window.location.reload();
+          showToast('Successfully rolled back to previous version.', 'success');
+          setTimeout(() => window.location.reload(), 2000);
         } else {
-          alert('Failed to rollback. Please try again.');
+          showToast('Failed to rollback. Please try again.', 'error');
         }
       } catch (error) {
         console.error("Error rolling back:", error);

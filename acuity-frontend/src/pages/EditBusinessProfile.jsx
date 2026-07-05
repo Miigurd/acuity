@@ -3,12 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useMockData } from '../context/MockDataContext';
 import { FiSave, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { useToast } from '../context/ToastContext';
 
 const EditBusinessProfile = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const { categories, landmarks, updateBusiness } = useMockData();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -138,7 +140,7 @@ const EditBusinessProfile = () => {
           setShowSuccessModal(true);
         } else {
           const errData = await response.json();
-          alert(errData.error || 'Failed to save edits to server.');
+          showToast(errData.error || 'Failed to save edits to server.', 'error');
         }
       } catch (err) {
         console.error('Error saving edits:', err);
