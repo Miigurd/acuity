@@ -27,13 +27,7 @@ const ProfileSection = styled.div`
   }
 `;
 
-const ActionButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-3);
-  justify-content: center;
-  min-width: 150px;
-`;
+
 
 const InfoTooltip = styled.div`
   position: absolute;
@@ -83,39 +77,50 @@ function VerificationQueue() {
     <div>
       <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>Review profiles extracted by the system against the official BPLO registry.</p>
       
-      {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : queue.length === 0 ? <p className="text-muted">No items in queue.</p> : queue.map(item => (
-        <QueueCard key={item.id} className="glass-card">
-          <ProfileSection divider>
-            <h4>Extracted Profile</h4>
-            <p><strong className="text-secondary">Name:</strong> {item.extracted.name}</p>
-          </ProfileSection>
-          
-          <ProfileSection>
-            <h4>Best BPLO Match</h4>
-            <p><strong className="text-secondary">Name:</strong> {item.registry.name}</p>
-            <div style={{ marginTop: 'var(--spacing-4)', textAlign: 'center' }}>
-              <TooltipContainer>
-                <span className="badge badge-warning" style={{ fontSize: 'var(--font-size-sm)', cursor: 'help' }}>Fuzzy Match Score: {item.score}</span>
-                <InfoTooltip>
-                  <h4>Levenshtein Distance</h4>
-                  <p style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>Calculated via custom dynamic programming matrix.</p>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.4', marginBottom: '8px' }}>This measures the minimum number of single-character edits required to change the extracted name into the official BPLO name.</p>
-                  <div style={{ background: 'var(--bg-deep)', padding: '8px', borderRadius: '6px', fontSize: '0.7rem', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Longest Name:</span> <strong>{item.max_len} chars</strong></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Edits Required:</span> <strong>{item.edits}</strong></div>
-                    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '4px', marginTop: '4px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                      <em>1 - ({item.edits} / {item.max_len}) = <strong>{item.score}</strong></em>
+      {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : queue.length === 0 ? <p className="text-muted">No items in queue.</p> : queue.map(group => (
+        <QueueCard key={group.business_id} className="glass-card" style={{ flexDirection: 'column' }}>
+          <div style={{ display: 'flex', gap: 'var(--spacing-8)' }}>
+            <ProfileSection divider style={{ flex: '0 0 300px' }}>
+              <h4>Extracted Profile</h4>
+              <p><strong className="text-secondary">Name:</strong> {group.extracted.name}</p>
+              <div style={{ marginTop: '2rem' }}>
+                <button className="btn btn-outline btn-full" style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }} onClick={() => rejectQueueItem(group.matches[0].match_id)}>Reject Extracted Profile</button>
+              </div>
+            </ProfileSection>
+            
+            <div style={{ flex: 1 }}>
+              <h4>Ranked BPLO Matches</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                {group.matches.map((match, index) => (
+                  <div key={match.match_id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+                    <div>
+                      <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}><span style={{ color: 'var(--text-muted)', marginRight: '8px' }}>#{index + 1}</span>{match.registry.name}</p>
+                      
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <TooltipContainer>
+                          <span className="badge badge-warning" style={{ fontSize: 'var(--font-size-sm)', cursor: 'help' }}>Score: {match.score}</span>
+                          <InfoTooltip>
+                            <h4>Levenshtein Distance</h4>
+                            <p style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>Calculated via custom dynamic programming matrix.</p>
+                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.4', marginBottom: '8px' }}>This measures the minimum number of single-character edits required to change the extracted name into the official BPLO name.</p>
+                            <div style={{ background: 'var(--bg-deep)', padding: '8px', borderRadius: '6px', fontSize: '0.7rem', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Longest Name:</span> <strong>{match.max_len} chars</strong></div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Edits Required:</span> <strong>{match.edits}</strong></div>
+                              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '4px', marginTop: '4px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                <em>1 - ({match.edits} / {match.max_len}) = <strong>{Math.round((match.max_len - match.edits) / match.max_len * 100)}%</strong></em>
+                              </div>
+                            </div>
+                          </InfoTooltip>
+                        </TooltipContainer>
+                      </div>
                     </div>
+                    
+                    <button className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }} onClick={() => approveQueueItem(match.match_id)}>Approve Match</button>
                   </div>
-                </InfoTooltip>
-              </TooltipContainer>
+                ))}
+              </div>
             </div>
-          </ProfileSection>
-          
-          <ActionButtons>
-            <button className="btn btn-primary btn-full" onClick={() => approveQueueItem(item.id)}>Approve Match</button>
-            <button className="btn btn-outline btn-full" style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }} onClick={() => rejectQueueItem(item.id)}>Reject</button>
-          </ActionButtons>
+          </div>
         </QueueCard>
       ))}
     </div>

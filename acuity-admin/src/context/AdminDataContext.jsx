@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 const AdminDataContext = createContext();
 
@@ -93,6 +94,19 @@ export const AdminDataProvider = ({ children }) => {
       }
     };
     fetchBusinesses();
+
+    const socket = io('http://localhost:5000');
+    socket.on('business_updated', () => {
+        fetchBusinesses();
+    });
+    socket.on('business_flagged', () => {
+        fetchBusinesses();
+    });
+    socket.on('analytics_updated', () => {
+        fetchBusinesses();
+    });
+
+    return () => socket.disconnect();
   }, []);
 
   const approveQueueItem = async (id) => {
@@ -100,8 +114,6 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`http://localhost:5000/api/bplo/queue/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setQueue(prev => prev.filter(item => item.id !== id));
-        // We should really re-fetch registry here, but for now just force a reload
-        window.location.reload();
       }
     } catch (err) {
       console.error('Failed to approve queue item', err);
@@ -180,7 +192,6 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`http://localhost:5000/api/held-edits/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setHeldEdits(prev => prev.filter(item => item.id !== id));
-        window.location.reload();
       }
     } catch (err) {
       console.error('Failed to approve held edit', err);

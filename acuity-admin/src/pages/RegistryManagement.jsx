@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAdminData } from '../context/AdminDataContext';
 import { MdClose } from 'react-icons/md';
+import { useToast } from '../context/ToastContext';
 
 const HeaderActions = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const ModalContainer = styled.div`
 
 function RegistryManagement() {
   const { registry, isLoading } = useAdminData();
+  const { showToast } = useToast();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -107,15 +109,15 @@ function RegistryManagement() {
       });
       if (res.ok) {
         const data = await res.json();
-        alert(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`);
-        window.location.reload();
+        showToast(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`, 'success');
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         const errorData = await res.json();
-        alert('Failed to upload BPLO data: ' + errorData.error);
+        showToast('Failed to upload BPLO data: ' + errorData.error, 'error');
       }
     } catch (err) {
       console.error(err);
-      alert('Network error while uploading');
+      showToast('Network error while uploading', 'error');
     } finally {
       setIsUploading(false);
       event.target.value = null;
@@ -224,6 +226,17 @@ function RegistryManagement() {
               selectedBusiness.status === 'Pending Verification' ? 'badge-warning' : 
               'badge-danger'
             }`}>{selectedBusiness.status}</span></p>
+
+            {selectedBusiness.raw?.bplo_match && (
+              <div style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px' }}>
+                <strong style={{ color: '#22c55e', display: 'block', marginBottom: '0.5rem' }}>✓ Verified via BPLO Match</strong>
+                <p className="text-primary" style={{ margin: 0, fontSize: '0.9rem' }}>
+                  <strong>BPLO Name:</strong> {selectedBusiness.raw.bplo_match.name} <br/>
+                  <strong>BPLO Address:</strong> {selectedBusiness.raw.bplo_match.address || 'N/A'} <br/>
+                  <span className="text-muted" style={{ fontSize: '0.8rem' }}>Match Confidence: {(selectedBusiness.raw.bplo_match.confidence_score * 100).toFixed(1)}%</span>
+                </p>
+              </div>
+            )}
             
             <div style={{ display: 'grid', gap: '1.25rem' }}>
               <div>
