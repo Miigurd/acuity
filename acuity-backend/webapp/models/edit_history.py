@@ -10,6 +10,7 @@ class EditHistoryLog(db.Model):
     previous_data = db.Column(db.Text, nullable=False)
     ip_address = db.Column(db.String(45), nullable=True)
     is_rolled_back = db.Column(db.Boolean, default=False)
+    published_at = db.Column(db.String(50), nullable=True)
 
 class HeldEdit(db.Model):
     __tablename__ = 'held_edits'

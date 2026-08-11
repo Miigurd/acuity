@@ -8,7 +8,9 @@ from .business_profile import (
     BusinessLocation, 
     BusinessPrice, 
     BusinessStat, 
-    FlagLog
+    FlagLog,
+    AdminActionLog,
+    BusinessStatusHistory
 )
 from .edit_history import EditHistoryLog, HeldEdit
 from .bplo_registry import BPLORegistry, VerificationMatch
@@ -24,6 +26,8 @@ __all__ = [
     'BusinessPrice',
     'BusinessStat',
     'FlagLog',
+    'AdminActionLog',
+    'BusinessStatusHistory',
     'EditHistoryLog',
     'HeldEdit',
     'BPLORegistry',

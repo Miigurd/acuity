@@ -1,7 +1,7 @@
 import os
 import json
 from webapp.app import create_app
-from webapp.models import db, BusinessProfile, FlagLog, BusinessCategory, BusinessService, BusinessPhone, BusinessHour, BusinessLocation, BusinessPrice, BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch
+from webapp.models import db, BusinessProfile, FlagLog, BusinessCategory, BusinessService, BusinessPhone, BusinessHour, BusinessLocation, BusinessPrice, BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, BusinessStatusHistory
 from datetime import datetime
 
 def migrate():
@@ -16,6 +16,7 @@ def migrate():
         BusinessService.query.delete()
         BusinessCategory.query.delete()
         FlagLog.query.delete()
+        BusinessStatusHistory.query.delete()
         EditHistoryLog.query.delete()
         VerificationMatch.query.delete()
         BusinessProfile.query.delete()

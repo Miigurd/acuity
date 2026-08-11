@@ -23,13 +23,20 @@ def create_app() -> Flask:
 
     CORS(app)  # Enable CORS for all routes
 
+    from datetime import timedelta
     app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY", "dev-secret")
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "dev-jwt-secret")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=24)
+    # app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=1)
     basedir = os.path.abspath(os.path.dirname(__file__))
     db_path = os.path.join(basedir, "..", "data", "acuity.db")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
         "DATABASE_URL", f"sqlite:///{db_path}"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "connect_args": {"timeout": 10}
+    }
 
     from .models import db # type: ignore
     db.init_app(app)
@@ -38,8 +45,12 @@ def create_app() -> Flask:
         # Ensure database tables are created
         db.create_all()
 
-    from .extensions import socketio # type: ignore
+    from .extensions import socketio, limiter # type: ignore
     socketio.init_app(app)
+    limiter.init_app(app)
+
+    from flask_jwt_extended import JWTManager # type: ignore
+    jwt = JWTManager(app)
 
     # Register blueprints
     from .routes.api import api_bp  # type: ignore
@@ -58,10 +69,11 @@ def create_app() -> Flask:
 if __name__ == "__main__":
     app = create_app()
     from .extensions import socketio # type: ignore
+    is_debug = os.getenv("FLASK_DEBUG", "true").lower() == "true"
     socketio.run(
         app,
         host=os.getenv("FLASK_HOST", "0.0.0.0"),
         port=int(os.getenv("FLASK_PORT", "5000")),
-        debug=os.getenv("FLASK_DEBUG", "true").lower() == "true",
-        allow_unsafe_werkzeug=True
+        debug=is_debug,
+        allow_unsafe_werkzeug=is_debug
     )
