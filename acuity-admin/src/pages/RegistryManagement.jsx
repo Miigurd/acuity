@@ -152,15 +152,17 @@ function RegistryManagement() {
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <input 
             type="text" 
+            className="form-input"
             placeholder="Search by ID or Name..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', flex: 1, outline: 'none' }}
+            style={{ padding: '0.5rem 1rem', flex: 1 }}
           />
           <select 
+            className="form-input"
             value={statusFilter} 
             onChange={(e) => setStatusFilter(e.target.value)}
-            style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', outline: 'none', background: 'var(--bg-surface)' }}
+            style={{ padding: '0.5rem 1rem', background: 'var(--bg-surface)', width: 'auto', minWidth: '200px' }}
           >
             <option value="">All Statuses</option>
             <option value="Verified">Verified</option>
@@ -168,7 +170,7 @@ function RegistryManagement() {
             <option value="Unverified">Unverified</option>
           </select>
         </div>
-        <div className="glass-card" style={{ padding: 0 }}>
+        <div className="glass-card animate-float-in" style={{ padding: 0 }}>
           <table className="admin-table">
             <thead>
               <tr>

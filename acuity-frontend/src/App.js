@@ -9,6 +9,7 @@ import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
 import ResidentDashboard from './pages/ResidentDashboard';
 import SearchResults from './pages/SearchResults';
+import SearchSimulation from './pages/SearchSimulation';
 import FlaggedStores from './pages/FlaggedStores';
 import BusinessProfileView from './pages/BusinessProfileView';
 import ResidentProfile from './pages/ResidentProfile';
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         <Route index element={<LandingPage />} />
         <Route path="home" element={<ResidentDashboard />} />
         <Route path="search" element={<SearchResults />} />
+        <Route path="search-simulation" element={<SearchSimulation />} />
         <Route path="map" element={<MapPage />} />
 
         {/* Business Profiles & Wiki Editing */}

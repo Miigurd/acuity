@@ -92,7 +92,7 @@ const CardSlider = ({ children }) => {
       )}
 
       {/* Progress bar */}
-      <div style={{ height: '3px', borderRadius: '9999px', background: 'var(--bg-elevated)', marginTop: '6px', overflow: 'hidden' }}>
+      <div style={{ height: '3px', borderRadius: '9999px', background: 'var(--bg-elevated)', marginTop: '16px', overflow: 'hidden' }}>
         <div style={{
           height: '100%', borderRadius: '9999px',
           background: 'linear-gradient(90deg, var(--primary), var(--primary-light))',

@@ -3,10 +3,10 @@
 /* ================= LIGHT THEME (Admin Portal default) ================= */
 :root {
     /* Municipal Red Branding ported to uniform tokens */
-    --primary: #dc2626;
-    --primary-dark: #991b1b;
-    --primary-light: #ef4444;
-    --primary-glow: rgba(220, 38, 38, 0.2);
+    --primary: #d92d20;
+    --primary-dark: #b42318;
+    --primary-light: #f04438;
+    --primary-glow: rgba(217, 45, 32, 0.15);
 
     --secondary: #4F46E5;
     --secondary-dark: #4338CA;
@@ -20,15 +20,15 @@
     --bg-hover: #E2E8F0;
 
     --text-primary: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #94A3B8;
+    --text-secondary: #475467;
+    --text-muted: #64748B;
     --text-inverse: #F1F5F9;
 
     --border: rgba(15, 23, 42, 0.08);
     --border-strong: rgba(15, 23, 42, 0.15);
-    --success: #16A34A;
+    --success: #059669;
     --warning: #D97706;
-    --danger: #DC2626;
+    --danger: #d92d20;
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -53,9 +53,9 @@
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 2rem;
 
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
     --radius-xl: 24px;
     --radius-full: 9999px;
     
@@ -112,26 +112,65 @@ img {
 
 /* ================= UTILITIES ================= */
 .glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px) saturate(1.5);
-    -webkit-backdrop-filter: blur(20px) saturate(1.5);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-glass);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card {
-    background: var(--glass-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-    border-color: var(--border-strong);
+    border-color: rgba(255, 255, 255, 0.7);
     transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-float-in {
+    opacity: 0;
+    animation: floatIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+    animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-float-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    .animate-shake {
+        animation: none;
+    }
 }
 
 .btn-primary {
@@ -173,6 +212,24 @@ img {
     box-shadow: 0 4px 15px var(--primary-glow);
 }
 
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    background-color: var(--bg-base);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -180,15 +237,15 @@ img {
     padding: 4px 12px;
     border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 }
 
-.badge-primary { background: rgba(220, 38, 38, 0.15); color: var(--primary-light); }
-.badge-success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
-.badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-.badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.badge-primary { background: rgba(217, 45, 32, 0.1); color: var(--primary); }
+.badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.badge-danger { background: rgba(217, 45, 32, 0.1); color: var(--danger); }
 
 /* Data Tables inside Cards */
 .admin-table {

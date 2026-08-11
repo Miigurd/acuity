@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import '../styles/design-system.css';
 
 const ITExpertValidation = () => {
@@ -9,6 +10,21 @@ const ITExpertValidation = () => {
   });
   const [liveScore, setLiveScore] = useState(null);
   const [isExtracting, setIsExtracting] = useState(false);
+  const [tooltip, setTooltip] = useState({ visible: false, text: '', x: 0, y: 0 });
+
+  const showTooltip = (e, text) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltip({
+      visible: true,
+      text,
+      x: rect.left + rect.width / 2,
+      y: rect.top
+    });
+  };
+
+  const hideTooltip = () => {
+    setTooltip(prev => ({ ...prev, visible: false }));
+  };
 
   const handleExtract = async () => {
     setIsExtracting(true);
@@ -53,15 +69,22 @@ const ITExpertValidation = () => {
       const extracted = extractedStr.trim().toLowerCase();
       
       let tp = 0, fp = 0, fn = 0;
+      let interpretation = "";
       if (expected && extracted && expected === extracted) {
         tp = 1;
+        interpretation = "Perfect Match";
       } else if (expected && !extracted) {
         fn = 1;
+        interpretation = "Missed (False Negative)";
       } else if (!expected && extracted) {
         fp = 1;
+        interpretation = "Over-extraction (False Positive)";
       } else if (expected && extracted && expected !== extracted) {
         fp = 1;
         fn = 1;
+        interpretation = "Mismatch (Wrong extraction)";
+      } else {
+        interpretation = "Correctly Ignored";
       }
       
       totalTP += tp;
@@ -72,7 +95,7 @@ const ITExpertValidation = () => {
       const r = tp + fn === 0 ? 0 : tp / (tp + fn);
       const f1 = p + r === 0 ? 0 : 2 * (p * r) / (p + r);
       
-      return { entity: key, precision: p, recall: r, f1: f1, expected, extracted };
+      return { entity: key, precision: p, recall: r, f1: f1, expected, extracted, interpretation };
     });
     
     const microP = totalTP + totalFP === 0 ? 0 : totalTP / (totalTP + totalFP);
@@ -152,9 +175,30 @@ const ITExpertValidation = () => {
                 return (
                   <tr key={idx} style={{ borderBottom: '1px solid var(--border-color, #e5e7eb)' }}>
                     <td className="px-4 py-3 font-medium">{m.entity}</td>
-                    <td className="px-4 py-3">{m.precision.toFixed(2)}</td>
-                    <td className="px-4 py-3">{m.recall.toFixed(2)}</td>
-                    <td className="px-4 py-3 font-bold">{m.f1.toFixed(2)}</td>
+                    <td 
+                      className="px-4 py-3" 
+                      style={{cursor: 'help'}}
+                      onMouseEnter={(e) => showTooltip(e, `When guessing a ${m.entity}, the system is correct ${Math.round(m.precision * 100)}% of the time.`)}
+                      onMouseLeave={hideTooltip}
+                    >
+                      {m.precision.toFixed(2)}
+                    </td>
+                    <td 
+                      className="px-4 py-3"
+                      style={{cursor: 'help'}}
+                      onMouseEnter={(e) => showTooltip(e, `Out of all actual ${m.entity} mentions, the system catches ${Math.round(m.recall * 100)}% of them.`)}
+                      onMouseLeave={hideTooltip}
+                    >
+                      {m.recall.toFixed(2)}
+                    </td>
+                    <td 
+                      className="px-4 py-3 font-bold"
+                      style={{cursor: 'help'}}
+                      onMouseEnter={(e) => showTooltip(e, `Overall grade for ${m.entity} balancing accuracy and catch rate.`)}
+                      onMouseLeave={hideTooltip}
+                    >
+                      {m.f1.toFixed(2)}
+                    </td>
                     <td className="px-4 py-3" style={{ color: status.color, fontWeight: 'bold' }}>
                       {status.label}
                     </td>
@@ -251,6 +295,7 @@ const ITExpertValidation = () => {
                   <th className="px-4 py-3">Precision</th>
                   <th className="px-4 py-3">Recall</th>
                   <th className="px-4 py-3">F1-Score</th>
+                  <th className="px-4 py-3">Interpretation</th>
                 </tr>
               </thead>
               <tbody>
@@ -260,6 +305,7 @@ const ITExpertValidation = () => {
                     <td className="px-4 py-3">{s.precision.toFixed(2)}</td>
                     <td className="px-4 py-3">{s.recall.toFixed(2)}</td>
                     <td className="px-4 py-3 font-bold">{s.f1.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-sm text-muted">{s.interpretation}</td>
                   </tr>
                 ))}
               </tbody>
@@ -269,12 +315,49 @@ const ITExpertValidation = () => {
                   <td className="px-4 py-4 font-bold">{liveScore.microP.toFixed(2)}</td>
                   <td className="px-4 py-4 font-bold">{liveScore.microR.toFixed(2)}</td>
                   <td className="px-4 py-4 font-bold text-lg">{liveScore.microF1.toFixed(2)}</td>
+                  <td className="px-4 py-4"></td>
                 </tr>
               </tfoot>
             </table>
           </div>
         )}
       </div>
+
+      {/* Global Fixed Tooltip */}
+      {tooltip.visible && createPortal(
+        <div 
+          style={{ 
+            position: 'fixed',
+            zIndex: 99999,
+            top: `${tooltip.y - 10}px`, 
+            left: `${tooltip.x}px`,
+            transform: 'translate(-50%, -100%)',
+            whiteSpace: 'nowrap',
+            backgroundColor: '#1f2937', 
+            color: '#ffffff',
+            borderRadius: '6px',
+            padding: '8px 12px',
+            fontSize: '13px',
+            fontWeight: 'normal',
+            pointerEvents: 'none',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15)'
+          }}
+        >
+          {tooltip.text}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              borderWidth: '6px',
+              borderStyle: 'solid',
+              borderColor: '#1f2937 transparent transparent transparent'
+            }}
+          />
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

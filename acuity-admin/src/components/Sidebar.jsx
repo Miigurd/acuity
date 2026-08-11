@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { MdDashboard, MdListAlt, MdOutlineQueue, MdFlag, MdSecurity } from 'react-icons/md';
+import { MdDashboard, MdListAlt, MdOutlineQueue, MdFlag, MdSecurity, MdLogout } from 'react-icons/md';
+import { useAdminData } from '../context/AdminDataContext';
 
 const SidebarContainer = styled.aside`
   width: var(--sidebar-width);
@@ -64,7 +65,38 @@ const NavItem = styled(NavLink)`
   }
 `;
 
+const LogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  width: 100%;
+  text-align: left;
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin-top: auto;
+
+  svg {
+    margin-right: var(--spacing-4);
+    font-size: var(--font-size-xl);
+    opacity: 0.7;
+  }
+
+  &:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-hover);
+    svg { opacity: 1; color: var(--primary-light); }
+  }
+`;
+
 function Sidebar() {
+  const { logout } = useAdminData();
+
   return (
     <SidebarContainer>
       <SidebarHeader>
@@ -91,6 +123,11 @@ function Sidebar() {
           <MdSecurity />
           Held Edits
         </NavItem>
+        
+        <LogoutButton onClick={logout}>
+          <MdLogout />
+          Logout
+        </LogoutButton>
       </NavList>
     </SidebarContainer>
   );

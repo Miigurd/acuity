@@ -134,6 +134,33 @@ const LandingPage = () => {
     const [locB, setLocB] = useState(LANDMARKS[1].name);
     const [havDistance, setHavDistance] = useState(haversineDistance(LANDMARKS[0].latLng[0], LANDMARKS[0].latLng[1], LANDMARKS[1].latLng[0], LANDMARKS[1].latLng[1]));
 
+    // Extraction State
+    const [extText, setExtText] = useState("Looking for a reliable laundry shop near Brgy. Banay-Banay. Any recommendations?");
+    const [extractedEntities, setExtractedEntities] = useState(null);
+    const [isExtracting, setIsExtracting] = useState(false);
+
+    const handleExtract = async () => {
+        setIsExtracting(true);
+        try {
+            const res = await fetch('http://localhost:5000/api/extract', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: extText })
+            });
+            const data = await res.json();
+            setExtractedEntities({
+                business_name: data.business_name || [],
+                category: data.categories || [],
+                location: data.locations || []
+            });
+        } catch (e) {
+            console.error(e);
+            alert('Error connecting to backend API for extraction.');
+        } finally {
+            setIsExtracting(false);
+        }
+    };
+
     // Effect hooks to update math live
     useEffect(() => {
         setLevResult(levenshtein(levA, levB));
@@ -179,24 +206,24 @@ const LandingPage = () => {
                 </div>
 
                 <div className="container hero-content">
-                    <div className="hero-badge animate-fade-in-up">
+                    <div className="hero-badge animate-float-in">
                         <div className="pulse-dot"></div>
                         <span>Machine Learning × Community Impact</span>
                     </div>
 
-                    <h1 className="hero-title animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                    <h1 className="hero-title animate-float-in" style={{ animationDelay: '0.1s' }}>
                         Empowering Local<br />
                         Micro-Enterprises through<br />
                         <span className="gradient-text">Intelligent Discovery</span>
                     </h1>
 
-                    <p className="hero-subtitle animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <p className="hero-subtitle animate-float-in" style={{ animationDelay: '0.2s' }}>
                         Acuity bridges the digital divide for neighborhood businesses using recommendation
                         algorithms, helping sari-sari stores, home-based services, and local vendors
                         gain visibility within their residential communities.
                     </p>
 
-                    <div className="hero-cta animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                    <div className="hero-cta animate-float-in" style={{ animationDelay: '0.3s' }}>
                         <Link to="/home" className="btn btn-primary btn-lg">
                             Explore Directory <FiArrowRight />
                         </Link>
@@ -297,7 +324,7 @@ const LandingPage = () => {
                         <span className="badge badge-teal mb-4">Academic Validation</span>
                         <h2 className="section-heading">Algorithm Showcase</h2>
                         <p className="section-subtext" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                            Acuity is powered by three mathematical engines that work together to bridge the gap between unstructured social data and hyperlocal discovery.
+                            Acuity is powered by several mathematical engines and NLP pipelines that work together to bridge the gap between unstructured social data and hyperlocal discovery.
                         </p>
                     </div>
 
@@ -307,16 +334,19 @@ const LandingPage = () => {
                                 1. Levenshtein Distance
                             </button>
                             <button className={`algo-tab ${activeTab === 'tfidf' ? 'active' : ''}`} onClick={() => setActiveTab('tfidf')}>
-                                2. TF-IDF & Cosine Similarity
+                                2. TF-IDF & Cosine
                             </button>
                             <button className={`algo-tab ${activeTab === 'haversine' ? 'active' : ''}`} onClick={() => setActiveTab('haversine')}>
                                 3. Haversine Formula
+                            </button>
+                            <button className={`algo-tab ${activeTab === 'extraction' ? 'active' : ''}`} onClick={() => setActiveTab('extraction')}>
+                                4. Info Extraction (NER)
                             </button>
                         </div>
 
                         <div className="algo-content glass-card">
                             {activeTab === 'levenshtein' && (
-                                <div className="algo-panel animate-fade-in-up">
+                                <div className="algo-panel animate-float-in">
                                     <div className="algo-text">
                                         <h3>Levenshtein Distance</h3>
                                         <p>Used to verify informally extracted business names against the official municipal BPLO registry.</p>
@@ -382,7 +412,7 @@ const LandingPage = () => {
                             )}
 
                             {activeTab === 'tfidf' && (
-                                <div className="algo-panel animate-fade-in-up">
+                                <div className="algo-panel animate-float-in">
                                     <div className="algo-text">
                                         <h3>TF-IDF & Cosine Similarity</h3>
                                         <p>Transforms both user search queries and business descriptions into mathematical vectors to find the most contextually relevant services.</p>
@@ -417,7 +447,7 @@ const LandingPage = () => {
                             )}
 
                             {activeTab === 'haversine' && (
-                                <div className="algo-panel animate-fade-in-up">
+                                <div className="algo-panel animate-float-in">
                                     <div className="algo-text">
                                         <h3>Haversine Geographic Distance</h3>
                                         <p>Calculates the spherical Great-Circle distance between the resident's selected community landmark and the business's location.</p>
@@ -451,6 +481,58 @@ const LandingPage = () => {
                                                 <div className="globe-distance">d = {havDistance.toFixed(2)} km</div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'extraction' && (
+                                <div className="algo-panel animate-float-in">
+                                    <div className="algo-text">
+                                        <h3>Information Extraction (NER)</h3>
+                                        <p>Uses a custom Natural Language Processing pipeline to extract critical entities from unstructured community posts.</p>
+                                        <div className="algo-math">Entity Recognition</div>
+                                        <ul className="algo-list">
+                                            <li><FiCheckCircle className="text-teal" /> Extracts Business Names, Categories, and Locations.</li>
+                                            <li><FiCheckCircle className="text-teal" /> Uses heuristic matching and pattern recognition.</li>
+                                            <li><FiCheckCircle className="text-teal" /> Bridges unstructured text to structured database queries.</li>
+                                        </ul>
+                                    </div>
+                                    <div className="algo-visual flex-center" style={{ flexDirection: 'column' }}>
+                                        <textarea
+                                            className="form-control w-full p-3 border rounded mb-3"
+                                            rows="4"
+                                            placeholder="Paste a dummy community post here..."
+                                            value={extText}
+                                            onChange={(e) => setExtText(e.target.value)}
+                                            style={{ width: '100%', maxWidth: '350px', resize: 'none', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+                                        ></textarea>
+                                        <button 
+                                            className="btn btn-primary mb-4"
+                                            style={{ width: '100%', maxWidth: '350px' }}
+                                            onClick={handleExtract}
+                                            disabled={!extText || isExtracting}
+                                        >
+                                            {isExtracting ? 'Running Pipeline...' : 'Run Pipeline'}
+                                        </button>
+
+                                        {extractedEntities && (
+                                            <div className="card p-4 animate-float-in" style={{ width: '100%', maxWidth: '350px', background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}>
+                                                <h4 className="mb-3" style={{ color: 'var(--text-primary)', fontSize: '1.1rem', textAlign: 'center' }}>Extracted Entities</h4>
+                                                {['business_name', 'category', 'location'].map(key => {
+                                                    const val = Array.isArray(extractedEntities[key]) 
+                                                        ? extractedEntities[key].join(', ') 
+                                                        : (extractedEntities[key] || '');
+                                                    return (
+                                                        <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>
+                                                            <div style={{ color: 'var(--text-secondary)', textTransform: 'capitalize', fontSize: '0.85rem' }}>{key.replace('_', ' ')}</div>
+                                                            <div style={{ color: val ? 'var(--primary)' : 'var(--text-muted)', fontWeight: val ? 'bold' : 'normal', fontSize: '0.9rem', textAlign: 'right', flex: 1, marginLeft: '1rem' }}>
+                                                                {val || 'None'}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -497,7 +579,7 @@ const LandingPage = () => {
 
                         <div className="feed-preview">
                             {/* Mock Recommendation Cards */}
-                            <div className="rec-card glass-card animate-fade-in-up">
+                            <div className="rec-card glass-card animate-float-in">
                                 <div className="rec-header">
                                     <span className="rec-label">
                                         <FiZap /> Top Pick for Your Area
@@ -514,7 +596,7 @@ const LandingPage = () => {
                                 </div>
                             </div>
 
-                            <div className="rec-card glass-card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+                            <div className="rec-card glass-card animate-float-in" style={{ animationDelay: '0.15s' }}>
                                 <div className="rec-header">
                                     <span className="rec-label secondary">
                                         <FiUsers /> Community Favorite
@@ -531,7 +613,7 @@ const LandingPage = () => {
                                 </div>
                             </div>
 
-                            <div className="rec-card glass-card animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                            <div className="rec-card glass-card animate-float-in" style={{ animationDelay: '0.3s' }}>
                                 <div className="rec-header">
                                     <span className="rec-label">
                                         <FiSearch /> Matches "repair"

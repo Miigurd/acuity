@@ -3,10 +3,10 @@
 /* ================= DARK THEME ================= */
 [data-theme="dark"],
 :root[data-theme="dark"] {
-    --primary: #ef4444;
-    --primary-dark: #b91c1c;
-    --primary-light: #f87171;
-    --primary-glow: rgba(239, 68, 68, 0.3);
+    --primary: #f04438;
+    --primary-dark: #d92d20;
+    --primary-light: #f97066;
+    --primary-glow: rgba(240, 68, 56, 0.2);
 
     --secondary: #6366F1;
     --secondary-dark: #4F46E5;
@@ -26,9 +26,9 @@
 
     --border: rgba(148, 163, 184, 0.1);
     --border-strong: rgba(148, 163, 184, 0.2);
-    --success: #22C55E;
+    --success: #10b981;
     --warning: #F59E0B;
-    --error: #EF4444;
+    --error: #f04438;
 
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
@@ -46,10 +46,10 @@
 /* ================= LIGHT THEME (default) ================= */
 :root,
 [data-theme="light"] {
-    --primary: #dc2626;
-    --primary-dark: #991b1b;
-    --primary-light: #ef4444;
-    --primary-glow: rgba(220, 38, 38, 0.2);
+    --primary: #d92d20;
+    --primary-dark: #b42318;
+    --primary-light: #f04438;
+    --primary-glow: rgba(217, 45, 32, 0.15);
 
     --secondary: #4F46E5;
     --secondary-dark: #4338CA;
@@ -63,15 +63,15 @@
     --bg-hover: #E2E8F0;
 
     --text-primary: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #94A3B8;
+    --text-secondary: #475467;
+    --text-muted: #64748B;
     --text-inverse: #F1F5F9;
 
     --border: rgba(15, 23, 42, 0.08);
     --border-strong: rgba(15, 23, 42, 0.15);
-    --success: #16A34A;
+    --success: #059669;
     --warning: #D97706;
-    --error: #DC2626;
+    --error: #d92d20;
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -99,9 +99,9 @@
     --font-size-4xl: 2.5rem;
     --font-size-5xl: 3rem;
 
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
     --radius-xl: 24px;
     --radius-full: 9999px;
 
@@ -213,12 +213,12 @@ img {
 
 .glass-card {
     background: var(--glass-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    transition: background-color 0.4s ease, border-color 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
 }
 
 .flex {
@@ -459,16 +459,16 @@ select.input-field {
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
-    padding: var(--spacing-5);
+    padding: var(--spacing-6);
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     position: relative;
 }
 
 .card-interactive:hover {
-    border-color: var(--primary);
-    box-shadow: 0 8px 30px var(--primary-glow);
-    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
     cursor: pointer;
 }
 
@@ -514,36 +514,36 @@ select.input-field {
     padding: 4px 12px;
     border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
     gap: 4px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 }
 
 .badge-primary {
-    background: rgba(220, 38, 38, 0.15);
-    color: var(--primary-light);
+    background: rgba(217, 45, 32, 0.1);
+    color: var(--primary);
 }
 
 .badge-secondary {
-    background: rgba(99, 102, 241, 0.15);
-    color: #818CF8;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--secondary);
 }
 
 .badge-success {
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(16, 185, 129, 0.1);
     color: var(--success);
 }
 
 .badge-warning {
-    background: rgba(245, 158, 11, 0.15);
+    background: rgba(245, 158, 11, 0.1);
     color: var(--warning);
 }
 
 .badge-teal {
-    background: rgba(220, 38, 38, 0.1);
-    color: var(--primary);
-    border: 1px solid rgba(220, 38, 38, 0.2);
+    background: rgba(20, 184, 166, 0.1);
+    color: #0d9488;
+    border: 1px solid rgba(20, 184, 166, 0.15);
 }
 
 /* Light mode badge adjustments */

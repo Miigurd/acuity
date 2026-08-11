@@ -25,6 +25,9 @@ class AcuityConfig:
     bplo_registry_path: str = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "dummy_bplo.csv"))
     fuzzy_match_threshold_verified: float = 0.8
     fuzzy_match_threshold_pending: float = 0.6
+    
+    # Business Profile limits
+    max_flags_threshold: int = 3
 
 # Global default config instance
 default_config = AcuityConfig()

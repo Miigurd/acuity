@@ -37,10 +37,14 @@ python -m scraper.login
 # 4. Scrape community group posts
 python -m scraper.scraper <facebook-group-url>
 
-# 5. Run extraction pipeline
+# 5. Train the Machine Learning Model (Required for evaluators)
+# You MUST run this to generate the CRF model before the extraction pipeline can run
+python train_crf.py
+
+# 6. Run extraction pipeline
 python -m extraction.pipeline
 
-# 6. Launch web app
+# 7. Launch web app
 python -m webapp.app
 ```
 

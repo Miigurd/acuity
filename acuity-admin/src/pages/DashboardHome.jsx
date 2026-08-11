@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MdStore, MdWarning, MdPendingActions, MdCheckCircle, MdVisibility, MdTouchApp, MdTrendingUp } from 'react-icons/md';
+import { MdStore, MdWarning, MdPendingActions, MdCheckCircle, MdVisibility, MdTouchApp, MdTrendingUp, MdInfo, MdPhoneInTalk } from 'react-icons/md';
 
 const Grid = styled.div`
   display: grid;
@@ -8,6 +8,67 @@ const Grid = styled.div`
   gap: var(--spacing-6);
   margin-bottom: var(--spacing-8);
 `;
+
+const TooltipContainer = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  cursor: pointer;
+  color: var(--text-muted);
+  
+  &:hover {
+    color: var(--primary);
+  }
+`;
+
+const TooltipContent = styled.div`
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  background-color: var(--bg-elevated);
+  color: var(--text-secondary);
+  text-align: center;
+  border-radius: var(--radius-md);
+  padding: 10px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  font-weight: normal;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--bg-elevated) transparent transparent transparent;
+  }
+`;
+
+const InfoTooltip = ({ text }) => {
+  const [open, setOpen] = React.useState(false);
+  
+  return (
+    <TooltipContainer onClick={(e) => { e.stopPropagation(); setOpen(!open); }}>
+      <MdInfo size={16} />
+      {open && (
+        <React.Fragment>
+          <div 
+            style={{ position: 'fixed', inset: 0, zIndex: 99 }} 
+            onClick={(e) => { e.stopPropagation(); setOpen(false); }}
+          />
+          <TooltipContent onClick={(e) => e.stopPropagation()}>{text}</TooltipContent>
+        </React.Fragment>
+      )}
+    </TooltipContainer>
+  );
+};
 
 const StatCard = styled.div`
   padding: var(--spacing-6);
@@ -56,6 +117,7 @@ function DashboardHome() {
 
   let totalImpressions = 0;
   let totalClicks = 0;
+  let totalInquiries = 0;
   const businessesWithStats = registry.map(b => b.raw);
 
   const uniqueBusinesses = [];
@@ -73,6 +135,7 @@ function DashboardHome() {
     if (b.stats) {
       totalImpressions += (b.stats.impressions || 0);
       totalClicks += (b.stats.clicks || 0);
+      totalInquiries += (b.stats.inquiries || 0);
     }
   });
 
@@ -91,8 +154,8 @@ function DashboardHome() {
   return (
     <div>
       <Grid>
-        <StatCard className="glass-card">
-          <IconWrapper bg="rgba(220, 38, 38, 0.15)" color="var(--primary)" shadow="var(--primary-glow)">
+        <StatCard className="glass-card animate-float-in" style={{ animationDelay: '0ms' }}>
+          <IconWrapper bg="rgba(217, 45, 32, 0.1)" color="var(--primary)" shadow="var(--primary-glow)">
             <MdStore />
           </IconWrapper>
           <StatInfo>
@@ -101,8 +164,8 @@ function DashboardHome() {
           </StatInfo>
         </StatCard>
         
-        <StatCard className="glass-card">
-          <IconWrapper bg="rgba(245, 158, 11, 0.15)" color="var(--warning)" shadow="rgba(245, 158, 11, 0.2)">
+        <StatCard className="glass-card animate-float-in" style={{ animationDelay: '100ms' }}>
+          <IconWrapper bg="rgba(245, 158, 11, 0.1)" color="var(--warning)" shadow="rgba(245, 158, 11, 0.15)">
             <MdPendingActions />
           </IconWrapper>
           <StatInfo>
@@ -111,8 +174,8 @@ function DashboardHome() {
           </StatInfo>
         </StatCard>
 
-        <StatCard className="glass-card">
-          <IconWrapper bg="rgba(239, 68, 68, 0.15)" color="var(--error)" shadow="rgba(239, 68, 68, 0.2)">
+        <StatCard className="glass-card animate-float-in" style={{ animationDelay: '200ms' }}>
+          <IconWrapper bg="rgba(217, 45, 32, 0.1)" color="var(--danger)" shadow="rgba(217, 45, 32, 0.15)">
             <MdWarning />
           </IconWrapper>
           <StatInfo>
@@ -121,8 +184,8 @@ function DashboardHome() {
           </StatInfo>
         </StatCard>
         
-        <StatCard className="glass-card">
-          <IconWrapper bg="rgba(34, 197, 94, 0.15)" color="var(--success)" shadow="rgba(34, 197, 94, 0.2)">
+        <StatCard className="glass-card animate-float-in" style={{ animationDelay: '300ms' }}>
+          <IconWrapper bg="rgba(16, 185, 129, 0.1)" color="var(--success)" shadow="rgba(16, 185, 129, 0.15)">
             <MdCheckCircle />
           </IconWrapper>
           <StatInfo>
@@ -136,39 +199,61 @@ function DashboardHome() {
         <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 800, marginBottom: 'var(--spacing-4)', color: 'var(--text-primary)' }}>Business Analytics Dashboard</h2>
         
         <Grid>
-          <StatCard className="glass-card">
-            <IconWrapper bg="rgba(99, 102, 241, 0.15)" color="var(--secondary)" shadow="rgba(99, 102, 241, 0.2)">
+          <StatCard className="glass-card animate-float-in" style={{ animationDelay: '400ms' }}>
+            <IconWrapper bg="rgba(99, 102, 241, 0.1)" color="var(--secondary)" shadow="rgba(99, 102, 241, 0.15)">
               <MdVisibility />
             </IconWrapper>
             <StatInfo>
-              <span className="label">Total Search Impressions</span>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+                <span className="label" style={{ marginBottom: 0 }}>Total Search Impressions</span>
+                <InfoTooltip text="Total times businesses have appeared in search results." />
+              </div>
               <span className="value">{totalImpressions}</span>
             </StatInfo>
           </StatCard>
           
-          <StatCard className="glass-card">
-            <IconWrapper bg="rgba(34, 197, 94, 0.15)" color="var(--success)" shadow="rgba(34, 197, 94, 0.2)">
+          <StatCard className="glass-card animate-float-in" style={{ animationDelay: '500ms' }}>
+            <IconWrapper bg="rgba(16, 185, 129, 0.1)" color="var(--success)" shadow="rgba(16, 185, 129, 0.15)">
               <MdTouchApp />
             </IconWrapper>
             <StatInfo>
-              <span className="label">Total Profile Clicks</span>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+                <span className="label" style={{ marginBottom: 0 }}>Total Profile Clicks</span>
+                <InfoTooltip text="Total times users clicked on a business profile from search results." />
+              </div>
               <span className="value">{totalClicks}</span>
             </StatInfo>
           </StatCard>
 
-          <StatCard className="glass-card">
-            <IconWrapper bg="rgba(236, 72, 153, 0.15)" color="#ec4899" shadow="rgba(236, 72, 153, 0.2)">
+          <StatCard className="glass-card animate-float-in" style={{ animationDelay: '600ms' }}>
+            <IconWrapper bg="rgba(245, 158, 11, 0.1)" color="var(--warning)" shadow="rgba(245, 158, 11, 0.15)">
+              <MdPhoneInTalk />
+            </IconWrapper>
+            <StatInfo>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+                <span className="label" style={{ marginBottom: 0 }}>Total Inquiries</span>
+                <InfoTooltip text="Total times users clicked 'Call Now' or 'Message' to contact a business." />
+              </div>
+              <span className="value">{totalInquiries}</span>
+            </StatInfo>
+          </StatCard>
+
+          <StatCard className="glass-card animate-float-in" style={{ animationDelay: '700ms' }}>
+            <IconWrapper bg="rgba(236, 72, 153, 0.1)" color="#ec4899" shadow="rgba(236, 72, 153, 0.15)">
               <MdTrendingUp />
             </IconWrapper>
             <StatInfo>
-              <span className="label">Global Click-Through Rate</span>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+                <span className="label" style={{ marginBottom: 0 }}>Global Click-Through Rate</span>
+                <InfoTooltip text="Percentage of search impressions that result in a profile click." />
+              </div>
               <span className="value">{ctr}%</span>
             </StatInfo>
           </StatCard>
         </Grid>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'var(--spacing-6)' }}>
-          <div className="glass-card" style={{ padding: 'var(--spacing-6)' }}>
+          <div className="glass-card animate-float-in" style={{ padding: 'var(--spacing-6)', animationDelay: '800ms' }}>
             <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, marginBottom: 'var(--spacing-4)' }}>Top Searched Services</h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--font-size-sm)' }}>
               <thead>
@@ -188,7 +273,7 @@ function DashboardHome() {
             </table>
           </div>
 
-          <div className="glass-card" style={{ padding: 'var(--spacing-6)' }}>
+          <div className="glass-card animate-float-in" style={{ padding: 'var(--spacing-6)', animationDelay: '900ms' }}>
             <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, marginBottom: 'var(--spacing-4)' }}>Most Clicked Profiles</h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--font-size-sm)' }}>
               <thead>

@@ -1,0 +1,119 @@
+/* Vector Viz */
+.sim-vector-viz {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-left: 2px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .sim-vector-viz {
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.sim-vector-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom left;
+    width: 3px;
+    border-radius: 3px;
+}
+
+.sim-query-vector {
+    background: var(--primary);
+    height: 140px;
+    box-shadow: 0 0 8px var(--primary);
+}
+
+.sim-profile-vector {
+    background: var(--secondary);
+    height: 120px;
+    box-shadow: 0 0 8px var(--secondary);
+}
+
+.sim-vector-label {
+    position: absolute;
+    top: -25px;
+    left: -20px;
+    font-size: 0.7rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 3px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.sim-vector-angle {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+/* Haversine Globe */
+.sim-globe {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    margin: 0 auto;
+    background: radial-gradient(circle at 30% 30%, var(--bg-secondary), var(--bg-deep));
+    overflow: hidden;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.sim-globe-lat {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    transform: translateY(-50%);
+    opacity: 0.5;
+}
+
+.sim-globe-lon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: var(--border);
+    transform: translateX(-50%);
+    opacity: 0.5;
+}
+
+.sim-globe-pin {
+    position: absolute;
+    font-size: 0.9rem;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    white-space: nowrap;
+}
+
+.sim-globe-curve {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.sim-globe-distance {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 0.85rem;
+}

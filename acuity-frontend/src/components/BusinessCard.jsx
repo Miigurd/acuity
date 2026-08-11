@@ -14,36 +14,20 @@ const BusinessCard = ({ business, distance, recommended }) => {
     return (
         <Link
             to={`/business/${business.id}`}
-            style={{
-                display: 'block',
-                minWidth: '280px',
-                maxWidth: '340px',
-                textDecoration: 'none',
-                color: 'inherit',
-                boxShadow: 'var(--shadow-sm)', // Add a subtle default shadow
-            }}
-            className="biz-card-link card card-interactive"
+            onClick={() => trackEvent && trackEvent('business_click', { businessId: business.id, name: business.name })}
+            style={{ display: 'block', minWidth: '280px', maxWidth: '340px' }}
+            className="biz-card-link card glass-card animate-float-in card-interactive"
         >
             {/* Recommended Badge */}
             {recommended && !isFlagged && (
-                <div style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    fontSize: '0.7rem', fontWeight: 700, color: 'var(--primary)',
-                    background: 'rgba(220, 38, 38, 0.1)', padding: '4px 12px',
-                    borderRadius: '9999px', marginBottom: '10px',
-                }}>
+                <div className="badge badge-primary mb-3">
                     <FiZap size={12} /> Recommended for You
                 </div>
             )}
 
             {/* Flagged Badge */}
             {isFlagged && (
-                <div style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    fontSize: '0.7rem', fontWeight: 700, color: 'var(--danger)',
-                    background: 'rgba(239, 68, 68, 0.1)', padding: '4px 12px',
-                    borderRadius: '9999px', marginBottom: '10px', marginRight: '6px'
-                }}>
+                <div className="badge badge-danger mb-3 mr-2">
                     <FiAlertTriangle size={12} /> Community Warning
                 </div>
             )}
@@ -53,13 +37,8 @@ const BusinessCard = ({ business, distance, recommended }) => {
                 <div 
                     onMouseEnter={() => setShowXAI(true)}
                     onMouseLeave={() => setShowXAI(false)}
-                    style={{
-                        position: 'relative', display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        fontSize: '0.7rem', fontWeight: 700, color: 'var(--success)',
-                        background: 'rgba(34, 197, 94, 0.1)', padding: '4px 12px',
-                        borderRadius: '9999px', marginBottom: '10px', marginRight: '6px',
-                        cursor: 'help'
-                    }}
+                    className="badge badge-success mb-3 mr-2"
+                    style={{ position: 'relative', cursor: 'help' }}
                 >
                     Relevance: {Math.round((business.final_score || business.relevance_score) * 100)}% <FiInfo size={12} />
                     
@@ -67,24 +46,25 @@ const BusinessCard = ({ business, distance, recommended }) => {
                         <div style={{
                             position: 'absolute', top: '100%', left: '0', marginTop: '8px', zIndex: 50,
                             background: 'var(--bg-elevated)', border: '1px solid var(--border)',
-                            borderRadius: 'var(--radius-md)', padding: '12px', width: '240px',
+                            borderRadius: 'var(--radius-md)', padding: 'var(--spacing-4)', width: '240px',
                             boxShadow: '0 10px 25px rgba(0,0,0,0.3)', color: 'var(--text-primary)',
-                            fontSize: '0.75rem', fontWeight: 400, cursor: 'default'
+                            fontSize: 'var(--font-size-xs)', fontWeight: 400, cursor: 'default',
+                            whiteSpace: 'normal', textAlign: 'left'
                         }}>
-                            <h4 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '8px', color: 'var(--primary)' }}>AI Recommendation Breakdown</h4>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                            <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, marginBottom: 'var(--spacing-2)', color: 'var(--primary)' }}>AI Recommendation Breakdown</h4>
+                            <div className="flex justify-between mb-1">
                                 <span>Text Match (TF-IDF):</span>
-                                <strong>{Math.round(business.relevance_score * 100)}%</strong>
+                                <span className="font-bold">{Math.round(business.relevance_score * 100)}%</span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                            <div className="flex justify-between mb-2 text-secondary">
                                 <span>Proximity ({business.distance_km != null ? business.distance_km : 'N/A'} km):</span>
-                                <strong>{Math.round((business.proximity_score || 0) * 100)}%</strong>
+                                <span className="font-bold">{Math.round((business.proximity_score || 0) * 100)}%</span>
                             </div>
-                            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
+                            <div className="flex justify-between font-bold pt-2 mt-2" style={{ borderTop: '1px solid var(--border)' }}>
                                 <span>Final Score:</span>
                                 <span>{Math.round((business.final_score || business.relevance_score) * 100)}%</span>
                             </div>
-                            <div style={{ marginTop: '6px', fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                            <div className="text-muted mt-2" style={{ fontSize: '0.65rem' }}>
                                 Formula: (Text × 0.6) + (Proximity × 0.4)
                             </div>
                         </div>
@@ -93,60 +73,54 @@ const BusinessCard = ({ business, distance, recommended }) => {
             )}
 
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="flex justify-between items-start mb-3">
+                <div className="flex-1" style={{ minWidth: 0 }}>
                     <h3 style={{
-                        fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)',
-                        lineHeight: 1.3, marginBottom: '6px',
+                        fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--text-primary)',
+                        lineHeight: 1.3, marginBottom: 'var(--spacing-1)',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
                         {business.name}
                     </h3>
                     {category && (
-                        <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '4px',
-                            fontSize: '0.65rem', fontWeight: 600, color: 'var(--primary)',
-                            background: 'rgba(220, 38, 38, 0.1)', border: '1px solid rgba(220, 38, 38, 0.2)',
-                            padding: '3px 10px', borderRadius: '9999px',
-                        }}>
+                        <span className="badge badge-primary">
                             {category.icon} {category.name}
                         </span>
                     )}
                 </div>
                 <div style={{
                     width: '38px', height: '38px', borderRadius: 'var(--radius-md)',
-                    background: 'rgba(220, 38, 38, 0.08)', display: 'flex',
+                    background: 'rgba(217, 45, 32, 0.08)', display: 'flex',
                     alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                    color: 'var(--primary)', marginLeft: '10px',
+                    color: 'var(--primary)', marginLeft: 'var(--spacing-3)',
                 }}>
                     <FiArrowUpRight size={16} />
                 </div>
             </div>
 
             {/* Landmark Anchor instead of raw distance */}
-            <div style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                fontSize: '0.78rem', color: isFlagged ? 'var(--danger-light)' : 'var(--text-secondary)', fontWeight: 500, marginBottom: '8px',
+            <div className="flex items-center gap-2 mb-2" style={{
+                fontSize: 'var(--font-size-sm)', color: isFlagged ? 'var(--danger)' : 'var(--text-secondary)', fontWeight: 500
             }}>
-                <FiMapPin style={{ color: isFlagged ? 'var(--danger)' : 'var(--primary)', flexShrink: 0 }} size={13} />
+                <FiMapPin className={isFlagged ? 'text-danger' : 'text-primary'} style={{ flexShrink: 0 }} size={14} />
                 <span>{landmark ? `In ${landmark.name}` : 'Unspecified Area'}</span>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>·</span>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{business.locationType}</span>
+                <span className="text-muted">·</span>
+                <span className="text-muted">{business.locationType}</span>
             </div>
 
             {/* Description */}
-            <p style={{
-                fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '10px',
+            <p className="text-secondary mb-4" style={{
+                fontSize: 'var(--font-size-sm)', lineHeight: 1.6,
                 display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
             }}>
                 {business.description}
             </p>
 
             {/* Service Tags */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
+            <div className="flex flex-wrap gap-2 mb-4">
                 {business.services.slice(0, 3).map((service, idx) => (
                     <span key={idx} style={{
-                        fontSize: '0.65rem', padding: '3px 8px', borderRadius: '9999px',
+                        fontSize: 'var(--font-size-xs)', padding: '4px 10px', borderRadius: 'var(--radius-full)',
                         background: 'var(--bg-elevated)', color: 'var(--text-secondary)',
                         border: '1px solid var(--border)', fontWeight: 500,
                     }}>
@@ -155,7 +129,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
                 ))}
                 {business.services.length > 3 && (
                     <span style={{
-                        fontSize: '0.65rem', padding: '3px 8px', borderRadius: '9999px',
+                        fontSize: 'var(--font-size-xs)', padding: '4px 10px', borderRadius: 'var(--radius-full)',
                         background: 'var(--bg-elevated)', color: 'var(--text-muted)',
                         border: '1px solid var(--border)',
                     }}>
@@ -166,45 +140,31 @@ const BusinessCard = ({ business, distance, recommended }) => {
 
             {/* Footer */}
             {isFlagged ? (
-                <div style={{
-                    paddingTop: '10px', borderTop: '1px solid var(--border)',
-                    display: 'flex', flexDirection: 'column', gap: '4px'
-                }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--danger)' }}>
+                <div className="flex flex-col pt-3" style={{ borderTop: '1px solid var(--border)', gap: 'var(--spacing-1)' }}>
+                    <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--danger)' }}>
                         Flagged {business.flagCount} times. Reasons:
                     </span>
-                    <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                    <ul className="text-muted" style={{ margin: 0, paddingLeft: '16px', fontSize: 'var(--font-size-xs)' }}>
                         {business.flagReasons && [...new Set(business.flagReasons)].slice(0, 2).map((r, i) => (
                             <li key={i}>{r}</li>
                         ))}
                     </ul>
                 </div>
             ) : (
-                <div style={{
-                    paddingTop: '10px', borderTop: '1px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                }}>
-                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+                    <div className="flex flex-wrap items-center gap-2">
                         {business.verifiedContact && (
-                            <span style={{
-                                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                                fontSize: '0.65rem', fontWeight: 600, color: 'var(--success)',
-                                background: 'rgba(34, 197, 94, 0.1)', padding: '3px 8px', borderRadius: '9999px',
-                            }}>
-                                <FiCheckCircle size={11} /> Verified
+                            <span className="badge badge-success">
+                                <FiCheckCircle size={12} /> Verified
                             </span>
                         )}
                         {business.communityEngaged && (
-                            <span style={{
-                                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                                fontSize: '0.65rem', fontWeight: 600, color: 'var(--secondary)',
-                                background: 'rgba(99, 102, 241, 0.1)', padding: '3px 8px', borderRadius: '9999px',
-                            }}>
+                            <span className="badge badge-secondary">
                                 Community
                             </span>
                         )}
                     </div>
-                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--primary)' }}>
+                    <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--primary)' }}>
                         View →
                     </span>
                 </div>

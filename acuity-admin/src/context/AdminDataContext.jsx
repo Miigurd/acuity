@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { io } from 'socket.io-client';
 
 const AdminDataContext = createContext();
@@ -12,13 +12,39 @@ export const AdminDataProvider = ({ children }) => {
   const [flagged, setFlagged] = useState([]);
   const [heldEdits, setHeldEdits] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState(localStorage.getItem('admin_token'));
+
+  const login = (newToken) => {
+    localStorage.setItem('admin_token', newToken);
+    setToken(newToken);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('admin_token');
+    setToken(null);
+  };
+
+  const fetchWithAuth = useCallback(async (url, options = {}) => {
+    const headers = { ...options.headers };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(url, { ...options, headers });
+    
+    // Automatically logout if token expires
+    if (response.status === 401) {
+      logout();
+    }
+    
+    return response;
+  }, [token]);
+
 
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/businesses');
         if (response.ok) {
-          const data = await response.json();
+          const payload = await response.json();
+          const data = payload.data || payload;
           setRawData(data); // Retain exactly what was fetched for POSTing back later
           
           // Map extracted data to our table formats
@@ -39,14 +65,14 @@ export const AdminDataProvider = ({ children }) => {
             .filter(b => !(b.is_verified || b.status === 'Verified' || b.isVerified));
 
           // Fetch the real Verification Match Queue
-          const queueRes = await fetch('http://localhost:5000/api/bplo/queue');
+          const queueRes = await fetchWithAuth('http://localhost:5000/api/bplo/queue');
           if (queueRes.ok) {
              const queueData = await queueRes.json();
              setQueue(queueData);
           }
           
           // Fetch held edits
-          const heldRes = await fetch('http://localhost:5000/api/held-edits');
+          const heldRes = await fetchWithAuth('http://localhost:5000/api/held-edits');
           if (heldRes.ok) {
              const heldData = await heldRes.json();
              setHeldEdits(heldData);
@@ -70,20 +96,22 @@ export const AdminDataProvider = ({ children }) => {
             return commonReason;
           };
 
-          // Map real flagged businesses from payload
+          // Map real flagged businesses from payload (include both active and archived flags)
           const flaggedItems = data
             .map((b, index) => ({ ...b, originalIndex: index }))
-            .filter(b => b.flagCount && b.flagCount > 0);
+            .filter(b => (b.flagCount && b.flagCount > 0) || (b.allFlagCount && b.allFlagCount > 0) || b.flag_status === 'Archived' || b.flag_status === 'Restricted' || b.flag_status === 'Investigating');
             
           const mappedFlagged = flaggedItems
             .map((b, index) => ({
               id: `FLAG-${b.originalIndex + 500}`,
               name: b.name || b.business_name || 'Unknown',
               flags: b.flagCount,
+              allFlags: b.allFlagCount,
               reason: getMostCommonReason(b.flagReasons),
-              status: b.status || 'Under Review',
+              flag_status: b.flag_status || 'Flagged',
               raw: b,
-              originalIndex: b.originalIndex
+              originalIndex: b.originalIndex,
+              status_history: b.status_history || []
             }));
           setFlagged(mappedFlagged);
         }
@@ -107,11 +135,11 @@ export const AdminDataProvider = ({ children }) => {
     });
 
     return () => socket.disconnect();
-  }, []);
+  }, [token]);
 
   const approveQueueItem = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/bplo/queue/${id}/approve`, { method: 'POST' });
+      const res = await fetchWithAuth(`http://localhost:5000/api/bplo/queue/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
@@ -121,8 +149,9 @@ export const AdminDataProvider = ({ children }) => {
   };
 
   const rejectQueueItem = async (id) => {
+    if (!window.confirm("Are you sure you want to permanently reject this match?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/bplo/queue/${id}/reject`, { method: 'POST' });
+      const res = await fetchWithAuth(`http://localhost:5000/api/bplo/queue/${id}/reject`, { method: 'POST' });
       if (res.ok) {
         setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
@@ -131,7 +160,7 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
-  const removeFlaggedItem = async (id) => {
+  const archiveFlaggedItem = async (id) => {
     const item = flagged.find(f => f.id === id);
     if (!item) return;
     
@@ -139,11 +168,10 @@ export const AdminDataProvider = ({ children }) => {
     const updatedRaw = [...rawData];
 
     if (updatedRaw[targetIndex]) {
-      updatedRaw[targetIndex].flagCount = 0;
-      updatedRaw[targetIndex].flagReasons = [];
+      updatedRaw[targetIndex].flag_status = 'Archived';
       
       try {
-        await fetch('http://localhost:5000/api/businesses', {
+        await fetchWithAuth('http://localhost:5000/api/businesses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedRaw)
@@ -154,7 +182,8 @@ export const AdminDataProvider = ({ children }) => {
       setRawData(updatedRaw);
     }
     
-    setFlagged(prev => prev.filter(f => f.id !== id));
+    // An archived item is removed from the active flagged list in the frontend UI view
+    setFlagged(prev => prev.map(f => f.id === id ? { ...f, flag_status: 'Archived' } : f));
   };
 
   const investigateFlaggedItem = async (id) => {
@@ -165,10 +194,10 @@ export const AdminDataProvider = ({ children }) => {
     const updatedRaw = [...rawData];
 
     if (updatedRaw[targetIndex]) {
-      updatedRaw[targetIndex].status = 'Investigating';
+      updatedRaw[targetIndex].flag_status = 'Investigating';
       
       try {
-        await fetch('http://localhost:5000/api/businesses', {
+        await fetchWithAuth('http://localhost:5000/api/businesses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedRaw)
@@ -181,7 +210,37 @@ export const AdminDataProvider = ({ children }) => {
 
     setFlagged(prev => prev.map(f => {
       if (f.id === id) {
-        return { ...f, status: 'Investigating' };
+        return { ...f, flag_status: 'Investigating' };
+      }
+      return f;
+    }));
+  };
+
+  const restrictFlaggedItem = async (id) => {
+    const item = flagged.find(f => f.id === id);
+    if (!item) return;
+
+    const targetIndex = item.originalIndex;
+    const updatedRaw = [...rawData];
+
+    if (updatedRaw[targetIndex]) {
+      updatedRaw[targetIndex].flag_status = 'Restricted';
+      
+      try {
+        await fetchWithAuth('http://localhost:5000/api/businesses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedRaw)
+        });
+      } catch (err) {
+        console.error('Failed to sync to backend', err);
+      }
+      setRawData(updatedRaw);
+    }
+
+    setFlagged(prev => prev.map(f => {
+      if (f.id === id) {
+        return { ...f, flag_status: 'Restricted' };
       }
       return f;
     }));
@@ -189,7 +248,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const approveHeldEdit = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/held-edits/${id}/approve`, { method: 'POST' });
+      const res = await fetchWithAuth(`http://localhost:5000/api/held-edits/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setHeldEdits(prev => prev.filter(item => item.id !== id));
       }
@@ -200,7 +259,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const rejectHeldEdit = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/held-edits/${id}/reject`, { method: 'POST' });
+      const res = await fetchWithAuth(`http://localhost:5000/api/held-edits/${id}/reject`, { method: 'POST' });
       if (res.ok) {
         setHeldEdits(prev => prev.filter(item => item.id !== id));
       }
@@ -211,10 +270,11 @@ export const AdminDataProvider = ({ children }) => {
 
   return (
     <AdminDataContext.Provider value={{
+      token, login, logout, fetchWithAuth,
       registry, setRegistry,
       queue, approveQueueItem, rejectQueueItem,
       flagged, setFlagged, isLoading,
-      removeFlaggedItem, investigateFlaggedItem,
+      archiveFlaggedItem, investigateFlaggedItem, restrictFlaggedItem,
       heldEdits, approveHeldEdit, rejectHeldEdit
     }}>
       {children}
