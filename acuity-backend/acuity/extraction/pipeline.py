@@ -157,7 +157,7 @@ def _convert_to_frontend_format(profiles: list, start_id: int) -> list:
             "ownerId": None,
             "communityEngaged": False,
             "verifiedContact": False,
-            "status": profile.get("status", "Pending"),
+            "status": profile.get("status", "Unverified"),
             "is_verified": profile.get("is_verified", False),
             "isVerified": profile.get("is_verified", False),
             "verification_score": profile.get("verification_score", 0.0),
@@ -253,20 +253,17 @@ def run_pipeline(config: AcuityConfig | None = None):
         
     verifier.load_registry_from_list(registry_data)
     
-    # Verify and discard Unverified profiles
-    valid_profiles = []
+    # Verify all profiles (including Unverified)
     for p in profiles:
         name = p.get("business_name", "")
         result = verifier.verify(name)
-        if result["status"] in ("Verified", "Pending"):
-            p["status"] = result["status"]
-            p["is_verified"] = (result["status"] == "Verified")
-            p["verification_score"] = result["score"]
-            if result["match"]:
-                p["matched_registry_name"] = result["match"].get("name", result["match"].get("business_name"))
-            valid_profiles.append(p)
-
-    profiles = valid_profiles
+        p["status"] = result["status"]
+        p["is_verified"] = (result["status"] == "Verified")
+        p["verification_score"] = result["score"]
+        if result.get("match"):
+            p["matched_registry_name"] = result["match"].get("name", result["match"].get("business_name"))
+        else:
+            p["matched_registry_name"] = None
 
     # Save to the main processed file
     total_processed, appended_profiles = _append_to_json_file(output_path, profiles, dedup_key="business_name")

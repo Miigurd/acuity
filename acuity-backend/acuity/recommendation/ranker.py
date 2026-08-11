@@ -10,8 +10,8 @@ def rank_results(
     profiles: list[dict],
     cosine_scores: list[float],
     distances: list[float | None],
-    relevance_weight: float = 0.7,
-    proximity_weight: float = 0.3,
+    relevance_weight: float = 0.6,
+    proximity_weight: float = 0.4,
     top_k: int = 10,
 ) -> list[dict]:
     """Produce a ranked list of business profiles.
@@ -33,15 +33,13 @@ def rank_results(
     """
     scored: list[dict] = []
 
-    MAX_DISTANCE_KM = 15.0 # Max expected radius across the city
-
     for i, profile in enumerate(profiles):
         relevance = float(cosine_scores[i])
 
         dist = distances[i]
         if dist is not None:
-            # Absolute proximity score (1.0 = 0 km away, 0.0 = 15+ km away)
-            proximity_score = max(0.0, 1.0 - (dist / MAX_DISTANCE_KM))
+            # Inverse distance proximity score (1.0 = 0 km away, approaches 0 as dist increases)
+            proximity_score = 1.0 / (1.0 + dist)
         else:
             proximity_score = 0.0
 

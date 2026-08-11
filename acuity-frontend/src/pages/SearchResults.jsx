@@ -44,8 +44,7 @@ const SearchResults = () => {
       }
     };
     fetchRankings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialQuery, user.landmarkId]);
+  }, [initialQuery, user.landmarkId, getLandmarkById]);
 
   useEffect(() => {
     if (mockDataLoading || !rankedData) return;
