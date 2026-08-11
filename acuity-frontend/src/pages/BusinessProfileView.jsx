@@ -19,6 +19,7 @@ const BusinessProfileView = () => {
   const [showFlagSection, setShowFlagSection] = useState(false);
   const [flagReason, setFlagReason] = useState('');
   const [showFullMap, setShowFullMap] = useState(false);
+  const [claiming, setClaiming] = useState(false);
 
   useEffect(() => {
     if (showFullMap) {
@@ -75,6 +76,7 @@ const BusinessProfileView = () => {
 
   const handleFlagSubmit = () => {
     if (!flagReason) return;
+    if (!window.confirm("Are you sure you want to flag this business? This action cannot be undone.")) return;
     flagBusiness(business.id, flagReason);
     setShowFlagSection(false);
     setFlagReason('');
@@ -100,6 +102,27 @@ const BusinessProfileView = () => {
       } catch (error) {
         console.error("Error rolling back:", error);
       }
+    }
+  };
+
+  const handleClaim = async () => {
+    if (!window.confirm("Are you the owner? An SMS with a secure PIN will be sent to the phone number on this profile. You will need this PIN for future edits.")) return;
+    setClaiming(true);
+    try {
+      const response = await fetch(`http://localhost:5000/api/businesses/${business.id}/claim`, {
+        method: 'POST'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showToast(data.message, 'success');
+        setBusiness(prev => ({ ...prev, pin_locked: true }));
+      } else {
+        showToast(data.error || 'Failed to claim profile.', 'error');
+      }
+    } catch (err) {
+      showToast('Network error while claiming.', 'error');
+    } finally {
+      setClaiming(false);
     }
   };
 
@@ -167,7 +190,11 @@ const BusinessProfileView = () => {
         {/* Status Actions */}
         <div className="flex gap-4 mb-6 sticky top-[70px] z-10 bg-[--background] py-2 border-b border-[--border]">
           {((business.phones && business.phones.length > 0) || business.contact_info || business.contact) ? (
-            <a href={`tel:${(business.phones && business.phones.length > 0) ? business.phones[0] : (business.contact_info || business.contact)}`} className="flex-1 btn btn-primary flex justify-center py-4 text-base shadow-sm">
+            <a 
+              href={`tel:${(business.phones && business.phones.length > 0) ? business.phones[0] : (business.contact_info || business.contact)}`} 
+              onClick={() => trackEvent && trackEvent({ eventType: 'inquiry', businessName: business.name })}
+              className="flex-1 btn btn-primary flex justify-center py-4 text-base shadow-sm"
+            >
               <FiPhoneCall size={20} /> Call Now
             </a>
           ) : (
@@ -176,7 +203,13 @@ const BusinessProfileView = () => {
             </button>
           )}
           {business.facebookUrl ? (
-            <a href={business.facebookUrl} target="_blank" rel="noreferrer" className="flex-1 btn btn-outline flex justify-center py-4 text-base">
+            <a 
+              href={business.facebookUrl} 
+              target="_blank" 
+              rel="noreferrer" 
+              onClick={() => trackEvent && trackEvent({ eventType: 'inquiry', businessName: business.name })}
+              className="flex-1 btn btn-outline flex justify-center py-4 text-base"
+            >
               <FiMessageCircle size={20} /> Message
             </a>
           ) : (
@@ -187,10 +220,25 @@ const BusinessProfileView = () => {
         </div>
 
         {/* Community Actions Card */}
-        <div className="card flex justify-between items-center mb-6 shadow-sm">
+        <div className="card flex justify-between items-center mb-6 shadow-sm flex-wrap gap-4">
           <Link to={`/business/${business.id}/edit`} className="text-primary font-semibold flex items-center gap-2 hover:opacity-80 transition-opacity">
             <FiEdit2 /> Edit Profile
           </Link>
+          
+          {!business.pin_locked ? (
+            <button
+              onClick={handleClaim}
+              disabled={claiming}
+              className="text-success font-semibold flex items-center gap-2 hover:opacity-80 transition-opacity disabled:opacity-50"
+            >
+              <FiCheckCircle /> {claiming ? 'Claiming...' : 'Claim Profile'}
+            </button>
+          ) : (
+            <span className="text-muted font-semibold flex items-center gap-1" title="This profile is managed by its owner">
+              <FiCheckCircle /> Claimed
+            </span>
+          )}
+
           <button
             onClick={() => {
               setShowFlagSection(true);

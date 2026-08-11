@@ -34,7 +34,8 @@ const EditBusinessProfile = () => {
     communityEngaged: false,
     isOpen: true,
     landmarkId: '',
-    coordinates: { x: 50, y: 50 }
+    coordinates: { x: 50, y: 50 },
+    pin: ''
   });
 
   useEffect(() => {
@@ -103,7 +104,8 @@ const EditBusinessProfile = () => {
   };
 
 
-  const isValid = formData.name.trim() !== '' && formData.landmarkId !== '' && (formData.contact.trim() !== '' || formData.services.trim() !== '');
+  const isPhoneValid = !formData.contact.trim() || /^09\d{9}$/.test(formData.contact);
+  const isValid = formData.name.trim() !== '' && formData.landmarkId !== '' && (formData.contact.trim() !== '' || formData.services.trim() !== '') && isPhoneValid;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,7 +125,8 @@ const EditBusinessProfile = () => {
       phones: [formData.contact],
       hours: [formData.operatingHours],
       description: formData.description,
-      ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous')
+      ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous'),
+      pin: formData.pin
     };
 
     if (existingBusiness) {
@@ -161,13 +164,29 @@ const EditBusinessProfile = () => {
 
       <form onSubmit={handleSubmit} className="flex-col gap-6">
 
+        {existingBusiness && existingBusiness.pin_locked && (
+          <div style={{ background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', marginBottom: '1.5rem', position: 'relative' }}>
+            <h3 style={{ fontWeight: 700, color: '#d97706', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              🔒 Claimed Profile
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+              This profile is managed by its owner. If you are the owner and want to edit sensitive information (like the name or contact number), please enter your 6-digit secure PIN.
+            </p>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Owner PIN</label>
+              <input type="text" name="pin" placeholder="Enter PIN..." value={formData.pin} onChange={handleChange} style={{ width: '100%', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }} />
+            </div>
+          </div>
+        )}
+
         {/* Basic Info */}
         <div className="card">
           <h3 className="font-bold text-lg mb-4 border-b pb-2">Basic Information</h3>
 
           <div className="input-group">
             <label className="input-label">Business Name</label>
-            <input required type="text" name="name" className="input-field" value={formData.name} onChange={handleChange} />
+            <input required type="text" name="name" className="input-field" style={!formData.name.trim() ? { borderColor: 'rgba(239, 68, 68, 0.5)', backgroundColor: 'rgba(239, 68, 68, 0.05)' } : {}} value={formData.name} onChange={handleChange} />
+            {!formData.name.trim() && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Business Name is required.</span>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -206,7 +225,8 @@ const EditBusinessProfile = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="input-group">
               <label className="input-label">Contact Number</label>
-              <input required type="tel" name="contact" className="input-field" placeholder="09XX XXX XXXX" value={formData.contact} onChange={handleChange} />
+              <input required type="tel" name="contact" pattern="^09\d{9}$" title="Must be a valid 11-digit Philippine mobile number starting with 09" className={`input-field ${formData.contact.trim() && !/^09\d{9}$/.test(formData.contact) ? 'border-danger/50 bg-danger/5' : ''}`} placeholder="09XX XXX XXXX" value={formData.contact} onChange={handleChange} />
+              {formData.contact.trim() && !/^09\d{9}$/.test(formData.contact) && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Please enter a valid 11-digit number starting with 09.</span>}
             </div>
             <div className="input-group">
               <label className="input-label">Facebook Page / Link (Optional)</label>
@@ -223,6 +243,7 @@ const EditBusinessProfile = () => {
                   <option key={l.id} value={l.id}>{l.name}</option>
                 ))}
               </select>
+              {!formData.landmarkId && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Landmark is required.</span>}
               <p className="text-xs text-muted mt-1">Used to group businesses instead of specific GPS points.</p>
             </div>
           </div>
@@ -257,14 +278,19 @@ const EditBusinessProfile = () => {
           <h3 className="font-bold text-lg mb-2 flex items-center gap-2 text-primary">
             <FiAlertCircle /> Data Quality Check
           </h3>
-          <ul className="text-sm list-disc pl-5 text-secondary flex-col gap-1">
-            <li className={formData.name.trim() ? "text-success font-medium" : ""}>Must have a Business Name</li>
-            <li className={formData.landmarkId ? "text-success font-medium" : ""}>Must be anchored to a Landmark</li>
-            <li className={(formData.contact.trim() || formData.services.trim()) ? "text-success font-medium" : ""}>Must include either a Contact Number or list of Services</li>
+          <ul className="text-sm list-disc pl-5 flex-col gap-1">
+            <li style={{ fontWeight: 500, color: formData.name.trim() ? 'var(--success)' : 'var(--error)' }}>Must have a Business Name</li>
+            <li style={{ fontWeight: 500, color: formData.landmarkId ? 'var(--success)' : 'var(--error)' }}>Must be anchored to a Landmark</li>
+            <li style={{ fontWeight: 500, color: (formData.contact.trim() || formData.services.trim()) ? 'var(--success)' : 'var(--error)' }}>Must include either a Contact Number or list of Services</li>
           </ul>
         </div>
 
-        <button type="submit" disabled={!isValid} className="btn btn-primary btn-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        <button 
+          type="submit" 
+          disabled={!isValid} 
+          className="btn btn-primary btn-full py-4 text-lg"
+          style={!isValid ? { opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none', transform: 'none' } : {}}
+        >
           <FiSave /> Save Corrections
         </button>
       </form>

@@ -2,7 +2,7 @@ import json
 import re
 from datetime import datetime, timedelta
 from sqlalchemy.orm import selectinload
-from webapp.models import db, BusinessProfile, EditHistoryLog, HeldEdit, BusinessCategory, BusinessService, BusinessLocation, BusinessPrice, BusinessHour, BusinessPhone, BusinessStat, FlagLog
+from webapp.models import db, BusinessProfile, EditHistoryLog, HeldEdit, BusinessCategory, BusinessService, BusinessLocation, BusinessPrice, BusinessHour, BusinessPhone, BusinessStat, FlagLog, BusinessStatusHistory
 
 def format_business_name(name: str) -> str:
     if not name: return name
@@ -23,18 +23,84 @@ def get_base_query():
         selectinload(BusinessProfile.flags),
         selectinload(BusinessProfile.history_logs),
         selectinload(BusinessProfile.held_edits),
-        selectinload(BusinessProfile.verification_matches)
+        selectinload(BusinessProfile.verification_matches),
+        selectinload(BusinessProfile.status_history)
     )
+
+def expire_old_permits():
+    current_year = datetime.utcnow().year
+    expired_profiles = BusinessProfile.query.filter(
+        (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
+    ).filter(
+        BusinessProfile.last_verified_year < current_year
+    ).all()
+    
+    count = 0
+    for profile in expired_profiles:
+        profile.is_verified = False
+        profile.status = "Unverified"
+        count += 1
+        
+    if count > 0:
+        db.session.commit()
+    return count
 
 def get_business_by_id(business_id):
     profile = get_base_query().get(business_id)
     return profile.to_dict() if profile else None
 
 def get_all_businesses():
+    expire_old_permits()
     profiles = get_base_query().all()
     return [p.to_dict() for p in profiles]
 
+def get_paginated_businesses(page=1, limit=50):
+    expire_old_permits()
+    pagination = get_base_query().paginate(page=page, per_page=limit, error_out=False)
+    return {
+        "data": [p.to_dict() for p in pagination.items],
+        "total": pagination.total,
+        "pages": pagination.pages,
+        "current_page": pagination.page
+    }
+
 def update_businesses(data, ip_address):
+    # Pre-flight check for Layer 1 PIN and Hijacking
+    for b in data:
+        raw_name = b.get("name") or b.get("business_name")
+        if not raw_name: continue
+        name = format_business_name(raw_name)
+        biz_id = b.get("id")
+        profile = BusinessProfile.query.get(biz_id) if biz_id else BusinessProfile.query.filter_by(business_name=name).first()
+        
+        if profile:
+            sensitive_changed = False
+            if name != profile.business_name:
+                sensitive_changed = True
+            if "phones" in b and set(b["phones"]) != set(p.phone for p in profile.phones):
+                sensitive_changed = True
+            if "categories" in b and set(b["categories"]) != set(c.category for c in profile.categories):
+                sensitive_changed = True
+            if "services" in b and set(b["services"]) != set(s.service for s in profile.services):
+                sensitive_changed = True
+            if "categoryId" in b and b["categoryId"] and str(b["categoryId"]) != str(profile.category_id):
+                sensitive_changed = True
+                
+            if sensitive_changed:
+                if profile.pin_locked:
+                    provided_pin = b.get("pin") or b.get("owner_pin")
+                    if not provided_pin or str(provided_pin) != str(profile.owner_pin):
+                        return {"status": "error", "message": f"Invalid PIN for {name}. Sensitive edits rejected.", "code": 403}
+                else:
+                    held_edit = HeldEdit(
+                        business_id=profile.id,
+                        ip_address=ip_address,
+                        proposed_data=json.dumps(b)
+                    )
+                    db.session.add(held_edit)
+                    db.session.commit()
+                    return {"status": "held", "message": f"Sensitive edits to unclaimed profile {name} held for admin review.", "code": 202}
+    
     time_threshold = (datetime.utcnow() - timedelta(minutes=15)).isoformat()
     twenty_four_hours_ago = (datetime.utcnow() - timedelta(hours=24)).isoformat()
     
@@ -45,7 +111,7 @@ def update_businesses(data, ip_address):
         HeldEdit.status != 'Approved'
     ).count()
     
-    if blocked_count > 0:
+    if blocked_count >= 3:
         return {"status": "error", "message": "You have been temporarily blocked from editing for 24 hours due to suspicious activity.", "code": 429}
         
     # Normal 15-minute rate limit check
@@ -93,7 +159,28 @@ def update_businesses(data, ip_address):
         profile.description = b.get("description", profile.description)
         profile.address = b.get("address", profile.address)
         profile.contact_info = b.get("contact_info", profile.contact_info)
+        
         profile.status = b.get("status", profile.status)
+        
+        previous_flag_status = profile.flag_status
+        new_flag_status = b.get("flag_status", profile.flag_status)
+        
+        if new_flag_status != previous_flag_status:
+            history_entry = BusinessStatusHistory(
+                business_id=profile.id,
+                admin_id="Admin",
+                previous_status=previous_flag_status,
+                new_status=new_flag_status,
+                timestamp=datetime.utcnow().isoformat()
+            )
+            db.session.add(history_entry)
+            
+            if new_flag_status == "Archived":
+                flags = FlagLog.query.filter_by(business_id=profile.id).all()
+                for f in flags:
+                    f.is_archived = True
+                
+        profile.flag_status = new_flag_status
         profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
         profile.is_active = b.get("isActive", profile.is_active)
         profile.category_id = b.get("categoryId", profile.category_id)
@@ -114,9 +201,6 @@ def update_businesses(data, ip_address):
         if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"])
         if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"])
         if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"])
-        
-        if "flagCount" in b and b["flagCount"] == 0:
-            FlagLog.query.filter_by(business_id=profile.id).delete()
             
         if "stats" in b:
             stats_obj = b["stats"]
@@ -132,18 +216,31 @@ def update_businesses(data, ip_address):
         # Check if actual changes were made before creating a history log
         new_dict = profile.to_dict()
         if old_dict != new_dict:
-            history_log = EditHistoryLog(
-                business_id=profile.id,
-                timestamp=datetime.utcnow().isoformat(),
-                previous_data=json.dumps(old_dict),
-                ip_address=ip_address
-            )
-            db.session.add(history_log)
+            current_time = datetime.utcnow().isoformat()
+            profile.published_at = current_time
+            
+            # Check if this was an authoritative owner edit
+            is_owner_edit = False
+            if profile.pin_locked:
+                provided_pin = b.get("pin") or b.get("owner_pin")
+                if provided_pin and str(provided_pin) == str(profile.owner_pin):
+                    is_owner_edit = True
+                    
+            # Only log crowdsourced edits to the public history
+            if not is_owner_edit:
+                history_log = EditHistoryLog(
+                    business_id=profile.id,
+                    timestamp=current_time,
+                    previous_data=json.dumps(old_dict),
+                    ip_address=ip_address,
+                    published_at=current_time
+                )
+                db.session.add(history_log)
         
     db.session.commit()
     return {"status": "success", "message": "Business profiles successfully updated", "code": 200}
 
-def flag_business(name_to_flag, reason="Community Flag"):
+def flag_business(name_to_flag, reason="Community Flag", ip_address=None):
     name_to_flag = format_business_name(name_to_flag)
     profile = BusinessProfile.query.filter_by(business_name=name_to_flag).first()
     if not profile:
@@ -154,7 +251,7 @@ def flag_business(name_to_flag, reason="Community Flag"):
         db.session.add(profile)
         db.session.flush()
         
-    new_flag = FlagLog(business_id=profile.id, reason=reason)
+    new_flag = FlagLog(business_id=profile.id, reason=reason, ip_address=ip_address)
     db.session.add(new_flag)
         
     db.session.commit()

@@ -80,64 +80,66 @@ export const LANDMARKS = [
 const INITIAL_BUSINESSES = [];
 
 export const MockDataProvider = ({ children }) => {
-    const [businesses, setBusinesses] = useState(INITIAL_BUSINESSES);
-    const [isLoading, setIsLoading] = useState(true);
+    const [businesses, setBusinesses] = useState(() => {
+        const saved = localStorage.getItem('acuity_businesses');
+        return saved ? JSON.parse(saved) : INITIAL_BUSINESSES;
+    });
+    const [isLoading, setIsLoading] = useState(!localStorage.getItem('acuity_businesses'));
+    const [systemDown, setSystemDown] = useState(false);
     const categories = CATEGORIES;
     const landmarks = LANDMARKS;
 
     useEffect(() => {
-        const fetchBackendBusinesses = async () => {
+        const fetchBackendBusinesses = async (retries = 3) => {
             try {
-                // Fetch extracted business data from the backend
                 const response = await fetch('http://localhost:5000/api/businesses');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-
-                // Check if the data is already in frontend format (has .name instead of .business_name)
-                if (data.length > 0 && data[0].name !== undefined) {
-                    const verifiedData = data.filter(b => b.isVerified === true || b.status === 'Verified');
-                    if (verifiedData.length > 0) {
-                        setBusinesses(verifiedData);
-                    }
-                } else {
-                    // Filter raw extracted JSON from backend to only include verified records
-                    const verifiedRaw = data.filter(b => b.is_verified === true || b.status === 'Verified');
-
-                    // Map the verified backend JSON structure to the frontend structure
+                if (response.ok) {
+                    const payload = await response.json();
+                    const data = payload.data || payload;
+                    
+                    const verifiedRaw = data.filter(b => b.is_verified === true || b.status === 'Verified' || b.isVerified);
+                    
                     const mappedBusinesses = verifiedRaw.map((b, index) => {
                         return {
-                            id: `api-b${index}`,
-                            ownerId: null, // No owner mapped yet
+                            id: b.id || `api-b${index}`,
+                            ownerId: null,
                             name: b.name || b.business_name || 'Unknown Business',
-                            categoryId: b.categoryId || b.category_id || 'c7', // Fallback to 'Other Services' only if missing
+                            categoryId: b.categoryId || b.category_id || 'c7',
                             services: Array.isArray(b.categories) ? b.categories.filter(Boolean) : [],
                             locationType: 'Unknown',
-                            address: Array.isArray(b.locations) && b.locations.length > 0 ? b.locations.filter(Boolean).join(', ') : 'Address not extracted',
-                            landmarkId: null,
-                            contact: Array.isArray(b.phones) && b.phones.length > 0 ? b.phones.filter(Boolean).join(', ') : '',
+                            address: Array.isArray(b.locations) && b.locations.length > 0 ? b.locations.filter(Boolean).join(', ') : (b.address || 'Address not extracted'),
+                            landmarkId: b.landmarkId || b.landmark_id,
+                            contact: Array.isArray(b.phones) && b.phones.length > 0 ? b.phones.filter(Boolean).join(', ') : (b.contact_info || ''),
                             facebookUrl: '',
                             description: b.description || '',
                             operatingHours: Array.isArray(b.hours) && b.hours.length > 0 ? b.hours.filter(Boolean).join(', ') : 'Not available',
                             verifiedContact: false,
                             communityEngaged: false,
                             isActive: true,
-                            stats: { impressions: 0, inquiries: 0, created: new Date().toISOString().split('T')[0] },
+                            stats: b.stats || { impressions: 0, inquiries: 0, created: new Date().toISOString().split('T')[0] },
                             isOpen: true,
                             flagCount: b.flagCount || 0,
-                            flagReasons: b.flagReasons || []
+                            flagReasons: b.flagReasons || [],
+                            latitude: b.latitude,
+                            longitude: b.longitude
                         };
                     });
-
-                    // Append the mapped businesses to the existing INITIAL_BUSINESSES
-                    setBusinesses([...INITIAL_BUSINESSES, ...mappedBusinesses]);
+                    
+                    setBusinesses(mappedBusinesses);
+                    localStorage.setItem('acuity_businesses', JSON.stringify(mappedBusinesses));
+                    setSystemDown(false);
+                    setIsLoading(false);
+                } else {
+                    throw new Error(`Server responded with ${response.status}`);
                 }
             } catch (error) {
                 console.error("Failed to fetch backend businesses:", error);
-                // If backend is not reachable, just use initial businesses
-            } finally {
-                setIsLoading(false);
+                if (retries > 0) {
+                    setTimeout(() => fetchBackendBusinesses(retries - 1), 2000);
+                } else {
+                    setSystemDown(true);
+                    setIsLoading(false);
+                }
             }
         };
 
@@ -322,5 +324,14 @@ export const MockDataProvider = ({ children }) => {
         isLoading
     };
 
-    return <MockDataContext.Provider value={value}>{children}</MockDataContext.Provider>;
+    return (
+        <MockDataContext.Provider value={value}>
+            {systemDown && (
+                <div style={{ backgroundColor: 'var(--error)', color: 'white', padding: '0.75rem', textAlign: 'center', fontWeight: '500', zIndex: 9999, position: 'relative' }}>
+                    System Down: The backend API is unreachable. You are viewing cached data.
+                </div>
+            )}
+            {children}
+        </MockDataContext.Provider>
+    );
 };

@@ -28,12 +28,15 @@ def approve_held_edit(edit_id):
         return {"status": "error", "message": "Business not found", "code": 404}
 
     # Save current state to history log before applying changes
+    current_time = datetime.utcnow().isoformat()
+    profile.published_at = current_time
     old_state = json.dumps(profile.to_dict())
     history_log = EditHistoryLog(
         business_id=profile.id,
-        timestamp=datetime.utcnow().isoformat(),
+        timestamp=current_time,
         previous_data=old_state,
-        ip_address=edit.ip_address
+        ip_address=edit.ip_address,
+        published_at=current_time
     )
     db.session.add(history_log)
 
