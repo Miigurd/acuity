@@ -78,7 +78,7 @@ function VerificationQueue() {
       <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>Review profiles extracted by the system against the official BPLO registry.</p>
       
       {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : queue.length === 0 ? <p className="text-muted">No items in queue.</p> : queue.map(group => (
-        <QueueCard key={group.business_id} className="glass-card" style={{ flexDirection: 'column' }}>
+        <QueueCard key={group.business_id} className="glass-card animate-float-in" style={{ flexDirection: 'column' }}>
           <div style={{ display: 'flex', gap: 'var(--spacing-8)' }}>
             <ProfileSection divider style={{ flex: '0 0 300px' }}>
               <h4>Extracted Profile</h4>

@@ -2,57 +2,12 @@ import csv
 import re
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
 from sqlalchemy.orm import selectinload
+from webapp.utils import levenshtein_ratio, levenshtein_details
+from datetime import datetime
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
+from acuity.config import default_config
 
-def levenshtein_ratio(s1, s2):
-    if not s1 or not s2:
-        return 0.0
-    
-    rows = len(s1) + 1
-    cols = len(s2) + 1
-    distance = [[0 for _ in range(cols)] for _ in range(rows)]
-    
-    for i in range(1, rows):
-        distance[i][0] = i
-    for k in range(1, cols):
-        distance[0][k] = k
-        
-    for col in range(1, cols):
-        for row in range(1, rows):
-            cost = 0 if s1[row-1] == s2[col-1] else 1
-            distance[row][col] = min(
-                distance[row-1][col] + 1,      # Deletion
-                distance[row][col-1] + 1,      # Insertion
-                distance[row-1][col-1] + cost  # Substitution
-            )
-                                     
-    max_len = max(len(s1), len(s2))
-    return 1.0 - (distance[len(s1)][len(s2)] / max_len)
-
-def levenshtein_details(s1, s2):
-    if not s1 or not s2:
-        return {"score": 0.0, "edits": 0, "max_len": 0}
-    
-    rows = len(s1) + 1
-    cols = len(s2) + 1
-    distance = [[0 for _ in range(cols)] for _ in range(rows)]
-    
-    for i in range(1, rows):
-        distance[i][0] = i
-    for k in range(1, cols):
-        distance[0][k] = k
-        
-    for col in range(1, cols):
-        for row in range(1, rows):
-            cost = 0 if s1[row-1] == s2[col-1] else 1
-            distance[row][col] = min(
-                distance[row-1][col] + 1,
-                distance[row][col-1] + 1,
-                distance[row-1][col-1] + cost
-            )
-                                     
-    max_len = max(len(s1), len(s2))
-    edits = distance[len(s1)][len(s2)]
-    return {"score": 1.0 - (edits / max_len), "edits": edits, "max_len": max_len}
 
 def upload_bplo_csv(records, fieldnames):
     name_col = None
@@ -61,9 +16,6 @@ def upload_bplo_csv(records, fieldnames):
             name_col = col
             break
     
-    if not name_col:
-        name_col = fieldnames[0] if fieldnames else None
-        
     if not name_col:
         return {"status": "error", "message": "Could not identify business name column"}
         
@@ -107,6 +59,7 @@ def upload_bplo_csv(records, fieldnames):
         if profile_name in bplo_name_map:
             profile.is_verified = True
             profile.status = "Verified"
+            profile.last_verified_year = datetime.utcnow().year
             auto_verified += 1
             
             match_entry = VerificationMatch(
@@ -122,16 +75,17 @@ def upload_bplo_csv(records, fieldnames):
         
         for bplo_name in bplo_lower_names:
             score = levenshtein_ratio(profile_name, bplo_name)
-            if score >= 0.6:
+            if score >= default_config.fuzzy_match_threshold_pending:
                 matches_above_threshold.append((bplo_name, score))
         
         if matches_above_threshold:
             matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
             best_score = matches_above_threshold[0][1]
             
-            if best_score >= 0.8:
+            if best_score >= default_config.fuzzy_match_threshold_verified:
                 profile.is_verified = True
                 profile.status = "Verified"
+                profile.last_verified_year = datetime.utcnow().year
                 auto_verified += 1
                 
                 best_match = bplo_name_map[matches_above_threshold[0][0]]
@@ -152,6 +106,7 @@ def upload_bplo_csv(records, fieldnames):
                     db.session.add(match_entry)
                 profile.status = "Pending Verification"
                 queued += 1
+    # raise Exception("Simulated Database Crash!") # <-- ADD THIS LINE
                 
     db.session.commit()
     return {
@@ -217,6 +172,7 @@ def approve_bplo_match(match_id):
     profile = match.business
     profile.is_verified = True
     profile.status = "Verified"
+    profile.last_verified_year = datetime.utcnow().year
     
     VerificationMatch.query.filter(VerificationMatch.business_id == profile.id, VerificationMatch.id != match_id).delete()
     db.session.commit()

@@ -5,34 +5,8 @@ import csv
 import difflib
 from typing import List, Dict, Optional, Any
 from ..config import AcuityConfig, default_config
+from webapp.utils import levenshtein_ratio
 
-def levenshtein_ratio(s1: str, s2: str) -> float:
-    """Calculate 1-to-1 levenshtein ratio matching bplo_service.py"""
-    if not s1 or not s2:
-        return 0.0
-    
-    rows = len(s1) + 1
-    cols = len(s2) + 1
-    distance = [[0 for _ in range(cols)] for _ in range(rows)]
-    
-    for i in range(1, rows):
-        distance[i][0] = i
-    for k in range(1, cols):
-        distance[0][k] = k
-        
-    for col in range(1, cols):
-        for row in range(1, rows):
-            cost = 0 if s1[row-1] == s2[col-1] else 1
-            distance[row][col] = min(
-                distance[row-1][col] + 1,      # Deletion
-                distance[row][col-1] + 1,      # Insertion
-                distance[row-1][col-1] + cost  # Substitution
-            )
-                                     
-    max_len = max(len(s1), len(s2))
-    if max_len == 0:
-        return 1.0
-    return 1.0 - (distance[len(s1)][len(s2)] / max_len)
 
 
 class BPLOVerifier:
@@ -87,9 +61,10 @@ class BPLOVerifier:
         if best_score >= threshold_verified:
             status = "Verified"
         elif best_score >= threshold_pending:
-            status = "Pending"
+            status = "Pending Verification"
         else:
             status = "Unverified"
+            best_match = None
 
         return {
             "status": status,
