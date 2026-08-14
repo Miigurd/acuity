@@ -16,14 +16,6 @@ const slideIn = keyframes`
   }
 `;
 
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
 
 const ToastContainer = styled.div`
   position: fixed;

@@ -29,21 +29,21 @@ const MapResizer = () => {
     return null;
 };
 
-// Banay-Banay, Cabuyao center coordinates
-const BANAY_BANAY_CENTER = [14.2744, 121.1258];
-const DEFAULT_ZOOM = 16;
+// City of Cabuyao, Laguna Geographic Center
+const CABUYAO_CENTER = [14.2625, 121.1280];
+const DEFAULT_ZOOM = 13;
 
-// Custom teal pin icon
-const createCustomIcon = (color = '#dc2626', size = 28) => {
+// Custom Brand Pin Icon (Deep Navy & Hero Sky Blue)
+const createCustomIcon = (color = '#002991', size = 28) => {
     return L.divIcon({
         className: 'custom-map-pin',
         html: `<div style="
             width: ${size}px; height: ${size}px;
             background: ${color};
-            border: 3px solid white;
+            border: 2.5px solid white;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 3px 10px rgba(0, 41, 145, 0.35);
         "></div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size],
@@ -51,23 +51,9 @@ const createCustomIcon = (color = '#dc2626', size = 28) => {
     });
 };
 
-// User location pin (Distinct Purple)
-const userLocationIcon = createCustomIcon('#9333ea', 32);
+// User location pin (Distinct Cyan Glow)
+const userLocationIcon = createCustomIcon('#0288d1', 32);
 
-/**
- * Reusable OpenStreetMap component centered on Banay-Banay, Cabuyao
- *
- * Props:
- * - businesses: array of business objects with lat/lng or coordinates
- * - userLocation: { lat, lng } for the user's position
- * - onClusterClick: callback when a cluster pin is clicked
- * - selectedId: ID of the currently selected landmark/business
-
- * - height: CSS height (default '100%')
- * - interactive: allow pan/zoom (default true)
- * - zoom: initial zoom level
- * - showControls: show zoom controls (default true)
- */
 const BanayBanayMap = ({
     businesses = [],
     userLocation = null,
@@ -82,10 +68,10 @@ const BanayBanayMap = ({
     const { getLandmarkById } = useMockData();
 
     const toLatLng = (coords) => {
-        if (!coords) return BANAY_BANAY_CENTER;
+        if (!coords) return CABUYAO_CENTER;
         if (coords.lat && coords.lng) return [coords.lat, coords.lng];
-        const lat = BANAY_BANAY_CENTER[0] + ((50 - coords.y) / 50) * 0.004;
-        const lng = BANAY_BANAY_CENTER[1] + ((coords.x - 50) / 50) * 0.005;
+        const lat = CABUYAO_CENTER[0] + ((50 - coords.y) / 50) * 0.008;
+        const lng = CABUYAO_CENTER[1] + ((coords.x - 50) / 50) * 0.008;
         return [lat, lng];
     };
 
@@ -96,7 +82,6 @@ const BanayBanayMap = ({
             if (!acc[lid]) acc[lid] = [];
             acc[lid].push(business);
         } else {
-            // Support legacy generic marker if needed
             if (!acc['unknown']) acc['unknown'] = [];
             acc['unknown'].push(business);
         }
@@ -107,26 +92,25 @@ const BanayBanayMap = ({
         const landmark = getLandmarkById(lid);
         return {
             id: lid,
-            position: landmark ? landmark.latLng : (bizList[0].coordinates ? toLatLng(bizList[0].coordinates) : BANAY_BANAY_CENTER),
-            landmark: landmark || { id: 'unknown', name: 'Unspecified Area' },
+            position: landmark ? landmark.latLng : (bizList[0].coordinates ? toLatLng(bizList[0].coordinates) : CABUYAO_CENTER),
+            landmark: landmark || { id: 'unknown', name: 'City of Cabuyao Area' },
             businesses: bizList
         };
     });
 
     const userPos = userLocation
         ? toLatLng(userLocation)
-        : BANAY_BANAY_CENTER;
+        : CABUYAO_CENTER;
 
-    // Center the map on the first business cluster if available, else default
-    const mapCenter = clusterMarkers.length > 0 ? clusterMarkers[0].position : BANAY_BANAY_CENTER;
+    const mapCenter = clusterMarkers.length > 0 ? clusterMarkers[0].position : CABUYAO_CENTER;
 
     return (
-        <div style={{ height, width: '100%', borderRadius: 'var(--radius-lg)', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height, width: '100%', overflow: 'hidden', position: 'relative' }}>
             <MapContainer
                 center={mapCenter}
                 zoom={zoom}
                 style={{ height: '100%', width: '100%' }}
-                scrollWheelZoom={interactive}
+                scrollWheelZoom={false}
                 dragging={interactive}
                 zoomControl={showControls}
                 doubleClickZoom={interactive}
@@ -140,23 +124,25 @@ const BanayBanayMap = ({
                 />
 
                 {/* Barangay Boundaries Overlay */}
-                <GeoJSON 
-                    data={barangaysGeoJSON} 
-                    style={(feature) => ({
-                        color: feature.properties.id === selectedId ? '#dc2626' : 'transparent',
-                        weight: feature.properties.id === selectedId ? 3 : 0,
-                        opacity: feature.properties.id === selectedId ? 0.8 : 0,
-                        fillColor: feature.properties.id === selectedId ? '#ef4444' : 'transparent',
-                        fillOpacity: feature.properties.id === selectedId ? 0.2 : 0
-                    })}
-                />
+                {barangaysGeoJSON && (
+                    <GeoJSON 
+                        data={barangaysGeoJSON} 
+                        style={(feature) => ({
+                            color: feature.properties.id === selectedId ? '#002991' : '#60cdff',
+                            weight: feature.properties.id === selectedId ? 3 : 1,
+                            opacity: feature.properties.id === selectedId ? 0.9 : 0.4,
+                            fillColor: feature.properties.id === selectedId ? '#60cdff' : 'transparent',
+                            fillOpacity: feature.properties.id === selectedId ? 0.25 : 0
+                        })}
+                    />
+                )}
 
                 {/* User location marker */}
                 {userLocation && (
                     <Marker position={userPos} icon={userLocationIcon}>
                         <Popup>
-                            <div style={{ textAlign: 'center', fontWeight: 600, fontSize: '0.85rem' }}>
-                                📍 You are here
+                            <div style={{ textAlign: 'center', fontWeight: 700, fontSize: '0.85rem' }}>
+                                📍 Your Location (Cabuyao)
                             </div>
                         </Popup>
                     </Marker>
@@ -170,7 +156,7 @@ const BanayBanayMap = ({
                             key={`cluster-${id}`}
                             position={position}
                             icon={createCustomIcon(
-                                isSelected ? '#991b1b' : '#dc2626',
+                                isSelected ? '#001a61' : '#002991',
                                 isSelected ? 34 : 26
                             )}
                             eventHandlers={{
@@ -178,19 +164,19 @@ const BanayBanayMap = ({
                             }}
                         >
                             <Popup>
-                                <div style={{ minWidth: '180px' }}>
-                                    <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '4px' }}>
-                                        📍 In {landmark.name}
+                                <div style={{ minWidth: '190px' }}>
+                                    <div style={{ fontWeight: 800, fontSize: '0.92rem', marginBottom: '4px', color: 'var(--color-deep-navy)' }}>
+                                        📍 {landmark.name}
                                     </div>
-                                    <div style={{ fontSize: '0.75rem', color: '#64748B' }}>
-                                        {clusterBiz.length} business{clusterBiz.length > 1 ? 'es' : ''} here
+                                    <div style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '6px' }}>
+                                        {clusterBiz.length} registered micro-enterprise{clusterBiz.length > 1 ? 's' : ''}
                                     </div>
-                                    <ul style={{ paddingLeft: '16px', margin: '8px 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                    <ul style={{ paddingLeft: '16px', margin: '6px 0', fontSize: '0.8rem', color: 'var(--text-primary)' }}>
                                         {clusterBiz.slice(0, 3).map(b => (
-                                            <li key={b.id} style={{ marginBottom: '2px' }}>{b.name}</li>
+                                            <li key={b.id} style={{ marginBottom: '2px', fontWeight: 600 }}>{b.name}</li>
                                         ))}
                                         {clusterBiz.length > 3 && (
-                                            <li style={{ fontStyle: 'italic' }}>...and {clusterBiz.length - 3} more</li>
+                                            <li style={{ fontStyle: 'italic', color: 'var(--text-muted)' }}>...and {clusterBiz.length - 3} more</li>
                                         )}
                                     </ul>
                                 </div>
@@ -203,5 +189,5 @@ const BanayBanayMap = ({
     );
 };
 
-export { BANAY_BANAY_CENTER, DEFAULT_ZOOM };
+export { CABUYAO_CENTER, DEFAULT_ZOOM };
 export default BanayBanayMap;

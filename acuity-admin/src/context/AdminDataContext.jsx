@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 
 const AdminDataContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAdminData = () => useContext(AdminDataContext);
 
 export const AdminDataProvider = ({ children }) => {
@@ -48,7 +49,7 @@ export const AdminDataProvider = ({ children }) => {
           setRawData(data); // Retain exactly what was fetched for POSTing back later
           
           // Map extracted data to our table formats
-          const mappedRegistry = data.map((b, index) => ({
+          const mappedRegistry = data.map((b) => ({
             id: b.id,
             name: b.business_name || b.name || 'Unknown',
             owner: 'Unverified (Extracted)',
@@ -59,10 +60,7 @@ export const AdminDataProvider = ({ children }) => {
           }));
           setRegistry(mappedRegistry);
           
-          // Filter out already verified businesses for the Queue
-          const unverifiedData = data
-            .map((b, index) => ({ ...b, originalIndex: index })) // Track original position for the API POST
-            .filter(b => !(b.is_verified || b.status === 'Verified' || b.isVerified));
+
 
           // Fetch the real Verification Match Queue
           const queueRes = await fetchWithAuth('http://localhost:5000/api/bplo/queue');
@@ -102,7 +100,7 @@ export const AdminDataProvider = ({ children }) => {
             .filter(b => (b.flagCount && b.flagCount > 0) || (b.allFlagCount && b.allFlagCount > 0) || b.flag_status === 'Archived' || b.flag_status === 'Restricted' || b.flag_status === 'Investigating');
             
           const mappedFlagged = flaggedItems
-            .map((b, index) => ({
+            .map((b) => ({
               id: `FLAG-${b.originalIndex + 500}`,
               name: b.name || b.business_name || 'Unknown',
               flags: b.flagCount,
@@ -135,7 +133,7 @@ export const AdminDataProvider = ({ children }) => {
     });
 
     return () => socket.disconnect();
-  }, [token]);
+  }, [fetchWithAuth]);
 
   const approveQueueItem = async (id) => {
     try {

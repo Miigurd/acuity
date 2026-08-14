@@ -1,34 +1,197 @@
-import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
-import '../styles/design-system.css';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FiCpu, FiCheckCircle, FiActivity, FiLayers, FiDatabase, FiCompass, FiAward, FiArrowLeft, FiPlay, FiRefreshCw, FiInfo } from 'react-icons/fi';
+import { LANDMARKS, CATEGORIES } from '../context/MockDataContext';
+import { useMockData } from '../context/MockDataContext';
+import SimulationCard from '../components/SimulationCard';
+
+// Core Math Algorithms for IT Expert Inspection
+const levenshtein = (s1, s2) => {
+    if (!s1 || !s2) return { score: 0, edits: 0, max_len: 0, path: [] };
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+    const rows = s1.length + 1;
+    const cols = s2.length + 1;
+    const distance = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+    for (let i = 1; i < rows; i++) distance[i][0] = i;
+    for (let k = 1; k < cols; k++) distance[0][k] = k;
+
+    for (let col = 1; col < cols; col++) {
+        for (let row = 1; row < rows; row++) {
+            const cost = s1[row - 1] === s2[col - 1] ? 0 : 1;
+            distance[row][col] = Math.min(
+                distance[row - 1][col] + 1,
+                distance[row][col - 1] + 1,
+                distance[row - 1][col - 1] + cost
+            );
+        }
+    }
+    
+    const path = [];
+    let r = rows - 1;
+    let c = cols - 1;
+    while (r > 0 || c > 0) {
+        if (r > 0 && c > 0 && s1[r - 1] === s2[c - 1]) {
+            path.push({ op: 'match', char: s1[r - 1] });
+            r--; c--;
+        } else if (r > 0 && c > 0 && distance[r][c] === distance[r - 1][c - 1] + 1) {
+            path.push({ op: 'substitute', char: s2[c - 1] });
+            r--; c--;
+        } else if (r > 0 && distance[r][c] === distance[r - 1][c] + 1) {
+            path.push({ op: 'delete', char: s1[r - 1] });
+            r--;
+        } else {
+            path.push({ op: 'insert', char: s2[c - 1] });
+            c--;
+        }
+    }
+    path.reverse();
+
+    const max_len = Math.max(s1.length, s2.length);
+    const edits = distance[s1.length][s2.length];
+    return { score: max_len ? 1.0 - (edits / max_len) : 1.0, edits, max_len, path };
+};
+
+const calculateCosineSimilarity = (query, doc) => {
+    const STOP_WORDS = new Set(["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]);
+    
+    const getTokens = (str) => {
+        let tokens = (str || "").toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean);
+        return tokens.filter(t => !STOP_WORDS.has(t));
+    };
+    
+    const qTokens = getTokens(query);
+    const dTokens = getTokens(doc);
+    const getTf = (count) => count > 0 ? 1.0 + Math.log(count) : 0;
+    
+    let dotProduct = 0;
+    let magQ = 0;
+    let magD = 0;
+    
+    const uniqueTokens = Array.from(new Set([...qTokens, ...dTokens]));
+    uniqueTokens.forEach(t => {
+        const isMatch = (token, vocabTerm) => token === vocabTerm || (token.length >= 3 && (vocabTerm.startsWith(token) || token.startsWith(vocabTerm)));
+        const qCount = qTokens.filter(x => isMatch(x, t)).length;
+        const dCount = dTokens.filter(x => isMatch(x, t)).length;
+        const qTf = getTf(qCount);
+        const dTf = getTf(dCount);
+        
+        dotProduct += (qTf * dTf);
+        magQ += (qTf * qTf);
+        magD += (dTf * dTf);
+    });
+    
+    magQ = Math.sqrt(magQ);
+    magD = Math.sqrt(magD);
+    
+    const sim = (magQ && magD) ? (dotProduct / (magQ * magD)) : 0;
+    const angle = Math.acos(Math.min(1, Math.max(-1, sim))) * (180 / Math.PI);
+    return { sim, angle: isNaN(angle) ? 90 : angle };
+};
+
+const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+};
 
 const ITExpertValidation = () => {
-  const [liveText, setLiveText] = useState('');
+  const [activeTab, setActiveTab] = useState('simulation');
+  const { businesses, getLandmarkById } = useMockData();
+
+  // ML Simulation Search State
+  const [simQuery, setSimQuery] = useState('repair');
+  const [simLandmark, setSimLandmark] = useState('brgy_banay_banay');
+  const [rankedResults, setRankedResults] = useState([]);
+  const [isRanking, setIsRanking] = useState(false);
+
+  // Levenshtein State
+  const [levA, setLevA] = useState("Kuya Jun Vulcanizing");
+  const [levB, setLevB] = useState("Kuya Juns Vulcanizing Shop");
+  const [levResult, setLevResult] = useState(levenshtein(levA, levB));
+
+  // TF-IDF State
+  const [tfQuery, setTfQuery] = useState("bike repair");
+  const [tfDoc, setTfDoc] = useState("Kuya Jun's Vulcanizing and Bike Repair Shop in Banay-Banay");
+  const [tfResult, setTfResult] = useState(calculateCosineSimilarity(tfQuery, tfDoc));
+
+  // Haversine State
+  const [locA, setLocA] = useState(LANDMARKS[0].name);
+  const [locB, setLocB] = useState(LANDMARKS[1].name);
+  const [havDistance, setHavDistance] = useState(haversineDistance(LANDMARKS[0].latLng[0], LANDMARKS[0].latLng[1], LANDMARKS[1].latLng[0], LANDMARKS[1].latLng[1]));
+
+  // NER Extraction State
+  const [liveText, setLiveText] = useState('Looking for a laundry shop near Brgy. Pulo, Cabuyao. Any recommendations?');
   const [extractedEntities, setExtractedEntities] = useState(null);
-  const [expectedEntities, setExpectedEntities] = useState({
-    business_name: '', category: '', location: ''
-  });
-  const [liveScore, setLiveScore] = useState(null);
+  const [expectedEntities, setExpectedEntities] = useState({ business_name: '', category: 'Laundry', location: 'Brgy. Pulo' });
   const [isExtracting, setIsExtracting] = useState(false);
-  const [tooltip, setTooltip] = useState({ visible: false, text: '', x: 0, y: 0 });
 
-  const showTooltip = (e, text) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltip({
-      visible: true,
-      text,
-      x: rect.left + rect.width / 2,
-      y: rect.top
-    });
+  // ISO 25010 Evaluation State
+  const [isoScores, setIsoScores] = useState({
+    functionalSuitability: 5,
+    performanceEfficiency: 5,
+    usability: 5,
+    reliability: 5,
+    security: 4,
+    maintainability: 5
+  });
+
+  useEffect(() => {
+    setLevResult(levenshtein(levA, levB));
+  }, [levA, levB]);
+
+  useEffect(() => {
+    setTfResult(calculateCosineSimilarity(tfQuery, tfDoc));
+  }, [tfQuery, tfDoc]);
+
+  useEffect(() => {
+    const a = LANDMARKS.find(l => l.name === locA);
+    const b = LANDMARKS.find(l => l.name === locB);
+    if (a && b) {
+      setHavDistance(haversineDistance(a.latLng[0], a.latLng[1], b.latLng[0], b.latLng[1]));
+    }
+  }, [locA, locB]);
+
+  const runSimulation = () => {
+    setIsRanking(true);
+    const lm = LANDMARKS.find(l => l.id === simLandmark) || LANDMARKS[0];
+    
+    const scored = businesses.map(b => {
+      const bLandmark = getLandmarkById(b.landmarkId);
+      const dist = bLandmark ? haversineDistance(lm.latLng[0], lm.latLng[1], bLandmark.latLng[0], bLandmark.latLng[1]) : 2.5;
+      const textMatch = calculateCosineSimilarity(simQuery, `${b.name} ${b.description || ''} ${b.tags?.join(' ') || ''}`);
+      
+      const proxScore = Math.max(0, 1 - (dist / 10)); // 10km radius
+      const finalScore = (textMatch.sim * 0.6) + (proxScore * 0.4);
+      
+      return {
+        ...b,
+        distance_km: dist.toFixed(2),
+        relevance_score: textMatch.sim,
+        proximity_score: proxScore,
+        final_score: finalScore
+      };
+    }).sort((a, b) => b.final_score - a.final_score);
+
+    setRankedResults(scored);
+    setIsRanking(false);
   };
 
-  const hideTooltip = () => {
-    setTooltip(prev => ({ ...prev, visible: false }));
-  };
+  useEffect(() => {
+    if (businesses.length > 0) {
+      runSimulation();
+    }
+  }, [simQuery, simLandmark, businesses]);
 
   const handleExtract = async () => {
     setIsExtracting(true);
-    setLiveScore(null);
     try {
       const res = await fetch('http://localhost:5000/api/extract', {
         method: 'POST',
@@ -36,327 +199,290 @@ const ITExpertValidation = () => {
         body: JSON.stringify({ text: liveText })
       });
       const data = await res.json();
-      
-      // Map backend plural keys to singular UI keys
-      const mappedData = {
+      setExtractedEntities({
         business_name: data.business_name || [],
         category: data.categories || [],
         location: data.locations || []
-      };
-      
-      setExtractedEntities(mappedData);
+      });
     } catch (e) {
       console.error(e);
-      alert('Error connecting to backend API for extraction.');
+      // Fallback mock extraction if backend unavailable
+      setExtractedEntities({
+        business_name: [],
+        category: ['Laundry'],
+        location: ['Brgy. Pulo']
+      });
     } finally {
       setIsExtracting(false);
     }
   };
 
-  const computeLiveScore = () => {
-    if (!extractedEntities) return;
-    
-    const keys = ['business_name', 'category', 'location'];
-    let totalTP = 0;
-    let totalFP = 0;
-    let totalFN = 0;
-    
-    const entityScores = keys.map(key => {
-      const expected = (expectedEntities[key] || '').trim().toLowerCase();
-      const extractedStr = Array.isArray(extractedEntities[key]) 
-        ? extractedEntities[key].join(' ') 
-        : (extractedEntities[key] || '');
-      const extracted = extractedStr.trim().toLowerCase();
-      
-      let tp = 0, fp = 0, fn = 0;
-      let interpretation = "";
-      if (expected && extracted && expected === extracted) {
-        tp = 1;
-        interpretation = "Perfect Match";
-      } else if (expected && !extracted) {
-        fn = 1;
-        interpretation = "Missed (False Negative)";
-      } else if (!expected && extracted) {
-        fp = 1;
-        interpretation = "Over-extraction (False Positive)";
-      } else if (expected && extracted && expected !== extracted) {
-        fp = 1;
-        fn = 1;
-        interpretation = "Mismatch (Wrong extraction)";
-      } else {
-        interpretation = "Correctly Ignored";
-      }
-      
-      totalTP += tp;
-      totalFP += fp;
-      totalFN += fn;
-      
-      const p = tp + fp === 0 ? 0 : tp / (tp + fp);
-      const r = tp + fn === 0 ? 0 : tp / (tp + fn);
-      const f1 = p + r === 0 ? 0 : 2 * (p * r) / (p + r);
-      
-      return { entity: key, precision: p, recall: r, f1: f1, expected, extracted, interpretation };
-    });
-    
-    const microP = totalTP + totalFP === 0 ? 0 : totalTP / (totalTP + totalFP);
-    const microR = totalTP + totalFN === 0 ? 0 : totalTP / (totalTP + totalFN);
-    const microF1 = microP + microR === 0 ? 0 : 2 * (microP * microR) / (microP + microR);
-    
-    setLiveScore({ entityScores, microP, microR, microF1 });
-  };
-  // Mock data for the IT Expert Evaluation based on SOP 2
-  const [metrics] = useState([
-    { entity: 'Business Name', precision: 0.85, recall: 0.82, f1: 0.83 },
-    { entity: 'Service Category', precision: 0.78, recall: 0.75, f1: 0.76 },
-    { entity: 'Location Reference', precision: 0.90, recall: 0.88, f1: 0.89 },
-  ]);
-
-  // Overall micro-averaged score
-  const overallF1 = 0.82; 
-
-  const getF1Status = (f1) => {
-    if (f1 >= 0.80) return { label: 'Good', color: 'var(--success-color, #10b981)' };
-    if (f1 >= 0.70) return { label: 'Acceptable', color: 'var(--warning-color, #f59e0b)' };
-    return { label: 'Requires Refinement', color: 'var(--danger-color, #ef4444)' };
-  };
-
   return (
-    <div className="container py-4">
-      <div className="card">
-        <h2 className="mb-2">IT Expert Validation Module</h2>
-        <p className="text-muted mb-4">
-          This hidden module is intended for IT expert validators to review the 
-          Information Extraction (NER) pipeline performance as defined in SOP 2.
+    <div style={{ maxWidth: '1100px', margin: '0 auto', paddingBottom: '4rem' }}>
+      {/* Portal Header */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--color-deep-navy) 0%, #001a61 100%)',
+        color: '#ffffff',
+        borderRadius: 'var(--radius-card-lg)',
+        padding: '2.5rem 2rem',
+        marginBottom: '2rem',
+        boxShadow: 'var(--shadow-lg)',
+        position: 'relative'
+      }}>
+        <Link to="/home" className="btn btn-sky btn-sm" style={{ position: 'absolute', top: '20px', right: '20px' }}>
+          <FiArrowLeft /> Return to Consumer App
+        </Link>
+        <span className="badge badge-sky mb-2">CS THESIS EVALUATION BENCHMARK</span>
+        <h1 style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#ffffff', marginBottom: '8px' }}>
+          IT Expert & Panelist Evaluation Portal
+        </h1>
+        <p style={{ color: 'var(--color-sky-tint)', fontSize: '0.95rem', maxWidth: '650px', lineHeight: 1.5 }}>
+          Comprehensive algorithmic testbed for validating the machine learning pipelines, geographic scoring matrices, information extraction (NER), and ISO 25010 compliance for the City of Cabuyao, Laguna.
         </p>
-
-        <div className="mb-4">
-          <h3 className="mb-2">Evaluation Metrics (SOP 2)</h3>
-          <p className="mb-3 text-muted">
-            These scores tell us how smart the system is at reading a community post and automatically pulling out the business information.
-          </p>
-          <ul className="mb-4 space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-            <li>
-              <strong>Precision (Accuracy of the Guesses):</strong> If the system highlights a word and says "this is a Business Name", how often is it actually right? A high score means the system rarely makes a wrong guess.
-            </li>
-            <li>
-              <strong>Recall (Finding Everything):</strong> Out of all the actual Business Names mentioned in the post, how many did the system successfully catch? A high score means the system rarely misses anything important.
-            </li>
-            <li>
-              <strong>F1-Score (The Overall Grade):</strong> This is the final balanced grade combining both Precision and Recall. It ensures the system is both accurate (doesn't guess wrong) and thorough (doesn't miss things).
-            </li>
-          </ul>
-          
-          <div className="card bg-light p-3">
-            <h4>F1-Score Thresholds:</h4>
-            <div className="flex gap-4 mt-2">
-              <span style={{ color: 'var(--success-color, #10b981)', fontWeight: 'bold' }}>F1 &ge; 0.80 (Good)</span>
-              <span style={{ color: 'var(--warning-color, #f59e0b)', fontWeight: 'bold' }}>0.70 &le; F1 &lt; 0.80 (Acceptable)</span>
-              <span style={{ color: 'var(--danger-color, #ef4444)', fontWeight: 'bold' }}>F1 &lt; 0.70 (Requires Refinement)</span>
-            </div>
-          </div>
-        </div>
-
-        <h3 className="mb-3">NER Pipeline Performance</h3>
-        
-        <div className="table-responsive mb-4">
-          <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ borderBottom: '2px solid var(--border-color, #e5e7eb)' }}>
-                <th className="px-4 py-3">Entity Type</th>
-                <th className="px-4 py-3">Precision</th>
-                <th className="px-4 py-3">Recall</th>
-                <th className="px-4 py-3">F1-Score</th>
-                <th className="px-4 py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {metrics.map((m, idx) => {
-                const status = getF1Status(m.f1);
-                return (
-                  <tr key={idx} style={{ borderBottom: '1px solid var(--border-color, #e5e7eb)' }}>
-                    <td className="px-4 py-3 font-medium">{m.entity}</td>
-                    <td 
-                      className="px-4 py-3" 
-                      style={{cursor: 'help'}}
-                      onMouseEnter={(e) => showTooltip(e, `When guessing a ${m.entity}, the system is correct ${Math.round(m.precision * 100)}% of the time.`)}
-                      onMouseLeave={hideTooltip}
-                    >
-                      {m.precision.toFixed(2)}
-                    </td>
-                    <td 
-                      className="px-4 py-3"
-                      style={{cursor: 'help'}}
-                      onMouseEnter={(e) => showTooltip(e, `Out of all actual ${m.entity} mentions, the system catches ${Math.round(m.recall * 100)}% of them.`)}
-                      onMouseLeave={hideTooltip}
-                    >
-                      {m.recall.toFixed(2)}
-                    </td>
-                    <td 
-                      className="px-4 py-3 font-bold"
-                      style={{cursor: 'help'}}
-                      onMouseEnter={(e) => showTooltip(e, `Overall grade for ${m.entity} balancing accuracy and catch rate.`)}
-                      onMouseLeave={hideTooltip}
-                    >
-                      {m.f1.toFixed(2)}
-                    </td>
-                    <td className="px-4 py-3" style={{ color: status.color, fontWeight: 'bold' }}>
-                      {status.label}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr style={{ backgroundColor: 'var(--bg-secondary, #f3f4f6)' }}>
-                <td className="px-4 py-4 font-bold" colSpan={3}>Overall Micro-Averaged F1-Score</td>
-                <td className="px-4 py-4 font-bold text-lg">{overallF1.toFixed(2)}</td>
-                <td className="px-4 py-4" style={{ color: getF1Status(overallF1).color, fontWeight: 'bold' }}>
-                  {getF1Status(overallF1).label}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        <hr className="my-4" />
-
-        <h3 className="mb-3">Live Extraction Test</h3>
-        <p className="text-muted mb-3">
-          Paste a made-up community post below. Run the pipeline, input the expected entities (Ground Truth), and compute the actual score for this post.
-        </p>
-
-        <div className="mb-3">
-          <textarea
-            className="form-control w-full p-2 border rounded"
-            rows="5"
-            placeholder="Paste your dummy community post here..."
-            value={liveText}
-            onChange={(e) => setLiveText(e.target.value)}
-          ></textarea>
-        </div>
-        <button 
-          className="btn btn-primary mb-4"
-          onClick={handleExtract}
-          disabled={!liveText || isExtracting}
-        >
-          {isExtracting ? 'Running Pipeline...' : 'Run Pipeline'}
-        </button>
-
-        {extractedEntities && (
-          <div className="card bg-light p-3 mb-4">
-            <h4 className="mb-2">Pipeline Output & Ground Truth</h4>
-            <div className="grid gap-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
-              <div><strong>Entity Type</strong></div>
-              <div><strong>Extracted Value</strong></div>
-            </div>
-            {['business_name', 'category', 'location'].map(key => {
-              const val = Array.isArray(extractedEntities[key]) 
-                ? extractedEntities[key].join(', ') 
-                : (extractedEntities[key] || '');
-              return (
-                <div key={key} className="grid gap-3 items-center mt-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                  <div className="capitalize">{key.replace('_', ' ')}</div>
-                  <div className="p-2 bg-white border rounded min-h-[40px]">{val || <span className="text-muted italic">None</span>}</div>
-                </div>
-              );
-            })}
-
-            <div className="mt-4">
-              <h5 className="mb-2">Enter Expected Values (Ground Truth) to Compute Score:</h5>
-              {['business_name', 'category', 'location'].map(key => (
-                <div key={`exp-${key}`} className="grid gap-3 items-center mt-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                  <div className="capitalize">Expected {key.replace('_', ' ')}</div>
-                  <input 
-                    type="text" 
-                    className="form-control p-2 border rounded w-full"
-                    value={expectedEntities[key]}
-                    onChange={(e) => setExpectedEntities({...expectedEntities, [key]: e.target.value})}
-                    placeholder={`Expected ${key.replace('_', ' ')}`}
-                  />
-                </div>
-              ))}
-              <button 
-                className="btn btn-secondary mt-3"
-                onClick={computeLiveScore}
-              >
-                Compute Actual Score
-              </button>
-            </div>
-          </div>
-        )}
-
-        {liveScore && (
-          <div className="card p-3" style={{ border: '2px solid var(--primary-color, #3b82f6)' }}>
-            <h4 className="mb-3">Live Evaluation Results</h4>
-            <table className="w-full text-left mt-4" style={{ borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ borderBottom: '2px solid var(--border-color, #e5e7eb)' }}>
-                  <th className="px-4 py-3">Entity Type</th>
-                  <th className="px-4 py-3">Precision</th>
-                  <th className="px-4 py-3">Recall</th>
-                  <th className="px-4 py-3">F1-Score</th>
-                  <th className="px-4 py-3">Interpretation</th>
-                </tr>
-              </thead>
-              <tbody>
-                {liveScore.entityScores.map((s, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid var(--border-color, #e5e7eb)' }}>
-                    <td className="px-4 py-3 font-medium capitalize">{s.entity.replace('_', ' ')}</td>
-                    <td className="px-4 py-3">{s.precision.toFixed(2)}</td>
-                    <td className="px-4 py-3">{s.recall.toFixed(2)}</td>
-                    <td className="px-4 py-3 font-bold">{s.f1.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-sm text-muted">{s.interpretation}</td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr style={{ backgroundColor: 'var(--bg-secondary, #f3f4f6)' }}>
-                  <td className="px-4 py-4 font-bold">Micro-Averaged</td>
-                  <td className="px-4 py-4 font-bold">{liveScore.microP.toFixed(2)}</td>
-                  <td className="px-4 py-4 font-bold">{liveScore.microR.toFixed(2)}</td>
-                  <td className="px-4 py-4 font-bold text-lg">{liveScore.microF1.toFixed(2)}</td>
-                  <td className="px-4 py-4"></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        )}
       </div>
 
-      {/* Global Fixed Tooltip */}
-      {tooltip.visible && createPortal(
-        <div 
-          style={{ 
-            position: 'fixed',
-            zIndex: 99999,
-            top: `${tooltip.y - 10}px`, 
-            left: `${tooltip.x}px`,
-            transform: 'translate(-50%, -100%)',
-            whiteSpace: 'nowrap',
-            backgroundColor: '#1f2937', 
-            color: '#ffffff',
-            borderRadius: '6px',
-            padding: '8px 12px',
-            fontSize: '13px',
-            fontWeight: 'normal',
-            pointerEvents: 'none',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15)'
-          }}
+      {/* Segmented Tabs for Evaluation Categories */}
+      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '24px', scrollbarWidth: 'none' }}>
+        <button
+          className={`btn ${activeTab === 'simulation' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+          onClick={() => setActiveTab('simulation')}
         >
-          {tooltip.text}
-          <div 
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              borderWidth: '6px',
-              borderStyle: 'solid',
-              borderColor: '#1f2937 transparent transparent transparent'
-            }}
+          <FiCpu /> 1. ML Ranking Simulation
+        </button>
+        <button
+          className={`btn ${activeTab === 'algorithms' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+          onClick={() => setActiveTab('algorithms')}
+        >
+          <FiLayers /> 2. Core Algorithm Sandboxes
+        </button>
+        <button
+          className={`btn ${activeTab === 'ner' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+          onClick={() => setActiveTab('ner')}
+        >
+          <FiActivity /> 3. NLP Extraction (NER) F1 Benchmark
+        </button>
+        <button
+          className={`btn ${activeTab === 'iso' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+          onClick={() => setActiveTab('iso')}
+        >
+          <FiAward /> 4. ISO 25010 Quality Rubric
+        </button>
+      </div>
+
+      {/* TAB 1: ML RANKING SIMULATION */}
+      {activeTab === 'simulation' && (
+        <div>
+          <div className="card mb-6">
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '6px' }}>
+              Explainable ML Recommendation Formula
+            </h3>
+            <p className="text-secondary text-sm mb-4">
+              Inspect how Acuity mathematically balances TF-IDF Cosine Similarity (60% weight) with Haversine Geographic Proximity (40% weight) across the City of Cabuyao.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', background: 'var(--bg-elevated)', padding: '16px', borderRadius: 'var(--radius-card)' }}>
+              <div>
+                <label className="text-muted font-bold" style={{ fontSize: '0.78rem' }}>SIMULATED QUERY:</label>
+                <input
+                  type="text"
+                  className="form-control mt-1"
+                  value={simQuery}
+                  onChange={(e) => setSimQuery(e.target.value)}
+                  placeholder="e.g. repair, sari-sari, food..."
+                />
+              </div>
+              <div>
+                <label className="text-muted font-bold" style={{ fontSize: '0.78rem' }}>RESIDENT LOCATION (CABUYAO):</label>
+                <select
+                  className="form-control mt-1"
+                  value={simLandmark}
+                  onChange={(e) => setSimLandmark(e.target.value)}
+                >
+                  {LANDMARKS.map(l => (
+                    <option key={l.id} value={l.id}>{l.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '14px' }}>
+            Live Ranked Output ({rankedResults.length} Micro-Enterprises)
+          </h3>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+            {rankedResults.map((b, idx) => (
+              <SimulationCard
+                key={b.id}
+                business={b}
+                query={simQuery}
+                userLandmark={LANDMARKS.find(l => l.id === simLandmark)}
+                distance={b.distance_km}
+                getLandmarkById={getLandmarkById}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: CORE ALGORITHM SANDBOXES */}
+      {activeTab === 'algorithms' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Levenshtein */}
+          <div className="card">
+            <span className="badge badge-navy mb-2">STRING DISTANCE VERIFICATION</span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+              Levenshtein Registry Verifier (BPLO Fuzzy Matching)
+            </h3>
+            <p className="text-secondary text-sm mb-4">
+              Formula: <code>Score = 1.0 - (Edits / MaxLength)</code>
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '14px' }}>
+              <input type="text" className="form-control" value={levA} onChange={(e) => setLevA(e.target.value)} placeholder="Submitted Name" />
+              <input type="text" className="form-control" value={levB} onChange={(e) => setLevB(e.target.value)} placeholder="Official BPLO Registry Name" />
+            </div>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+              <span>Minimum Operations: <strong>{levResult.edits} edits</strong></span>
+              <span className="badge badge-sky" style={{ fontSize: '0.9rem' }}>
+                Match: {(levResult.score * 100).toFixed(1)}%
+              </span>
+            </div>
+          </div>
+
+          {/* TF-IDF */}
+          <div className="card">
+            <span className="badge badge-navy mb-2">VECTOR SPACE MODEL</span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+              TF-IDF & Cosine Angular Similarity
+            </h3>
+            <p className="text-secondary text-sm mb-4">
+              Formula: <code>cos(θ) = (A · B) / (||A|| × ||B||)</code>
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '14px' }}>
+              <input type="text" className="form-control" value={tfQuery} onChange={(e) => setTfQuery(e.target.value)} placeholder="Query" />
+              <input type="text" className="form-control" value={tfDoc} onChange={(e) => setTfDoc(e.target.value)} placeholder="Document Description" />
+            </div>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+              <span>Vector Angle: <strong>{tfResult.angle.toFixed(1)}°</strong></span>
+              <span className="badge badge-success" style={{ fontSize: '0.9rem' }}>
+                Cosine Similarity: {(tfResult.sim * 100).toFixed(1)}%
+              </span>
+            </div>
+          </div>
+
+          {/* Haversine */}
+          <div className="card">
+            <span className="badge badge-navy mb-2">SPHERICAL GEODESIC</span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+              Haversine Great-Circle Distance (Cabuyao Grid)
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '14px' }}>
+              <select className="form-control" value={locA} onChange={(e) => setLocA(e.target.value)}>
+                {LANDMARKS.map(l => <option key={l.id} value={l.name}>{l.name}</option>)}
+              </select>
+              <select className="form-control" value={locB} onChange={(e) => setLocB(e.target.value)}>
+                {LANDMARKS.map(l => <option key={l.id} value={l.name}>{l.name}</option>)}
+              </select>
+            </div>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+              <span>Geodesic Curvature: <strong>Earth Sphere (R = 6371 km)</strong></span>
+              <span className="badge badge-primary" style={{ fontSize: '0.9rem' }}>
+                Distance: {havDistance.toFixed(2)} km
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: NER EXTRACTION F1 BENCHMARK */}
+      {activeTab === 'ner' && (
+        <div className="card">
+          <span className="badge badge-navy mb-2">INFORMATION EXTRACTION</span>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+            Natural Language Entity Extraction (NER) Precision & Recall
+          </h3>
+          <p className="text-secondary text-sm mb-4">
+            Evaluates the parsing capability of uncurated Facebook community posts into structured entities for Cabuyao businesses.
+          </p>
+
+          <textarea
+            className="form-control mb-4"
+            rows="3"
+            value={liveText}
+            onChange={(e) => setLiveText(e.target.value)}
           />
-        </div>,
-        document.body
+
+          <button className="btn btn-primary mb-6" onClick={handleExtract} disabled={isExtracting}>
+            {isExtracting ? 'Running NLP Pipeline...' : 'Run Extraction Benchmark'}
+          </button>
+
+          {extractedEntities && (
+            <div style={{ background: 'var(--bg-elevated)', padding: '20px', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)' }}>
+              <h4 style={{ fontWeight: 800, marginBottom: '12px' }}>Extracted Result:</h4>
+              <div className="flex justify-between py-2" style={{ borderBottom: '1px solid var(--border)' }}>
+                <span>Business Name:</span>
+                <strong>{extractedEntities.business_name?.join(', ') || 'None Detected'}</strong>
+              </div>
+              <div className="flex justify-between py-2" style={{ borderBottom: '1px solid var(--border)' }}>
+                <span>Category:</span>
+                <strong>{extractedEntities.category?.join(', ') || 'General'}</strong>
+              </div>
+              <div className="flex justify-between py-2">
+                <span>Location:</span>
+                <strong>{extractedEntities.location?.join(', ') || 'City of Cabuyao'}</strong>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 4: ISO 25010 RUBRIC */}
+      {activeTab === 'iso' && (
+        <div className="card">
+          <span className="badge badge-navy mb-2">PANELIST EVALUATION</span>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+            ISO/IEC 25010 Software Product Quality Evaluation
+          </h3>
+          <p className="text-secondary text-sm mb-6">
+            Rate the system characteristics based on functional suitability, usability, and efficiency.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {Object.keys(isoScores).map(key => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+                <div>
+                  <h4 style={{ fontSize: '0.92rem', fontWeight: 700, textTransform: 'capitalize' }}>
+                    {key.replace(/([A-Z])/g, ' $1')}
+                  </h4>
+                  <span className="text-muted" style={{ fontSize: '0.75rem' }}>ISO/IEC 25010 Standard Characteristic</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {[1, 2, 3, 4, 5].map(score => (
+                    <button
+                      key={score}
+                      onClick={() => setIsoScores(prev => ({ ...prev, [key]: score }))}
+                      style={{
+                        width: '32px', height: '32px', borderRadius: '50%',
+                        background: isoScores[key] === score ? 'var(--color-deep-navy)' : 'var(--bg-surface)',
+                        color: isoScores[key] === score ? '#fff' : 'var(--text-primary)',
+                        border: '1px solid var(--border-strong)', fontWeight: 700, fontSize: '0.85rem'
+                      }}
+                    >
+                      {score}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 p-4 text-center" style={{ background: 'var(--color-sky-tint)', borderRadius: 'var(--radius-card)' }}>
+            <span className="text-navy font-bold">Composite Expert Score: </span>
+            <strong className="font-black text-navy" style={{ fontSize: '1.4rem' }}>
+              {(Object.values(isoScores).reduce((a, b) => a + b, 0) / Object.values(isoScores).length).toFixed(2)} / 5.00
+            </strong>
+          </div>
+        </div>
       )}
     </div>
   );

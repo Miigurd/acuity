@@ -12,7 +12,6 @@ import SearchResults from './pages/SearchResults';
 import SearchSimulation from './pages/SearchSimulation';
 import FlaggedStores from './pages/FlaggedStores';
 import BusinessProfileView from './pages/BusinessProfileView';
-import ResidentProfile from './pages/ResidentProfile';
 import EditBusinessProfile from './pages/EditBusinessProfile';
 import MapPage from './pages/MapPage';
 import ITExpertValidation from './pages/ITExpertValidation';
@@ -28,25 +27,22 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* Public Routes */}
+        {/* Public Open-Access Routes (No Account Required) */}
         <Route index element={<LandingPage />} />
         <Route path="home" element={<ResidentDashboard />} />
         <Route path="search" element={<SearchResults />} />
-        <Route path="search-simulation" element={<SearchSimulation />} />
         <Route path="map" element={<MapPage />} />
 
-        {/* Business Profiles & Wiki Editing */}
+        {/* Business Profiles & Community Wiki Editing */}
         <Route path="business/:id" element={<BusinessProfileView />} />
         <Route path="business/:id/edit" element={<EditBusinessProfile />} />
 
-        {/* Transparency Feature */}
+        {/* Community Transparency Safety Feature */}
         <Route path="flagged" element={<FlaggedStores />} />
 
-        {/* User Preferences */}
-        <Route path="profile" element={<ResidentProfile />} />
-
-        {/* IT Expert Validation Module (Hidden Route) */}
+        {/* IT Expert & Panelist Validation Hub */}
         <Route path="it-expert-validation" element={<ITExpertValidation />} />
+        <Route path="search-simulation" element={<ITExpertValidation />} />
 
         {/* Fallback */}
         <Route path="*" element={<Placeholder title="404 - Page Not Found" />} />
@@ -54,7 +50,6 @@ const AppRoutes = () => {
     </Routes>
   );
 };
-
 
 function App() {
   return (

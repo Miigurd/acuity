@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-db_path = r"c:\Users\Kirt Asia\.gemini\antigravity\scratch\acuity\acuity-backend\data\acuity.db"
+db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "acuity.db")
 conn = sqlite3.connect(db_path)
 c = conn.cursor()
 

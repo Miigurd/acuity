@@ -8,7 +8,7 @@ import { useToast } from '../context/ToastContext';
 const EditBusinessProfile = () => {
   const { user } = useAuth();
   const { id } = useParams();
-  const { categories, landmarks, updateBusiness } = useMockData();
+  const { categories, landmarks } = useMockData();
   const navigate = useNavigate();
   const { showToast } = useToast();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiAlertOctagon, FiArrowLeft, FiFlag } from 'react-icons/fi';
+import { FiAlertOctagon, FiArrowLeft, FiFlag, FiShield } from 'react-icons/fi';
 import { useMockData } from '../context/MockDataContext';
 import BusinessCard from '../components/BusinessCard';
 
@@ -9,18 +9,17 @@ const FlaggedStores = () => {
     const flaggedBusinesses = businesses.filter(b => b.flagCount && b.flagCount >= 3);
 
     return (
-        <div className="container py-8">
+        <div style={{ paddingBottom: '3rem' }}>
             <div className="flex items-center gap-4 mb-6">
-                <Link to="/" className="p-2 rounded-full hover:bg-[--bg-surface] text-[--text-secondary] transition-colors">
-                    <FiArrowLeft size={24} />
+                <Link to="/" className="btn btn-secondary btn-sm" style={{ padding: '8px 12px' }}>
+                    <FiArrowLeft size={18} /> Back
                 </Link>
                 <div>
-                    <h2 className="font-bold text-2xl flex items-center gap-2 text-danger">
-                        <FiAlertOctagon /> Community Flagged Stores
+                    <h2 className="font-black text-2xl flex items-center gap-2" style={{ color: 'var(--danger)', letterSpacing: '-0.02em' }}>
+                        <FiAlertOctagon /> Community Warning Registry
                     </h2>
                     <p className="text-secondary text-sm mt-1">
-                        These profiles have been reported by multiple residents as inaccurate, nonsensical, or invalid.
-                        They remain visible for transparency so you can exercise your own judgment.
+                        These profiles have received multiple community flags for inaccurate details, nonsensical descriptions, or invalid locations. They remain publicly visible for community transparency.
                     </p>
                 </div>
             </div>
@@ -28,15 +27,15 @@ const FlaggedStores = () => {
             {flaggedBusinesses.length === 0 ? (
                 <div className="card text-center py-12 flex-col items-center">
                     <div className="text-muted mb-4 opacity-50">
-                        <FiFlag size={48} />
+                        <FiShield size={48} style={{ color: 'var(--success)' }} />
                     </div>
-                    <h3 className="font-bold text-lg mb-2">No Flagged Profiles</h3>
-                    <p className="text-secondary text-sm">
-                        The community has not flagged any stores that reached the warning threshold.
+                    <h3 className="font-bold text-lg mb-2">No Flagged Stores</h3>
+                    <p className="text-secondary text-sm max-w-sm">
+                        All registered micro-enterprises currently meet community accuracy standards.
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '16px' }}>
                     {flaggedBusinesses.map(business => (
                         <BusinessCard key={business.id} business={business} />
                     ))}

@@ -178,8 +178,8 @@ function Login() {
       } else {
         setError(data.error || 'Invalid credentials');
       }
-    } catch (err) {
-      setError('Network connection error. Please try again.');
+    } catch {
+      setError('Network connection error. Please try again.');  
     } finally {
       setIsLoading(false);
     }

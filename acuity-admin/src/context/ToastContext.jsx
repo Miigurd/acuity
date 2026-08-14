@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 
 const ToastContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToast = () => useContext(ToastContext);
 
 const slideIn = keyframes`
@@ -16,14 +17,6 @@ const slideIn = keyframes`
   }
 `;
 
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
 
 const ToastContainer = styled.div`
   position: fixed;

@@ -70,7 +70,7 @@ const TooltipContainer = styled.div`
 import { useAdminData } from '../context/AdminDataContext';
 
 function VerificationQueueSimulation() {
-  const { queue, isLoading, approveQueueItem, rejectQueueItem } = useAdminData();
+  const { queue, isLoading } = useAdminData();
 
   return (
     <div>

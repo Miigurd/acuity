@@ -3,7 +3,27 @@ import { LANDMARKS } from './MockDataContext';
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+const defaultAuthContext = {
+    user: {
+        id: 'anonymous-resident',
+        name: 'Community Resident',
+        role: 'resident',
+        landmarkId: 'brgy_banay_banay',
+        location: { lat: 14.252638, lng: 121.128865 }
+    },
+    isAuthenticated: false,
+    isOwner: false,
+    isResident: true,
+    login: () => true,
+    register: () => true,
+    logout: () => {},
+    updateProfile: () => {}
+};
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    return context || defaultAuthContext;
+};
 
 // Standard Haversine formula for distance in km
 const haversine = (lat1, lon1, lat2, lon2) => {
@@ -37,13 +57,13 @@ const findNearestLandmark = (lat, lng) => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState({
         id: 'anonymous-resident',
-        name: 'Community Member',
+        name: 'Community Resident',
         role: 'resident',
-        landmarkId: 'brgy_banay_banay', // Default fallback
-        location: null // Will store {lat, lng} of assigned landmark
+        landmarkId: 'brgy_banay_banay',
+        location: { lat: 14.252638, lng: 121.128865 }
     });
 
-    // Automatically prompt for Geolocation and assign landmark
+    // Automatically assign nearest landmark via geolocation if permitted
     useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -60,9 +80,8 @@ export const AuthProvider = ({ children }) => {
                         }));
                     }
                 },
-                (error) => {
-                    console.log("Geolocation error or denied. Using default location.", error);
-                    // Use Banay-Banay default
+                () => {
+                    // Fallback to City of Cabuyao (Banay-Banay default)
                     const defaultLandmark = LANDMARKS.find(l => l.id === 'brgy_banay_banay');
                     if (defaultLandmark) {
                         setUser(prev => ({
@@ -71,56 +90,20 @@ export const AuthProvider = ({ children }) => {
                         }));
                     }
                 },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
             );
         }
     }, []);
 
-    const login = (email, password) => {
-        if (email.includes('owner')) {
-            setUser(prev => ({
-                ...prev,
-                id: 'owner-1',
-                name: 'Maria Clara',
-                email,
-                role: 'owner',
-                businessId: 'b1'
-            }));
-        } else {
-            setUser(prev => ({
-                ...prev,
-                id: 'res-1',
-                name: 'Juan Dela Cruz',
-                email,
-                role: 'resident'
-                // Maintain the assigned geolocation landmark instead of hardcoded
-            }));
-        }
-        return true;
-    };
-
-    const register = (userData) => {
-        setUser(prev => ({
-            ...prev,
-            id: `user-${Date.now()}`,
-            ...userData
-        }));
-        return true;
-    };
-
-    const logout = () => {
-        setUser(null);
-    };
-
     const value = {
         user,
-        isAuthenticated: !!user,
-        isOwner: user?.role === 'owner',
-        isResident: user?.role === 'resident',
-        login,
-        register,
-        logout,
-        updateProfile: (data) => setUser({ ...user, ...data })
+        isAuthenticated: false,
+        isOwner: false,
+        isResident: true,
+        login: () => true,
+        register: () => true,
+        logout: () => {},
+        updateProfile: (data) => setUser(prev => ({ ...prev, ...data }))
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
