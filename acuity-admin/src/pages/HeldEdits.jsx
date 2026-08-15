@@ -38,7 +38,7 @@ function HeldEdits() {
     <div>
       <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>Review profile edits held automatically by the rate limiter due to suspicious IP activity.</p>
       
-      <div className="glass-card animate-float-in" style={{ padding: 0 }}>
+      <div className="glass-card animate-float-in table-scroll" style={{ padding: 0 }}>
         <table className="admin-table">
           <thead>
             <tr>

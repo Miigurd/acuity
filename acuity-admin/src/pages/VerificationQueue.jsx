@@ -79,8 +79,8 @@ function VerificationQueue() {
       
       {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : queue.length === 0 ? <p className="text-muted">No items in queue.</p> : queue.map(group => (
         <QueueCard key={group.business_id} className="glass-card animate-float-in" style={{ flexDirection: 'column' }}>
-          <div style={{ display: 'flex', gap: 'var(--spacing-8)' }}>
-            <ProfileSection divider style={{ flex: '0 0 300px' }}>
+          <div className="queue-row">
+            <ProfileSection divider className="queue-section" style={{ flex: '0 0 300px' }}>
               <h4>Extracted Profile</h4>
               <p><strong className="text-secondary">Name:</strong> {group.extracted.name}</p>
               <div style={{ marginTop: '2rem' }}>
@@ -92,8 +92,8 @@ function VerificationQueue() {
               <h4>Ranked BPLO Matches</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
                 {group.matches.map((match, index) => (
-                  <div key={match.match_id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-                    <div>
+                  <div key={match.match_id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <div style={{ minWidth: 0 }}>
                       <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}><span style={{ color: 'var(--text-muted)', marginRight: '8px' }}>#{index + 1}</span>{match.registry.name}</p>
                       
                       <div style={{ marginTop: '0.5rem' }}>
@@ -115,7 +115,7 @@ function VerificationQueue() {
                       </div>
                     </div>
                     
-                    <button className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }} onClick={() => approveQueueItem(match.match_id)}>Approve Match</button>
+                    <button className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', flexShrink: 0 }} onClick={() => approveQueueItem(match.match_id)}>Approve Match</button>
                   </div>
                 ))}
               </div>

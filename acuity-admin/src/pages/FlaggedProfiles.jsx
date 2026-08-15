@@ -23,7 +23,7 @@ function FlaggedProfiles() {
     <div>
       <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>Manage business profiles flagged by the community for inaccuracies.</p>
       
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+      <div className="flex-wrap" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
         <button 
           onClick={() => setActiveTab('active')}
           className={`btn ${activeTab === 'active' ? 'btn-primary' : 'btn-outline'}`}
@@ -40,7 +40,7 @@ function FlaggedProfiles() {
         </button>
       </div>
 
-      <div className="glass-card animate-float-in" style={{ padding: 0 }}>
+      <div className="glass-card animate-float-in table-scroll" style={{ padding: 0 }}>
         <table className="admin-table">
           <thead>
             <tr>
@@ -101,7 +101,7 @@ function FlaggedProfiles() {
                   </td>
                 </tr>
                 {expandedRow === item.id && (
-                  <tr style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                  <tr style={{ backgroundColor: 'var(--bg-elevated)' }}>
                     <td colSpan="5" style={{ padding: '1rem' }}>
                       <div style={{ marginBottom: '0.5rem', fontWeight: 'bold' }}>Status History:</div>
                       {item.status_history && item.status_history.length > 0 ? (

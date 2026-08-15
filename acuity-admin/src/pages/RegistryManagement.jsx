@@ -8,12 +8,22 @@ const HeaderActions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-4);
   margin-bottom: var(--spacing-6);
 
   h2 {
     font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--text-primary);
+  }
+
+  @media (max-width: 752px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    h2 {
+      font-size: var(--font-size-xl);
+    }
   }
 `;
 
@@ -137,7 +147,7 @@ function RegistryManagement() {
             onChange={handleFileUpload} 
           />
           <button 
-            className="btn btn-primary" 
+            className="btn btn-primary full-width-mobile" 
             onClick={() => document.getElementById('bplo-upload').click()}
             disabled={isUploading}
             style={{ opacity: isUploading ? 0.7 : 1, cursor: isUploading ? 'not-allowed' : 'pointer' }}
@@ -149,7 +159,7 @@ function RegistryManagement() {
 
       {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
       <>
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <div className="stack-mobile" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <input 
             type="text" 
             className="form-input"
@@ -170,7 +180,7 @@ function RegistryManagement() {
             <option value="Unverified">Unverified</option>
           </select>
         </div>
-        <div className="glass-card animate-float-in" style={{ padding: 0 }}>
+        <div className="glass-card animate-float-in table-scroll" style={{ padding: 0 }}>
           <table className="admin-table">
             <thead>
               <tr>

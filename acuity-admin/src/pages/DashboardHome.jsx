@@ -4,9 +4,14 @@ import { MdStore, MdWarning, MdPendingActions, MdCheckCircle, MdVisibility, MdTo
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-6);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-5);
   margin-bottom: var(--spacing-8);
+
+  @media (max-width: 752px) {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-4);
+  }
 `;
 
 const TooltipContainer = styled.div`
@@ -155,7 +160,7 @@ function DashboardHome() {
     <div>
       <Grid>
         <StatCard className="glass-card animate-float-in" style={{ animationDelay: '0ms' }}>
-          <IconWrapper bg="rgba(217, 45, 32, 0.1)" color="var(--primary)" shadow="var(--primary-glow)">
+          <IconWrapper bg="rgba(0, 41, 145, 0.1)" color="var(--primary)" shadow="var(--primary-glow)">
             <MdStore />
           </IconWrapper>
           <StatInfo>
@@ -165,7 +170,7 @@ function DashboardHome() {
         </StatCard>
         
         <StatCard className="glass-card animate-float-in" style={{ animationDelay: '100ms' }}>
-          <IconWrapper bg="rgba(245, 158, 11, 0.1)" color="var(--warning)" shadow="rgba(245, 158, 11, 0.15)">
+          <IconWrapper bg="rgba(217, 119, 6, 0.1)" color="var(--warning)" shadow="rgba(217, 119, 6, 0.15)">
             <MdPendingActions />
           </IconWrapper>
           <StatInfo>
@@ -175,7 +180,7 @@ function DashboardHome() {
         </StatCard>
 
         <StatCard className="glass-card animate-float-in" style={{ animationDelay: '200ms' }}>
-          <IconWrapper bg="rgba(217, 45, 32, 0.1)" color="var(--danger)" shadow="rgba(217, 45, 32, 0.15)">
+          <IconWrapper bg="rgba(220, 38, 38, 0.1)" color="var(--danger)" shadow="rgba(220, 38, 38, 0.15)">
             <MdWarning />
           </IconWrapper>
           <StatInfo>
@@ -185,7 +190,7 @@ function DashboardHome() {
         </StatCard>
         
         <StatCard className="glass-card animate-float-in" style={{ animationDelay: '300ms' }}>
-          <IconWrapper bg="rgba(16, 185, 129, 0.1)" color="var(--success)" shadow="rgba(16, 185, 129, 0.15)">
+          <IconWrapper bg="rgba(5, 150, 105, 0.1)" color="var(--success)" shadow="rgba(5, 150, 105, 0.15)">
             <MdCheckCircle />
           </IconWrapper>
           <StatInfo>
@@ -252,7 +257,7 @@ function DashboardHome() {
           </StatCard>
         </Grid>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'var(--spacing-6)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--spacing-6)' }}>
           <div className="glass-card animate-float-in" style={{ padding: 'var(--spacing-6)', animationDelay: '800ms' }}>
             <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, marginBottom: 'var(--spacing-4)' }}>Top Searched Services</h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--font-size-sm)' }}>

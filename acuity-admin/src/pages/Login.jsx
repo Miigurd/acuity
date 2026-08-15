@@ -27,6 +27,11 @@ const LoginCard = styled.div`
   z-index: 10;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 752px) {
+    padding: var(--spacing-6) var(--spacing-5);
+    margin: 0 1rem;
+  }
 `;
 
 const Header = styled.div`

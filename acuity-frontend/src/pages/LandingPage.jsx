@@ -47,7 +47,7 @@ const LandingPage = () => {
                                 <FiSearch className="search-icon" />
                                 <input
                                     type="text"
-                                    placeholder="Search services (e.g. Vulcanizing, Sari-Sari, Laundry, Silog, Tailor)..."
+                                    placeholder="Search services..."
                                     value={heroSearch}
                                     onChange={(e) => setHeroSearch(e.target.value)}
                                     className="hero-search-input"

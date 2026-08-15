@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiCpu, FiCheckCircle, FiActivity, FiLayers, FiDatabase, FiCompass, FiAward, FiArrowLeft, FiPlay, FiRefreshCw, FiInfo } from 'react-icons/fi';
+import { FiCpu, FiCheckCircle, FiActivity, FiLayers, FiDatabase, FiCompass, FiArrowLeft, FiPlay, FiRefreshCw, FiInfo } from 'react-icons/fi';
 import { LANDMARKS, CATEGORIES } from '../context/MockDataContext';
 import { useMockData } from '../context/MockDataContext';
 import SimulationCard from '../components/SimulationCard';
@@ -133,16 +133,6 @@ const ITExpertValidation = () => {
   const [expectedEntities, setExpectedEntities] = useState({ business_name: '', category: 'Laundry', location: 'Brgy. Pulo' });
   const [isExtracting, setIsExtracting] = useState(false);
 
-  // ISO 25010 Evaluation State
-  const [isoScores, setIsoScores] = useState({
-    functionalSuitability: 5,
-    performanceEfficiency: 5,
-    usability: 5,
-    reliability: 5,
-    security: 4,
-    maintainability: 5
-  });
-
   useEffect(() => {
     setLevResult(levenshtein(levA, levB));
   }, [levA, levB]);
@@ -236,8 +226,8 @@ const ITExpertValidation = () => {
         <h1 style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#ffffff', marginBottom: '8px' }}>
           IT Expert & Panelist Evaluation Portal
         </h1>
-        <p style={{ color: 'var(--color-sky-tint)', fontSize: '0.95rem', maxWidth: '650px', lineHeight: 1.5 }}>
-          Comprehensive algorithmic testbed for validating the machine learning pipelines, geographic scoring matrices, information extraction (NER), and ISO 25010 compliance for the City of Cabuyao, Laguna.
+        <p style={{ color: '#b8e9ff', fontSize: '0.95rem', maxWidth: '650px', lineHeight: 1.5 }}>
+          Comprehensive algorithmic testbed for validating the machine learning pipelines, geographic scoring matrices, and information extraction (NER) for the City of Cabuyao, Laguna.
         </p>
       </div>
 
@@ -260,12 +250,6 @@ const ITExpertValidation = () => {
           onClick={() => setActiveTab('ner')}
         >
           <FiActivity /> 3. NLP Extraction (NER) F1 Benchmark
-        </button>
-        <button
-          className={`btn ${activeTab === 'iso' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
-          onClick={() => setActiveTab('iso')}
-        >
-          <FiAward /> 4. ISO 25010 Quality Rubric
         </button>
       </div>
 
@@ -433,55 +417,6 @@ const ITExpertValidation = () => {
               </div>
             </div>
           )}
-        </div>
-      )}
-
-      {/* TAB 4: ISO 25010 RUBRIC */}
-      {activeTab === 'iso' && (
-        <div className="card">
-          <span className="badge badge-navy mb-2">PANELIST EVALUATION</span>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
-            ISO/IEC 25010 Software Product Quality Evaluation
-          </h3>
-          <p className="text-secondary text-sm mb-6">
-            Rate the system characteristics based on functional suitability, usability, and efficiency.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {Object.keys(isoScores).map(key => (
-              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
-                <div>
-                  <h4 style={{ fontSize: '0.92rem', fontWeight: 700, textTransform: 'capitalize' }}>
-                    {key.replace(/([A-Z])/g, ' $1')}
-                  </h4>
-                  <span className="text-muted" style={{ fontSize: '0.75rem' }}>ISO/IEC 25010 Standard Characteristic</span>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  {[1, 2, 3, 4, 5].map(score => (
-                    <button
-                      key={score}
-                      onClick={() => setIsoScores(prev => ({ ...prev, [key]: score }))}
-                      style={{
-                        width: '32px', height: '32px', borderRadius: '50%',
-                        background: isoScores[key] === score ? 'var(--color-deep-navy)' : 'var(--bg-surface)',
-                        color: isoScores[key] === score ? '#fff' : 'var(--text-primary)',
-                        border: '1px solid var(--border-strong)', fontWeight: 700, fontSize: '0.85rem'
-                      }}
-                    >
-                      {score}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 p-4 text-center" style={{ background: 'var(--color-sky-tint)', borderRadius: 'var(--radius-card)' }}>
-            <span className="text-navy font-bold">Composite Expert Score: </span>
-            <strong className="font-black text-navy" style={{ fontSize: '1.4rem' }}>
-              {(Object.values(isoScores).reduce((a, b) => a + b, 0) / Object.values(isoScores).length).toFixed(2)} / 5.00
-            </strong>
-          </div>
         </div>
       )}
     </div>
