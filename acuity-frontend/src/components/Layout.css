@@ -256,3 +256,42 @@
         padding-bottom: var(--spacing-8);
     }
 }
+
+/* ====== MOBILE TWEAKS (<= 752px) ====== */
+@media (max-width: 752px) {
+    .announcement-banner {
+        padding: 6px 0;
+        font-size: 0.75rem;
+    }
+
+    .banner-badge {
+        display: none;
+    }
+
+    .banner-text {
+        font-size: 0.72rem;
+        white-space: normal;
+    }
+
+    .bottom-nav {
+        height: 60px;
+    }
+
+    .bottom-nav-item {
+        font-size: 0.75rem;
+        min-width: 0;
+    }
+
+    .bottom-nav-item .label {
+        font-size: 0.62rem;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .bottom-nav-item .icon {
+        font-size: 1.15rem;
+    }
+}

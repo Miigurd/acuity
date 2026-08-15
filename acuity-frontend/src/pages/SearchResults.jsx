@@ -131,11 +131,12 @@ const SearchResults = () => {
         marginBottom: '1.5rem',
         boxShadow: 'var(--shadow-sm)'
       }}>
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '1rem' }}>
+        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             flex: 1,
+            minWidth: 0,
             background: 'var(--bg-elevated)',
             borderRadius: 'var(--radius-pill)',
             padding: '8px 16px',
@@ -217,7 +218,7 @@ const SearchResults = () => {
       </div>
 
       {/* Results Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '8px' }}>
         <h2 style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
           {loading ? 'Searching local directory...' : `Found ${results.length} micro-enterprises`}
         </h2>
@@ -230,7 +231,7 @@ const SearchResults = () => {
 
       {/* Grid of Business Cards */}
       {loading ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1, 2, 3, 4].map(n => (
             <div key={n} className="card" style={{ height: '180px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ height: '20px', width: '60%', background: 'var(--bg-elevated)', borderRadius: '4px' }} />
@@ -240,7 +241,7 @@ const SearchResults = () => {
           ))}
         </div>
       ) : results.length > 0 ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {results.map(b => (
             <BusinessCard 
               key={b.id} 

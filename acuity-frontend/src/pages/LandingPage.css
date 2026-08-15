@@ -360,7 +360,7 @@
 
 .value-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 24px;
     max-width: 1000px;
     margin: 2.5rem auto 0;
@@ -534,6 +534,30 @@
 
 /* ====== RESPONSIVE ====== */
 @media (max-width: 752px) {
+    .hero-section {
+        padding: 2.5rem 0 2.25rem;
+    }
+
+    .hero-location-badge {
+        margin-bottom: 1rem;
+    }
+
+    .value-section {
+        padding: 3rem 0;
+    }
+
+    .value-card {
+        padding: 24px 20px;
+    }
+
+    .cta-banner-section {
+        padding: 3rem 0 3.5rem;
+    }
+
+    .cta-banner-box {
+        padding: 2.5rem 1.25rem;
+    }
+
     .stats-row {
         grid-template-columns: 1fr;
     }

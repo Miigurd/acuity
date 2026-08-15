@@ -15,7 +15,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
         <Link
             to={`/business/${business.id}`}
             onClick={() => trackEvent && trackEvent({ eventType: 'click', businessName: business.name })}
-            style={{ display: 'block', minWidth: '290px', maxWidth: '360px', textDecoration: 'none' }}
+            style={{ display: 'block', width: '100%', minWidth: 0, textDecoration: 'none' }}
             className="biz-card-link card card-interactive"
         >
             {/* Header Badges */}
@@ -61,6 +61,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
                             position: 'absolute', top: 'calc(100% + 8px)', left: '0', zIndex: 60,
                             background: 'var(--bg-surface)', border: '1px solid var(--border-strong)',
                             borderRadius: 'var(--radius-card)', padding: '14px', width: '250px',
+                            maxWidth: 'min(250px, calc(100% - 16px))',
                             boxShadow: 'var(--shadow-card-hover)', color: 'var(--text-primary)',
                             fontSize: '0.78rem', fontWeight: 400, cursor: 'default',
                             textAlign: 'left'
@@ -96,9 +97,10 @@ const BusinessCard = ({ business, distance, recommended }) => {
                     color: 'var(--text-primary)',
                     lineHeight: 1.3,
                     marginBottom: '4px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
                     letterSpacing: '-0.02em'
                 }}>
                     {business.name}
@@ -130,7 +132,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
                 marginBottom: '12px'
             }}>
                 <FiMapPin style={{ color: 'var(--color-deep-navy)', flexShrink: 0 }} size={13} />
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ overflow: 'hidden' }}>
                     {distance ? `${distance} km away` : ''} {landmark ? `• Near ${landmark.name}` : '• Brgy. Banay-Banay'}
                 </span>
             </div>

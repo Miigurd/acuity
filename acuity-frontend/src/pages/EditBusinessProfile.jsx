@@ -189,7 +189,7 @@ const EditBusinessProfile = () => {
             {!formData.name.trim() && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Business Name is required.</span>}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid form-grid-2 gap-4">
             <div className="input-group">
               <label className="input-label">Category</label>
               <select required name="categoryId" className="input-field" value={formData.categoryId} onChange={handleChange}>
@@ -222,7 +222,7 @@ const EditBusinessProfile = () => {
         <div className="card">
           <h3 className="font-bold text-lg mb-4 border-b pb-2">Contact &amp; Location</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid form-grid-2 gap-4">
             <div className="input-group">
               <label className="input-label">Contact Number</label>
               <input required type="tel" name="contact" pattern="^09\d{9}$" title="Must be a valid 11-digit Philippine mobile number starting with 09" className={`input-field ${formData.contact.trim() && !/^09\d{9}$/.test(formData.contact) ? 'border-danger/50 bg-danger/5' : ''}`} placeholder="09XX XXX XXXX" value={formData.contact} onChange={handleChange} />
@@ -234,7 +234,7 @@ const EditBusinessProfile = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="grid form-grid-2 gap-4 mt-4">
             <div className="input-group">
               <label className="input-label">Landmark Anchor</label>
               <select required name="landmarkId" className="input-field" value={formData.landmarkId} onChange={handleChange}>

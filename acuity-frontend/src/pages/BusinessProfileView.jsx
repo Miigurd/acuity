@@ -152,7 +152,7 @@ const BusinessProfileView = () => {
           <h1 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.03em', marginBottom: '6px' }}>
             {business.name}
           </h1>
-          <div className="flex items-center gap-2" style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.9rem', fontWeight: 600 }}>
+          <div className="flex items-center gap-2" style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.9rem', fontWeight: 600, flexWrap: 'wrap' }}>
             <FiMapPin />
             <span>{landmark ? `In ${landmark.name}, City of Cabuyao` : 'City of Cabuyao, Laguna'}</span>
             <span>•</span>
@@ -251,7 +251,7 @@ const BusinessProfileView = () => {
       </div>
 
       {/* Information Cards Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '20px' }}>
         {/* About & Hours */}
         <div className="card">
           <h3 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -388,9 +388,9 @@ const BusinessProfileView = () => {
               boxShadow: '0 20px 60px rgba(0,0,0,0.4)'
             }}
           >
-            <div className="flex justify-between items-center p-4 border-b" style={{ borderColor: 'var(--border)' }}>
-              <h3 className="font-bold text-lg flex items-center gap-2">
-                <FiMapPin className="text-navy" /> Map Location: {business.name}
+            <div className="flex justify-between items-center p-4 border-b" style={{ borderColor: 'var(--border)', gap: '12px' }}>
+              <h3 className="font-bold text-lg flex items-center gap-2" style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <FiMapPin className="text-navy" style={{ flexShrink: 0 }} /> Map Location: {business.name}
               </h3>
               <button 
                 onClick={() => setShowFullMap(false)}

@@ -18,7 +18,7 @@ const MapPage = () => {
     <div style={{
       display: 'flex', flexDirection: 'column',
       height: 'calc(100vh - 170px)',
-      minHeight: '480px',
+      minHeight: 'min(480px, 60vh)',
       position: 'relative',
       borderRadius: 'var(--radius-card-lg)',
       overflow: 'hidden',

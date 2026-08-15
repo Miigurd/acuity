@@ -26,6 +26,13 @@ const ToastContainer = styled.div`
   gap: 12px;
   z-index: 9999;
   pointer-events: none;
+
+  @media (max-width: 752px) {
+    left: 16px;
+    right: 16px;
+    bottom: calc(24px + 68px);
+    align-items: stretch;
+  }
 `;
 
 const ToastMessage = styled.div`
@@ -43,6 +50,12 @@ const ToastMessage = styled.div`
   font-weight: 500;
   animation: ${slideIn} 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   pointer-events: auto;
+
+  @media (max-width: 752px) {
+    min-width: 0;
+    max-width: none;
+    padding: 14px 18px;
+  }
 `;
 
 export const ToastProvider = ({ children }) => {

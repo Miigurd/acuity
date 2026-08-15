@@ -10,7 +10,7 @@ const FlaggedStores = () => {
 
     return (
         <div style={{ paddingBottom: '3rem' }}>
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6" style={{ flexWrap: 'wrap' }}>
                 <Link to="/" className="btn btn-secondary btn-sm" style={{ padding: '8px 12px' }}>
                     <FiArrowLeft size={18} /> Back
                 </Link>
@@ -35,7 +35,7 @@ const FlaggedStores = () => {
                     </p>
                 </div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '16px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
                     {flaggedBusinesses.map(business => (
                         <BusinessCard key={business.id} business={business} />
                     ))}

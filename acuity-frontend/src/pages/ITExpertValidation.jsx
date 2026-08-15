@@ -214,16 +214,17 @@ const ITExpertValidation = () => {
         background: 'linear-gradient(135deg, var(--color-deep-navy) 0%, #001a61 100%)',
         color: '#ffffff',
         borderRadius: 'var(--radius-card-lg)',
-        padding: '2.5rem 2rem',
+        padding: '2rem',
         marginBottom: '2rem',
-        boxShadow: 'var(--shadow-lg)',
-        position: 'relative'
+        boxShadow: 'var(--shadow-lg)'
       }}>
-        <Link to="/home" className="btn btn-sky btn-sm" style={{ position: 'absolute', top: '20px', right: '20px' }}>
-          <FiArrowLeft /> Return to Consumer App
-        </Link>
-        <span className="badge badge-sky mb-2">CS THESIS EVALUATION BENCHMARK</span>
-        <h1 style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#ffffff', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', marginBottom: '16px' }}>
+          <span className="badge badge-sky mb-0">CS THESIS EVALUATION BENCHMARK</span>
+          <Link to="/home" className="btn btn-sky btn-sm">
+            <FiArrowLeft /> Return to Consumer App
+          </Link>
+        </div>
+        <h1 style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#ffffff', marginBottom: '8px' }}>
           IT Expert & Panelist Evaluation Portal
         </h1>
         <p style={{ color: '#b8e9ff', fontSize: '0.95rem', maxWidth: '650px', lineHeight: 1.5 }}>
@@ -294,7 +295,7 @@ const ITExpertValidation = () => {
             Live Ranked Output ({rankedResults.length} Micro-Enterprises)
           </h3>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {rankedResults.map((b, idx) => (
               <SimulationCard
                 key={b.id}
@@ -325,7 +326,7 @@ const ITExpertValidation = () => {
               <input type="text" className="form-control" value={levA} onChange={(e) => setLevA(e.target.value)} placeholder="Submitted Name" />
               <input type="text" className="form-control" value={levB} onChange={(e) => setLevB(e.target.value)} placeholder="Official BPLO Registry Name" />
             </div>
-            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', flexWrap: 'wrap', gap: '8px' }}>
               <span>Minimum Operations: <strong>{levResult.edits} edits</strong></span>
               <span className="badge badge-sky" style={{ fontSize: '0.9rem' }}>
                 Match: {(levResult.score * 100).toFixed(1)}%
@@ -346,7 +347,7 @@ const ITExpertValidation = () => {
               <input type="text" className="form-control" value={tfQuery} onChange={(e) => setTfQuery(e.target.value)} placeholder="Query" />
               <input type="text" className="form-control" value={tfDoc} onChange={(e) => setTfDoc(e.target.value)} placeholder="Document Description" />
             </div>
-            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', flexWrap: 'wrap', gap: '8px' }}>
               <span>Vector Angle: <strong>{tfResult.angle.toFixed(1)}°</strong></span>
               <span className="badge badge-success" style={{ fontSize: '0.9rem' }}>
                 Cosine Similarity: {(tfResult.sim * 100).toFixed(1)}%
@@ -368,7 +369,7 @@ const ITExpertValidation = () => {
                 {LANDMARKS.map(l => <option key={l.id} value={l.name}>{l.name}</option>)}
               </select>
             </div>
-            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)' }}>
+            <div className="flex justify-between items-center p-3" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', flexWrap: 'wrap', gap: '8px' }}>
               <span>Geodesic Curvature: <strong>Earth Sphere (R = 6371 km)</strong></span>
               <span className="badge badge-primary" style={{ fontSize: '0.9rem' }}>
                 Distance: {havDistance.toFixed(2)} km

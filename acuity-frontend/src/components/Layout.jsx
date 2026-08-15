@@ -28,11 +28,13 @@ const Layout = () => {
                             Open Hyperlocal Discovery Network • 18 Barangays of Cabuyao, Laguna
                         </span>
                     </div>
-                    <div className="banner-links">
-                        <Link to="/it-expert-validation" className="banner-link">
-                            {isITExpertPage ? '← Consumer View' : 'IT Expert & Panelist Portal ↗'}
-                        </Link>
-                    </div>
+                    {!isITExpertPage && (
+                        <div className="banner-links">
+                            <Link to="/it-expert-validation" className="banner-link">
+                                IT Expert & Panelist Portal ↗
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -77,18 +79,20 @@ const Layout = () => {
             </div>
 
             {/* Mobile Bottom Navigation Bar */}
-            <nav className="bottom-nav hidden-desktop glass-panel">
-                {navLinks.map((link) => (
-                    <Link
-                        key={link.path}
-                        to={link.path}
-                        className={`bottom-nav-item ${location.pathname === link.path ? 'active' : ''}`}
-                    >
-                        <span className="icon">{link.icon}</span>
-                        <span className="label">{link.label}</span>
-                    </Link>
-                ))}
-            </nav>
+            {!isITExpertPage && (
+                <nav className="bottom-nav hidden-desktop glass-panel">
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.path}
+                            to={link.path}
+                            className={`bottom-nav-item ${location.pathname === link.path ? 'active' : ''}`}
+                        >
+                            <span className="icon">{link.icon}</span>
+                            <span className="label">{link.label}</span>
+                        </Link>
+                    ))}
+                </nav>
+            )}
         </div>
     );
 };

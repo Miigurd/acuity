@@ -55,6 +55,7 @@ const CardSlider = ({ children }) => {
       {canLeft && (
         <button
           onClick={() => slide(-1)}
+          className="hidden-mobile"
           style={{ ...arrowBase, left: '-12px' }}
           onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-deep-navy)'; e.currentTarget.style.color = '#fff'; }}
           onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
@@ -79,6 +80,7 @@ const CardSlider = ({ children }) => {
       {canRight && (
         <button
           onClick={() => slide(1)}
+          className="hidden-mobile"
           style={{ ...arrowBase, right: '-12px' }}
           onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-deep-navy)'; e.currentTarget.style.color = '#fff'; }}
           onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
@@ -187,6 +189,7 @@ const ResidentDashboard = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   flex: 1,
+                  minWidth: 0,
                   border: 'none',
                   outline: 'none',
                   background: 'transparent',
@@ -269,7 +272,7 @@ const ResidentDashboard = () => {
         {nearestBusinesses.length > 0 ? (
           <CardSlider>
             {nearestBusinesses.map((b, idx) => (
-              <div key={b.id} style={{ flexShrink: 0, scrollSnapAlign: 'start' }}>
+              <div key={b.id} style={{ flexShrink: 0, scrollSnapAlign: 'start', width: 'min(290px, 82vw)' }}>
                 <BusinessCard
                   business={b}
                   recommended={idx === 0}
@@ -297,7 +300,7 @@ const ResidentDashboard = () => {
 
         <CardSlider>
           {newestBusinesses.map((b) => (
-            <div key={b.id} style={{ flexShrink: 0, scrollSnapAlign: 'start' }}>
+            <div key={b.id} style={{ flexShrink: 0, scrollSnapAlign: 'start', width: 'min(290px, 82vw)' }}>
               <BusinessCard
                 business={b}
               />

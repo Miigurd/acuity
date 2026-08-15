@@ -92,7 +92,7 @@ const SimulationCard = ({ business, query, userLandmark, distance, getLandmarkBy
 
     return (
         <div className="card glass-card animate-float-in flex-col" style={{ gap: 'var(--spacing-6)', width: '100%', marginBottom: 'var(--spacing-8)', overflow: 'visible', animationDelay: `${(business.id % 5) * 100}ms` }}>
-            <div className="flex justify-between" style={{ borderBottom: '1px solid var(--border)', paddingBottom: 'var(--spacing-4)' }}>
+            <div className="flex justify-between" style={{ borderBottom: '1px solid var(--border)', paddingBottom: 'var(--spacing-4)', flexWrap: 'wrap', gap: '8px' }}>
                 <div>
                     <h3 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 700, color: 'var(--text-primary)' }}>{business.name}</h3>
                     <p className="text-secondary mt-1" style={{ fontSize: 'var(--font-size-sm)' }}>{bizLandmark?.name} · {business.locationType}</p>
@@ -119,7 +119,7 @@ const SimulationCard = ({ business, query, userLandmark, distance, getLandmarkBy
                     <p className="text-muted mt-4" style={{ fontSize: 'var(--font-size-sm)' }}>Watch how the AI computes relevance and proximity in real-time.</p>
                 </div>
             ) : (
-                <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+                <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))' }}>
                     {/* TF-IDF SIMULATION */}
                     <div className="animate-fade-in-up p-4" style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                     <div className="flex items-center gap-2 mb-4 font-semibold text-primary">
