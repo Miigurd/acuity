@@ -1,42 +1,54 @@
+from __future__ import annotations
+
 import json
 from datetime import datetime
-from .base import db
+from typing import TYPE_CHECKING
 
-class BusinessProfile(db.Model):
+from sqlalchemy.orm import Mapped, relationship
+
+from .base import db, Base
+
+if TYPE_CHECKING:
+    from .bplo_registry import VerificationMatch
+    from .edit_history import EditHistoryLog, HeldEdit
+
+
+class BusinessProfile(Base):
     __tablename__ = 'businesses'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_name = db.Column(db.String(255), index=True, nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    
-    is_verified = db.Column(db.Boolean, index=True, default=False)
-    status = db.Column(db.String(50), index=True, default='Pending')
-    flag_status = db.Column(db.String(50), nullable=True)
-    published_at = db.Column(db.String(50), nullable=True)
-    last_verified_year = db.Column(db.Integer, nullable=True)
-    
-    address = db.Column(db.String(255), nullable=True)
-    contact_info = db.Column(db.String(255), nullable=True)
-    is_active = db.Column(db.Boolean, default=True)
-    category_id = db.Column(db.String(50), nullable=True)
-    landmark_id = db.Column(db.String(50), nullable=True)
-    
+
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_name: Mapped[str] = db.mapped_column(db.String(255), index=True, nullable=False)
+    description: Mapped[str | None] = db.mapped_column(db.Text, nullable=True)
+
+    is_verified: Mapped[bool | None] = db.mapped_column(db.Boolean, index=True, default=False)
+    status: Mapped[str | None] = db.mapped_column(db.String(50), index=True, default='Pending')
+    flag_status: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    published_at: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    last_verified_year: Mapped[int | None] = db.mapped_column(db.Integer, nullable=True)
+
+    address: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    contact_info: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    is_active: Mapped[bool | None] = db.mapped_column(db.Boolean, default=True)
+    category_id: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    landmark_id: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+
     # Layer 1 Edit Protection
-    pin_locked = db.Column(db.Boolean, default=False)
-    owner_pin = db.Column(db.String(100), nullable=True)
-    
+    pin_locked: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
+    owner_pin: Mapped[str | None] = db.mapped_column(db.String(100), nullable=True)
+
     # 3NF Relationships
-    categories = db.relationship('BusinessCategory', backref='business', lazy=True, cascade="all, delete-orphan")
-    services = db.relationship('BusinessService', backref='business', lazy=True, cascade="all, delete-orphan")
-    phones = db.relationship('BusinessPhone', backref='business', lazy=True, cascade="all, delete-orphan")
-    hours = db.relationship('BusinessHour', backref='business', lazy=True, cascade="all, delete-orphan")
-    locations = db.relationship('BusinessLocation', backref='business', lazy=True, cascade="all, delete-orphan")
-    prices = db.relationship('BusinessPrice', backref='business', lazy=True, cascade="all, delete-orphan")
-    stats = db.relationship('BusinessStat', backref='business', uselist=False, lazy=True, cascade="all, delete-orphan")
-    flags = db.relationship('FlagLog', backref='business', lazy=True, cascade="all, delete-orphan")
-    history_logs = db.relationship('EditHistoryLog', backref='business', lazy=True, cascade="all, delete-orphan")
-    held_edits = db.relationship('HeldEdit', backref='business', lazy=True, cascade="all, delete-orphan")
-    status_history = db.relationship('BusinessStatusHistory', backref='business', lazy=True, cascade="all, delete-orphan")
+    categories: Mapped[list[BusinessCategory]] = relationship('BusinessCategory', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    services: Mapped[list[BusinessService]] = relationship('BusinessService', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    phones: Mapped[list[BusinessPhone]] = relationship('BusinessPhone', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    hours: Mapped[list[BusinessHour]] = relationship('BusinessHour', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    locations: Mapped[list[BusinessLocation]] = relationship('BusinessLocation', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    prices: Mapped[list[BusinessPrice]] = relationship('BusinessPrice', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    stats: Mapped[BusinessStat | None] = relationship('BusinessStat', back_populates='business', uselist=False, lazy=True, cascade="all, delete-orphan")
+    flags: Mapped[list[FlagLog]] = relationship('FlagLog', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    history_logs: Mapped[list[EditHistoryLog]] = relationship('EditHistoryLog', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    held_edits: Mapped[list[HeldEdit]] = relationship('HeldEdit', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    status_history: Mapped[list[BusinessStatusHistory]] = relationship('BusinessStatusHistory', back_populates='business', lazy=True, cascade="all, delete-orphan")
+    verification_matches: Mapped[list[VerificationMatch]] = relationship('VerificationMatch', back_populates='business', lazy=True, cascade="all, delete-orphan")
 
     def to_dict(self):
         stats_dict = {
@@ -45,10 +57,10 @@ class BusinessProfile(db.Model):
             "inquiries": self.stats.inquiries if self.stats else 0,
             "created": self.stats.created_at if self.stats else ""
         }
-            
+
         # Fetch lat/lon from constants if landmark exists
         from webapp.constants import LANDMARKS
-        landmark_data = LANDMARKS.get(self.landmark_id, {})
+        landmark_data = LANDMARKS.get(self.landmark_id or "", {})
         lat = landmark_data.get('lat')
         lon = landmark_data.get('lon')
 
@@ -68,7 +80,7 @@ class BusinessProfile(db.Model):
         return {
             "id": self.id,
             "business_name": self.business_name,
-            "name": self.business_name, 
+            "name": self.business_name,
             "status": self.status,
             "published_at": self.published_at,
             "last_verified_year": self.last_verified_year,
@@ -89,7 +101,7 @@ class BusinessProfile(db.Model):
             "stats": stats_dict,
             "bplo_match": bplo_match_info,
             "pin_locked": self.pin_locked,
-            
+
             # Frontend required
             "services": [s.service for s in self.services],
             "address": self.address if self.address else (self.locations[0].location if self.locations else "Address not extracted"),
@@ -99,19 +111,19 @@ class BusinessProfile(db.Model):
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],
             "history": [{"timestamp": h.timestamp, "previous_data": json.loads(h.previous_data)} for h in sorted(self.history_logs, key=lambda x: x.timestamp, reverse=True) if not h.is_rolled_back],
-            "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp, reverse=True)]
+            "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp or "", reverse=True)]
         }
 
     def to_dict_light(self):
         # A lighter version for list views
         from webapp.constants import LANDMARKS
-        landmark_data = LANDMARKS.get(self.landmark_id, {})
-        
+        landmark_data = LANDMARKS.get(self.landmark_id or "", {})
+
         active_flags = [f for f in self.flags if not f.is_archived] if self.flags else []
         return {
             "id": self.id,
             "business_name": self.business_name,
-            "name": self.business_name, 
+            "name": self.business_name,
             "status": self.status,
             "flag_status": self.flag_status,
             "published_at": self.published_at,
@@ -128,75 +140,111 @@ class BusinessProfile(db.Model):
             "categories": [c.category for c in self.categories] if self.categories else []
         }
 
-class BusinessCategory(db.Model):
+
+class BusinessCategory(Base):
     __tablename__ = 'business_categories'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    category = db.Column(db.String(255), nullable=False)
 
-class BusinessService(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    category: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='categories')
+
+
+class BusinessService(Base):
     __tablename__ = 'business_services'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    service = db.Column(db.String(255), nullable=False)
 
-class BusinessPhone(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    service: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='services')
+
+
+class BusinessPhone(Base):
     __tablename__ = 'business_phones'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    phone = db.Column(db.String(255), nullable=False)
 
-class BusinessHour(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    phone: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='phones')
+
+
+class BusinessHour(Base):
     __tablename__ = 'business_hours'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    hour_schedule = db.Column(db.String(255), nullable=False)
 
-class BusinessLocation(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    hour_schedule: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='hours')
+
+
+class BusinessLocation(Base):
     __tablename__ = 'business_locations'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    location = db.Column(db.String(255), nullable=False)
 
-class BusinessPrice(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    location: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='locations')
+
+
+class BusinessPrice(Base):
     __tablename__ = 'business_prices'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    price_info = db.Column(db.String(255), nullable=False)
 
-class BusinessStat(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    price_info: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='prices')
+
+
+class BusinessStat(Base):
     __tablename__ = 'business_stats'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), unique=True, nullable=False)
-    impressions = db.Column(db.Integer, default=0)
-    clicks = db.Column(db.Integer, default=0)
-    inquiries = db.Column(db.Integer, default=0)
-    created_at = db.Column(db.String(50), default=lambda: datetime.utcnow().isoformat()[:10])
 
-class FlagLog(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), unique=True, nullable=False)
+    impressions: Mapped[int | None] = db.mapped_column(db.Integer, default=0)
+    clicks: Mapped[int | None] = db.mapped_column(db.Integer, default=0)
+    inquiries: Mapped[int | None] = db.mapped_column(db.Integer, default=0)
+    created_at: Mapped[str | None] = db.mapped_column(db.String(50), default=lambda: datetime.utcnow().isoformat()[:10])
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='stats')
+
+
+class FlagLog(Base):
     __tablename__ = 'flag_logs'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    reason = db.Column(db.String(255), nullable=False)
-    timestamp = db.Column(db.String(50), default=lambda: datetime.utcnow().isoformat())
-    ip_address = db.Column(db.String(45), nullable=True)
-    is_archived = db.Column(db.Boolean, default=False)
 
-class BusinessStatusHistory(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    reason: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+    timestamp: Mapped[str | None] = db.mapped_column(db.String(50), default=lambda: datetime.utcnow().isoformat())
+    ip_address: Mapped[str | None] = db.mapped_column(db.String(45), nullable=True)
+    is_archived: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='flags')
+
+
+class BusinessStatusHistory(Base):
     __tablename__ = 'business_status_history'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
-    admin_id = db.Column(db.String(255), nullable=True)
-    previous_status = db.Column(db.String(50), nullable=True)
-    new_status = db.Column(db.String(50), nullable=False)
-    timestamp = db.Column(db.String(50), default=lambda: datetime.utcnow().isoformat())
 
-class AdminActionLog(db.Model):
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
+    admin_id: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    previous_status: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    new_status: Mapped[str] = db.mapped_column(db.String(50), nullable=False)
+    timestamp: Mapped[str | None] = db.mapped_column(db.String(50), default=lambda: datetime.utcnow().isoformat())
+
+    business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='status_history')
+
+
+class AdminActionLog(Base):
     __tablename__ = 'admin_action_logs'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    admin_id = db.Column(db.String(255), nullable=False)
-    action_type = db.Column(db.String(50), nullable=False)
-    target_id = db.Column(db.String(255), nullable=False)
-    timestamp = db.Column(db.String(50), default=lambda: datetime.utcnow().isoformat())
+
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    admin_id: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+    action_type: Mapped[str] = db.mapped_column(db.String(50), nullable=False)
+    target_id: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+    timestamp: Mapped[str | None] = db.mapped_column(db.String(50), default=lambda: datetime.utcnow().isoformat())

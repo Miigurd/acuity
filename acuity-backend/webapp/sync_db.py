@@ -49,28 +49,29 @@ def sync_profiles(filepath: str):
             profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
             profile.is_active = b.get("isActive", profile.is_active)
             
-            def update_relation(model, field_name, items_list):
-                model.query.filter_by(business_id=profile.id).delete()
+            def update_relation(model, field_name, items_list, business_id):
+                model.query.filter_by(business_id=business_id).delete()
                 for item in items_list:
-                    db.session.add(model(business_id=profile.id, **{field_name: item}))
+                    db.session.add(model(business_id=business_id, **{field_name: item}))
 
-            if "categories" in b: update_relation(BusinessCategory, "category", b["categories"])
-            if "services" in b: update_relation(BusinessService, "service", b["services"])
-            if "locations" in b: update_relation(BusinessLocation, "location", b["locations"])
-            if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"])
-            if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"])
-            if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"])
+            if "categories" in b: update_relation(BusinessCategory, "category", b["categories"], profile.id)
+            if "services" in b: update_relation(BusinessService, "service", b["services"], profile.id)
+            if "locations" in b: update_relation(BusinessLocation, "location", b["locations"], profile.id)
+            if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
+            if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
+            if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
             
             if "stats" in b:
                 stats_obj = b["stats"]
-                if not profile.stats:
-                    stat = BusinessStat(business_id=profile.id)
-                    db.session.add(stat)
-                    profile.stats = stat
+                stats = profile.stats
+                if stats is None:
+                    stats = BusinessStat(business_id=profile.id)
+                    db.session.add(stats)
+                    profile.stats = stats
                 
-                profile.stats.impressions = stats_obj.get("impressions", profile.stats.impressions or 0)
-                profile.stats.clicks = stats_obj.get("clicks", profile.stats.clicks or 0)
-                profile.stats.inquiries = stats_obj.get("inquiries", profile.stats.inquiries or 0)
+                stats.impressions = stats_obj.get("impressions", stats.impressions or 0)
+                stats.clicks = stats_obj.get("clicks", stats.clicks or 0)
+                stats.inquiries = stats_obj.get("inquiries", stats.inquiries or 0)
                 
         db.session.commit()
         print(f"Synced to SQLite DB! Inserted: {inserted_count}, Updated: {updated_count}")

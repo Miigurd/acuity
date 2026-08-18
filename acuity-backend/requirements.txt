@@ -2,6 +2,9 @@
 # ACUITY — Dependencies
 # =============================================================================
 
+# --- Core ACUITY Framework (Local editable / PyPI package) ---
+acuity-framework>=1.0.0
+
 # --- Scraper ---
 undetected-chromedriver>=3.5.0
 selenium>=4.15.0

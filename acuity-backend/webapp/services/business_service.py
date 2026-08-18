@@ -13,18 +13,18 @@ def format_business_name(name: str) -> str:
 
 def get_base_query():
     return BusinessProfile.query.options(
-        selectinload(BusinessProfile.categories),
-        selectinload(BusinessProfile.services),
-        selectinload(BusinessProfile.phones),
-        selectinload(BusinessProfile.hours),
-        selectinload(BusinessProfile.locations),
-        selectinload(BusinessProfile.prices),
-        selectinload(BusinessProfile.stats),
-        selectinload(BusinessProfile.flags),
-        selectinload(BusinessProfile.history_logs),
-        selectinload(BusinessProfile.held_edits),
-        selectinload(BusinessProfile.verification_matches),
-        selectinload(BusinessProfile.status_history)
+        selectinload(BusinessProfile.categories),  # type: ignore
+        selectinload(BusinessProfile.services),  # type: ignore
+        selectinload(BusinessProfile.phones),  # type: ignore
+        selectinload(BusinessProfile.hours),  # type: ignore
+        selectinload(BusinessProfile.locations),  # type: ignore
+        selectinload(BusinessProfile.prices),  # type: ignore
+        selectinload(BusinessProfile.stats),  # type: ignore
+        selectinload(BusinessProfile.flags),  # type: ignore
+        selectinload(BusinessProfile.history_logs),  # type: ignore
+        selectinload(BusinessProfile.held_edits),  # type: ignore
+        selectinload(BusinessProfile.verification_matches),  # type: ignore
+        selectinload(BusinessProfile.status_history)  # type: ignore
     )
 
 def expire_old_permits():
@@ -186,32 +186,33 @@ def update_businesses(data, ip_address):
         profile.category_id = b.get("categoryId", profile.category_id)
         profile.landmark_id = b.get("landmarkId", profile.landmark_id)
         
-        def update_relation(model, field_name, items_list):
-            existing = model.query.filter_by(business_id=profile.id).all()
+        def update_relation(model, field_name, items_list, business_id):
+            existing = model.query.filter_by(business_id=business_id).all()
             existing_values = [getattr(e, field_name) for e in existing]
             if set(existing_values) == set(items_list) and len(existing_values) == len(items_list):
                 return
-            model.query.filter_by(business_id=profile.id).delete()
+            model.query.filter_by(business_id=business_id).delete()
             for item in items_list:
-                db.session.add(model(business_id=profile.id, **{field_name: item}))
+                db.session.add(model(business_id=business_id, **{field_name: item}))
 
-        if "categories" in b: update_relation(BusinessCategory, "category", b["categories"])
-        if "services" in b: update_relation(BusinessService, "service", b["services"])
-        if "locations" in b: update_relation(BusinessLocation, "location", b["locations"])
-        if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"])
-        if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"])
-        if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"])
+        if "categories" in b: update_relation(BusinessCategory, "category", b["categories"], profile.id)
+        if "services" in b: update_relation(BusinessService, "service", b["services"], profile.id)
+        if "locations" in b: update_relation(BusinessLocation, "location", b["locations"], profile.id)
+        if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
+        if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
+        if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
             
         if "stats" in b:
             stats_obj = b["stats"]
-            if not profile.stats:
-                stat = BusinessStat(business_id=profile.id)
-                db.session.add(stat)
-                profile.stats = stat
+            stats = profile.stats
+            if stats is None:
+                stats = BusinessStat(business_id=profile.id)
+                db.session.add(stats)
+                profile.stats = stats
             
-            profile.stats.impressions = stats_obj.get("impressions", profile.stats.impressions or 0)
-            profile.stats.clicks = stats_obj.get("clicks", profile.stats.clicks or 0)
-            profile.stats.inquiries = stats_obj.get("inquiries", profile.stats.inquiries or 0)
+            stats.impressions = stats_obj.get("impressions", stats.impressions or 0)
+            stats.clicks = stats_obj.get("clicks", stats.clicks or 0)
+            stats.inquiries = stats_obj.get("inquiries", stats.inquiries or 0)
             
         # Check if actual changes were made before creating a history log
         new_dict = profile.to_dict()
@@ -278,21 +279,21 @@ def rollback_business(business_id, timestamp):
     profile.category_id = b.get("categoryId", profile.category_id)
     profile.landmark_id = b.get("landmarkId", profile.landmark_id)
     
-    def update_relation(model, field_name, items_list):
-        existing = model.query.filter_by(business_id=profile.id).all()
+    def update_relation(model, field_name, items_list, business_id):
+        existing = model.query.filter_by(business_id=business_id).all()
         existing_values = [getattr(e, field_name) for e in existing]
         if set(existing_values) == set(items_list) and len(existing_values) == len(items_list):
             return
-        model.query.filter_by(business_id=profile.id).delete()
+        model.query.filter_by(business_id=business_id).delete()
         for item in items_list:
-            db.session.add(model(business_id=profile.id, **{field_name: item}))
+            db.session.add(model(business_id=business_id, **{field_name: item}))
 
-    if "categories" in b: update_relation(BusinessCategory, "category", b["categories"])
-    if "services" in b: update_relation(BusinessService, "service", b["services"])
-    if "locations" in b: update_relation(BusinessLocation, "location", b["locations"])
-    if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"])
-    if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"])
-    if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"])
+    if "categories" in b: update_relation(BusinessCategory, "category", b["categories"], profile.id)
+    if "services" in b: update_relation(BusinessService, "service", b["services"], profile.id)
+    if "locations" in b: update_relation(BusinessLocation, "location", b["locations"], profile.id)
+    if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
+    if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
+    if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
     
     EditHistoryLog.query.filter(EditHistoryLog.business_id == business_id, EditHistoryLog.timestamp >= timestamp).update({"is_rolled_back": True})
     db.session.commit()

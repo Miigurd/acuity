@@ -52,17 +52,17 @@ def approve_held_edit(edit_id):
     profile.category_id = b.get("categoryId", profile.category_id)
     profile.landmark_id = b.get("landmarkId", profile.landmark_id)
 
-    def update_relation(model, field_name, items_list):
-        model.query.filter_by(business_id=profile.id).delete()
+    def update_relation(model, field_name, items_list, business_id):
+        model.query.filter_by(business_id=business_id).delete()
         for item in items_list:
-            db.session.add(model(business_id=profile.id, **{field_name: item}))
+            db.session.add(model(business_id=business_id, **{field_name: item}))
 
-    if "categories" in b: update_relation(BusinessCategory, "category", b["categories"])
-    if "services" in b: update_relation(BusinessService, "service", b["services"])
-    if "locations" in b: update_relation(BusinessLocation, "location", b["locations"])
-    if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"])
-    if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"])
-    if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"])
+    if "categories" in b: update_relation(BusinessCategory, "category", b["categories"], profile.id)
+    if "services" in b: update_relation(BusinessService, "service", b["services"], profile.id)
+    if "locations" in b: update_relation(BusinessLocation, "location", b["locations"], profile.id)
+    if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
+    if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
+    if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
 
     edit.status = 'Approved'
     db.session.commit()

@@ -1,9 +1,12 @@
 {
-    "venvPath": ".",
+    "venvPath": "acuity-backend",
     "venv": ".venv",
     "pythonVersion": "3.13",
     "pythonPlatform": "Windows",
-    "extraPaths": [".", "../../acuity-framework"],
+    "extraPaths": [
+        "acuity-backend",
+        "../acuity-framework"
+    ],
     "reportMissingModuleSource": false,
     "reportMissingTypeStubs": false
 }

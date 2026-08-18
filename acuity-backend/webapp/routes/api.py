@@ -23,16 +23,17 @@ from webapp.services import (
     track_interaction_event
 )
 
-import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
-from acuity.extraction.ner_crf import extract_entities
+from acuity.extraction.ner_crf import extract_entities_crf, load_crf_model
 from flask_jwt_extended import jwt_required, get_jwt_identity  # type: ignore
 from webapp.extensions import limiter
 from webapp.models import db, AdminActionLog, BusinessProfile
 
 logger = logging.getLogger(__name__)
 api_bp = Blueprint("api", __name__)
+
+_CRF_MODEL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../crf_model.pkl"))
+_crf_model = load_crf_model(_CRF_MODEL_PATH) if os.path.exists(_CRF_MODEL_PATH) else None
 
 @api_bp.route("/health", methods=["GET"])
 def health_check():
@@ -55,7 +56,7 @@ def extract_route():
     if not payload or "text" not in payload:
         return jsonify({"error": "Missing text payload"}), 400
     try:
-        results = extract_entities(payload["text"])
+        results = extract_entities_crf(payload["text"], _crf_model)
         return jsonify(results)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -81,6 +82,8 @@ def claim_business(id):
             return jsonify({"error": "Business not found"}), 404
             
         profile_obj = BusinessProfile.query.get(id)
+        if profile_obj is None:
+            return jsonify({"error": "Business not found"}), 404
         if profile_obj.pin_locked:
             return jsonify({"error": "Profile is already claimed."}), 400
             
@@ -209,7 +212,7 @@ def upload_bplo():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
     file = request.files['file']
-    filename = file.filename
+    filename = file.filename or ""
     if filename == '':
         return jsonify({"error": "No selected file"}), 400
         

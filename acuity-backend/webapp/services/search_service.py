@@ -1,27 +1,28 @@
-import sys
-import os
 from sqlalchemy.orm import selectinload
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
-from acuity.recommendation.engine import RecommendationEngine  # type: ignore
-from acuity.config import default_config
+from acuity.recommendation import RecommendationEngine  # type: ignore
+from acuity.config import AcuityConfig  # type: ignore
 from webapp.models import db, BusinessProfile, BusinessStat
 from webapp.services.business_service import expire_old_permits
+
+config = AcuityConfig()
 
 _engine_instance = None
 _last_verified_count = -1
 
 def get_base_query():
     return BusinessProfile.query.options(
-        selectinload(BusinessProfile.categories),
-        selectinload(BusinessProfile.services),
-        selectinload(BusinessProfile.phones),
-        selectinload(BusinessProfile.hours),
-        selectinload(BusinessProfile.locations),
-        selectinload(BusinessProfile.prices),
-        selectinload(BusinessProfile.stats),
-        selectinload(BusinessProfile.flags),
-        selectinload(BusinessProfile.history_logs),
-        selectinload(BusinessProfile.held_edits)
+        selectinload(BusinessProfile.categories),  # type: ignore
+        selectinload(BusinessProfile.services),  # type: ignore
+        selectinload(BusinessProfile.phones),  # type: ignore
+        selectinload(BusinessProfile.hours),  # type: ignore
+        selectinload(BusinessProfile.locations),  # type: ignore
+        selectinload(BusinessProfile.prices),  # type: ignore
+        selectinload(BusinessProfile.stats),  # type: ignore
+        selectinload(BusinessProfile.flags),  # type: ignore
+        selectinload(BusinessProfile.history_logs),  # type: ignore
+        selectinload(BusinessProfile.held_edits),  # type: ignore
+        selectinload(BusinessProfile.verification_matches),  # type: ignore
+        selectinload(BusinessProfile.status_history)  # type: ignore
     )
 
 def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
@@ -40,7 +41,7 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
         if p.flag_status == 'Restricted':
             continue
         active_flags = [f for f in p.flags if not getattr(f, 'is_archived', False)]
-        if len(active_flags) < default_config.max_flags_threshold:
+        if len(active_flags) < config.max_flags_threshold:
             valid_profiles.append(p)
 
     if not valid_profiles:
@@ -66,12 +67,12 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
     returned_names = [r["name"] for r in res_data]
     if returned_names and query and not simulate:
         # Update impressions stat in DB - eager load stats to avoid N+1
-        profiles_to_update = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter(BusinessProfile.business_name.in_(returned_names)).all()
+        profiles_to_update = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter(BusinessProfile.business_name.in_(returned_names)).all()  # type: ignore
         for p in profiles_to_update:
             if p.stats:
                 p.stats.impressions += 1
             else:
-                db.session.add(BusinessStat(business_id=p.id, impressions=1))
+                db.session.add(BusinessStat(business_id=p.id, impressions=1))  # type: ignore
         db.session.commit()
 
     return res_data
@@ -79,7 +80,7 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
 def track_interaction_event(event_type, biz_name):
     # If click, update business stats
     if event_type in ["click", "inquiry"] and biz_name:
-        profile = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter_by(business_name=biz_name).first()
+        profile = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter_by(business_name=biz_name).first()  # type: ignore
         if profile:
             if profile.stats:
                 if event_type == "click":
@@ -89,7 +90,7 @@ def track_interaction_event(event_type, biz_name):
             else:
                 clicks_val = 1 if event_type == "click" else 0
                 inquiries_val = 1 if event_type == "inquiry" else 0
-                db.session.add(BusinessStat(business_id=profile.id, clicks=clicks_val, inquiries=inquiries_val))
+                db.session.add(BusinessStat(business_id=profile.id, clicks=clicks_val, inquiries=inquiries_val))  # type: ignore
 
     db.session.commit()
     return {"status": "success", "message": "Event tracked"}

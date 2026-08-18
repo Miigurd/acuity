@@ -5,7 +5,13 @@ import json
 # Add the acuity-backend directory to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../acuity-backend')))
 
-from acuity.extraction.ner import extract_entities
+from acuity.extraction.ner_transformer import extract_entities_transformer, load_transformer_model
+
+_MODEL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'best-model'))
+ner_model = load_transformer_model(_MODEL_PATH) if os.path.exists(_MODEL_PATH) else None
+
+def extract_entities(text: str) -> dict:
+    return extract_entities_transformer(text, ner_model)
 
 sample_post = """FRESHWATER AQUATIC PET KEEPING SUPPLIES AND ACCESORIES AVAILABLE
 WE ARE ALWAYS OPEN FROM MONDAY TO SUNDAY!
@@ -42,8 +48,7 @@ Aquatic Tropical Freshwater"""
 print("Running Transformer Model on Sample Post:")
 print(f"Post: '{sample_post}'\n")
 
-try:
-    from acuity.extraction.ner import ner_model
+def test_transformer_extraction():
     if ner_model:
         raw_results = ner_model(sample_post[:2000])
         print("--- RAW TRANSFORMER CONFIDENCE SCORES ---")
@@ -54,5 +59,4 @@ try:
     results = extract_entities(sample_post)
     print("--- FINAL PIPELINE DICTIONARY ---")
     print(json.dumps(results, indent=2))
-except Exception as e:
-    print(f"Error running model: {e}")
+    assert isinstance(results, dict)

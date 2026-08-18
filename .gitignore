@@ -3,3 +3,4 @@
 *.xlsx
 *.csv
 extracted_text.txt
+.vscode/

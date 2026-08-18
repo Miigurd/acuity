@@ -6,7 +6,13 @@ import pytest
 # Add the acuity-backend directory to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../acuity-backend')))
 
-from acuity.extraction.ner_crf import extract_entities
+from acuity.extraction.ner_crf import extract_entities_crf, load_crf_model
+
+_CRF_MODEL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../crf_model.pkl'))
+_crf_model = load_crf_model(_CRF_MODEL_PATH) if os.path.exists(_CRF_MODEL_PATH) else None
+
+def extract_entities(text: str) -> dict:
+    return extract_entities_crf(text, _crf_model)
 
 sample_posts = [
     # Original

@@ -1,6 +1,6 @@
 import json
 import os
-from datasets import Dataset
+from datasets import Dataset  # type: ignore
 
 # 1. Configuration
 INPUT_FILES = [

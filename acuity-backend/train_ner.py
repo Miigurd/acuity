@@ -6,7 +6,7 @@ Make sure to install these dependencies in a notebook cell before running:
 !pip install transformers datasets evaluate seqeval accelerate sentencepiece tiktoken
 """
 import os
-from datasets import load_from_disk
+from datasets import load_from_disk  # type: ignore
 from transformers import (
     AutoTokenizer,
     AutoModelForTokenClassification,
@@ -15,7 +15,7 @@ from transformers import (
     DataCollatorForTokenClassification
 )
 # Evaluate using seqeval
-import evaluate
+import evaluate  # type: ignore
 import numpy as np
 
 # 1. Config

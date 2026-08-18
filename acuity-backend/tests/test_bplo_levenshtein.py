@@ -3,8 +3,10 @@ import os
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from webapp.utils import levenshtein_ratio, levenshtein_details
-from acuity.config import default_config
+from acuity.utils import levenshtein_ratio, levenshtein_details
+from acuity.config import AcuityConfig
+
+default_config = AcuityConfig()
 
 def test_bplo_levenshtein_matching():
     print("\n===========================================================")

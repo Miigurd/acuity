@@ -1,7 +1,7 @@
 import json
 import nltk
-import sklearn_crfsuite
-from sklearn_crfsuite import metrics
+import sklearn_crfsuite  # type: ignore
+from sklearn_crfsuite import metrics  # type: ignore
 import pickle
 
 nltk.download('averaged_perceptron_tagger_eng')

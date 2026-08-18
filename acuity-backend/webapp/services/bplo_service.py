@@ -1,12 +1,10 @@
-import csv
-import re
-from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
-from sqlalchemy.orm import selectinload
-from webapp.utils import levenshtein_ratio, levenshtein_details
 from datetime import datetime
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
-from acuity.config import default_config
+from sqlalchemy.orm import selectinload
+from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
+from acuity.utils import levenshtein_ratio, levenshtein_details  # type: ignore
+from acuity.config import AcuityConfig  # type: ignore
+
+config = AcuityConfig()
 
 
 def upload_bplo_csv(records, fieldnames):
@@ -32,7 +30,7 @@ def upload_bplo_csv(records, fieldnames):
         address_col = next((c for c in fieldnames if "address" in str(c).lower() or "location" in str(c).lower()), None)
         address = row.get(address_col) if address_col else None
         
-        bplo_entry = BPLORegistry(name=str(b_name).strip(), address=str(address).strip() if address else None)
+        bplo_entry = BPLORegistry(name=str(b_name).strip(), address=str(address).strip() if address else None)  # type: ignore
         db.session.add(bplo_entry)
         bplo_entries.append(bplo_entry)
         
@@ -66,7 +64,7 @@ def upload_bplo_csv(records, fieldnames):
                 business_id=profile.id,
                 bplo_id=bplo_name_map[profile_name].id,
                 confidence_score=1.0
-            )
+            )  # type: ignore
             db.session.add(match_entry)
             continue
             
@@ -75,14 +73,14 @@ def upload_bplo_csv(records, fieldnames):
         
         for bplo_name in bplo_lower_names:
             score = levenshtein_ratio(profile_name, bplo_name)
-            if score >= default_config.fuzzy_match_threshold_pending:
+            if score >= config.fuzzy_match_threshold_pending:
                 matches_above_threshold.append((bplo_name, score))
         
         if matches_above_threshold:
             matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
             best_score = matches_above_threshold[0][1]
             
-            if best_score >= default_config.fuzzy_match_threshold_verified:
+            if best_score >= config.fuzzy_match_threshold_verified:
                 profile.is_verified = True
                 profile.status = "Verified"
                 profile.last_verified_year = datetime.utcnow().year
@@ -93,7 +91,7 @@ def upload_bplo_csv(records, fieldnames):
                     business_id=profile.id,
                     bplo_id=best_match.id,
                     confidence_score=round(best_score, 2)
-                )
+                )  # type: ignore4
                 db.session.add(match_entry)
             else:
                 for bplo_name, score in matches_above_threshold:
@@ -102,11 +100,10 @@ def upload_bplo_csv(records, fieldnames):
                         business_id=profile.id,
                         bplo_id=best_match.id,
                         confidence_score=round(score, 2)
-                    )
+                    )  # type: ignore
                     db.session.add(match_entry)
                 profile.status = "Pending Verification"
                 queued += 1
-    # raise Exception("Simulated Database Crash!") # <-- ADD THIS LINE
                 
     db.session.commit()
     return {
@@ -122,8 +119,8 @@ def get_bplo_queue():
     matches = VerificationMatch.query.join(BusinessProfile).filter(
         BusinessProfile.is_verified == False
     ).options(
-        selectinload(VerificationMatch.business).selectinload(BusinessProfile.locations),
-        selectinload(VerificationMatch.bplo)
+        selectinload(VerificationMatch.business).selectinload(BusinessProfile.locations),  # type: ignore
+        selectinload(VerificationMatch.bplo)  # type: ignore
     ).all()
     
     grouped_queue = {}
@@ -165,7 +162,7 @@ def get_bplo_queue():
     return list(grouped_queue.values())
 
 def approve_bplo_match(match_id):
-    match = VerificationMatch.query.options(selectinload(VerificationMatch.business)).get(match_id)
+    match = VerificationMatch.query.options(selectinload(VerificationMatch.business)).filter_by(id=match_id).first()  # type: ignore
     if not match:
         return {"status": "error", "message": "Queue item not found", "code": 404}
         
@@ -179,7 +176,7 @@ def approve_bplo_match(match_id):
     return {"status": "success", "message": "Approved and verified", "code": 200}
     
 def reject_bplo_match(match_id):
-    match = VerificationMatch.query.get(match_id)
+    match = VerificationMatch.query.filter_by(id=match_id).first()
     if not match:
         return {"status": "error", "message": "Queue item not found", "code": 404}
         
