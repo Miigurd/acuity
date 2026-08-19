@@ -22,6 +22,7 @@ from webapp.services import (
     search_businesses,
     track_interaction_event
 )
+from webapp.services.expert_service import trace_recommendation, trace_extraction
 
 import os
 from acuity.extraction.ner_crf import extract_entities_crf, load_crf_model
@@ -32,8 +33,25 @@ from webapp.models import db, AdminActionLog, BusinessProfile
 logger = logging.getLogger(__name__)
 api_bp = Blueprint("api", __name__)
 
-_CRF_MODEL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../crf_model.pkl"))
-_crf_model = load_crf_model(_CRF_MODEL_PATH) if os.path.exists(_CRF_MODEL_PATH) else None
+def _find_crf_model():
+    """Locate the trained CRF model across candidate paths.
+
+    Candidates: monorepo root (where train_crf.py also saves), the webapp tree,
+    and the backend cwd. Returns the first path that exists, else None.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.abspath(os.path.join(here, "../../../crf_model.pkl")),   # acuity/ (monorepo root)
+        os.path.abspath(os.path.join(here, "../../crf_model.pkl")),      # acuity-backend/
+        os.path.join(here, "crf_model.pkl"),                             # webapp/routes/
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    return None
+
+_CRF_MODEL_PATH = _find_crf_model()
+_crf_model = load_crf_model(_CRF_MODEL_PATH) if _CRF_MODEL_PATH else None
 
 @api_bp.route("/health", methods=["GET"])
 def health_check():
@@ -59,6 +77,38 @@ def extract_route():
         results = extract_entities_crf(payload["text"], _crf_model)
         return jsonify(results)
     except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@api_bp.route("/expert/recommend-trace", methods=["GET"])
+def expert_recommend_trace():
+    """Live trace of the actual recommendation pipeline (TF-IDF → cosine → Haversine → rank).
+
+    Uses the same cached engine and corpus as ``/api/search``, so every number
+    reflects exactly what the production system computes. Never increments impressions.
+    """
+    query = request.args.get("q", "").strip()
+    user_lat = request.args.get("lat", type=float)
+    user_lon = request.args.get("lon", type=float)
+    top_k = request.args.get("top_k", 50, type=int)
+
+    try:
+        trace = trace_recommendation(query, user_lat, user_lon, top_k=top_k)
+        return jsonify(trace)
+    except Exception as e:
+        logger.error(f"Recommendation trace error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@api_bp.route("/expert/extract-trace", methods=["POST"])
+def expert_extract_trace():
+    """Live trace of the real extraction pipeline (preprocess → CRF NER → rules → profile)."""
+    payload = request.json
+    if not payload or "text" not in payload:
+        return jsonify({"error": "Missing text payload"}), 400
+    try:
+        trace = trace_extraction(payload["text"], _crf_model)
+        return jsonify(trace)
+    except Exception as e:
+        logger.error(f"Extraction trace error: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 @api_bp.route("/businesses/<int:id>", methods=["GET"])

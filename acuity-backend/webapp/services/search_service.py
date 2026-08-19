@@ -25,11 +25,13 @@ def get_base_query():
         selectinload(BusinessProfile.status_history)  # type: ignore
     )
 
-def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
-    global _engine_instance, _last_verified_count
-    
-    expire_old_permits()
+def select_valid_profiles():
+    """Return profile dicts that are eligible for recommendation.
 
+    Mirrors the exact filter the production search applies: verified, active,
+    not Restricted, and under the flag threshold. Returns a list of dicts
+    in the same order ``RecommendationEngine.set_profiles`` consumes them.
+    """
     # Filter to only vectorize verified profiles visible on the user side.
     verified_profiles = get_base_query().filter(
         (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
@@ -44,16 +46,37 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
         if len(active_flags) < config.max_flags_threshold:
             valid_profiles.append(p)
 
-    if not valid_profiles:
-        return []
+    return [p.to_dict() for p in valid_profiles]
 
-    # Rebuild TF-IDF cache only if the number of valid profiles changes
-    if _engine_instance is None or len(valid_profiles) != _last_verified_count:
-        profiles_dict = [p.to_dict() for p in valid_profiles]
+def get_engine():
+    """Return the shared, cached RecommendationEngine used by production search.
+
+    The engine is rebuilt only when the number of eligible profiles changes,
+    so the live expert trace reads the exact same TF-IDF state as ``/api/search``.
+    """
+    global _engine_instance, _last_verified_count
+
+    profiles_dict = select_valid_profiles()
+    if not profiles_dict:
+        return None
+
+    if _engine_instance is None or len(profiles_dict) != _last_verified_count:
         _engine_instance = RecommendationEngine()
         _engine_instance.set_profiles(profiles_dict)
-        _last_verified_count = len(valid_profiles)
+        _last_verified_count = len(profiles_dict)
+
+    return _engine_instance
+
+def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
+    global _engine_instance, _last_verified_count
     
+    expire_old_permits()
+
+    _engine_instance = get_engine()
+
+    if _engine_instance is None:
+        return []
+
     results = _engine_instance.recommend(query=query, user_lat=user_lat, user_lon=user_lon, top_k=50)
     
     res_data = [{

@@ -4,6 +4,7 @@ import { FiCpu, FiCheckCircle, FiActivity, FiLayers, FiDatabase, FiCompass, FiAr
 import { LANDMARKS, CATEGORIES } from '../context/MockDataContext';
 import { useMockData } from '../context/MockDataContext';
 import SimulationCard from '../components/SimulationCard';
+import ExpertModeLive from '../components/ExpertModeLive';
 
 // Core Math Algorithms for IT Expert Inspection
 const levenshtein = (s1, s2) => {
@@ -252,6 +253,12 @@ const ITExpertValidation = () => {
         >
           <FiActivity /> 3. NLP Extraction (NER) F1 Benchmark
         </button>
+        <button
+          className={`btn ${activeTab === 'trace' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+          onClick={() => setActiveTab('trace')}
+        >
+          <FiDatabase /> 4. Live System Trace (Expert Mode)
+        </button>
       </div>
 
       {/* TAB 1: ML RANKING SIMULATION */}
@@ -420,6 +427,9 @@ const ITExpertValidation = () => {
           )}
         </div>
       )}
+
+      {/* TAB 4: LIVE SYSTEM TRACE (EXPERT MODE) */}
+      {activeTab === 'trace' && <ExpertModeLive />}
     </div>
   );
 };
