@@ -271,7 +271,7 @@ const LandingPage = () => {
                     </div>
                     <div className="footer-links">
                         <Link to="/home">Home</Link>
-                        <Link to="/search">Directory</Link>
+                        <Link to="/search">Search Services</Link>
                         <Link to="/map">Cabuyao Map</Link>
                         <Link to="/flagged">Community Safety</Link>
                         <Link to="/it-expert-validation" style={{ color: 'var(--color-deep-navy)', fontWeight: 800 }}>

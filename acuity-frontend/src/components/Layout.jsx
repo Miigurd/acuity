@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { FiHome, FiSearch, FiMap, FiShield, FiCompass } from 'react-icons/fi';
+import { FiHome, FiSearch, FiMap, FiShield } from 'react-icons/fi';
 import ThemeSwitch from './ThemeSwitch';
 import './Layout.css';
 
@@ -10,7 +10,7 @@ const Layout = () => {
     // Single unified navigation menu across the platform
     const navLinks = [
         { path: '/home', icon: <FiHome />, label: 'Home' },
-        { path: '/search', icon: <FiSearch />, label: 'Directory' },
+        { path: '/search', icon: <FiSearch />, label: 'Search Services' },
         { path: '/map', icon: <FiMap />, label: 'Cabuyao Map' },
         { path: '/flagged', icon: <FiShield />, label: 'Community Safety' }
     ];
@@ -64,9 +64,6 @@ const Layout = () => {
 
                     <div className="desktop-actions flex items-center gap-3">
                         <ThemeSwitch />
-                        <Link to="/search" className="btn btn-primary btn-sm hidden-mobile">
-                            <FiCompass size={14} /> Search Services
-                        </Link>
                     </div>
                 </div>
             </header>
