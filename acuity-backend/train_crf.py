@@ -9,7 +9,8 @@ nltk.download('averaged_perceptron_tagger_eng')
 # Load the data
 DATA_FILES = [
     "data/annotated/labeled_posts.json",
-    "data/annotated/labeled_posts_2.json"
+    "data/annotated/labeled_posts_2.json",
+    "data/annotated/posts_csv_auto.json"
 ]
 
 LABEL_MAP = {
@@ -23,6 +24,29 @@ LABEL_MAP = {
 }
 
 LABEL_MAP_INV = {v: k for k, v in LABEL_MAP.items()}
+
+def process_pretagged(filepath):
+    """Read pre-tokenized, auto-labeled data (``tokens`` + string ``ner_tags``).
+
+    Produced by ``auto_label_posts.py``. Each item looks like:
+        {"text": "...", "tokens": [...], "ner_tags": ["O", "B-LOCATION", ...]}
+    """
+    print(f"Reading {filepath}...")
+    with open(filepath, "r", encoding="utf-8") as f:
+        ls_data = json.load(f)
+
+    processed_data = {"tokens": [], "ner_tags": []}
+    for item in ls_data:
+        tokens = item.get("tokens") or []
+        tags = item.get("ner_tags") or []
+        if len(tokens) != len(tags):
+            print(f"  WARNING: skipping malformed item (token/tag mismatch in {item.get('index')})")
+            continue
+        tag_ids = [LABEL_MAP.get(tag, 0) for tag in tags]
+        processed_data["tokens"].append(tokens)
+        processed_data["ner_tags"].append(tag_ids)
+
+    return processed_data
 
 def process_label_studio_export(filepath):
     print(f"Reading {filepath}...")
@@ -116,11 +140,20 @@ def sent2features(sent_tokens):
 def sent2labels(sent_labels):
     return [LABEL_MAP_INV[tag_id] for tag_id in sent_labels]
 
+def load_dataset_file(filepath):
+    """Load a training file in either Label Studio or pre-tagged format."""
+    with open(filepath, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    # Pre-tagged auto-label format has "tokens"/"ner_tags"; Label Studio has "label".
+    if data and isinstance(data[0], dict) and "ner_tags" in data[0]:
+        return process_pretagged(filepath)
+    return process_label_studio_export(filepath)
+
 def main():
     print("Loading data...")
     dataset = {"tokens": [], "ner_tags": []}
     for file in DATA_FILES:
-        ds = process_label_studio_export(file)
+        ds = load_dataset_file(file)
         dataset["tokens"].extend(ds["tokens"])
         dataset["ner_tags"].extend(ds["ner_tags"])
         
@@ -152,9 +185,13 @@ def main():
     
     print(metrics.flat_classification_report(y_test, y_pred, labels=labels, digits=3))
     
-    with open('crf_model.pkl', 'wb') as f:
-        pickle.dump(crf, f)
-    print("CRF model saved to crf_model.pkl")
+    # Save where the webapp expects it (monorepo root) AND locally for convenience.
+    import os
+    save_paths = ['crf_model.pkl', os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'crf_model.pkl'))]
+    for path in save_paths:
+        with open(path, 'wb') as f:
+            pickle.dump(crf, f)
+        print(f"CRF model saved to {path}")
 
 if __name__ == "__main__":
     main()

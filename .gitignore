@@ -2,5 +2,7 @@
 *.pdf
 *.xlsx
 *.csv
+*.pkl
 extracted_text.txt
 .vscode/
+node_modules/
