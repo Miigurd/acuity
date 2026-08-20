@@ -53,9 +53,12 @@ export const AdminDataProvider = ({ children }) => {
             id: b.id,
             name: b.business_name || b.name || 'Unknown',
             owner: 'Unverified (Extracted)',
-            status: (b.is_verified || b.status === 'Verified' || b.isVerified) 
-              ? 'Verified' 
-              : (b.status === 'Pending Verification' ? 'Pending Verification' : 'Unverified'),
+            status: b.status === 'Restricted' 
+              ? 'Restricted' 
+              : ((b.is_verified || b.status === 'Verified' || b.isVerified) 
+                ? 'Verified' 
+                : (b.status === 'Pending Verification' ? 'Pending Verification' : 'Unverified')),
+            timestamp: b.published_at || new Date().toISOString(),
             raw: b
           }));
           setRegistry(mappedRegistry);
@@ -166,22 +169,22 @@ export const AdminDataProvider = ({ children }) => {
     const updatedRaw = [...rawData];
 
     if (updatedRaw[targetIndex]) {
-      updatedRaw[targetIndex].flag_status = 'Archived';
-      
-      try {
-        await fetchWithAuth('http://localhost:5000/api/businesses', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedRaw)
-        });
-      } catch (err) {
+      const updatedItem = { ...updatedRaw[targetIndex], flag_status: 'None', flagCount: 0 };
+      updatedRaw[targetIndex] = updatedItem;
+            try {
+          await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ flag_status: 'Safe' })
+          });
+        } catch (err) {
         console.error('Failed to sync to backend', err);
       }
       setRawData(updatedRaw);
     }
     
     // An archived item is removed from the active flagged list in the frontend UI view
-    setFlagged(prev => prev.map(f => f.id === id ? { ...f, flag_status: 'Archived' } : f));
+    setFlagged(prev => prev.map(f => f.id === id ? { ...f, flag_status: 'None', flagCount: 0 } : f));
   };
 
   const investigateFlaggedItem = async (id) => {
@@ -192,13 +195,14 @@ export const AdminDataProvider = ({ children }) => {
     const updatedRaw = [...rawData];
 
     if (updatedRaw[targetIndex]) {
-      updatedRaw[targetIndex].flag_status = 'Investigating';
+      const updatedItem = { ...updatedRaw[targetIndex], flag_status: 'Investigating' };
+      updatedRaw[targetIndex] = updatedItem;
       
       try {
-        await fetchWithAuth('http://localhost:5000/api/businesses', {
-          method: 'POST',
+        await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedRaw)
+          body: JSON.stringify({ flag_status: 'Investigating' })
         });
       } catch (err) {
         console.error('Failed to sync to backend', err);
@@ -222,26 +226,23 @@ export const AdminDataProvider = ({ children }) => {
     const updatedRaw = [...rawData];
 
     if (updatedRaw[targetIndex]) {
-      updatedRaw[targetIndex].flag_status = 'Restricted';
+      const updatedItem = { ...updatedRaw[targetIndex], flag_status: 'Restricted', status: 'Restricted', flagCount: 0 };
+      updatedRaw[targetIndex] = updatedItem;
       
       try {
-        await fetchWithAuth('http://localhost:5000/api/businesses', {
-          method: 'POST',
+        await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedRaw)
+          body: JSON.stringify({ flag_status: 'Restricted' })
         });
       } catch (err) {
         console.error('Failed to sync to backend', err);
       }
       setRawData(updatedRaw);
+      setRegistry(prev => prev.map(r => r.id === id ? { ...r, status: 'Restricted' } : r));
     }
 
-    setFlagged(prev => prev.map(f => {
-      if (f.id === id) {
-        return { ...f, flag_status: 'Restricted' };
-      }
-      return f;
-    }));
+    setFlagged(prev => prev.map(f => f.id === id ? { ...f, flag_status: 'Restricted', flagCount: 0 } : f));
   };
 
   const approveHeldEdit = async (id) => {

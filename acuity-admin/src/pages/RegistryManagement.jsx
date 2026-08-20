@@ -66,13 +66,13 @@ function RegistryManagement() {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'status', direction: 'asc' });
   const [isUploading, setIsUploading] = useState(false);
 
   const filteredRegistry = registry.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           String(item.id).toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter ? item.status === statusFilter : true;
+    const matchesStatus = statusFilter ? item.status === statusFilter : item.status !== 'Restricted';
     return matchesSearch && matchesStatus;
   });
 
@@ -97,10 +97,25 @@ function RegistryManagement() {
         return sortConfig.direction === 'asc' ? numA - numB : numB - numA;
       }
     }
+
+    if (sortConfig.key === 'status') {
+      const statusOrder = { 'Verified': 1, 'Pending Verification': 2, 'Unverified': 3, 'Restricted': 4 };
+      const orderA = statusOrder[valA] || 99;
+      const orderB = statusOrder[valB] || 99;
+      if (orderA !== orderB) {
+        return sortConfig.direction === 'asc' ? orderA - orderB : orderB - orderA;
+      }
+    }
+    
+    if (sortConfig.key === 'timestamp') {
+      const timeA = new Date(valA).getTime() || 0;
+      const timeB = new Date(valB).getTime() || 0;
+      return sortConfig.direction === 'asc' ? timeA - timeB : timeB - timeA;
+    }
     
     return sortConfig.direction === 'asc' 
-      ? String(valA).localeCompare(String(valB)) 
-      : String(valB).localeCompare(String(valA));
+      ? String(valA || '').localeCompare(String(valB || '')) 
+      : String(valB || '').localeCompare(String(valA || ''));
   });
 
   const handleFileUpload = async (event) => {
@@ -178,19 +193,25 @@ function RegistryManagement() {
             <option value="Verified">Verified</option>
             <option value="Pending Verification">Pending Verification</option>
             <option value="Unverified">Unverified</option>
+            <option value="Restricted">Restricted</option>
           </select>
         </div>
         <div className="glass-card animate-float-in table-scroll" style={{ padding: 0 }}>
           <table className="admin-table">
             <thead>
               <tr>
-                <th onClick={() => handleSort('id')} style={{ cursor: 'pointer', userSelect: 'none', width: '15%' }}>
+                <th onClick={() => handleSort('id')} style={{ cursor: 'pointer', userSelect: 'none', width: '10%' }}>
                   ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
                 </th>
-                <th onClick={() => handleSort('name')} style={{ cursor: 'pointer', userSelect: 'none', width: '45%' }}>
+                <th onClick={() => handleSort('name')} style={{ cursor: 'pointer', userSelect: 'none', width: '35%' }}>
                   Business Name {sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
                 </th>
-                <th style={{ width: '25%' }}>Status</th>
+                <th onClick={() => handleSort('status')} style={{ cursor: 'pointer', userSelect: 'none', width: '20%' }}>
+                  Status {sortConfig.key === 'status' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                </th>
+                <th onClick={() => handleSort('timestamp')} style={{ cursor: 'pointer', userSelect: 'none', width: '20%' }}>
+                  Timestamp {sortConfig.key === 'timestamp' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                </th>
                 <th style={{ width: '15%' }}>Actions</th>
               </tr>
             </thead>
@@ -207,6 +228,9 @@ function RegistryManagement() {
                   }`}>
                     {item.status}
                   </span>
+                </td>
+                <td className="text-secondary">
+                  {item.timestamp ? new Date(item.timestamp).toLocaleDateString() : 'N/A'}
                 </td>
                 <td>
                   <button 
