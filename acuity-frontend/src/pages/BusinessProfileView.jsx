@@ -320,6 +320,97 @@ const BusinessProfileView = () => {
         </div>
       </div>
 
+      {/* Edit History Section */}
+      {business.history && business.history.length > 0 && (
+        <div className="card mt-6" style={{ background: 'var(--bg-surface)' }}>
+          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FiClock className="text-primary" /> Edit History Log
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
+            <div style={{ position: 'absolute', left: '16px', top: '8px', bottom: '8px', width: '2px', background: 'var(--border)' }}></div>
+            {business.history.map((entry, index) => (
+              <div key={index} style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 1 }}>
+                <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: 'var(--color-sky-tint)', border: '2px solid var(--bg-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-deep-navy)' }}>
+                  <FiEdit2 size={14} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      {new Date(entry.timestamp).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                    </p>
+                    <button
+                      onClick={() => handleRollback(entry.timestamp)}
+                      className="btn btn-outline btn-sm"
+                      style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                      title="Undo this edit and all newer edits"
+                    >
+                      <FiRotateCcw size={12} style={{ marginRight: '4px' }} /> Rollback
+                    </button>
+                  </div>
+                  <div style={{ background: 'var(--bg-elevated)', border: `1px solid var(--border)`, padding: '12px 16px', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {entry.previous_data ? (() => {
+                      const ALLOWED_HISTORY_FIELDS = [
+                        'name', 'business_name', 'categories', 'category_id', 'categoryId',
+                        'locationType', 'description', 'services', 'phones', 'contact_info',
+                        'contact', 'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours'
+                      ];
+                      const changedFields = Object.entries(entry.previous_data)
+                        .filter(([field]) => ALLOWED_HISTORY_FIELDS.includes(field))
+                        .map(([field, oldVal]) => {
+                          const newVal = business[field] || business.raw?.[field] || business[field.replace('_', '')] || "None";
+                          return { field, oldVal, newVal };
+                        })
+                        .filter(({ oldVal, newVal }) => {
+                          const formatVal = (v) => {
+                            if (Array.isArray(v)) return v.join(', ');
+                            if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+                            if (v && typeof v === 'object') return JSON.stringify(v);
+                            return String(v || 'None');
+                          };
+                          return formatVal(oldVal) !== formatVal(newVal);
+                        });
+
+                      if (changedFields.length === 0) {
+                        return (
+                          <div style={{ fontSize: '0.88rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            <span style={{ fontWeight: 700, color: 'var(--color-deep-navy)' }}>Snapshot Saved</span>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>A complete database backup of the profile was captured.</p>
+                          </div>
+                        );
+                      }
+
+                      return changedFields.map(({ field, oldVal }) => {
+                        const formatVal = (v) => {
+                          if (Array.isArray(v)) return v.join(', ');
+                          if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+                          if (v && typeof v === 'object') return JSON.stringify(v);
+                          return v || 'None';
+                        };
+                        return (
+                          <div key={field} style={{ fontSize: '0.88rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                            <span style={{ fontWeight: 700, textTransform: 'capitalize', color: 'var(--color-deep-navy)' }}>
+                              Previous {field.replace(/([A-Z_])/g, ' $1').replace('_', '').trim()}:
+                            </span>
+                            <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', wordBreak: 'break-word' }}>
+                              {formatVal(oldVal)}
+                            </span>
+                          </div>
+                        );
+                      });
+                    })() : (
+                      <div style={{ fontSize: '0.88rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <span style={{ fontWeight: 700, color: 'var(--color-deep-navy)' }}>Snapshot Saved</span>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>A complete database backup of the profile was captured.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Flag Report Section */}
       {showFlagSection && (
         <div id="flag-section" className="card mt-6" style={{ border: '1px solid rgba(220, 38, 38, 0.3)', background: 'var(--error-bg)' }}>

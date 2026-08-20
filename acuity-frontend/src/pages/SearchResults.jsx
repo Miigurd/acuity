@@ -17,7 +17,7 @@ const SearchResults = () => {
 
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [sortBy, setSortBy] = useState('nearest'); // 'nearest' or 'newest'
+  const [sortBy, setSortBy] = useState('relevance'); // 'nearest', 'newest', or 'relevance'
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
   const [rankedData, setRankedData] = useState(null);
@@ -89,17 +89,15 @@ const SearchResults = () => {
       filtered = filtered.filter(b => b.categoryId === initialCategory);
     }
 
-    const activeSortBy = initialQuery ? 'relevance' : sortBy;
-
-    if (activeSortBy === 'nearest') {
+    if (sortBy === 'nearest') {
       filtered.sort((a, b) => {
         const distA = a.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(a.landmarkId)?.latLng) : Infinity);
         const distB = b.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(b.landmarkId)?.latLng) : Infinity);
         return distA - distB;
       });
-    } else if (activeSortBy === 'newest') {
+    } else if (sortBy === 'newest') {
       filtered.sort((a, b) => new Date(b.stats?.created || 0) - new Date(a.stats?.created || 0));
-    } else if (activeSortBy === 'relevance') {
+    } else if (sortBy === 'relevance') {
       filtered.sort((a, b) => (b.final_score || b.relevance_score || 0) - (a.final_score || a.relevance_score || 0));
     }
 
@@ -194,9 +192,8 @@ const SearchResults = () => {
           </select>
 
           <select
-            value={initialQuery ? 'relevance' : sortBy}
+            value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            disabled={!!initialQuery}
             style={{
               padding: '8px 16px',
               borderRadius: 'var(--radius-pill)',
@@ -205,12 +202,12 @@ const SearchResults = () => {
               color: 'var(--text-primary)',
               fontSize: '0.82rem',
               fontWeight: 600,
-              cursor: initialQuery ? 'not-allowed' : 'pointer',
+              cursor: 'pointer',
               outline: 'none',
-              opacity: initialQuery ? 0.7 : 1
+              opacity: 1
             }}
           >
-            {initialQuery && <option value="relevance">Sort by: ML Relevance</option>}
+            <option value="relevance">Sort by: {initialQuery ? 'ML Relevance' : 'Relevance / Proximity'}</option>
             <option value="nearest">Sort by: Nearest</option>
             <option value="newest">Sort by: Newest</option>
           </select>

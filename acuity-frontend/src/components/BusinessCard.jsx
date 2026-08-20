@@ -14,7 +14,6 @@ const BusinessCard = ({ business, distance, recommended }) => {
     return (
         <Link
             to={`/business/${business.id}`}
-            onClick={() => trackEvent && trackEvent({ eventType: 'click', businessName: business.name })}
             style={{ display: 'block', width: '100%', minWidth: 0, textDecoration: 'none' }}
             className="biz-card-link card card-interactive"
         >
@@ -60,8 +59,8 @@ const BusinessCard = ({ business, distance, recommended }) => {
                         <div style={{
                             position: 'absolute', top: 'calc(100% + 8px)', left: '0', zIndex: 60,
                             background: 'var(--bg-surface)', border: '1px solid var(--border-strong)',
-                            borderRadius: 'var(--radius-card)', padding: '14px', width: '250px',
-                            maxWidth: 'min(250px, calc(100% - 16px))',
+                            borderRadius: 'var(--radius-card)', padding: '14px', width: '260px',
+                            maxWidth: '90vw',
                             boxShadow: 'var(--shadow-card-hover)', color: 'var(--text-primary)',
                             fontSize: '0.78rem', fontWeight: 400, cursor: 'default',
                             textAlign: 'left'
@@ -133,7 +132,7 @@ const BusinessCard = ({ business, distance, recommended }) => {
             }}>
                 <FiMapPin style={{ color: 'var(--color-deep-navy)', flexShrink: 0 }} size={13} />
                 <span style={{ overflow: 'hidden' }}>
-                    {distance ? `${distance} km away` : ''} {landmark ? `• Near ${landmark.name}` : '• Brgy. Banay-Banay'}
+                    {distance ? `${distance} km away` : ''} {landmark ? `• Near ${landmark.name}` : '• Cabuyao City'}
                 </span>
             </div>
 

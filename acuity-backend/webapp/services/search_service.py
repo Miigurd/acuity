@@ -87,6 +87,9 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
         "final_score": r.get("final_score")
     } for r in results if (r.get("name") or r.get("business_name")) and (not query or r.get("relevance_score", 0) > 0)]
     
+    # Ensure results are always ranked by final score, especially when query is empty
+    res_data.sort(key=lambda x: x.get("final_score", 0) or 0, reverse=True)
+    
     returned_names = [r["name"] for r in res_data]
     if returned_names and query and not simulate:
         # Update impressions stat in DB - eager load stats to avoid N+1

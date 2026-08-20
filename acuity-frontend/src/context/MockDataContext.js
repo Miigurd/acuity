@@ -97,7 +97,11 @@ export const MockDataProvider = ({ children }) => {
                     const payload = await response.json();
                     const data = payload.data || payload;
                     
-                    const verifiedRaw = data.filter(b => b.is_verified === true || b.status === 'Verified' || b.isVerified);
+                    const verifiedRaw = data.filter(b => 
+                        (b.is_verified === true || b.status === 'Verified' || b.isVerified) && 
+                        b.flag_status !== 'Restricted' && 
+                        b.status !== 'Restricted'
+                    );
                     
                     const mappedBusinesses = verifiedRaw.map((b, index) => {
                         return {
