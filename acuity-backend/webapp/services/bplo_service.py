@@ -91,7 +91,7 @@ def upload_bplo_csv(records, fieldnames):
                     business_id=profile.id,
                     bplo_id=best_match.id,
                     confidence_score=round(best_score, 2)
-                )  # type: ignore4
+                )  # type: ignore
                 db.session.add(match_entry)
             else:
                 for bplo_name, score in matches_above_threshold:

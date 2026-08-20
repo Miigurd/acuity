@@ -123,6 +123,64 @@ def get_business(id):
         logger.error(f"Error reading database: {e}", exc_info=True)
         return jsonify({"error": "Internal Server Error"}), 500
 
+@api_bp.route("/businesses/<int:id>/flag-status", methods=["PATCH"])
+def update_flag_status(id):
+    """Directly update a business profile's flag status (Admin only)."""
+    payload = request.json
+    if not payload or "flag_status" not in payload:
+        return jsonify({"error": "Missing flag_status"}), 400
+        
+    try:
+        from webapp.models import BusinessProfile, db, BusinessStatusHistory
+        profile = BusinessProfile.query.get(id)
+        if not profile:
+            return jsonify({"error": "Business not found"}), 404
+            
+        old_status = profile.flag_status
+        new_status = payload["flag_status"]
+        
+        if old_status != new_status:
+            logged_status = new_status
+            if new_status in ["Archived", "Safe", "Restricted"]:
+                if new_status in ["Archived", "Safe"]:
+                    profile.flag_status = "None"
+                else:
+                    profile.flag_status = "Restricted"
+                    profile.status = "Restricted"
+                
+                archived_count = 0
+                reasons = []
+                for flag in profile.flags:
+                    if not flag.is_archived:
+                        flag.is_archived = True
+                        archived_count += 1
+                        reasons.append(flag.reason)
+                
+                common_reason = "Community Feedback"
+                if reasons:
+                    from collections import Counter
+                    common_reason = Counter(reasons).most_common(1)[0][0]
+                    
+                logged_status = f"{new_status}|{archived_count}|{common_reason}"
+            else:
+                profile.flag_status = new_status
+            
+            history_log = BusinessStatusHistory(
+                business_id=profile.id,
+                previous_status=old_status,
+                new_status=logged_status,
+                admin_id="Admin Dashboard"
+            )
+            db.session.add(history_log)
+            db.session.commit()
+            
+            socketio.emit("business_updated", {"id": id, "type": "flag_status_change"})
+            
+        return jsonify({"message": f"Flag status updated to {new_status}"}), 200
+    except Exception as e:
+        logger.error(f"Error updating flag status: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 @api_bp.route("/businesses/<int:id>/claim", methods=["POST"])
 def claim_business(id):
     """Claim a business profile and receive an SMS PIN."""

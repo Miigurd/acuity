@@ -254,6 +254,11 @@ def flag_business(name_to_flag, reason="Community Flag", ip_address=None):
         
     new_flag = FlagLog(business_id=profile.id, reason=reason, ip_address=ip_address)
     db.session.add(new_flag)
+    db.session.flush()
+
+    active_flags = [f for f in profile.flags if not f.is_archived]
+    if len(active_flags) >= 3 and profile.flag_status not in ["Flagged", "Investigating", "Restricted"]:
+        profile.flag_status = "Flagged"
         
     db.session.commit()
     return {"status": "success", "message": "Successfully flagged business"}
