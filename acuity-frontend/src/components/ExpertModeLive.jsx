@@ -51,7 +51,7 @@ const ExpertModeLive = () => {
     setTraceError(null);
     const lm = LANDMARKS.find(l => l.id === recLandmark) || LANDMARKS[0];
     try {
-      const url = `http://localhost:5000/api/expert/recommend-trace?q=${encodeURIComponent(recQuery)}&lat=${lm.latLng[0]}&lon=${lm.latLng[1]}`;
+      const url = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/expert/recommend-trace?q=${encodeURIComponent(recQuery)}&lat=${lm.latLng[0]}&lon=${lm.latLng[1]}`;
       const res = await fetch(url);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Backend returned an error');
@@ -69,7 +69,7 @@ const ExpertModeLive = () => {
     setIsExtracting(true);
     setExtractError(null);
     try {
-      const res = await fetch('http://localhost:5000/api/expert/extract-trace', {
+      const res = await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/expert/extract-trace', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: extractText })

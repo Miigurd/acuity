@@ -30,7 +30,7 @@ const BusinessProfileView = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/businesses/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${id}`);
         if (!response.ok) {
           throw new Error('Business not found');
         }
@@ -84,7 +84,7 @@ const BusinessProfileView = () => {
     const confirmRollback = window.confirm("Are you sure you want to rollback to this version? All newer edits will be undone permanently.");
     if (confirmRollback) {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/businesses/${business.id}/rollback`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/rollback`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ timestamp })
@@ -106,7 +106,7 @@ const BusinessProfileView = () => {
     if (!window.confirm("Are you the owner? A secure verification PIN will be sent to the contact number on this profile.")) return;
     setClaiming(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/businesses/${business.id}/claim`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim`, {
         method: 'POST'
       });
       const data = await response.json();

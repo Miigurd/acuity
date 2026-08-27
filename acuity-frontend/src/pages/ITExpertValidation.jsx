@@ -184,7 +184,7 @@ const ITExpertValidation = () => {
   const handleExtract = async () => {
     setIsExtracting(true);
     try {
-      const res = await fetch('http://localhost:5000/api/extract', {
+      const res = await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: liveText })

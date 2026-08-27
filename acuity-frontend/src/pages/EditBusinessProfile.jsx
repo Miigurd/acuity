@@ -41,7 +41,7 @@ const EditBusinessProfile = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/businesses/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${id}`);
         if (!response.ok) {
           throw new Error('Business not found');
         }
@@ -131,7 +131,7 @@ const EditBusinessProfile = () => {
 
     if (existingBusiness) {
       try {
-        const response = await fetch('http://localhost:5000/api/businesses', {
+        const response = await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/businesses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify([businessData])

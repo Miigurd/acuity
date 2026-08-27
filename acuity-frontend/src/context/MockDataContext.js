@@ -92,7 +92,7 @@ export const MockDataProvider = ({ children }) => {
     useEffect(() => {
         const fetchBackendBusinesses = async (retries = 3) => {
             try {
-                const response = await fetch('http://localhost:5000/api/businesses');
+                const response = await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/businesses');
                 if (response.ok) {
                     const payload = await response.json();
                     const data = payload.data || payload;
@@ -149,7 +149,7 @@ export const MockDataProvider = ({ children }) => {
 
         fetchBackendBusinesses();
 
-        const socket = io('http://localhost:5000');
+        const socket = io((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '');
         socket.on('business_updated', () => {
             fetchBackendBusinesses();
         });
@@ -222,7 +222,7 @@ export const MockDataProvider = ({ children }) => {
         
         if (targetBusiness) {
             try {
-                await fetch('http://localhost:5000/api/businesses/flag', {
+                await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/businesses/flag', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: targetBusiness.name, reason })
@@ -269,7 +269,7 @@ export const MockDataProvider = ({ children }) => {
 
     const trackEvent = async (eventData) => {
         try {
-            await fetch('http://localhost:5000/api/track', {
+            await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/track', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

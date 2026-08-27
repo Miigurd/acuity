@@ -42,7 +42,7 @@ export const AdminDataProvider = ({ children }) => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/businesses');
+        const response = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/businesses');
         if (response.ok) {
           const payload = await response.json();
           const data = payload.data || payload;
@@ -66,14 +66,14 @@ export const AdminDataProvider = ({ children }) => {
 
 
           // Fetch the real Verification Match Queue
-          const queueRes = await fetchWithAuth('http://localhost:5000/api/bplo/queue');
+          const queueRes = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/queue');
           if (queueRes.ok) {
              const queueData = await queueRes.json();
              setQueue(queueData);
           }
           
           // Fetch held edits
-          const heldRes = await fetchWithAuth('http://localhost:5000/api/held-edits');
+          const heldRes = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/held-edits');
           if (heldRes.ok) {
              const heldData = await heldRes.json();
              setHeldEdits(heldData);
@@ -124,7 +124,7 @@ export const AdminDataProvider = ({ children }) => {
     };
     fetchBusinesses();
 
-    const socket = io('http://localhost:5000');
+    const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '');
     socket.on('business_updated', () => {
         fetchBusinesses();
     });
@@ -140,7 +140,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const approveQueueItem = async (id) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/bplo/queue/${id}/approve`, { method: 'POST' });
+      const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/bplo/queue/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
@@ -152,7 +152,7 @@ export const AdminDataProvider = ({ children }) => {
   const rejectQueueItem = async (id) => {
     if (!window.confirm("Are you sure you want to permanently reject this match?")) return;
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/bplo/queue/${id}/reject`, { method: 'POST' });
+      const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/bplo/queue/${id}/reject`, { method: 'POST' });
       if (res.ok) {
         setQueue(prev => prev.filter(item => !item.matches.some(m => m.match_id === id)));
       }
@@ -172,7 +172,7 @@ export const AdminDataProvider = ({ children }) => {
       const updatedItem = { ...updatedRaw[targetIndex], flag_status: 'None', flagCount: 0 };
       updatedRaw[targetIndex] = updatedItem;
             try {
-          await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+          await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${updatedItem.id}/flag-status`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ flag_status: 'Safe' })
@@ -199,7 +199,7 @@ export const AdminDataProvider = ({ children }) => {
       updatedRaw[targetIndex] = updatedItem;
       
       try {
-        await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+        await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${updatedItem.id}/flag-status`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ flag_status: 'Investigating' })
@@ -230,7 +230,7 @@ export const AdminDataProvider = ({ children }) => {
       updatedRaw[targetIndex] = updatedItem;
       
       try {
-        await fetchWithAuth(`http://localhost:5000/api/businesses/${updatedItem.id}/flag-status`, {
+        await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${updatedItem.id}/flag-status`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ flag_status: 'Restricted' })
@@ -247,7 +247,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const approveHeldEdit = async (id) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/held-edits/${id}/approve`, { method: 'POST' });
+      const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/held-edits/${id}/approve`, { method: 'POST' });
       if (res.ok) {
         setHeldEdits(prev => prev.filter(item => item.id !== id));
       }
@@ -258,7 +258,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const rejectHeldEdit = async (id) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/held-edits/${id}/reject`, { method: 'POST' });
+      const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/held-edits/${id}/reject`, { method: 'POST' });
       if (res.ok) {
         setHeldEdits(prev => prev.filter(item => item.id !== id));
       }

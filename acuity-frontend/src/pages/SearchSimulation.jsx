@@ -25,7 +25,7 @@ const SearchSimulation = () => {
   useEffect(() => {
     const fetchRankings = async () => {
       try {
-        let fetchUrl = `http://localhost:5000/api/search?simulate=true&q=${encodeURIComponent(initialQuery || '')}`;
+        let fetchUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/search?simulate=true&q=${encodeURIComponent(initialQuery || '')}`;
         const userLandmark = getLandmarkById(user?.landmarkId);
         if (userLandmark && userLandmark.latLng) {
           fetchUrl += `&lat=${userLandmark.latLng[0]}&lon=${userLandmark.latLng[1]}`;
