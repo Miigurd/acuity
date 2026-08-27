@@ -34,9 +34,12 @@ def create_app() -> Flask:
         "DATABASE_URL", f"sqlite:///{db_path}"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-        "connect_args": {"timeout": 10}
-    }
+    if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
+        app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+            "connect_args": {"timeout": 10}
+        }
+    else:
+        app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {}
 
     from .models import db # type: ignore
     db.init_app(app)
