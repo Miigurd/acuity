@@ -1,0 +1,33 @@
+name: 6-Month Auto Pipeline
+
+on:
+  schedule:
+    # Runs at 00:00 on Jan 1 and Jul 1
+    - cron: '0 0 1 1,7 *'
+  workflow_dispatch:
+    # Allows you to trigger it manually from the GitHub Actions tab!
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' 
+
+      - name: Install dependencies
+        run: |
+          cd acuity-backend
+          pip install -r requirements.txt
+
+      - name: Run Pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd acuity-backend
+          python auto_pipeline.py
