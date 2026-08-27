@@ -222,7 +222,7 @@ def get_businesses():
         return jsonify(profiles)
     except Exception as e:
         logger.error(f"Error reading database: {e}", exc_info=True)
-        return jsonify({"error": "Failed to load business profiles"}), 500
+        return jsonify({"error": f"Failed to load business profiles: {str(e)}"}), 500
 
 @api_bp.route("/businesses", methods=["POST"])
 @limiter.limit("10 per minute")
