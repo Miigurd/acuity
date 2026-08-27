@@ -33,8 +33,8 @@ flask-jwt-extended>=4.5.0
 Flask-Limiter>=3.5.0
 
 # --- Production Deployment ---
-gunicorn>=21.2.0
-eventlet>=0.33.3
+gunicorn==21.2.0
+eventlet==0.33.3
 
 # --- Database ---
 # SQLite is built-in; uncomment below for PostgreSQL
