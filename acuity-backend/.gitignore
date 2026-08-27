@@ -42,6 +42,7 @@ Thumbs.db
 # --- Custom (Models & Archives) ---
 *.zip
 *.pkl
+!crf_model.pkl
 *.pdf
 acuity_env/
 search_output.json
