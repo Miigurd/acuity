@@ -139,7 +139,7 @@ const EditBusinessProfile = () => {
 
         const data = await response.json();
         if (response.ok) {
-          if (data.status === 'held') {
+          if (response.status === 202 || data.status === 'held') {
             setSuccessMsg(data.message || 'Your edits have been held for administrative review.');
           } else {
             setSuccessMsg('Your corrections have been saved. Thank you for keeping the directory accurate!');

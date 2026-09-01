@@ -43,7 +43,7 @@ function HeldEdits() {
           <thead>
             <tr>
               <th>Profile Name</th>
-              <th>IP Address</th>
+              
               <th>Timestamp</th>
               <th>Specific Changes</th>
               <th>Actions</th>
@@ -57,7 +57,7 @@ function HeldEdits() {
               return (
                 <tr key={item.id}>
                   <td className="font-semibold">{item.business_name}</td>
-                  <td style={{ fontFamily: 'monospace', color: 'var(--text-secondary)' }}>{item.ip_address}</td>
+                  
                   <td className="text-secondary">{new Date(item.timestamp).toLocaleString()}</td>
                   <td style={{ maxWidth: '300px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
