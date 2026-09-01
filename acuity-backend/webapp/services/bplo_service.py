@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import selectinload
-from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile
+from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile, BusinessStatusHistory
 from acuity.utils import levenshtein_ratio, levenshtein_details  # type: ignore
 from acuity.config import AcuityConfig  # type: ignore
 
@@ -55,6 +55,14 @@ def upload_bplo_csv(records, fieldnames):
         
         # Fast Path: O(1) Exact match
         if profile_name in bplo_name_map:
+            if profile.status != "Verified":
+                history = BusinessStatusHistory(
+                    business_id=profile.id,
+                    admin_id="System (BPLO Auto-Sync)",
+                    previous_status=profile.status,
+                    new_status="Verified"
+                )
+                db.session.add(history)
             profile.is_verified = True
             profile.status = "Verified"
             profile.last_verified_year = datetime.utcnow().year
@@ -81,6 +89,14 @@ def upload_bplo_csv(records, fieldnames):
             best_score = matches_above_threshold[0][1]
             
             if best_score >= config.fuzzy_match_threshold_verified:
+                if profile.status != "Verified":
+                    history = BusinessStatusHistory(
+                        business_id=profile.id,
+                        admin_id="System (BPLO Auto-Sync)",
+                        previous_status=profile.status,
+                        new_status="Verified"
+                    )
+                    db.session.add(history)
                 profile.is_verified = True
                 profile.status = "Verified"
                 profile.last_verified_year = datetime.utcnow().year
@@ -102,6 +118,14 @@ def upload_bplo_csv(records, fieldnames):
                         confidence_score=round(score, 2)
                     )  # type: ignore
                     db.session.add(match_entry)
+                if profile.status != "Pending Verification":
+                    history = BusinessStatusHistory(
+                        business_id=profile.id,
+                        admin_id="System (BPLO Queue)",
+                        previous_status=profile.status,
+                        new_status="Pending Verification"
+                    )
+                    db.session.add(history)
                 profile.status = "Pending Verification"
                 queued += 1
                 
@@ -167,6 +191,16 @@ def approve_bplo_match(match_id):
         return {"status": "error", "message": "Queue item not found", "code": 404}
         
     profile = match.business
+    
+    if profile.status != "Verified":
+        history = BusinessStatusHistory(
+            business_id=profile.id,
+            admin_id="Admin (Manual Queue Approval)",
+            previous_status=profile.status,
+            new_status="Verified"
+        )
+        db.session.add(history)
+        
     profile.is_verified = True
     profile.status = "Verified"
     profile.last_verified_year = datetime.utcnow().year
