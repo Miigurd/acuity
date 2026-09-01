@@ -58,7 +58,9 @@ export const AdminDataProvider = ({ children }) => {
               : ((b.is_verified || b.status === 'Verified' || b.isVerified) 
                 ? 'Verified' 
                 : (b.status === 'Pending Verification' ? 'Pending Verification' : 'Unverified')),
-            timestamp: b.published_at || new Date().toISOString(),
+            timestamp: (b.status_history && b.status_history.length > 0) 
+              ? b.status_history[0].timestamp 
+              : (b.published_at || b.created || new Date().toISOString()),
             raw: b
           }));
           setRegistry(mappedRegistry);
