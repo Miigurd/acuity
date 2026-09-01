@@ -230,18 +230,7 @@ function DashboardHome() {
             </StatInfo>
           </StatCard>
 
-          <StatCard className="glass-card animate-float-in" style={{ animationDelay: '600ms' }}>
-            <IconWrapper bg="rgba(245, 158, 11, 0.1)" color="var(--warning)" shadow="rgba(245, 158, 11, 0.15)">
-              <MdPhoneInTalk />
-            </IconWrapper>
-            <StatInfo>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
-                <span className="label" style={{ marginBottom: 0 }}>Total Inquiries</span>
-                <InfoTooltip text="Total times users clicked 'Call Now' or 'Message' to contact a business." />
-              </div>
-              <span className="value">{totalInquiries}</span>
-            </StatInfo>
-          </StatCard>
+
 
           <StatCard className="glass-card animate-float-in" style={{ animationDelay: '700ms' }}>
             <IconWrapper bg="rgba(236, 72, 153, 0.1)" color="#ec4899" shadow="rgba(236, 72, 153, 0.15)">
