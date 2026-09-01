@@ -137,13 +137,17 @@ const EditBusinessProfile = () => {
           body: JSON.stringify([businessData])
         });
 
+        const data = await response.json();
         if (response.ok) {
-          setSuccessMsg('Your corrections have been saved. Thank you for keeping the directory accurate!');
+          if (data.status === 'held') {
+            setSuccessMsg(data.message || 'Your edits have been held for administrative review.');
+          } else {
+            setSuccessMsg('Your corrections have been saved. Thank you for keeping the directory accurate!');
+          }
           setSuccessNav(`/business/${existingBusiness.id}`);
           setShowSuccessModal(true);
         } else {
-          const errData = await response.json();
-          showToast(errData.error || 'Failed to save edits to server.', 'error');
+          showToast(data.error || data.message || 'Failed to save edits to server.', 'error');
         }
       } catch (err) {
         console.error('Error saving edits:', err);
