@@ -89,7 +89,19 @@ def update_businesses(data, ip_address):
             if sensitive_changed:
                 if profile.pin_locked:
                     provided_pin = b.get("pin") or b.get("owner_pin")
-                    if not provided_pin or str(provided_pin) != str(profile.owner_pin):
+                    is_valid = False
+                    if provided_pin:
+                        from werkzeug.security import check_password_hash
+                        try:
+                            is_valid = check_password_hash(str(profile.owner_pin), str(provided_pin))
+                        except ValueError:
+                            # Not a valid hash, fallback to plaintext for existing db records
+                            pass
+                        
+                        if not is_valid:
+                            is_valid = str(profile.owner_pin) == str(provided_pin)
+
+                    if not is_valid:
                         return {"status": "error", "message": f"Invalid PIN for {name}. Sensitive edits rejected.", "code": 403}
                 else:
                     held_edit = HeldEdit(

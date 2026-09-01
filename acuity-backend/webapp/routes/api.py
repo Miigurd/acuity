@@ -199,8 +199,9 @@ def claim_business(id):
             return jsonify({"error": "No phone number on record to send the PIN to."}), 400
             
         import random
+        from werkzeug.security import generate_password_hash
         new_pin = str(random.randint(100000, 999999))
-        profile_obj.owner_pin = new_pin
+        profile_obj.owner_pin = generate_password_hash(new_pin)
         profile_obj.pin_locked = True
         db.session.commit()
         
@@ -316,6 +317,7 @@ def rollback_business(id):
         return jsonify({"error": str(e)}), 500
 
 @api_bp.route("/bplo/upload", methods=["POST"])
+@jwt_required()
 def upload_bplo():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
