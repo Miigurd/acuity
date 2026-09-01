@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
 `;
 
 function RegistryManagement() {
-  const { registry, isLoading } = useAdminData();
+  const { registry, isLoading, fetchWithAuth } = useAdminData();
   const { showToast } = useToast();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -128,7 +128,7 @@ function RegistryManagement() {
     setIsUploading(true);
 
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/upload', {
+      const res = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/upload', {
         method: 'POST',
         body: formData,
       });
