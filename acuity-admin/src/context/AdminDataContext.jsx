@@ -49,6 +49,8 @@ export const AdminDataProvider = ({ children }) => {
           setRawData(data); // Retain exactly what was fetched for POSTing back later
           
           // Map extracted data to our table formats
+          const addZ = (ts) => (ts && !ts.endsWith('Z') && !ts.includes('+')) ? ts + 'Z' : ts;
+          
           const mappedRegistry = data.map((b) => ({
             id: b.id,
             name: b.business_name || b.name || 'Unknown',
@@ -58,9 +60,9 @@ export const AdminDataProvider = ({ children }) => {
               : ((b.is_verified || b.status === 'Verified' || b.isVerified) 
                 ? 'Verified' 
                 : (b.status === 'Pending Verification' ? 'Pending Verification' : 'Unverified')),
-            timestamp: (b.status_history && b.status_history.length > 0) 
+            timestamp: addZ((b.status_history && b.status_history.length > 0) 
               ? b.status_history[0].timestamp 
-              : (b.published_at || b.created || new Date().toISOString()),
+              : (b.published_at || b.created || new Date().toISOString())),
             raw: b
           }));
           setRegistry(mappedRegistry);
@@ -78,7 +80,10 @@ export const AdminDataProvider = ({ children }) => {
           const heldRes = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/held-edits');
           if (heldRes.ok) {
              const heldData = await heldRes.json();
-             setHeldEdits(heldData);
+             setHeldEdits(heldData.map(h => ({
+               ...h,
+               timestamp: addZ(h.timestamp)
+             })));
           }
           
           // Helper to find the most frequent string in an array
