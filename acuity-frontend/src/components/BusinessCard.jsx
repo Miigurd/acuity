@@ -14,6 +14,11 @@ const BusinessCard = ({ business, distance, recommended }) => {
     return (
         <Link
             to={`/business/${business.id}`}
+            onClick={() => {
+                if (trackEvent) {
+                    trackEvent({ eventType: 'click', businessName: business.name });
+                }
+            }}
             style={{ display: 'block', width: '100%', minWidth: 0, textDecoration: 'none' }}
             className="biz-card-link card card-interactive"
         >

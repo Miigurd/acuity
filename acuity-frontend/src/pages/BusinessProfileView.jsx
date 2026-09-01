@@ -37,9 +37,7 @@ const BusinessProfileView = () => {
         const data = await response.json();
         setBusiness(data);
         
-        if (trackEvent && data.name) {
-          trackEvent({ eventType: 'click', businessName: data.name });
-        }
+        
       } catch (err) {
         setError(err.message);
       } finally {
@@ -336,7 +334,7 @@ const BusinessProfileView = () => {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
                     <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                      {new Date(entry.timestamp).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                      {new Date((entry.timestamp && !entry.timestamp.endsWith('Z') && !entry.timestamp.includes('+')) ? entry.timestamp + 'Z' : entry.timestamp).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
                     </p>
                     <button
                       onClick={() => handleRollback(entry.timestamp)}
