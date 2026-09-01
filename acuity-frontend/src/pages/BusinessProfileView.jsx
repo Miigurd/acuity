@@ -352,10 +352,13 @@ const BusinessProfileView = () => {
                         'locationType', 'description', 'services', 'phones', 'contact_info',
                         'contact', 'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours'
                       ];
+                      
+                      const nextState = index === 0 ? business : business.history[index - 1].previous_data;
+                      
                       const changedFields = Object.entries(entry.previous_data)
                         .filter(([field]) => ALLOWED_HISTORY_FIELDS.includes(field))
                         .map(([field, oldVal]) => {
-                          const newVal = business[field] || business.raw?.[field] || business[field.replace('_', '')] || "None";
+                          const newVal = nextState[field] || nextState.raw?.[field] || nextState[field.replace('_', '')] || "None";
                           return { field, oldVal, newVal };
                         })
                         .filter(({ oldVal, newVal }) => {
