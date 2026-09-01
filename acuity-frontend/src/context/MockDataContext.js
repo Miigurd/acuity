@@ -103,7 +103,11 @@ export const MockDataProvider = ({ children }) => {
                         b.status !== 'Restricted'
                     );
                     
+                    const addZ = (ts) => (ts && !ts.endsWith('Z') && !ts.includes('+')) ? ts + 'Z' : ts;
+
                     const mappedBusinesses = verifiedRaw.map((b, index) => {
+                        let createdTime = (b.stats && b.stats.created) ? b.stats.created : (b.created || new Date().toISOString().split('T')[0]);
+                        createdTime = addZ(createdTime);
                         return {
                             id: b.id || `api-b${index}`,
                             ownerId: null,
@@ -120,7 +124,11 @@ export const MockDataProvider = ({ children }) => {
                             verifiedContact: false,
                             communityEngaged: false,
                             isActive: true,
-                            stats: b.stats || { impressions: 0, inquiries: 0, created: new Date().toISOString().split('T')[0] },
+                            stats: { 
+                                impressions: (b.stats && b.stats.impressions) || 0, 
+                                inquiries: (b.stats && b.stats.inquiries) || 0, 
+                                created: createdTime 
+                            },
                             isOpen: true,
                             flagCount: b.flagCount || 0,
                             flagReasons: b.flagReasons || [],
