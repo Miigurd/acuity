@@ -17,8 +17,8 @@ def upload_bplo_csv(records, fieldnames):
     if not name_col:
         return {"status": "error", "message": "Could not identify business name column"}
         
-    BPLORegistry.query.delete()
     VerificationMatch.query.delete()
+    BPLORegistry.query.delete()
     
     bplo_entries = []
     bplo_name_map = {}
