@@ -269,7 +269,7 @@ export const MockDataProvider = ({ children }) => {
 
     const trackEvent = async (eventData) => {
         try {
-            await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/track', {
+            await fetch((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '/api/log-event', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -282,7 +282,7 @@ def search_route():
         logger.error(f"Search error: {e}", exc_info=True)
         return jsonify([]), 500
 
-@api_bp.route("/track", methods=["POST"])
+@api_bp.route("/log-event", methods=["POST"])
 def track_event():
     """Track user interactions (clicks, searches) and update stats."""
     payload = request.json
