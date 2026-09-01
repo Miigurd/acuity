@@ -232,8 +232,8 @@ def update_businesses_route():
     data = request.json
     if data is None:
         return jsonify({"error": "Failed to parse JSON body"}), 400
-
-    ip_address = request.remote_addr
+    forwarded = request.headers.get("X-Forwarded-For")
+    ip_address = forwarded.split(',')[0].strip() if forwarded else request.remote_addr
     
     try:
         result = update_businesses(data, ip_address)
@@ -260,7 +260,8 @@ def flag_business():
         return jsonify({"error": "Missing business name"}), 400
 
     try:
-        ip_address = request.remote_addr
+        forwarded = request.headers.get("X-Forwarded-For")
+        ip_address = forwarded.split(',')[0].strip() if forwarded else request.remote_addr
         result = flag_business_service(name_to_flag, reason, ip_address)
         socketio.emit("business_flagged", {"name": name_to_flag})
         return jsonify({"message": result["message"]}), 200
