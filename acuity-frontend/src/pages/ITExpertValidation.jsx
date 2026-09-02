@@ -5,8 +5,11 @@ import { LANDMARKS, CATEGORIES } from '../context/MockDataContext';
 import { useMockData } from '../context/MockDataContext';
 import SimulationCard from '../components/SimulationCard';
 import ExpertModeLive from '../components/ExpertModeLive';
-import CompositeRankingMerge from '../components/CompositeRankingMerge';
+
 import LevenshteinThreshold from '../components/LevenshteinThreshold';
+
+import TfidfGraph from '../components/TfidfGraph';
+import HaversineGraph from '../components/HaversineGraph';
 
 // Core Math Algorithms for IT Expert Inspection
 const levenshtein = (s1, s2) => {
@@ -390,6 +393,8 @@ const ITExpertValidation = () => {
                 Cosine Similarity: {(tfResult.sim * 100).toFixed(1)}%
               </span>
             </div>
+            
+            <TfidfGraph query={tfQuery} document={tfDoc} angle={tfResult.angle} similarity={tfResult.sim} />
           </div>
 
           {/* Haversine */}
@@ -412,6 +417,8 @@ const ITExpertValidation = () => {
                 Distance: {havDistance.toFixed(2)} km
               </span>
             </div>
+            
+            <HaversineGraph locA={locA} locB={locB} distance={havDistance} proximity={1.0 / (1.0 + havDistance)} />
           </div>
         </div>
       )}

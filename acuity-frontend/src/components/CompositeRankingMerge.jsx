@@ -257,15 +257,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
             <span style={{ color: '#3b82f6' }}>Text (α): {(alpha * 100).toFixed(0)}%</span>
             <span style={{ color: '#ec4899' }}>Prox (β): {(beta * 100).toFixed(0)}%</span>
           </div>
-          <input 
-            type="range" 
-            min="0" max="100" 
-            value={alpha * 100} 
-            onChange={(e) => setAlpha(parseInt(e.target.value) / 100)}
-            style={{ width: '100%', accentColor: 'var(--primary)' }}
-            disabled={isPlaying}
-            aria-label="Adjust composite ranking weights"
-          />
+          
         </div>
         
         <button 

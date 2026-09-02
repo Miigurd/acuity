@@ -38,19 +38,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
         Follow the journey from raw input strings, through edit distance computation, to a continuous match score, and finally a discrete verification status.
       </p>
 
-      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <label htmlFor="scoreSlider" style={{ fontWeight: 600, minWidth: '100px' }}>Adjust Score:</label>
-        <input
-          id="scoreSlider"
-          type="range"
-          min="0"
-          max="100"
-          value={score}
-          onChange={(e) => setScore(Number(e.target.value))}
-          style={{ flexGrow: 1, accentColor: status.color }}
-          aria-label="Adjust Levenshtein score"
-        />
-      </div>
+      
 
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
         <svg viewBox="0 0 420 480" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
