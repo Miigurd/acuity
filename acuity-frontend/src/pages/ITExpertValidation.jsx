@@ -404,6 +404,9 @@ const ITExpertValidation = () => {
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
               Haversine Great-Circle Distance (Cabuyao Grid)
             </h3>
+              <p className="text-secondary text-sm mb-4">
+                Formula: <code>d = 2R &middot; arcsin(&radic;(sin&sup2;(&Delta;lat/2) + cos(lat1)cos(lat2)sin&sup2;(&Delta;lon/2)))</code>
+              </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '14px' }}>
               <select className="form-control" value={locA} onChange={(e) => setLocA(e.target.value)}>
                 {LANDMARKS.map(l => <option key={l.id} value={l.name}>{l.name}</option>)}
@@ -419,7 +422,16 @@ const ITExpertValidation = () => {
               </span>
             </div>
             
-            <HaversineGraph locA={locA} locB={locB} distance={havDistance} proximity={1.0 / (1.0 + havDistance)} />
+            <HaversineGraph 
+              locA={locA} 
+              locB={locB} 
+              distance={havDistance} 
+              proximity={1.0 / (1.0 + havDistance)} 
+              aLat={LANDMARKS.find(l => l.name === locA)?.latLng[0] || 0} 
+              aLon={LANDMARKS.find(l => l.name === locA)?.latLng[1] || 0} 
+              bLat={LANDMARKS.find(l => l.name === locB)?.latLng[0] || 0} 
+              bLon={LANDMARKS.find(l => l.name === locB)?.latLng[1] || 0} 
+            />
           </div>
         </div>
       )}

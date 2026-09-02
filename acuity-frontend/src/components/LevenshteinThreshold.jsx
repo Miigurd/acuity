@@ -41,7 +41,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
       
 
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
-        <svg viewBox="0 0 420 480" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        <svg viewBox="0 0 420 570" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
@@ -159,6 +159,16 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
             <text x="330" y="407" textAnchor="middle" fill="var(--success, #16a34a)" fontSize="11" fontWeight="bold">Verified</text>
             <text x="330" y="422" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">&gt;=80</text>
           </g>
+                  {/* Formula Panel */}
+          <foreignObject x="20" y="470" width="380" height="90">
+            <div style={{ background: 'var(--bg-base)', border: '1px dashed var(--border)', borderRadius: '8px', padding: '12px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              <div style={{ fontWeight: 700, marginBottom: '6px', color: 'var(--text-main)' }}>Algorithm Substitution</div>
+              <div style={{ fontFamily: 'monospace' }}>
+                MaxLen = Math.max({stringA?.length || 0}, {stringB?.length || 0}) = {Math.max(stringA?.length || 0, stringB?.length || 0)}<br/>
+                Score = 1.0 - ({edits} / {Math.max(stringA?.length || 0, stringB?.length || 0)}) = {(score/100).toFixed(2)}
+              </div>
+            </div>
+          </foreignObject>
         </svg>
       </div>
     </div>

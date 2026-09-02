@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0 }) => {
+const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0, aLat = 0, aLon = 0, bLat = 0, bLon = 0 }) => {
   const color = '#ec4899'; // Pink
   
   const truncate = (str, len) => {
@@ -11,7 +11,7 @@ const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0 }) =
   return (
     <div className="mt-4">
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
-        <svg viewBox="0 0 420 480" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        <svg viewBox="0 0 420 570" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active-hav" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke={color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
@@ -54,6 +54,16 @@ const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0 }) =
           <circle cx="210" cy="410" r="38" fill="var(--bg-base)" stroke={color} strokeWidth="2" />
           <text x="210" y="407" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Proximity</text>
           <text x="210" y="422" textAnchor="middle" fill={color} fontSize="11" fontWeight="bold">{(proximity * 100).toFixed(1)}%</text>
+                  {/* Formula Panel */}
+          <foreignObject x="20" y="470" width="380" height="90">
+            <div style={{ background: 'var(--bg-base)', border: '1px dashed var(--border)', borderRadius: '8px', padding: '12px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              <div style={{ fontWeight: 700, marginBottom: '6px', color: 'var(--text-main)' }}>Algorithm Substitution</div>
+              <div style={{ fontFamily: 'monospace', letterSpacing: '-0.2px' }}>
+                d = haversine({(aLat || 0).toFixed(3)}, {(aLon || 0).toFixed(3)}; {(bLat || 0).toFixed(3)}, {(bLon || 0).toFixed(3)}) = {(distance || 0).toFixed(2)}km<br/>
+                Score = 1.0 / (1.0 + {(distance || 0).toFixed(2)}) = {(proximity || 0).toFixed(3)}
+              </div>
+            </div>
+          </foreignObject>
         </svg>
       </div>
     </div>
