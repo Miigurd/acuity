@@ -5,6 +5,8 @@ import { LANDMARKS, CATEGORIES } from '../context/MockDataContext';
 import { useMockData } from '../context/MockDataContext';
 import SimulationCard from '../components/SimulationCard';
 import ExpertModeLive from '../components/ExpertModeLive';
+import CompositeRankingMerge from '../components/CompositeRankingMerge';
+import LevenshteinThreshold from '../components/LevenshteinThreshold';
 
 // Core Math Algorithms for IT Expert Inspection
 const levenshtein = (s1, s2) => {
@@ -314,6 +316,8 @@ const ITExpertValidation = () => {
               />
             ))}
           </div>
+
+          <CompositeRankingMerge />
         </div>
       )}
 
@@ -339,6 +343,8 @@ const ITExpertValidation = () => {
                 Match: {(levResult.score * 100).toFixed(1)}%
               </span>
             </div>
+            
+            <LevenshteinThreshold currentScore={levResult.score} />
           </div>
 
           {/* TF-IDF */}
