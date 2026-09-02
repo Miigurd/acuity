@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlay, FiRefreshCw } from 'react-icons/fi';
+
 import GraphNodeTooltip from './GraphNodeTooltip';
 
 
@@ -18,8 +18,8 @@ const NODE_INFO = {
 const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'Unknown' }) => {
   const [alpha, setAlpha] = useState(0.6);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [step, setStep] = useState(0); 
-  const [isPlaying, setIsPlaying] = useState(false);
+  const step = 0; 
+  const isPlaying = false;
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -56,16 +56,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
   const selectedObj = scoredSamples.find(s => s.id === selectedId) || scoredSamples[0];
   const selectedIndex = scoredSamples.findIndex(s => s.id === selectedObj.id) !== -1 ? scoredSamples.findIndex(s => s.id === selectedObj.id) : 0;
 
-  const playWalkthrough = () => {
-    setIsPlaying(true);
-    setStep(0);
-    setTimeout(() => setStep(1), 800); 
-    setTimeout(() => setStep(2), 2000); 
-    setTimeout(() => setStep(3), 3200); 
-    setTimeout(() => setStep(4), 4500);
-    setTimeout(() => setIsPlaying(false), 5800);
-  };
-
+  
   return (
     <div className="card mt-6">
       <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
@@ -265,26 +256,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
         <GraphNodeTooltip info={NODE_INFO[selectedNode]} onClose={() => setSelectedNode(null)} />
       </div>
 
-      {/* Controls */}
-      <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '24px' }}>
-        <div style={{ flex: '1', minWidth: '250px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontWeight: 600 }}>
-            <span style={{ color: '#3b82f6' }}>Text (α): {(alpha * 100).toFixed(0)}%</span>
-            <span style={{ color: '#ec4899' }}>Prox (β): {(beta * 100).toFixed(0)}%</span>
-          </div>
-          
-        </div>
-        
-        <button 
-          className="btn btn-primary btn-sm" 
-          onClick={playWalkthrough} 
-          disabled={isPlaying}
-          aria-label="Play step-by-step walkthrough"
-        >
-          {isPlaying ? <FiRefreshCw className="spin" /> : <FiPlay />} 
-          {isPlaying ? 'Running...' : 'Step-by-step Walkthrough'}
-        </button>
-      </div>
+      
     </div>
   );
 };
