@@ -1,9 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { FiCheckCircle, FiClock, FiXCircle } from 'react-icons/fi';
 
-// Levenshtein token-sort ratio - threshold classification
-// Visualizes how the continuous score is routed to a threshold boundary.
 const LevenshteinThreshold = ({ currentScore }) => {
   const [score, setScore] = useState(currentScore || 85);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
@@ -23,9 +20,9 @@ const LevenshteinThreshold = ({ currentScore }) => {
   }, []);
 
   const getStatus = (s) => {
-    if (s < 60) return { label: 'UNVERIFIED (<60)', color: 'var(--danger, #dc2626)', icon: <FiXCircle />, band: 0 };
-    if (s < 80) return { label: 'PENDING (60-79)', color: 'var(--warning, #f59e0b)', icon: <FiClock />, band: 1 };
-    return { label: 'VERIFIED (>=80)', color: 'var(--success, #16a34a)', icon: <FiCheckCircle />, band: 2 };
+    if (s < 60) return { label: 'Unverified', color: 'var(--danger, #dc2626)', band: 0 };
+    if (s < 80) return { label: 'Pending', color: 'var(--warning, #f59e0b)', band: 1 };
+    return { label: 'Verified', color: 'var(--success, #16a34a)', band: 2 };
   };
 
   const status = getStatus(score);
@@ -39,7 +36,6 @@ const LevenshteinThreshold = ({ currentScore }) => {
         The continuous token-sort score is routed to a discrete verification status using strict thresholds.
       </p>
 
-      {/* Interactive Slider */}
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
         <label htmlFor="scoreSlider" style={{ fontWeight: 600, minWidth: '100px' }}>Adjust Score:</label>
         <input
@@ -54,117 +50,86 @@ const LevenshteinThreshold = ({ currentScore }) => {
         />
       </div>
 
-      {/* Flow Diagram */}
-      <div style={{ padding: '24px 12px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', position: 'relative' }}>
-        
-        {/* Source Node */}
-        <div style={{
-          margin: '0 auto 50px auto',
-          width: '200px',
-          padding: '12px',
-          background: 'var(--bg-card)',
-          border: `2px solid ${status.color}`,
-          borderRadius: 'var(--radius-card)',
-          textAlign: 'center',
-          zIndex: 2,
-          position: 'relative',
-          boxShadow: `0 0 10px ${status.color}44`,
-          transition: isReducedMotion ? 'none' : 'all 0.4s ease'
-        }}>
-          <h4 style={{ fontWeight: 800, marginBottom: '4px', fontSize: '0.9rem' }}>Match Score</h4>
-          <div style={{
-            fontWeight: 800, fontSize: '1.4rem', color: status.color,
-            transition: isReducedMotion ? 'none' : 'color 0.4s ease'
-          }}>
-            {score.toFixed(0)}%
-          </div>
-        </div>
+      <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
+        <svg viewBox="0 0 420 320" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+          <defs>
+            <marker id="arrow-active-0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--danger, #dc2626)" strokeWidth="2"/>
+            </marker>
+            <marker id="arrow-active-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--warning, #f59e0b)" strokeWidth="2"/>
+            </marker>
+            <marker id="arrow-active-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--success, #16a34a)" strokeWidth="2"/>
+            </marker>
+            <marker id="arrow-inactive" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--border)" strokeWidth="1.5"/>
+            </marker>
+          </defs>
 
-        {/* Animated Edges */}
-        <div style={{ position: 'absolute', top: '70px', left: '0', right: '0', height: '50px', pointerEvents: 'none' }}>
-          <svg width="100%" height="100%" style={{ overflow: 'visible' }}>
-            {/* Edge to Unverified (Left) */}
-            <path d="M 50% 0 C 50% 40, 16.6% 40, 16.6% 60" fill="none" 
-              stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'} 
-              strokeWidth="3" 
-              strokeDasharray={status.band === 0 && !isReducedMotion ? "8,8" : "none"} 
-              strokeLinecap="round"
-              style={{ transition: 'stroke 0.4s ease' }}>
-              {status.band === 0 && !isReducedMotion && <animate attributeName="stroke-dashoffset" from="16" to="0" dur="0.5s" repeatCount="indefinite" />}
-            </path>
-            
-            {/* Edge to Pending (Center) */}
-            <path d="M 50% 0 L 50% 60" fill="none" 
-              stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'} 
-              strokeWidth="3" 
-              strokeDasharray={status.band === 1 && !isReducedMotion ? "8,8" : "none"} 
-              strokeLinecap="round"
-              style={{ transition: 'stroke 0.4s ease' }}>
-              {status.band === 1 && !isReducedMotion && <animate attributeName="stroke-dashoffset" from="16" to="0" dur="0.5s" repeatCount="indefinite" />}
-            </path>
+          {/* EDGES */}
+          <path id="edge-unverified" d="M210,90 C160,150 120,190 90,212"
+                stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'}
+                strokeWidth={status.band === 0 ? "3" : "1.5"}
+                opacity={status.band === 0 ? 1 : 0.4}
+                markerEnd={status.band === 0 ? "url(#arrow-active-0)" : "url(#arrow-inactive)"}
+                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
+                
+          <path id="edge-pending" d="M210,90 L210,212"
+                stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'}
+                strokeWidth={status.band === 1 ? "3" : "1.5"}
+                opacity={status.band === 1 ? 1 : 0.4}
+                markerEnd={status.band === 1 ? "url(#arrow-active-1)" : "url(#arrow-inactive)"}
+                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
+                
+          <path id="edge-verified" d="M210,90 C260,150 300,190 330,212"
+                stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'}
+                strokeWidth={status.band === 2 ? "3" : "1.5"}
+                opacity={status.band === 2 ? 1 : 0.4}
+                markerEnd={status.band === 2 ? "url(#arrow-active-2)" : "url(#arrow-inactive)"}
+                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
 
-            {/* Edge to Verified (Right) */}
-            <path d="M 50% 0 C 50% 40, 83.4% 40, 83.4% 60" fill="none" 
-              stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'} 
-              strokeWidth="3" 
-              strokeDasharray={status.band === 2 && !isReducedMotion ? "8,8" : "none"} 
-              strokeLinecap="round"
-              style={{ transition: 'stroke 0.4s ease' }}>
-              {status.band === 2 && !isReducedMotion && <animate attributeName="stroke-dashoffset" from="16" to="0" dur="0.5s" repeatCount="indefinite" />}
-            </path>
-          </svg>
-        </div>
+          {/* ACTIVE-EDGE FLOW INDICATOR */}
+          {!isReducedMotion && status.band === 0 && (
+            <circle r="4" fill="var(--danger, #dc2626)">
+              <animateMotion dur="1s" repeatCount="indefinite" path="M210,90 C160,150 120,190 90,212" />
+            </circle>
+          )}
+          {!isReducedMotion && status.band === 1 && (
+            <circle r="4" fill="var(--warning, #f59e0b)">
+              <animateMotion dur="1s" repeatCount="indefinite" path="M210,90 L210,212" />
+            </circle>
+          )}
+          {!isReducedMotion && status.band === 2 && (
+            <circle r="4" fill="var(--success, #16a34a)">
+              <animateMotion dur="1s" repeatCount="indefinite" path="M210,90 C260,150 300,190 330,212" />
+            </circle>
+          )}
 
-        {/* Destination Nodes */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', position: 'relative', zIndex: 2 }}>
-          {/* Unverified */}
-          <div style={{ 
-            flex: 1, padding: '10px',
-            background: status.band === 0 ? 'rgba(220, 38, 38, 0.15)' : 'var(--bg-card)',
-            border: status.band === 0 ? '2px solid var(--danger, #dc2626)' : '2px dashed var(--border)',
-            borderRadius: 'var(--radius-card)',
-            textAlign: 'center',
-            opacity: status.band === 0 ? 1 : 0.4,
-            boxShadow: status.band === 0 ? '0 0 15px rgba(220, 38, 38, 0.3)' : 'none',
-            transition: isReducedMotion ? 'none' : 'all 0.4s ease'
-          }}>
-            <div style={{ color: 'var(--danger, #dc2626)', fontSize: '1.2rem', marginBottom: '4px' }}><FiXCircle /></div>
-            <div style={{ color: 'var(--danger, #dc2626)', fontWeight: 800, fontSize: '0.85rem' }}>UNVERIFIED</div>
-            <div className="text-xs text-secondary">(&lt;60)</div>
-          </div>
+          {/* SOURCE NODE */}
+          <circle cx="210" cy="70" r="42" fill="var(--bg-card)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
+          <text x="210" y="65" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Score</text>
+          <text x="210" y="85" textAnchor="middle" fill={status.color} fontSize="18" fontWeight="800" style={{ transition: 'fill 0.4s' }}>{score.toFixed(0)}%</text>
 
-          {/* Pending */}
-          <div style={{ 
-            flex: 1, padding: '10px',
-            background: status.band === 1 ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-card)',
-            border: status.band === 1 ? '2px solid var(--warning, #f59e0b)' : '2px dashed var(--border)',
-            borderRadius: 'var(--radius-card)',
-            textAlign: 'center',
-            opacity: status.band === 1 ? 1 : 0.4,
-            boxShadow: status.band === 1 ? '0 0 15px rgba(245, 158, 11, 0.3)' : 'none',
-            transition: isReducedMotion ? 'none' : 'all 0.4s ease'
-          }}>
-            <div style={{ color: 'var(--warning, #f59e0b)', fontSize: '1.2rem', marginBottom: '4px' }}><FiClock /></div>
-            <div style={{ color: 'var(--warning, #f59e0b)', fontWeight: 800, fontSize: '0.85rem' }}>PENDING</div>
-            <div className="text-xs text-secondary">(60-79)</div>
-          </div>
+          {/* DESTINATION NODES */}
+          <g style={{ opacity: status.band === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="90" cy="250" r="38" fill={status.band === 0 ? 'rgba(220, 38, 38, 0.15)' : 'var(--bg-card)'} stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'} strokeWidth="2" />
+            <text x="90" y="255" textAnchor="middle" fill="var(--danger, #dc2626)" fontSize="12" fontWeight="bold">Unverified</text>
+            <text x="90" y="270" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">&lt;60</text>
+          </g>
 
-          {/* Verified */}
-          <div style={{ 
-            flex: 1, padding: '10px',
-            background: status.band === 2 ? 'rgba(22, 163, 74, 0.15)' : 'var(--bg-card)',
-            border: status.band === 2 ? '2px solid var(--success, #16a34a)' : '2px dashed var(--border)',
-            borderRadius: 'var(--radius-card)',
-            textAlign: 'center',
-            opacity: status.band === 2 ? 1 : 0.4,
-            boxShadow: status.band === 2 ? '0 0 15px rgba(22, 163, 74, 0.3)' : 'none',
-            transition: isReducedMotion ? 'none' : 'all 0.4s ease'
-          }}>
-            <div style={{ color: 'var(--success, #16a34a)', fontSize: '1.2rem', marginBottom: '4px' }}><FiCheckCircle /></div>
-            <div style={{ color: 'var(--success, #16a34a)', fontWeight: 800, fontSize: '0.85rem' }}>VERIFIED</div>
-            <div className="text-xs text-secondary">(&gt;=80)</div>
-          </div>
-        </div>
+          <g style={{ opacity: status.band === 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="210" cy="250" r="38" fill={status.band === 1 ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-card)'} stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'} strokeWidth="2" />
+            <text x="210" y="255" textAnchor="middle" fill="var(--warning, #f59e0b)" fontSize="12" fontWeight="bold">Pending</text>
+            <text x="210" y="270" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">60-79</text>
+          </g>
+
+          <g style={{ opacity: status.band === 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="330" cy="250" r="38" fill={status.band === 2 ? 'rgba(22, 163, 74, 0.15)' : 'var(--bg-card)'} stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'} strokeWidth="2" />
+            <text x="330" y="255" textAnchor="middle" fill="var(--success, #16a34a)" fontSize="12" fontWeight="bold">Verified</text>
+            <text x="330" y="270" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">&gt;=80</text>
+          </g>
+        </svg>
       </div>
     </div>
   );
