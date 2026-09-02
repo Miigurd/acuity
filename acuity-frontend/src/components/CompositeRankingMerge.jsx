@@ -168,7 +168,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
 
           {/* Alpha Weight */}
           <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="100" cy="250" r="42" fill="var(--bg-surface)" stroke={(step >= 3 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <circle cx="100" cy="250" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="100" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight α</text>
             <text x="100" y="265" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(alpha * 100).toFixed(0)}%</text>
           </g>
@@ -182,7 +182,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
 
           {/* Beta Weight */}
           <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="320" cy="250" r="42" fill="var(--bg-surface)" stroke={(step >= 3 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <circle cx="320" cy="250" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="320" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight β</text>
             <text x="320" y="265" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(beta * 100).toFixed(0)}%</text>
           </g>

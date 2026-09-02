@@ -128,7 +128,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* NODES */}
           {/* Input A */}
-          <circle cx="100" cy="50" r="40" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="100" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="100" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input A</text>
           <text x="100" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringA}</title>
@@ -136,7 +136,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           </text>
 
           {/* Input B */}
-          <circle cx="320" cy="50" r="40" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="320" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="320" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input B</text>
           <text x="320" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringB}</title>
@@ -144,30 +144,30 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           </text>
 
           {/* Compute Edit Distance */}
-          <circle cx="210" cy="150" r="40" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="210" cy="150" r="42" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="210" y="145" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Edit Dist.</text>
           <text x="210" y="165" textAnchor="middle" fill="var(--text-secondary)" fontSize="13" fontWeight="800">{edits} edits</text>
 
           {/* Score Node */}
-          <circle cx="210" cy="250" r="44" fill="var(--bg-elevated)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="210" cy="250" r="48" fill="var(--bg-elevated)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
           <text x="210" y="240" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Match Score</text>
           <text x="210" y="262" textAnchor="middle" fill={status.color} fontSize="16" fontWeight="800" style={{ transition: 'fill 0.4s' }}>{score.toFixed(0)}%</text>
 
           {/* DESTINATION NODES */}
           <g style={{ opacity: status.band === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="90" cy="370" r="38" fill={status.band === 0 ? 'rgba(220, 38, 38, 0.15)' : 'var(--bg-card)'} stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'} strokeWidth="2" />
+            <circle cx="90" cy="370" r="38" fill={status.band === 0 ? 'rgba(220, 38, 38, 0.15)' : 'var(--bg-base)'} stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'} strokeWidth="2" />
             <text x="90" y="367" textAnchor="middle" fill="var(--danger, #dc2626)" fontSize="11" fontWeight="bold">Unverified</text>
             <text x="90" y="382" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">&lt;60</text>
           </g>
 
           <g style={{ opacity: status.band === 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="210" cy="370" r="38" fill={status.band === 1 ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-card)'} stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'} strokeWidth="2" />
+            <circle cx="210" cy="370" r="38" fill={status.band === 1 ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-base)'} stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'} strokeWidth="2" />
             <text x="210" y="367" textAnchor="middle" fill="var(--warning, #f59e0b)" fontSize="11" fontWeight="bold">Pending</text>
             <text x="210" y="382" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">60-79</text>
           </g>
 
           <g style={{ opacity: status.band === 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="330" cy="370" r="38" fill={status.band === 2 ? 'rgba(22, 163, 74, 0.15)' : 'var(--bg-card)'} stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'} strokeWidth="2" />
+            <circle cx="330" cy="370" r="38" fill={status.band === 2 ? 'rgba(22, 163, 74, 0.15)' : 'var(--bg-base)'} stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'} strokeWidth="2" />
             <text x="330" y="367" textAnchor="middle" fill="var(--success, #16a34a)" fontSize="11" fontWeight="bold">Verified</text>
             <text x="330" y="382" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">&gt;=80</text>
           </g>
