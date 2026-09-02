@@ -75,7 +75,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
         Trace the full pipeline: raw input features are computed independently, weighted, and merged to produce the final rank. Click a row to trace its specific path!
       </p>
 
-      <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', marginBottom: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', marginBottom: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* SVG Graph encompassing everything including the foreignObject list */}
         <svg viewBox="0 0 420 750" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
