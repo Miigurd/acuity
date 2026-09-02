@@ -152,34 +152,50 @@ const ITExpertValidation = () => {
     }
   }, [locA, locB]);
 
-  const runSimulation = () => {
+  const runSimulation = async () => {
     setIsRanking(true);
     const lm = LANDMARKS.find(l => l.id === simLandmark) || LANDMARKS[0];
     
-    const scored = businesses.map(b => {
-      const bLandmark = getLandmarkById(b.landmarkId);
-      const dist = bLandmark ? haversineDistance(lm.latLng[0], lm.latLng[1], bLandmark.latLng[0], bLandmark.latLng[1]) : 2.5;
-      const textMatch = calculateCosineSimilarity(simQuery, `${b.name} ${b.description || ''} ${b.tags?.join(' ') || ''}`);
-      
-      const proxScore = Math.max(0, 1 - (dist / 10)); // 10km radius
-      const finalScore = (textMatch.sim * 0.6) + (proxScore * 0.4);
-      
-      return {
-        ...b,
-        distance_km: dist.toFixed(2),
-        relevance_score: textMatch.sim,
-        proximity_score: proxScore,
-        final_score: finalScore
-      };
-    }).sort((a, b) => b.final_score - a.final_score);
-
-    setRankedResults(scored);
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const res = await fetch(`${apiUrl}/api/expert/recommend-trace?q=${encodeURIComponent(simQuery)}&lat=${lm.latLng[0]}&lon=${lm.latLng[1]}&top_k=50`);
+      const data = await res.json();
+      if (data.results) {
+        setRankedResults(data.results);
+      } else {
+        throw new Error("No results in trace");
+      }
+    } catch (err) {
+      console.warn("Falling back to JS simulation", err);
+      const scored = businesses.map(b => {
+        const bLandmark = getLandmarkById(b.landmarkId);
+        const dist = bLandmark ? haversineDistance(lm.latLng[0], lm.latLng[1], bLandmark.latLng[0], bLandmark.latLng[1]) : 2.5;
+        const textMatch = calculateCosineSimilarity(simQuery, `${b.name} ${b.description || ""} ${b.tags?.join(" ") || ""}`);
+        
+        // Exact match to backend proximity math
+        const proxScore = 1.0 / (1.0 + dist);
+        const finalScore = (textMatch.sim * 0.6) + (proxScore * 0.4);
+        
+        return {
+          ...b,
+          distance_km: dist.toFixed(2),
+          relevance_score: textMatch.sim,
+          proximity_score: proxScore,
+          final_score: finalScore
+        };
+      }).sort((a, b) => b.final_score - a.final_score);
+      setRankedResults(scored);
+    }
+    
     setIsRanking(false);
   };
 
   useEffect(() => {
     if (businesses.length > 0) {
-      runSimulation();
+      const timeoutId = setTimeout(() => {
+        runSimulation();
+      }, 300);
+      return () => clearTimeout(timeoutId);
     }
   }, [simQuery, simLandmark, businesses]);
 
