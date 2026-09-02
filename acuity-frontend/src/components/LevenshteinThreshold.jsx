@@ -65,14 +65,14 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* EDGES */}
           {/* Input A to Edit */}
-          <path id="path-a-edit" d="M122,83 L179,122" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-a-edit" d="M122,83 L175,118" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           {/* Input B to Edit */}
-          <path id="path-b-edit" d="M298,83 L241,122" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-b-edit" d="M298,83 L245,118" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           {/* Edit to Score */}
-          <path id="path-edit-score" d="M210,192 L210,202" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-edit-score" d="M210,192 L210,196" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           
           {/* Score to Unverified */}
-          <path id="path-score-unv" d="M183,282 Q120,300 117,343"
+          <path id="path-score-unv" d="M179,287 Q120,300 121,339"
                 stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'}
                 strokeWidth={status.band === 0 ? "3" : "1.5"}
                 opacity={status.band === 0 ? 1 : 0.4}
@@ -80,7 +80,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
                 fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
                 
           {/* Score to Pending */}
-          <path id="path-score-pen" d="M210,292 L210,332"
+          <path id="path-score-pen" d="M210,298 L210,326"
                 stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'}
                 strokeWidth={status.band === 1 ? "3" : "1.5"}
                 opacity={status.band === 1 ? 1 : 0.4}
@@ -88,7 +88,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
                 fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
                 
           {/* Score to Verified */}
-          <path id="path-score-ver" d="M237,282 Q300,300 303,343"
+          <path id="path-score-ver" d="M241,287 Q300,300 299,339"
                 stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'}
                 strokeWidth={status.band === 2 ? "3" : "1.5"}
                 opacity={status.band === 2 ? 1 : 0.4}
@@ -99,30 +99,30 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           {!isReducedMotion && (
             <>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="1s" repeatCount="indefinite" path="M122,83 L179,122" />
+                <animateMotion dur="0.8s" repeatCount="indefinite" path="M122,83 L175,118" />
               </circle>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="1s" repeatCount="indefinite" path="M298,83 L241,122" />
+                <animateMotion dur="0.8s" repeatCount="indefinite" path="M298,83 L245,118" />
               </circle>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="0.5s" repeatCount="indefinite" path="M210,192 L210,202" />
+                <animateMotion dur="0.3s" repeatCount="indefinite" path="M210,192 L210,196" />
               </circle>
             </>
           )}
 
           {!isReducedMotion && status.band === 0 && (
             <circle r="4" fill="var(--danger, #dc2626)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M183,282 Q120,300 117,343" />
+              <animateMotion dur="1.0s" repeatCount="indefinite" path="M179,287 Q120,300 121,339" />
             </circle>
           )}
           {!isReducedMotion && status.band === 1 && (
             <circle r="4" fill="var(--warning, #f59e0b)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M210,292 L210,332" />
+              <animateMotion dur="0.4s" repeatCount="indefinite" path="M210,298 L210,326" />
             </circle>
           )}
           {!isReducedMotion && status.band === 2 && (
             <circle r="4" fill="var(--success, #16a34a)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M237,282 Q300,300 303,343" />
+              <animateMotion dur="1.0s" repeatCount="indefinite" path="M241,287 Q300,300 299,339" />
             </circle>
           )}
 
