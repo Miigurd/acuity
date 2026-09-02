@@ -317,7 +317,11 @@ const ITExpertValidation = () => {
             ))}
           </div>
 
-          <CompositeRankingMerge />
+          <CompositeRankingMerge 
+            businesses={rankedResults} 
+            query={simQuery} 
+            userLoc={LANDMARKS.find(l => l.id === simLandmark)?.name || 'Unknown'} 
+          />
         </div>
       )}
 
@@ -344,7 +348,7 @@ const ITExpertValidation = () => {
               </span>
             </div>
             
-            <LevenshteinThreshold currentScore={levResult.score} />
+            <LevenshteinThreshold currentScore={levResult.score} stringA={levA} stringB={levB} edits={levResult.edits} />
           </div>
 
           {/* TF-IDF */}

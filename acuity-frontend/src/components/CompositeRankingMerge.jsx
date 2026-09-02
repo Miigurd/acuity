@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlay, FiRefreshCw } from 'react-icons/fi';
 
-const CompositeRankingMerge = () => {
+const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'Unknown' }) => {
   const [alpha, setAlpha] = useState(0.6);
   const [step, setStep] = useState(0); 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -17,25 +18,37 @@ const CompositeRankingMerge = () => {
 
   const beta = 1.0 - alpha; 
 
-  const samples = [
-    { name: "Sample A (Text Match)", textScore: 0.95, distScore: 0.2 },
-    { name: "Sample B (Nearby)", textScore: 0.40, distScore: 0.9 },
-    { name: "Sample C (Balanced)", textScore: 0.70, distScore: 0.75 }
-  ];
+  const truncate = (str, len) => (str && str.length > len) ? str.substring(0, len) + '...' : (str || '');
 
-  const scoredSamples = samples.map(s => ({
-    ...s,
-    finalScore: (s.textScore * alpha) + (s.distScore * beta)
-  })).sort((a, b) => b.finalScore - a.finalScore);
+  // Compute final scores and sort
+  const scoredSamples = [...businesses]
+    .map(b => ({
+      ...b,
+      finalScore: (b.relevance_score * alpha) + (b.proximity_score * beta)
+    }))
+    .sort((a, b) => b.finalScore - a.finalScore)
+    .slice(0, 3); // top 3
+
+  // Fallback if no mock data
+  if (scoredSamples.length === 0) {
+    scoredSamples.push(
+      { id: '1', name: "Sample A (Text Match)", relevance_score: 0.95, proximity_score: 0.2, finalScore: 0.95 * alpha + 0.2 * beta, distance_km: "2.5" },
+      { id: '2', name: "Sample B (Nearby)", relevance_score: 0.40, proximity_score: 0.9, finalScore: 0.40 * alpha + 0.9 * beta, distance_km: "0.5" },
+      { id: '3', name: "Sample C (Balanced)", relevance_score: 0.70, proximity_score: 0.75, finalScore: 0.70 * alpha + 0.75 * beta, distance_km: "1.2" }
+    );
+  }
+
+  const selectedObj = scoredSamples.find(s => s.id === selectedId) || scoredSamples[0];
+  const selectedIndex = scoredSamples.findIndex(s => s.id === selectedObj.id) !== -1 ? scoredSamples.findIndex(s => s.id === selectedObj.id) : 0;
 
   const playWalkthrough = () => {
     setIsPlaying(true);
     setStep(0);
-    setTimeout(() => setStep(1), 1000); 
-    setTimeout(() => setStep(2), 2500); 
-    setTimeout(() => setStep(3), 4000); 
-    setTimeout(() => setStep(4), 5500);
-    setTimeout(() => setIsPlaying(false), 7000);
+    setTimeout(() => setStep(1), 800); 
+    setTimeout(() => setStep(2), 2000); 
+    setTimeout(() => setStep(3), 3200); 
+    setTimeout(() => setStep(4), 4500);
+    setTimeout(() => setIsPlaying(false), 5800);
   };
 
   return (
@@ -44,22 +57,22 @@ const CompositeRankingMerge = () => {
         Algorithm Integration: Weighted Merge Graph
       </h3>
       <p className="text-secondary text-sm mb-4">
-        The composite ranking is not a standalone algorithm, but a merge point combining NLP relevance and geographic proximity. Adjust the weights (α + β = 1) to see how shifting priority changes the final ranking.
+        Trace the full pipeline: raw input features are computed independently, weighted, and merged to produce the final rank. Click a row to trace its specific path!
       </p>
 
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', marginBottom: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
-        {/* SVG Graph */}
-        <svg viewBox="0 0 420 320" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        {/* SVG Graph encompassing everything including the foreignObject list */}
+        <svg viewBox="0 0 420 670" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M1 1L8 5L1 9" fill="none" stroke="#3b82f6" strokeWidth="2"/>
+              <path d="M1 1L8 5L1 9" fill="none" stroke="#3b82f6" strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
             </marker>
             <marker id="arrow-active-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M1 1L8 5L1 9" fill="none" stroke="#ec4899" strokeWidth="2"/>
+              <path d="M1 1L8 5L1 9" fill="none" stroke="#ec4899" strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
             </marker>
             <marker id="arrow-active-primary" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--primary)" strokeWidth="2"/>
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--primary)" strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
             </marker>
             <marker id="arrow-inactive" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke="var(--border)" strokeWidth="1.5"/>
@@ -67,118 +80,173 @@ const CompositeRankingMerge = () => {
           </defs>
 
           {/* EDGES */}
-          {/* Cosine -> Composite */}
-          <path id="edge-cosine" d="M120,90 C120,150 210,130 210,192"
-                stroke={step >= 3 ? '#3b82f6' : 'var(--border)'}
-                strokeWidth={step >= 3 ? "3" : "1.5"}
-                opacity={step >= 3 ? 1 : 0.4}
-                markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"}
-                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
+          {/* Query -> Cosine */}
+          <path id="edge-query-cosine" d="M65,81 L82,114" fill="none" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 1 ? "3" : "1.5"} opacity={step >= 1 ? 1 : 0.4} markerEnd={step >= 1 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Profile -> Cosine */}
+          <path id="edge-profile-cosine" d="M135,81 L118,114" fill="none" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 1 ? "3" : "1.5"} opacity={step >= 1 ? 1 : 0.4} markerEnd={step >= 1 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Cosine -> Alpha */}
+          <path id="edge-cosine-alpha" d="M100,190 L100,210" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Alpha -> Composite */}
+          <path id="edge-alpha-composite" d="M125,282 L178,322" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
 
-          {/* Haversine -> Composite */}
-          <path id="edge-haversine" d="M300,90 C300,150 210,130 210,192"
-                stroke={step >= 3 ? '#ec4899' : 'var(--border)'}
-                strokeWidth={step >= 3 ? "3" : "1.5"}
-                opacity={step >= 3 ? 1 : 0.4}
-                markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"}
-                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
+          {/* UserLoc -> Haversine */}
+          <path id="edge-userloc-haversine" d="M285,81 L302,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* BusLoc -> Haversine */}
+          <path id="edge-busloc-haversine" d="M355,81 L338,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Haversine -> Beta */}
+          <path id="edge-haversine-beta" d="M320,190 L320,210" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Beta -> Composite */}
+          <path id="edge-beta-composite" d="M295,282 L242,322" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
 
-          {/* Composite -> Ranking Output */}
-          <path id="edge-output" d="M210,270 L210,330"
-                stroke={step >= 4 ? 'var(--primary)' : 'var(--border)'}
-                strokeWidth={step >= 4 ? "3" : "1.5"}
-                opacity={step >= 4 ? 1 : 0.4}
-                markerEnd={step >= 4 ? "url(#arrow-active-primary)" : "url(#arrow-inactive)"}
-                fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
+          {/* Composite -> Output Row */}
+          <path id="edge-output" d={`M210,390 L210,415 L10,415 L10,${470 + selectedIndex * 60} L22,${470 + selectedIndex * 60}`} 
+                fill="none" stroke={step >= 4 ? 'var(--primary)' : 'var(--border)'} strokeWidth={step >= 4 ? "3" : "1.5"} opacity={step >= 4 ? 1 : 0.4} markerEnd={step >= 4 ? "url(#arrow-active-primary)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s, d 0.4s' }} />
 
           {/* ACTIVE-EDGE FLOW INDICATORS */}
-          {/* We only run the flow animations if not reduced motion and during the respective steps */}
-          {!isReducedMotion && step === 3 && (
+          {!isReducedMotion && (step >= 1 || step === 0) && (
             <>
-              <circle r="4" fill="#3b82f6">
-                <animateMotion dur="1s" repeatCount="indefinite" path="M120,90 C120,150 210,130 210,192" />
-              </circle>
-              <circle r="4" fill="#ec4899">
-                <animateMotion dur="1s" repeatCount="indefinite" path="M300,90 C300,150 210,130 210,192" />
-              </circle>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M65,81 L82,114" /></circle>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M135,81 L118,114" /></circle>
             </>
           )}
-
-          {!isReducedMotion && step === 4 && (
+          {!isReducedMotion && (step >= 2 || step === 0) && (
+            <>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M285,81 L302,114" /></circle>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M355,81 L338,114" /></circle>
+            </>
+          )}
+          {!isReducedMotion && (step >= 3 || step === 0) && (
+            <>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M100,190 L100,210" /></circle>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M125,282 L178,322" /></circle>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M320,190 L320,210" /></circle>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M295,282 L242,322" /></circle>
+            </>
+          )}
+          {!isReducedMotion && (step >= 4 || step === 0) && (
             <circle r="4" fill="var(--primary)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M210,270 L210,330" />
+              <animateMotion dur="1.5s" repeatCount="indefinite" path={`M210,390 L210,415 L10,415 L10,${470 + selectedIndex * 60} L22,${470 + selectedIndex * 60}`} />
             </circle>
           )}
 
           {/* NODES */}
-          {/* Cosine Source Node */}
+          {/* Query Input */}
           <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="120" cy="50" r="40" fill={step >= 1 ? 'rgba(59, 130, 246, 0.15)' : 'var(--bg-card)'} stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="120" y="45" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Cosine</text>
-            <text x="120" y="65" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="800">α = {(alpha * 100).toFixed(0)}%</text>
+            <circle cx="50" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <text x="50" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Query</text>
+            <text x="50" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{query}</title>{truncate(query, 8)}</text>
           </g>
 
-          {/* Haversine Source Node */}
+          {/* Profile Input */}
+          <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="150" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <text x="150" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Profile</text>
+            <text x="150" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{selectedObj.name}</title>{truncate(selectedObj.name, 8)}</text>
+          </g>
+
+          {/* UserLoc Input */}
           <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="300" cy="50" r="40" fill={step >= 2 ? 'rgba(236, 72, 153, 0.15)' : 'var(--bg-card)'} stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="300" y="45" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Haversine</text>
-            <text x="300" y="65" textAnchor="middle" fill="#ec4899" fontSize="14" fontWeight="800">β = {(beta * 100).toFixed(0)}%</text>
+            <circle cx="270" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <text x="270" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">User Loc</text>
+            <text x="270" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{userLoc}</title>{truncate(userLoc, 8)}</text>
+          </g>
+
+          {/* BusLoc Input */}
+          <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="370" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <text x="370" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Bus. Loc</text>
+            <text x="370" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">{selectedObj.distance_km}km</text>
+          </g>
+
+          {/* Cosine Compute */}
+          <g style={{ opacity: step >= 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="100" cy="150" r="40" fill={step >= 1 ? 'rgba(59, 130, 246, 0.15)' : 'var(--bg-card)'} stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <text x="100" y="145" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Cosine</text>
+            <text x="100" y="165" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(selectedObj.relevance_score || 0).toFixed(2)}</text>
+          </g>
+
+          {/* Alpha Weight */}
+          <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="100" cy="250" r="40" fill="var(--bg-card)" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <text x="100" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight α</text>
+            <text x="100" y="265" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(alpha * 100).toFixed(0)}%</text>
+          </g>
+
+          {/* Haversine Compute */}
+          <g style={{ opacity: step >= 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="320" cy="150" r="40" fill={step >= 2 ? 'rgba(236, 72, 153, 0.15)' : 'var(--bg-card)'} stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <text x="320" y="145" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Haversine</text>
+            <text x="320" y="165" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(selectedObj.proximity_score || 0).toFixed(2)}</text>
+          </g>
+
+          {/* Beta Weight */}
+          <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+            <circle cx="320" cy="250" r="40" fill="var(--bg-card)" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <text x="320" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight β</text>
+            <text x="320" y="265" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(beta * 100).toFixed(0)}%</text>
           </g>
 
           {/* Composite Merge Node */}
           <g style={{ opacity: step >= 3 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="210" cy="230" r="40" fill={step >= 3 ? 'rgba(99, 102, 241, 0.15)' : 'var(--bg-card)'} stroke={step >= 3 ? 'var(--primary)' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="210" y="225" textAnchor="middle" fill="var(--primary)" fontSize="12" fontWeight="bold">Composite</text>
-            <text x="210" y="240" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">α + β merge</text>
+            <circle cx="210" cy="350" r="40" fill={step >= 3 ? 'rgba(99, 102, 241, 0.15)' : 'var(--bg-card)'} stroke={step >= 3 ? 'var(--primary)' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <text x="210" y="345" textAnchor="middle" fill="var(--primary)" fontSize="11" fontWeight="bold">Composite</text>
+            <text x="210" y="365" textAnchor="middle" fill="var(--primary)" fontSize="13" fontWeight="800">{(selectedObj.finalScore || 0).toFixed(2)}</text>
           </g>
+
+          {/* Live Re-ranking HTML List embedded via foreignObject */}
+          <foreignObject x="30" y="420" width="370" height="240">
+            <div style={{
+              width: '100%', height: '100%', padding: '12px',
+              background: step >= 4 ? 'var(--bg-elevated)' : 'var(--bg-card)',
+              border: step >= 4 ? '2px solid var(--primary)' : '2px dashed var(--border)',
+              borderRadius: 'var(--radius-card)',
+              opacity: step >= 4 || step === 0 ? 1 : 0.4,
+              transition: isReducedMotion ? 'none' : 'all 0.4s ease',
+              boxSizing: 'border-box'
+            }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '8px', color: 'var(--text-main)' }}>Live Re-ranking List</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative', height: '180px' }}>
+                {scoredSamples.map((s, idx) => {
+                  const isSelected = selectedObj.id === s.id;
+                  return (
+                    <div 
+                      key={s.id}
+                      onClick={() => setSelectedId(s.id)}
+                      style={{
+                        position: 'absolute',
+                        top: `${idx * 60}px`,
+                        left: 0, right: 0,
+                        padding: '10px 12px',
+                        background: isSelected ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                        border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border)',
+                        borderRadius: 'var(--radius-card)',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        transition: isReducedMotion ? 'none' : 'top 0.4s ease-in-out, border 0.2s',
+                        cursor: 'pointer',
+                        zIndex: 3 - idx
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.8rem' }}>
+                          {idx + 1}
+                        </div>
+                        <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>{truncate(s.name, 15)}</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '12px', fontSize: '0.8rem' }}>
+                        <span className="badge badge-sky" style={{ minWidth: '50px', textAlign: 'center' }}>
+                          {(s.finalScore || 0).toFixed(3)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </foreignObject>
         </svg>
 
-        {/* Live Re-ranking HTML output directly attached below SVG */}
-        <div style={{
-          width: '90%', maxWidth: '420px', padding: '16px', marginTop: '10px',
-          background: step >= 4 ? 'var(--bg-elevated)' : 'var(--bg-card)',
-          border: step >= 4 ? '2px solid var(--primary)' : '2px dashed var(--border)',
-          borderRadius: 'var(--radius-card)',
-          opacity: step >= 4 || step === 0 ? 1 : 0.4,
-          transition: isReducedMotion ? 'none' : 'all 0.4s ease',
-          position: 'relative', zIndex: 2
-        }}>
-          <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '12px', color: 'var(--text-main)' }}>Live Re-ranking List</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative', height: '190px' }}>
-            {scoredSamples.map((s, idx) => (
-              <div 
-                key={s.name}
-                style={{
-                  position: 'absolute',
-                  top: `${idx * 60}px`,
-                  left: 0, right: 0,
-                  padding: '12px 16px',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-card)',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  transition: isReducedMotion ? 'none' : 'top 0.4s ease-in-out',
-                  zIndex: 3 - idx
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.9rem' }}>
-                    {idx + 1}
-                  </div>
-                  <span style={{ fontWeight: 600 }}>{s.name}</span>
-                </div>
-                <div style={{ display: 'flex', gap: '16px', fontSize: '0.85rem' }}>
-                  <span className="text-secondary">Score: </span>
-                  <span className="badge badge-sky" style={{ minWidth: '60px', textAlign: 'center' }}>
-                    {s.finalScore.toFixed(3)}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Controls */}
