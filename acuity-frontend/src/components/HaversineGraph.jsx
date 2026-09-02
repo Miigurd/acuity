@@ -11,7 +11,7 @@ const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0, aLa
   return (
     <div className="mt-4">
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
-        <svg viewBox="0 0 420 570" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        <svg viewBox="0 0 420 600" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active-hav" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke={color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
@@ -55,7 +55,7 @@ const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0, aLa
           <text x="210" y="407" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Proximity</text>
           <text x="210" y="422" textAnchor="middle" fill={color} fontSize="11" fontWeight="bold">{(proximity * 100).toFixed(1)}%</text>
                   {/* Formula Panel */}
-          <foreignObject x="20" y="470" width="380" height="90">
+          <foreignObject x="20" y="470" width="380" height="120">
             <div style={{ background: 'var(--bg-base)', border: '1px dashed var(--border)', borderRadius: '8px', padding: '12px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
               <div style={{ fontWeight: 700, marginBottom: '6px', color: 'var(--text-main)' }}>Algorithm Substitution</div>
               <div style={{ fontFamily: 'monospace', letterSpacing: '-0.2px' }}>
