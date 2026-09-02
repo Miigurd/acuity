@@ -7,6 +7,7 @@ import SimulationCard from '../components/SimulationCard';
 import ExpertModeLive from '../components/ExpertModeLive';
 
 import LevenshteinThreshold from '../components/LevenshteinThreshold';
+import CompositeRankingMerge from '../components/CompositeRankingMerge';
 
 import TfidfGraph from '../components/TfidfGraph';
 import HaversineGraph from '../components/HaversineGraph';
