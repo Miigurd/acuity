@@ -145,7 +145,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* Compute Edit Distance */}
           <circle cx="210" cy="170" r="42" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
-          <text x="210" y="185" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Edit Dist.</text>
+          <text x="210" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Edit Dist.</text>
           <text x="210" y="185" textAnchor="middle" fill="var(--text-secondary)" fontSize="13" fontWeight="800">{edits} edits</text>
 
           {/* Score Node */}

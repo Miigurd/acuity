@@ -162,7 +162,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           {/* Cosine Compute */}
           <g style={{ opacity: step >= 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="100" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="100" y="185" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Cosine</text>
+            <text x="100" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Cosine</text>
             <text x="100" y="185" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(selectedObj.relevance_score || 0).toFixed(2)}</text>
           </g>
 
@@ -176,7 +176,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           {/* Haversine Compute */}
           <g style={{ opacity: step >= 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="320" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="320" y="185" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Haversine</text>
+            <text x="320" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Haversine</text>
             <text x="320" y="185" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(selectedObj.proximity_score || 0).toFixed(2)}</text>
           </g>
 
