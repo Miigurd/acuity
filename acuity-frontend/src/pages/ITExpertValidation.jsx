@@ -161,7 +161,11 @@ const ITExpertValidation = () => {
       const res = await fetch(`${apiUrl}/api/expert/recommend-trace?q=${encodeURIComponent(simQuery)}&lat=${lm.latLng[0]}&lon=${lm.latLng[1]}&top_k=50`);
       const data = await res.json();
       if (data.results) {
-        setRankedResults(data.results);
+        const merged = data.results.map(r => {
+          const original = businesses.find(b => b.name === r.name || b.business_name === r.name) || {};
+          return { ...original, ...r };
+        });
+        setRankedResults(merged);
       } else {
         throw new Error("No results in trace");
       }

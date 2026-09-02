@@ -68,7 +68,7 @@ const SimulationCard = ({ business, query, userLandmark, distance, getLandmarkBy
     const bizLandmark = getLandmarkById(business.landmarkId);
     
     // Fallback description to generic services if not present
-    const docString = business.description + " " + (business.services || []).join(" ");
+    const docString = `${business.name || business.business_name || ''} ${business.description || ''} ${(business.categories || []).join(' ')} ${(business.services || []).join(' ')}`;
     const tfResult = calculateCosineSimilarity(query || "service", docString);
     
     // Simulate coordinates on globe UI for Haversine
@@ -139,13 +139,13 @@ const SimulationCard = ({ business, query, userLandmark, distance, getLandmarkBy
                         </div>
                     </div>
                     <div className="sim-vector-viz" style={{ marginBottom: '1.5rem' }}>
-                        <div className="sim-vector-line sim-query-vector" style={{ transform: `rotate(${Math.min(90, Math.max(0, 45 - tfResult.angle/2))}deg)` }}>
+                        <div className="sim-vector-line sim-query-vector" style={{ transform: `rotate(${Math.min(90, Math.max(0, 45 - (Math.acos(Math.min(1, Math.max(-1, relevanceScore))) * (180 / Math.PI))/2))}deg)` }}>
                             <span className="sim-vector-label">Query</span>
                         </div>
-                        <div className="sim-vector-line sim-profile-vector" style={{ transform: `rotate(${Math.min(90, Math.max(0, 45 + tfResult.angle/2))}deg)` }}>
+                        <div className="sim-vector-line sim-profile-vector" style={{ transform: `rotate(${Math.min(90, Math.max(0, 45 + (Math.acos(Math.min(1, Math.max(-1, relevanceScore))) * (180 / Math.PI))/2))}deg)` }}>
                             <span className="sim-vector-label">Profile</span>
                         </div>
-                        <div className="sim-vector-angle">θ = {tfResult.angle.toFixed(1)}°</div>
+                        <div className="sim-vector-angle">θ = {(Math.acos(Math.min(1, Math.max(-1, relevanceScore))) * (180 / Math.PI)).toFixed(1)}°</div>
                     </div>
 
                     {tfResult.tokenBreakdown && tfResult.tokenBreakdown.length > 0 && (
