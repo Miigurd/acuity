@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import GraphNodeTooltip from './GraphNodeTooltip';
 
 const NODE_INFO = {
-  query: { title: "Search Query", desc: "The raw text input provided by the user in the search bar." },
-  doc: { title: "Document Profile", desc: "The combined text representation of a business, including its name, tags, and description." },
-  vector: { title: "TF-IDF Vector Space", desc: "Transforms text into mathematical vectors by evaluating Term Frequency (how often a word appears) and Inverse Document Frequency (how unique the word is across all businesses)." },
-  angle: { title: "Cosine Angle (θ)", desc: "The geometric angle between the Query vector and the Document vector in multi-dimensional space." },
-  similarity: { title: "Cosine Similarity", desc: "The cosine of the angle between the two vectors, representing how contextually relevant the document is to the query (1.0 = perfect match)." }
+  query: { title: "User Search", desc: "What the user actually typed, like 'bike repair'." },
+  doc: { title: "Business Details", desc: "The business's name, tags, and description all combined into one text block." },
+  vector: { title: "Text Matching Engine", desc: "Turns the words into numbers. It gives more weight to unique words (like 'vulcanizing') and less to common ones (like 'and')." },
+  angle: { title: "Relevance Angle", desc: "Measures the difference between the search words and the business words. A smaller angle means a closer match." },
+  similarity: { title: "Text Score", desc: "The final score (from 0% to 100%) showing how relevant the business is to the search." }
 };
 
 const TfidfGraph = ({ query = '', document = '', angle = 0, similarity = 0 }) => {

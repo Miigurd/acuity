@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import GraphNodeTooltip from './GraphNodeTooltip';
 
 const NODE_INFO = {
-  locA: { title: "Resident Location", desc: "The geographic starting point or the current location of the resident searching for a service." },
-  locB: { title: "Business Location", desc: "The registered geographic coordinates of the target business." },
-  latlng: { title: "Coordinate Math", desc: "Extracts the exact Latitude and Longitude values and converts them to radians for spherical geometry calculations." },
-  distance: { title: "Haversine Distance", desc: "The shortest over-the-earth (great-circle) distance between the two points in kilometers, accounting for the Earth's curvature." },
-  proximity: { title: "Proximity Score", desc: "An inverse decay function (1 / (1 + distance)) that heavily favors nearby locations, converting raw kilometers into a 0-100% ranking weight." }
+  locA: { title: "Resident's Location", desc: "Where the user is currently located or searching from." },
+  locB: { title: "Business's Location", desc: "Where the business is physically located on the map." },
+  latlng: { title: "Map Coordinates", desc: "Gets the exact Latitude and Longitude for both locations to calculate distance." },
+  distance: { title: "Real-World Distance", desc: "The shortest straight-line distance between the user and the business, taking the Earth's curve into account." },
+  proximity: { title: "Location Score", desc: "A score that drops the further away the business is. Very close businesses get near 100%." }
 };
 
 const HaversineGraph = ({ locA = '', locB = '', distance = 0, proximity = 0, aLat = 0, aLon = 0, bLat = 0, bLon = 0 }) => {

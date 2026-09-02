@@ -4,15 +4,15 @@ import GraphNodeTooltip from './GraphNodeTooltip';
 
 
 const NODE_INFO = {
-  compQuery: { title: "Query Vector", desc: "The TF-IDF mathematical representation of the user's search text." },
-  compProfile: { title: "Business Profile", desc: "The textual metadata (name, tags, description) of the target business." },
-  compCosine: { title: "Text Relevance", desc: "The Cosine Similarity score evaluating how well the business matches the search terms." },
-  compUserLoc: { title: "Resident Location", desc: "The geographic coordinates of the user." },
-  compBusLoc: { title: "Business Location", desc: "The geographic coordinates of the business." },
-  compHaversine: { title: "Geographic Proximity", desc: "The spatial score evaluating how physically close the business is to the user." },
-  alpha: { title: "Weight α (Text)", desc: "The tuning parameter dictating how much importance is placed on text relevance." },
-  beta: { title: "Weight β (Distance)", desc: "The tuning parameter dictating how much importance is placed on physical proximity." },
-  composite: { title: "Composite Score", desc: "The final weighted arithmetic sum of Text Relevance and Geographic Proximity used to rank the search results." }
+  compQuery: { title: "Search Terms", desc: "The words the user is looking for." },
+  compProfile: { title: "Business Profile", desc: "All the text details we have about the business." },
+  compCosine: { title: "Text Match Score", desc: "How well the business's details match the user's search terms." },
+  compUserLoc: { title: "User Location", desc: "Where the user is on the map." },
+  compBusLoc: { title: "Business Location", desc: "Where the business is on the map." },
+  compHaversine: { title: "Location Score", desc: "How physically close the business is to the user." },
+  alpha: { title: "Text Importance", desc: "How much we care about the text matching. Currently set to 60% of the final score." },
+  beta: { title: "Location Importance", desc: "How much we care about physical distance. Currently set to 40% of the final score." },
+  composite: { title: "Final Ranking Score", desc: "The ultimate score used to sort the results, combining both text match and location." }
 };
 
 const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'Unknown' }) => {
@@ -147,64 +147,64 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
 
           {/* NODES */}
           {/* Query Input */}
-          <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="50" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("compQuery")} style={{ cursor: "pointer", opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="50" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="50" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Query</text>
             <text x="50" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{query}</title>{truncate(query, 12)}</text>
           </g>
 
           {/* Profile Input */}
-          <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="150" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("compProfile")} style={{ cursor: "pointer", opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="150" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="150" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Profile</text>
             <text x="150" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{selectedObj.name}</title>{truncate(selectedObj.name, 12)}</text>
           </g>
 
           {/* UserLoc Input */}
-          <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="270" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("compUserLoc")} style={{ cursor: "pointer", opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="270" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="270" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">User Loc</text>
             <text x="270" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{userLoc}</title>{truncate(userLoc, 8)}</text>
           </g>
 
           {/* BusLoc Input */}
-          <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="370" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("compBusLoc")} style={{ cursor: "pointer", opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="370" cy="50" r="38" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="370" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Bus. Loc</text>
             <text x="370" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">{selectedObj.distance_km}km</text>
           </g>
 
           {/* Cosine Compute */}
-          <g style={{ opacity: step >= 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="100" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+          <g onClick={() => setSelectedNode("compCosine")} style={{ cursor: "pointer", opacity: step >= 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="100" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 1 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="100" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Cosine</text>
             <text x="100" y="185" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(selectedObj.relevance_score || 0).toFixed(2)}</text>
           </g>
 
           {/* Alpha Weight */}
-          <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="100" cy="290" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+          <g onClick={() => setSelectedNode("alpha")} style={{ cursor: "pointer", opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="100" cy="290" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="100" y="285" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight α</text>
             <text x="100" y="305" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(alpha * 100).toFixed(0)}%</text>
           </g>
 
           {/* Haversine Compute */}
-          <g style={{ opacity: step >= 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="320" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+          <g onClick={() => setSelectedNode("compHaversine")} style={{ cursor: "pointer", opacity: step >= 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="320" cy="170" r="42" fill="var(--bg-base)" stroke={(step >= 2 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="320" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Haversine</text>
             <text x="320" y="185" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(selectedObj.proximity_score || 0).toFixed(2)}</text>
           </g>
 
           {/* Beta Weight */}
-          <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="320" cy="290" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+          <g onClick={() => setSelectedNode("beta")} style={{ cursor: "pointer", opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="320" cy="290" r="42" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="320" y="285" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight β</text>
             <text x="320" y="305" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(beta * 100).toFixed(0)}%</text>
           </g>
 
           {/* Composite Merge Node */}
-          <g style={{ opacity: step >= 3 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="210" cy="410" r="48" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? 'var(--primary)' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+          <g onClick={() => setSelectedNode("composite")} style={{ cursor: "pointer", opacity: step >= 3 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+              <circle cx="210" cy="410" r="48" fill="var(--bg-base)" stroke={(step >= 3 || step === 0) ? 'var(--primary)' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="210" y="405" textAnchor="middle" fill="var(--primary)" fontSize="12" fontWeight="bold">Composite</text>
             <text x="210" y="425" textAnchor="middle" fill="var(--primary)" fontSize="16" fontWeight="800">{(selectedObj.finalScore || 0).toFixed(2)}</text>
           </g>

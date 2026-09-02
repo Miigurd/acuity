@@ -4,13 +4,13 @@ import GraphNodeTooltip from './GraphNodeTooltip';
 
 
 const NODE_INFO = {
-  inputA: { title: "Submitted Name", desc: "The raw business name string submitted by the user or extracted from a query." },
-  inputB: { title: "BPLO Registry Name", desc: "The official business name string stored in the verified Business Permits and Licensing Office (BPLO) database." },
-  editDist: { title: "Edit Distance", desc: "The minimum number of single-character edits (insertions, deletions, or substitutions) required to change the submitted name into the official name." },
-  matchScore: { title: "Match Score", desc: "The continuous similarity percentage, calculated by subtracting the ratio of edit distance to the maximum string length from 100%." },
-  unverified: { title: "Unverified (<60%)", desc: "The string similarity is too low. The system rejects the match to prevent fraudulent or mistaken identity." },
-  pending: { title: "Pending (60-80%)", desc: "The string similarity is ambiguous. The system flags this for manual IT Expert or BPLO officer review." },
-  verified: { title: "Verified (>80%)", desc: "The string similarity is extremely high. The system automatically approves the entity match." }
+  inputA: { title: "Submitted Name", desc: "The name the user typed into the search bar." },
+  inputB: { title: "Official Registry Name", desc: "The actual, legally registered business name in our city database." },
+  editDist: { title: "Typo Count (Edit Distance)", desc: "Counts how many individual letters need to be added, removed, or changed to make the two names match perfectly." },
+  matchScore: { title: "Match Percentage", desc: "A score out of 100% showing how similar the names are based on the typo count." },
+  unverified: { title: "Unverified (<60%)", desc: "Match is too low. We hide or flag this result to prevent showing the wrong business." },
+  pending: { title: "Pending (60-80%)", desc: "Match is okay, but not certain. A human needs to check if it's the same business." },
+  verified: { title: "Verified (>80%)", desc: "Match is great! We automatically approve this as the correct business." }
 };
 
 const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', stringB = 'Kuya Juns Vulcanizing Shop', edits = 6 }) => {
