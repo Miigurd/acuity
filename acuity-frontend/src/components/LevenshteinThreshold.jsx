@@ -65,14 +65,14 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* EDGES */}
           {/* Input A to Edit */}
-          <path id="path-a-edit" d="M122,83 L188,127" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-a-edit" d="M122,83 L179,122" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           {/* Input B to Edit */}
-          <path id="path-b-edit" d="M298,83 L232,127" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-b-edit" d="M298,83 L241,122" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           {/* Edit to Score */}
-          <path id="path-edit-score" d="M210,190 L210,208" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
+          <path id="path-edit-score" d="M210,192 L210,202" fill="none" stroke={status.color} strokeWidth="3" markerEnd="url(#arrow-active)" style={{ transition: 'stroke 0.4s' }} />
           
           {/* Score to Unverified */}
-          <path id="path-score-unv" d="M183,282 Q120,300 105,338"
+          <path id="path-score-unv" d="M183,282 Q120,300 117,343"
                 stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'}
                 strokeWidth={status.band === 0 ? "3" : "1.5"}
                 opacity={status.band === 0 ? 1 : 0.4}
@@ -88,7 +88,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
                 fill="none" style={{ transition: 'stroke 0.4s, opacity 0.4s, stroke-width 0.4s' }} />
                 
           {/* Score to Verified */}
-          <path id="path-score-ver" d="M237,282 Q300,300 315,338"
+          <path id="path-score-ver" d="M237,282 Q300,300 303,343"
                 stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'}
                 strokeWidth={status.band === 2 ? "3" : "1.5"}
                 opacity={status.band === 2 ? 1 : 0.4}
@@ -99,20 +99,20 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           {!isReducedMotion && (
             <>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="1s" repeatCount="indefinite" path="M122,83 L188,127" />
+                <animateMotion dur="1s" repeatCount="indefinite" path="M122,83 L179,122" />
               </circle>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="1s" repeatCount="indefinite" path="M298,83 L232,127" />
+                <animateMotion dur="1s" repeatCount="indefinite" path="M298,83 L241,122" />
               </circle>
               <circle r="4" fill={status.color} style={{ transition: 'fill 0.4s' }}>
-                <animateMotion dur="0.5s" repeatCount="indefinite" path="M210,190 L210,208" />
+                <animateMotion dur="0.5s" repeatCount="indefinite" path="M210,192 L210,202" />
               </circle>
             </>
           )}
 
           {!isReducedMotion && status.band === 0 && (
             <circle r="4" fill="var(--danger, #dc2626)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M183,282 Q120,300 105,338" />
+              <animateMotion dur="1s" repeatCount="indefinite" path="M183,282 Q120,300 117,343" />
             </circle>
           )}
           {!isReducedMotion && status.band === 1 && (
@@ -122,7 +122,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           )}
           {!isReducedMotion && status.band === 2 && (
             <circle r="4" fill="var(--success, #16a34a)">
-              <animateMotion dur="1s" repeatCount="indefinite" path="M237,282 Q300,300 315,338" />
+              <animateMotion dur="1s" repeatCount="indefinite" path="M237,282 Q300,300 303,343" />
             </circle>
           )}
 
