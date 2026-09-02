@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FiCheckCircle, FiClock, FiXCircle } from 'react-icons/fi';
+import GraphNodeTooltip from './GraphNodeTooltip';
+
+
+const NODE_INFO = {
+  inputA: { title: "Submitted Name", desc: "The raw business name string submitted by the user or extracted from a query." },
+  inputB: { title: "BPLO Registry Name", desc: "The official business name string stored in the verified Business Permits and Licensing Office (BPLO) database." },
+  editDist: { title: "Edit Distance", desc: "The minimum number of single-character edits (insertions, deletions, or substitutions) required to change the submitted name into the official name." },
+  matchScore: { title: "Match Score", desc: "The continuous similarity percentage, calculated by subtracting the ratio of edit distance to the maximum string length from 100%." },
+  unverified: { title: "Unverified (<60%)", desc: "The string similarity is too low. The system rejects the match to prevent fraudulent or mistaken identity." },
+  pending: { title: "Pending (60-80%)", desc: "The string similarity is ambiguous. The system flags this for manual IT Expert or BPLO officer review." },
+  verified: { title: "Verified (>80%)", desc: "The string similarity is extremely high. The system automatically approves the entity match." }
+};
 
 const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', stringB = 'Kuya Juns Vulcanizing Shop', edits = 6 }) => {
+  const [selectedNode, setSelectedNode] = useState(null);
   const [score, setScore] = useState(currentScore || 85);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -40,7 +53,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
       
 
-      <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', position: 'relative', display: 'flex', justifyContent: 'center' }}>
         <svg viewBox="0 0 420 600" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -116,45 +129,53 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* NODES */}
           {/* Input A */}
-          <circle cx="100" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("inputA")} style={{ cursor: "pointer" }}>
+            <circle cx="100" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="100" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input A</text>
+          </g>
           <text x="100" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringA}</title>
             {truncate(stringA, 12)}
           </text>
 
           {/* Input B */}
-          <circle cx="320" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("inputB")} style={{ cursor: "pointer" }}>
+            <circle cx="320" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="320" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input B</text>
+          </g>
           <text x="320" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringB}</title>
             {truncate(stringB, 12)}
           </text>
 
           {/* Compute Edit Distance */}
-          <circle cx="210" cy="170" r="42" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("editDist")} style={{ cursor: "pointer" }}>
+            <circle cx="210" cy="170" r="42" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="210" y="165" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Edit Dist.</text>
           <text x="210" y="185" textAnchor="middle" fill="var(--text-secondary)" fontSize="13" fontWeight="800">{edits} edits</text>
+          </g>
 
           {/* Score Node */}
-          <circle cx="210" cy="290" r="48" fill="var(--bg-elevated)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
+          <g onClick={() => setSelectedNode("matchScore")} style={{ cursor: "pointer" }}>
+            <circle cx="210" cy="290" r="48" fill="var(--bg-elevated)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
           <text x="210" y="280" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Match Score</text>
           <text x="210" y="302" textAnchor="middle" fill={status.color} fontSize="16" fontWeight="800" style={{ transition: 'fill 0.4s' }}>{score.toFixed(0)}%</text>
+          </g>
 
           {/* DESTINATION NODES */}
-          <g style={{ opacity: status.band === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+          <g onClick={() => setSelectedNode("unverified")} style={{ cursor: "pointer", opacity: status.band === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="90" cy="410" r="38" fill={status.band === 0 ? 'rgba(220, 38, 38, 0.15)' : 'var(--bg-base)'} stroke={status.band === 0 ? 'var(--danger, #dc2626)' : 'var(--border)'} strokeWidth="2" />
             <text x="90" y="407" textAnchor="middle" fill="var(--danger, #dc2626)" fontSize="11" fontWeight="bold">Unverified</text>
             <text x="90" y="422" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">&lt;60</text>
           </g>
 
-          <g style={{ opacity: status.band === 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+          <g onClick={() => setSelectedNode("pending")} style={{ cursor: "pointer", opacity: status.band === 1 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="210" cy="410" r="38" fill={status.band === 1 ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-base)'} stroke={status.band === 1 ? 'var(--warning, #f59e0b)' : 'var(--border)'} strokeWidth="2" />
             <text x="210" y="407" textAnchor="middle" fill="var(--warning, #f59e0b)" fontSize="11" fontWeight="bold">Pending</text>
             <text x="210" y="422" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">60-79</text>
           </g>
 
-          <g style={{ opacity: status.band === 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
+          <g onClick={() => setSelectedNode("verified")} style={{ cursor: "pointer", opacity: status.band === 2 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="330" cy="410" r="38" fill={status.band === 2 ? 'rgba(22, 163, 74, 0.15)' : 'var(--bg-base)'} stroke={status.band === 2 ? 'var(--success, #16a34a)' : 'var(--border)'} strokeWidth="2" />
             <text x="330" y="407" textAnchor="middle" fill="var(--success, #16a34a)" fontSize="11" fontWeight="bold">Verified</text>
             <text x="330" y="422" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">&gt;=80</text>
@@ -170,6 +191,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
             </div>
           </foreignObject>
         </svg>
+        <GraphNodeTooltip info={NODE_INFO[selectedNode]} onClose={() => setSelectedNode(null)} />
       </div>
     </div>
   );

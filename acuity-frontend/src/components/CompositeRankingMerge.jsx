@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlay, FiRefreshCw } from 'react-icons/fi';
+import GraphNodeTooltip from './GraphNodeTooltip';
+
+
+const NODE_INFO = {
+  compQuery: { title: "Query Vector", desc: "The TF-IDF mathematical representation of the user's search text." },
+  compProfile: { title: "Business Profile", desc: "The textual metadata (name, tags, description) of the target business." },
+  compCosine: { title: "Text Relevance", desc: "The Cosine Similarity score evaluating how well the business matches the search terms." },
+  compUserLoc: { title: "Resident Location", desc: "The geographic coordinates of the user." },
+  compBusLoc: { title: "Business Location", desc: "The geographic coordinates of the business." },
+  compHaversine: { title: "Geographic Proximity", desc: "The spatial score evaluating how physically close the business is to the user." },
+  alpha: { title: "Weight α (Text)", desc: "The tuning parameter dictating how much importance is placed on text relevance." },
+  beta: { title: "Weight β (Distance)", desc: "The tuning parameter dictating how much importance is placed on physical proximity." },
+  composite: { title: "Composite Score", desc: "The final weighted arithmetic sum of Text Relevance and Geographic Proximity used to rank the search results." }
+};
 
 const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'Unknown' }) => {
   const [alpha, setAlpha] = useState(0.6);
+  const [selectedNode, setSelectedNode] = useState(null);
   const [step, setStep] = useState(0); 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
@@ -247,7 +262,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
             </div>
           </foreignObject>
         </svg>
-
+        <GraphNodeTooltip info={NODE_INFO[selectedNode]} onClose={() => setSelectedNode(null)} />
       </div>
 
       {/* Controls */}
