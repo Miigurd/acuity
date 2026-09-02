@@ -126,7 +126,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           )}
           {!isReducedMotion && (step >= 4 || step === 0) && (
             <circle r="4" fill="var(--primary)">
-              <animateMotion dur="1.5s" repeatCount="indefinite" path={`M210,390 L210,415 L10,415 L10,${470 + selectedIndex * 60} L22,${470 + selectedIndex * 60}`} />
+              <animateMotion dur="1.5s" repeatCount="indefinite" path="M210,388 L210,395" />
             </circle>
           )}
 
