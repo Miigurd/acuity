@@ -128,7 +128,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 
           {/* NODES */}
           {/* Input A */}
-          <circle cx="100" cy="50" r="40" fill="var(--bg-card)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="100" cy="50" r="40" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="100" y="45" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Input A</text>
           <text x="100" y="60" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">
             <title>{stringA}</title>
@@ -136,7 +136,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           </text>
 
           {/* Input B */}
-          <circle cx="320" cy="50" r="40" fill="var(--bg-card)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="320" cy="50" r="40" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="320" y="45" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Input B</text>
           <text x="320" y="60" textAnchor="middle" fill="var(--text-secondary)" fontSize="10">
             <title>{stringB}</title>
@@ -144,14 +144,14 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           </text>
 
           {/* Compute Edit Distance */}
-          <circle cx="210" cy="150" r="40" fill="var(--bg-card)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+          <circle cx="210" cy="150" r="40" fill="var(--bg-surface)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
           <text x="210" y="145" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Edit Dist.</text>
           <text x="210" y="160" textAnchor="middle" fill="var(--text-secondary)" fontSize="11">{edits} edits</text>
 
           {/* Score Node */}
-          <circle cx="210" cy="250" r="42" fill="var(--bg-card)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
-          <text x="210" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Match Score</text>
-          <text x="210" y="265" textAnchor="middle" fill={status.color} fontSize="18" fontWeight="800" style={{ transition: 'fill 0.4s' }}>{score.toFixed(0)}%</text>
+          <circle cx="210" cy="250" r="44" fill="var(--bg-elevated)" stroke={status.color} strokeWidth="3" style={{ transition: 'stroke 0.4s' }} />
+          <text x="210" y="235" textAnchor="middle" fill="var(--text-main)" fontSize="12" fontWeight="bold">Match Score</text>
+          <text x="210" y="260" textAnchor="middle" fill={status.color} fontSize="20" fontWeight="800" style={{ transition: 'fill 0.4s' }}>{score.toFixed(0)}%</text>
 
           {/* DESTINATION NODES */}
           <g style={{ opacity: status.band === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
@@ -178,3 +178,4 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
 };
 
 export default LevenshteinThreshold;
+

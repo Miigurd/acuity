@@ -63,7 +63,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', marginBottom: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* SVG Graph encompassing everything including the foreignObject list */}
-        <svg viewBox="0 0 420 670" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        <svg viewBox="0 0 420 650" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke="#3b82f6" strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
@@ -85,22 +85,23 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           {/* Profile -> Cosine */}
           <path id="edge-profile-cosine" d="M135,81 L118,114" fill="none" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 1 ? "3" : "1.5"} opacity={step >= 1 ? 1 : 0.4} markerEnd={step >= 1 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
           {/* Cosine -> Alpha */}
-          <path id="edge-cosine-alpha" d="M100,190 L100,210" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          <path id="edge-cosine-alpha" d="M100,192 L100,208" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 || step === 0 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          
+          {/* User Loc -> Hav */}
+          <path id="edge-userloc-hav" d="M285,81 L302,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Bus Loc -> Hav */}
+          <path id="edge-busloc-hav" d="M355,81 L338,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          {/* Hav -> Beta */}
+          <path id="edge-hav-beta" d="M320,192 L320,208" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 || step === 0 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          
           {/* Alpha -> Composite */}
-          <path id="edge-alpha-composite" d="M125,282 L178,322" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
-
-          {/* UserLoc -> Haversine */}
-          <path id="edge-userloc-haversine" d="M285,81 L302,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
-          {/* BusLoc -> Haversine */}
-          <path id="edge-busloc-haversine" d="M355,81 L338,114" fill="none" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 2 ? "3" : "1.5"} opacity={step >= 2 ? 1 : 0.4} markerEnd={step >= 2 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
-          {/* Haversine -> Beta */}
-          <path id="edge-haversine-beta" d="M320,190 L320,210" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          <path id="edge-alpha-comp" d="M115,286 L175,322" fill="none" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-blue)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          
           {/* Beta -> Composite */}
-          <path id="edge-beta-composite" d="M295,282 L242,322" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
-
-          {/* Composite -> Output Row */}
-          <path id="edge-output" d={`M210,390 L210,415 L10,415 L10,${470 + selectedIndex * 60} L22,${470 + selectedIndex * 60}`} 
-                fill="none" stroke={step >= 4 ? 'var(--primary)' : 'var(--border)'} strokeWidth={step >= 4 ? "3" : "1.5"} opacity={step >= 4 ? 1 : 0.4} markerEnd={step >= 4 ? "url(#arrow-active-primary)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s, d 0.4s' }} />
+          <path id="edge-beta-comp" d="M305,286 L245,322" fill="none" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth={step >= 3 ? "3" : "1.5"} opacity={step >= 3 ? 1 : 0.4} markerEnd={step >= 3 ? "url(#arrow-active-pink)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
+          
+          {/* Composite -> List */}
+          <path id="edge-comp-list" d="M210,388 L210,405" fill="none" stroke={step >= 4 ? 'var(--primary)' : 'var(--border)'} strokeWidth={step >= 4 ? "3" : "1.5"} opacity={step >= 4 ? 1 : 0.4} markerEnd={step >= 4 ? "url(#arrow-active-indigo)" : "url(#arrow-inactive)"} style={{ transition: 'stroke 0.4s, opacity 0.4s' }} />
 
           {/* ACTIVE-EDGE FLOW INDICATORS */}
           {!isReducedMotion && (step >= 1 || step === 0) && (
@@ -117,10 +118,10 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           )}
           {!isReducedMotion && (step >= 3 || step === 0) && (
             <>
-              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M100,190 L100,210" /></circle>
-              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M125,282 L178,322" /></circle>
-              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M320,190 L320,210" /></circle>
-              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M295,282 L242,322" /></circle>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M100,192 L100,208" /></circle>
+              <circle r="4" fill="#3b82f6"><animateMotion dur="1s" repeatCount="indefinite" path="M115,286 L175,322" /></circle>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M320,192 L320,208" /></circle>
+              <circle r="4" fill="#ec4899"><animateMotion dur="1s" repeatCount="indefinite" path="M305,286 L245,322" /></circle>
             </>
           )}
           {!isReducedMotion && (step >= 4 || step === 0) && (
@@ -132,28 +133,28 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           {/* NODES */}
           {/* Query Input */}
           <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="50" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <circle cx="50" cy="50" r="38" fill="var(--bg-base)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="50" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Query</text>
-            <text x="50" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{query}</title>{truncate(query, 8)}</text>
+            <text x="50" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{query}</title>{truncate(query, 12)}</text>
           </g>
 
           {/* Profile Input */}
           <g style={{ opacity: step >= 1 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="150" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <circle cx="150" cy="50" r="38" fill="var(--bg-base)" stroke={step >= 1 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="150" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Profile</text>
-            <text x="150" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{selectedObj.name}</title>{truncate(selectedObj.name, 8)}</text>
+            <text x="150" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{selectedObj.name}</title>{truncate(selectedObj.name, 12)}</text>
           </g>
 
           {/* UserLoc Input */}
           <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="270" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <circle cx="270" cy="50" r="38" fill="var(--bg-base)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="270" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">User Loc</text>
             <text x="270" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9"><title>{userLoc}</title>{truncate(userLoc, 8)}</text>
           </g>
 
           {/* BusLoc Input */}
           <g style={{ opacity: step >= 2 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="370" cy="50" r="35" fill="var(--bg-card)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
+            <circle cx="370" cy="50" r="38" fill="var(--bg-base)" stroke={step >= 2 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
             <text x="370" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Bus. Loc</text>
             <text x="370" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">{selectedObj.distance_km}km</text>
           </g>
@@ -167,7 +168,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
 
           {/* Alpha Weight */}
           <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="100" cy="250" r="40" fill="var(--bg-card)" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <circle cx="100" cy="250" r="42" fill="var(--bg-surface)" stroke={step >= 3 ? '#3b82f6' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="100" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight α</text>
             <text x="100" y="265" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="800">{(alpha * 100).toFixed(0)}%</text>
           </g>
@@ -181,7 +182,7 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
 
           {/* Beta Weight */}
           <g style={{ opacity: step >= 3 || step === 0 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
-            <circle cx="320" cy="250" r="40" fill="var(--bg-card)" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
+            <circle cx="320" cy="250" r="42" fill="var(--bg-surface)" stroke={step >= 3 ? '#ec4899' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
             <text x="320" y="245" textAnchor="middle" fill="var(--text-main)" fontSize="11" fontWeight="bold">Weight β</text>
             <text x="320" y="265" textAnchor="middle" fill="#ec4899" fontSize="13" fontWeight="800">{(beta * 100).toFixed(0)}%</text>
           </g>
@@ -189,12 +190,12 @@ const CompositeRankingMerge = ({ businesses = [], query = 'repair', userLoc = 'U
           {/* Composite Merge Node */}
           <g style={{ opacity: step >= 3 ? 1 : 0.4, transition: 'opacity 0.4s' }}>
             <circle cx="210" cy="350" r="40" fill={step >= 3 ? 'rgba(99, 102, 241, 0.15)' : 'var(--bg-card)'} stroke={step >= 3 ? 'var(--primary)' : 'var(--border)'} strokeWidth="2" style={{ transition: 'all 0.4s' }} />
-            <text x="210" y="345" textAnchor="middle" fill="var(--primary)" fontSize="11" fontWeight="bold">Composite</text>
-            <text x="210" y="365" textAnchor="middle" fill="var(--primary)" fontSize="13" fontWeight="800">{(selectedObj.finalScore || 0).toFixed(2)}</text>
+            <text x="210" y="335" textAnchor="middle" fill="var(--primary)" fontSize="12" fontWeight="bold">Composite</text>
+            <text x="210" y="355" textAnchor="middle" fill="var(--primary)" fontSize="16" fontWeight="800">{(selectedObj.finalScore || 0).toFixed(2)}</text>
           </g>
 
           {/* Live Re-ranking HTML List embedded via foreignObject */}
-          <foreignObject x="30" y="420" width="370" height="240">
+          <foreignObject x="30" y="405" width="370" height="240">
             <div style={{
               width: '100%', height: '100%', padding: '12px',
               background: step >= 4 ? 'var(--bg-elevated)' : 'var(--bg-card)',
