@@ -183,7 +183,7 @@ const ITExpertValidation = () => {
           proximity_score: proxScore,
           final_score: finalScore
         };
-      }).sort((a, b) => b.final_score - a.final_score);
+      }).filter(b => !simQuery || b.relevance_score > 0).sort((a, b) => b.final_score - a.final_score);
       setRankedResults(scored);
     }
     

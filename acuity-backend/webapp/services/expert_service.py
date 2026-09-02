@@ -101,7 +101,7 @@ def trace_recommendation(query: str, user_lat=None, user_lon=None, top_k: int = 
         "distance_km": r.get("distance_km"),
         "proximity_score": r.get("proximity_score"),
         "final_score": r.get("final_score"),
-    } for r in results if (r.get("name") or r.get("business_name"))]
+    } for r in results if (r.get("name") or r.get("business_name")) and (not query or r.get("relevance_score", 0) > 0)]
 
     return {
         "source": "production",
