@@ -144,7 +144,15 @@ def main():
             
             landmark_id = _assign_landmark(address)
             
-            new_phones = to_list(profile.get('phones'))
+            raw_phones = to_list(profile.get('phones'))
+            cleaned_phones = []
+            for p in raw_phones:
+                if p:
+                    parts = [x.strip() for x in p.split(',')]
+                    for part in parts:
+                        if part and part not in cleaned_phones:
+                            cleaned_phones.append(part)
+            new_phones = cleaned_phones
             contact = get_first(new_phones, "")
             
             new_prices = to_list(profile.get('prices'))

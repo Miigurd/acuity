@@ -182,6 +182,8 @@ def trace_extraction(text: str, crf_model) -> dict:
 
     # Rule-based structured fields (phones, prices, hours)
     structured = extract_structured_fields(cleaned)
+    if "phones" in structured:
+        structured["phones"] = list(dict.fromkeys(structured["phones"]))
 
     # Final profile construction (same call the pipeline makes)
     profile = build_business_profile(
