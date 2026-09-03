@@ -105,7 +105,7 @@ const EditBusinessProfile = () => {
 
 
   const isPhoneValid = !formData.contact.trim() || formData.contact.split(',').map(p => p.trim()).filter(Boolean).every(p => /^09\d{9}$/.test(p));
-  const isValid = formData.name.trim() !== '' && formData.landmarkId !== '' && (formData.contact.trim() !== '' || formData.services.trim() !== '') && isPhoneValid;
+  const isValid = formData.name.trim() !== '' && isPhoneValid;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,19 +184,18 @@ const EditBusinessProfile = () => {
         )}
 
         {/* Basic Info */}
-        <div className="card">
-          <h3 className="font-bold text-lg mb-4 border-b pb-2">Basic Information</h3>
-
-          <div className="input-group">
-            <label className="input-label">Business Name</label>
-            <input required type="text" name="name" className="input-field" style={!formData.name.trim() ? { borderColor: 'rgba(239, 68, 68, 0.5)', backgroundColor: 'rgba(239, 68, 68, 0.05)' } : {}} value={formData.name} onChange={handleChange} />
-            {!formData.name.trim() && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Business Name is required.</span>}
+          <div className="card">
+            <h3 className="font-bold text-lg mb-4 border-b pb-2">Basic Information</h3>
+            <div className="input-group mb-4">
+              <label className="input-label">Business Name</label>
+              <input type="text" name="name" className="input-field" value={formData.name} onChange={handleChange} />
+            </div>
           </div>
 
           <div className="grid form-grid-2 gap-4">
             <div className="input-group">
               <label className="input-label">Category</label>
-              <select required name="categoryId" className="input-field" value={formData.categoryId} onChange={handleChange}>
+              <select name="categoryId" className="input-field" value={formData.categoryId} onChange={handleChange}>
                 <option value="">Select Category</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
               </select>
@@ -213,12 +212,12 @@ const EditBusinessProfile = () => {
 
           <div className="input-group">
             <label className="input-label">Description</label>
-            <textarea required name="description" className="input-field" rows="3" placeholder="Tell residents what your business is about..." value={formData.description} onChange={handleChange}></textarea>
+            <textarea name="description" className="input-field" rows="3" placeholder="Tell residents what your business is about..." value={formData.description} onChange={handleChange}></textarea>
           </div>
 
           <div className="input-group">
             <label className="input-label">Services Offered (comma separated)</label>
-            <input required type="text" name="services" className="input-field" placeholder="e.g. Vulcanizing, Oil Change, Car Wash" value={formData.services} onChange={handleChange} />
+            <input type="text" name="services" className="input-field" placeholder="e.g. Vulcanizing, Oil Change, Car Wash" value={formData.services} onChange={handleChange} />
           </div>
         </div>
 
@@ -241,13 +240,13 @@ const EditBusinessProfile = () => {
           <div className="grid form-grid-2 gap-4 mt-4">
             <div className="input-group">
               <label className="input-label">Landmark Anchor</label>
-              <select required name="landmarkId" className="input-field" value={formData.landmarkId} onChange={handleChange}>
+              <select name="landmarkId" className="input-field" value={formData.landmarkId} onChange={handleChange}>
                 <option value="">Select Nearest Landmark</option>
                 {landmarks.map(l => (
                   <option key={l.id} value={l.id}>{l.name}</option>
                 ))}
               </select>
-              {!formData.landmarkId && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Landmark is required.</span>}
+              
               <p className="text-xs text-muted mt-1">Used to group businesses instead of specific GPS points.</p>
             </div>
           </div>
@@ -278,16 +277,7 @@ const EditBusinessProfile = () => {
           </label>
         </div>
 
-        <div className="card bg-primary/5 border-primary/20 mb-6">
-          <h3 className="font-bold text-lg mb-2 flex items-center gap-2 text-primary">
-            <FiAlertCircle /> Data Quality Check
-          </h3>
-          <ul className="text-sm list-disc pl-5 flex-col gap-1">
-            <li style={{ fontWeight: 500, color: formData.name.trim() ? 'var(--success)' : 'var(--error)' }}>Must have a Business Name</li>
-            <li style={{ fontWeight: 500, color: formData.landmarkId ? 'var(--success)' : 'var(--error)' }}>Must be anchored to a Landmark</li>
-            <li style={{ fontWeight: 500, color: (formData.contact.trim() || formData.services.trim()) ? 'var(--success)' : 'var(--error)' }}>Must include either a Contact Number or list of Services</li>
-          </ul>
-        </div>
+        
 
         <button 
           type="submit" 
