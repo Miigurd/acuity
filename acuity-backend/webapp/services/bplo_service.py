@@ -41,93 +41,63 @@ def upload_bplo_csv(records, fieldnames):
         
     bplo_lower_names = list(bplo_name_map.keys())
     
-    unverified_profiles = BusinessProfile.query.filter_by(is_verified=False).all()
+    all_profiles = BusinessProfile.query.all()
     
     auto_verified = 0
     queued = 0
     
-    for profile in unverified_profiles:
-        # Reset any previous pending statuses
-        profile.status = "Unverified"
+    for profile in all_profiles:
+        old_status = profile.status
+        new_status = "Unverified"
+        new_is_verified = False
+        match_entries = []
         
         profile_name = (profile.business_name or "").lower()
-        if not profile_name: continue
-        
-        # Fast Path: O(1) Exact match
-        if profile_name in bplo_name_map:
-            if profile.status != "Verified":
-                history = BusinessStatusHistory(
-                    business_id=profile.id,
-                    admin_id="System (BPLO Auto-Sync)",
-                    previous_status=profile.status,
-                    new_status="Verified"
-                )
-                db.session.add(history)
-            profile.is_verified = True
-            profile.status = "Verified"
-            profile.last_verified_year = datetime.utcnow().year
+        if not profile_name:
+            pass # remains Unverified
+        elif profile_name in bplo_name_map:
+            new_status = "Verified"
+            new_is_verified = True
             auto_verified += 1
+            profile.last_verified_year = datetime.utcnow().year
+            match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=bplo_name_map[profile_name].id, confidence_score=1.0))
+        else:
+            matches_above_threshold = []
+            for bplo_name in bplo_lower_names:
+                score = levenshtein_ratio(profile_name, bplo_name)
+                if score >= config.fuzzy_match_threshold_pending:
+                    matches_above_threshold.append((bplo_name, score))
             
-            match_entry = VerificationMatch(
+            if matches_above_threshold:
+                matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
+                best_score = matches_above_threshold[0][1]
+                if best_score >= config.fuzzy_match_threshold_verified:
+                    new_status = "Verified"
+                    new_is_verified = True
+                    auto_verified += 1
+                    profile.last_verified_year = datetime.utcnow().year
+                    best_match = bplo_name_map[matches_above_threshold[0][0]]
+                    match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=best_match.id, confidence_score=round(best_score, 2)))
+                else:
+                    new_status = "Pending Verification"
+                    queued += 1
+                    for bplo_name, score in matches_above_threshold:
+                        best_match = bplo_name_map[bplo_name]
+                        match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=best_match.id, confidence_score=round(score, 2)))
+                        
+        if old_status != new_status:
+            history = BusinessStatusHistory(
                 business_id=profile.id,
-                bplo_id=bplo_name_map[profile_name].id,
-                confidence_score=1.0
-            )  # type: ignore
-            db.session.add(match_entry)
-            continue
+                admin_id="System (BPLO Auto-Sync)",
+                previous_status=old_status,
+                new_status=new_status
+            )
+            db.session.add(history)
             
-        # Fuzzy Path: Levenshtein Distance
-        matches_above_threshold = []
-        
-        for bplo_name in bplo_lower_names:
-            score = levenshtein_ratio(profile_name, bplo_name)
-            if score >= config.fuzzy_match_threshold_pending:
-                matches_above_threshold.append((bplo_name, score))
-        
-        if matches_above_threshold:
-            matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
-            best_score = matches_above_threshold[0][1]
-            
-            if best_score >= config.fuzzy_match_threshold_verified:
-                if profile.status != "Verified":
-                    history = BusinessStatusHistory(
-                        business_id=profile.id,
-                        admin_id="System (BPLO Auto-Sync)",
-                        previous_status=profile.status,
-                        new_status="Verified"
-                    )
-                    db.session.add(history)
-                profile.is_verified = True
-                profile.status = "Verified"
-                profile.last_verified_year = datetime.utcnow().year
-                auto_verified += 1
-                
-                best_match = bplo_name_map[matches_above_threshold[0][0]]
-                match_entry = VerificationMatch(
-                    business_id=profile.id,
-                    bplo_id=best_match.id,
-                    confidence_score=round(best_score, 2)
-                )  # type: ignore
-                db.session.add(match_entry)
-            else:
-                for bplo_name, score in matches_above_threshold:
-                    best_match = bplo_name_map[bplo_name]
-                    match_entry = VerificationMatch(
-                        business_id=profile.id,
-                        bplo_id=best_match.id,
-                        confidence_score=round(score, 2)
-                    )  # type: ignore
-                    db.session.add(match_entry)
-                if profile.status != "Pending Verification":
-                    history = BusinessStatusHistory(
-                        business_id=profile.id,
-                        admin_id="System (BPLO Queue)",
-                        previous_status=profile.status,
-                        new_status="Pending Verification"
-                    )
-                    db.session.add(history)
-                profile.status = "Pending Verification"
-                queued += 1
+        profile.status = new_status
+        profile.is_verified = new_is_verified
+        for me in match_entries:
+            db.session.add(me)
                 
     db.session.commit()
     return {
