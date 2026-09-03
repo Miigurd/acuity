@@ -360,7 +360,8 @@ const BusinessProfileView = () => {
                       const ALLOWED_HISTORY_FIELDS = [
                         'name', 'business_name', 'categories', 'category_id', 'categoryId',
                         'locationType', 'description', 'services', 'phones', 'contact_info',
-                        'contact', 'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours'
+                        'contact', 'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours',
+                        'verifiedContact', 'communityEngaged'
                       ];
                       
                       const nextState = index === 0 ? business : business.history[index - 1].previous_data;
