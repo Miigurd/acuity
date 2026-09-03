@@ -123,7 +123,7 @@ const EditBusinessProfile = () => {
       contact: formData.contact,
       contact_info: formData.contact,
       phones: formData.contact.split(',').map(p => p.trim()).filter(Boolean),
-      hours: [formData.operatingHours],
+      hours: formData.operatingHours ? formData.operatingHours.split(',').map(h => h.trim()).filter(Boolean) : [],
       description: formData.description,
       ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous'),
       pin: formData.pin
