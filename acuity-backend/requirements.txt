@@ -3,7 +3,7 @@
 # =============================================================================
 
 # --- Core ACUITY Framework (Local editable / PyPI package) ---
-acuity-framework>=1.0.0
+acuity-framework==2.0.3
 
 # --- Scraper ---
 undetected-chromedriver>=3.5.0
