@@ -18,7 +18,7 @@ def update_database():
         
         # 1. Delete ONLY Unverified businesses
         unverified_query = db.session.query(BusinessProfile.id).filter_by(status='Unverified')
-        unverified_ids = unverified_query.subquery()
+        unverified_ids = unverified_query
         
         print("Cleaning up existing unverified businesses...")
         BusinessStat.query.filter(BusinessStat.business_id.in_(unverified_ids)).delete(synchronize_session=False)
@@ -129,13 +129,13 @@ def update_database():
                 )
                 db.session.add(history)
             
-            # Insert Sub-entities
-            for c in set(b.get("categories", [])): db.session.add(BusinessCategory(business_id=profile.id, category=c))
-            for s in set(b.get("services", [])): db.session.add(BusinessService(business_id=profile.id, service=s))
-            for p in set(b.get("phones", [])): db.session.add(BusinessPhone(business_id=profile.id, phone=p))
-            for h in set(b.get("hours", [])): db.session.add(BusinessHour(business_id=profile.id, hour_schedule=h))
-            for l in set(b.get("locations", [])): db.session.add(BusinessLocation(business_id=profile.id, location=l))
-            for pr in set(b.get("prices", [])): db.session.add(BusinessPrice(business_id=profile.id, price_info=pr))
+            # Insert Sub-entities (safely truncating to 255 chars to prevent database crashes)
+            for c in set(b.get("categories", [])): db.session.add(BusinessCategory(business_id=profile.id, category=c[:255] if c else c))
+            for s in set(b.get("services", [])): db.session.add(BusinessService(business_id=profile.id, service=s[:255] if s else s))
+            for p in set(b.get("phones", [])): db.session.add(BusinessPhone(business_id=profile.id, phone=p[:50] if p else p))
+            for h in set(b.get("hours", [])): db.session.add(BusinessHour(business_id=profile.id, hour_schedule=h[:255] if h else h))
+            for l in set(b.get("locations", [])): db.session.add(BusinessLocation(business_id=profile.id, location=l[:255] if l else l))
+            for pr in set(b.get("prices", [])): db.session.add(BusinessPrice(business_id=profile.id, price_info=pr[:255] if pr else pr))
             
             stats_obj = b.get("stats", {})
             db.session.add(BusinessStat(
