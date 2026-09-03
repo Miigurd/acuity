@@ -289,8 +289,8 @@ const BusinessProfileView = () => {
           </h3>
 
           <div className="flex flex-wrap gap-2 mb-4">
-            {((business.services && business.services.length > 0) ? business.services : (business.categories || [])).length > 0 ? (
-              ((business.services && business.services.length > 0) ? business.services : business.categories).map((service, idx) => (
+            {business.services && business.services.length > 0 ? (
+              business.services.map((service, idx) => (
                 <span key={idx} className="badge badge-sky">
                   {service}
                 </span>
