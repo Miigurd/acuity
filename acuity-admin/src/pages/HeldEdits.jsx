@@ -25,7 +25,10 @@ function HeldEdits() {
       const newVal = proposed[key];
       const oldVal = current[key];
       
-      if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+      const normNew = (newVal === null || newVal === undefined) ? "" : newVal;
+      const normOld = (oldVal === null || oldVal === undefined) ? "" : oldVal;
+      
+      if (JSON.stringify(normNew) !== JSON.stringify(normOld)) {
         diff[key] = { from: oldVal, to: newVal };
       }
     }

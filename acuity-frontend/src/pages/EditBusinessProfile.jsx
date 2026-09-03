@@ -25,7 +25,7 @@ const EditBusinessProfile = () => {
     name: '',
     categoryId: '',
     services: '',
-    locationType: 'Stall-based',
+    locationType: '',
     address: '',
     contact: '',
     facebookUrl: '',
@@ -69,7 +69,7 @@ const EditBusinessProfile = () => {
         facebookUrl: existingBusiness.facebookUrl || '',
         verifiedContact: existingBusiness.verifiedContact || false,
         communityEngaged: existingBusiness.communityEngaged || false,
-        locationType: existingBusiness.locationType || 'Stall-based',
+        locationType: existingBusiness.locationType || '',
         pin: existingBusiness.pin || '',
         categoryId: existingBusiness.categoryId || existingBusiness.category_id || '',
         landmarkId: existingBusiness.landmarkId || existingBusiness.landmark_id || '',
@@ -224,6 +224,7 @@ const EditBusinessProfile = () => {
             <div className="input-group">
               <label className="input-label">Location Type</label>
               <select name="locationType" className="input-field" value={formData.locationType} onChange={handleChange}>
+                <option value="">Select Location Type</option>
                 <option value="Stall-based">Stall-based (Commercial)</option>
                 <option value="Home-based">Home-based (Residential)</option>
                 <option value="Mobile/Roving">Mobile / Roving</option>
