@@ -54,3 +54,4 @@ def levenshtein_details(s1: str, s2: str) -> dict:
         return {"score": 1.0, "edits": 0, "max_len": 0}
     edits = distance[len(s1)][len(s2)]
     return {"score": 1.0 - (edits / max_len), "edits": edits, "max_len": max_len}
+import re

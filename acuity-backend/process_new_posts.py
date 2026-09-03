@@ -76,7 +76,7 @@ def _assign_landmark(address: str):
 
 def main():
     csv_path = 'data/raw/posts.csv'
-    json_path = 'data/processed/frontend_businesses_normalized.json'
+    json_path = 'data/processed/frontend_businesses_fixed.json'
     
     if not os.path.exists(csv_path):
         print(f"Error: {csv_path} not found. Please run the scraper first.")

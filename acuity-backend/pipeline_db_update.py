@@ -8,7 +8,7 @@ from webapp.models import (
     BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, 
     BusinessStatusHistory, HeldEdit
 )
-from acuity.utils import levenshtein_ratio
+from acuity.utils import hybrid_fuzzy_match
 from acuity.config import AcuityConfig
 
 def update_database():
@@ -45,7 +45,7 @@ def update_database():
         config = AcuityConfig()
         
         # 3. Load newly scraped businesses
-        frontend_path = os.path.join(os.path.dirname(__file__), "data", "processed", "frontend_businesses_normalized.json")
+        frontend_path = os.path.join(os.path.dirname(__file__), "data", "processed", "frontend_businesses_fixed.json")
         if not os.path.exists(frontend_path):
             print(f"Error: Could not find {frontend_path}")
             return
@@ -74,7 +74,7 @@ def update_database():
             matches_above_threshold = []
             
             for bplo_name in bplo_lower_names:
-                score = levenshtein_ratio(profile_name, bplo_name)
+                score = hybrid_fuzzy_match(profile_name, bplo_name)
                 if score >= config.fuzzy_match_threshold_pending:
                     matches_above_threshold.append((bplo_name, score))
             
