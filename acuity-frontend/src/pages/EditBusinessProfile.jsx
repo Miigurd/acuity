@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useMockData } from '../context/MockDataContext';
-import { FiSave, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { FiSave, FiCheckCircle, FiAlertCircle, FiArrowLeft } from 'react-icons/fi';
 import { useToast } from '../context/ToastContext';
 
 const EditBusinessProfile = () => {
@@ -169,6 +169,13 @@ const EditBusinessProfile = () => {
 
   return (
     <div className="container py-6 max-w-3xl">
+      <button 
+        onClick={() => navigate(`/business/${id}`)} 
+        className="btn btn-outline btn-sm mb-4"
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}
+      >
+        <FiArrowLeft /> Back to Profile
+      </button>
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="font-bold text-2xl">Edit Core Information</h2>

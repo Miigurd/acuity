@@ -307,9 +307,19 @@ const BusinessProfileView = () => {
             <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
               <FiCheckCircle style={{ color: 'var(--success)' }} /> Verified in City of Cabuyao Registry
             </div>
-            <div className="flex items-center gap-2 text-sm font-semibold">
+            <div className="flex items-center gap-2 text-sm font-semibold mb-2">
               <FiShield style={{ color: 'var(--color-deep-navy)' }} /> Anchored to {landmark ? landmark.name : 'Barangay Landmark'}
             </div>
+            {business.verifiedContact && (
+              <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
+                <FiCheckCircle style={{ color: 'var(--success)' }} /> Verified Contact Number
+              </div>
+            )}
+            {business.communityEngaged && (
+              <div className="flex items-center gap-2 text-sm font-semibold">
+                <FiCheckCircle style={{ color: 'var(--success)' }} /> Active Community Member
+              </div>
+            )}
           </div>
 
           <button onClick={() => setShowFullMap(true)} className="btn btn-outline btn-sm mt-4" style={{ width: '100%' }}>

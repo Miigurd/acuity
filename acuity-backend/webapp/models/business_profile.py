@@ -31,6 +31,11 @@ class BusinessProfile(Base):
     is_active: Mapped[bool | None] = db.mapped_column(db.Boolean, default=True)
     category_id: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
     landmark_id: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    
+    facebook_url: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    location_type: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)
+    verified_contact: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
+    community_engaged: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
 
     # Layer 1 Edit Protection
     pin_locked: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
@@ -96,6 +101,10 @@ class BusinessProfile(Base):
             "prices": [p.price_info for p in self.prices],
             "isVerified": self.is_verified,
             "is_verified": self.is_verified,
+            "facebookUrl": self.facebook_url,
+            "locationType": self.location_type,
+            "verifiedContact": self.verified_contact,
+            "communityEngaged": self.community_engaged,
             "status": self.status,
             "flag_status": self.flag_status,
             "stats": stats_dict,
@@ -133,6 +142,10 @@ class BusinessProfile(Base):
             "address": self.address,
             "isVerified": self.is_verified,
             "is_verified": self.is_verified,
+            "facebookUrl": self.facebook_url,
+            "locationType": self.location_type,
+            "verifiedContact": self.verified_contact,
+            "communityEngaged": self.community_engaged,
             "flagCount": len(active_flags),
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],

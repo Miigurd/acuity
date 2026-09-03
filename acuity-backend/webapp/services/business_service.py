@@ -173,6 +173,11 @@ def update_businesses(data, ip_address):
         profile.address = b.get("address", profile.address)
         profile.contact_info = b.get("contact_info", profile.contact_info)
         
+        if "facebookUrl" in b: profile.facebook_url = b["facebookUrl"]
+        if "locationType" in b: profile.location_type = b["locationType"]
+        if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
+        if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
+
         profile.status = b.get("status", profile.status)
         
         previous_flag_status = profile.flag_status
@@ -291,6 +296,12 @@ def rollback_business(business_id, timestamp):
     profile.description = b.get("description", profile.description)
     profile.address = b.get("address", profile.address)
     profile.contact_info = b.get("contact_info", profile.contact_info)
+    
+    if "facebookUrl" in b: profile.facebook_url = b["facebookUrl"]
+    if "locationType" in b: profile.location_type = b["locationType"]
+    if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
+    if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
+
     profile.status = b.get("status", profile.status)
     profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
     profile.is_active = b.get("isActive", profile.is_active)
