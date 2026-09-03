@@ -186,8 +186,18 @@ def reject_bplo_match(match_id):
         
     business = match.business
     if business:
-        db.session.delete(business)
+        if business.status != "Unverified":
+            history = BusinessStatusHistory(
+                business_id=business.id,
+                admin_id="Admin (Manual Queue Rejection)",
+                previous_status=business.status,
+                new_status="Unverified"
+            )
+            db.session.add(history)
+            
+        business.is_verified = False
+        business.status = "Unverified"
         
     db.session.delete(match)
     db.session.commit()
-    return {"status": "success", "message": "Rejected match and deleted business profile", "code": 200}
+    return {"status": "success", "message": "Rejected match and marked business as Unverified", "code": 200}
