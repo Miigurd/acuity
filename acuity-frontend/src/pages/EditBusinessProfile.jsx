@@ -183,16 +183,15 @@ const EditBusinessProfile = () => {
           </div>
         )}
 
-        {/* Basic Info */}
+          {/* Basic Info */}
           <div className="card">
             <h3 className="font-bold text-lg mb-4 border-b pb-2">Basic Information</h3>
             <div className="input-group mb-4">
               <label className="input-label">Business Name</label>
               <input type="text" name="name" className="input-field" value={formData.name} onChange={handleChange} />
             </div>
-          </div>
 
-          <div className="grid form-grid-2 gap-4">
+            <div className="grid form-grid-2 gap-4">
             <div className="input-group">
               <label className="input-label">Category</label>
               <select name="categoryId" className="input-field" value={formData.categoryId} onChange={handleChange}>
