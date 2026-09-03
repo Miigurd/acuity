@@ -64,7 +64,7 @@ const EditBusinessProfile = () => {
         contact: (existingBusiness.phones && existingBusiness.phones.length > 0) ? existingBusiness.phones.join(', ') : (existingBusiness.contact_info || existingBusiness.contact || ''),
         address: existingBusiness.address || '',
         operatingHours: (existingBusiness.hours && existingBusiness.hours.length > 0) ? existingBusiness.hours.join(', ') : (existingBusiness.operatingHours || ''),
-        services: ((existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services : (existingBusiness.categories || [])).join(', ')
+        services: (existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services.join(', ') : ''
       });
     }
   }, [existingBusiness]);
