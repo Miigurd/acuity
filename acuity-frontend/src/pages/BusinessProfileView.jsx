@@ -369,17 +369,22 @@ const BusinessProfileView = () => {
                       const changedFields = Object.entries(entry.previous_data)
                         .filter(([field]) => ALLOWED_HISTORY_FIELDS.includes(field))
                         .map(([field, oldVal]) => {
-                          const newVal = nextState[field] || nextState.raw?.[field] || nextState[field.replace('_', '')] || "None";
+                          let newVal = nextState[field];
+                          if (newVal === undefined) newVal = nextState.raw?.[field];
+                          if (newVal === undefined) newVal = nextState[field.replace('_', '')];
                           return { field, oldVal, newVal };
                         })
                         .filter(({ oldVal, newVal }) => {
-                          const formatVal = (v) => {
+                          const normalize = (v) => {
+                            if (v === null || v === undefined || v === '') return '';
+                            if (v === false) return '';
+                            if (Array.isArray(v) && v.length === 0) return '';
                             if (Array.isArray(v)) return v.join(', ');
-                            if (typeof v === 'boolean') return v ? 'Yes' : 'No';
-                            if (v && typeof v === 'object') return JSON.stringify(v);
-                            return String(v || 'None');
+                            if (v === true) return 'Yes';
+                            if (typeof v === 'object') return JSON.stringify(v);
+                            return String(v).trim();
                           };
-                          return formatVal(oldVal) !== formatVal(newVal);
+                          return normalize(oldVal) !== normalize(newVal);
                         });
 
                       if (changedFields.length === 0) {
@@ -392,11 +397,14 @@ const BusinessProfileView = () => {
                       }
 
                       return changedFields.map(({ field, oldVal }) => {
-                        const formatVal = (v) => {
+                        const normalize = (v) => {
+                          if (v === null || v === undefined || v === '') return 'None';
+                          if (v === false) return 'None';
+                          if (Array.isArray(v) && v.length === 0) return 'None';
                           if (Array.isArray(v)) return v.join(', ');
-                          if (typeof v === 'boolean') return v ? 'Yes' : 'No';
-                          if (v && typeof v === 'object') return JSON.stringify(v);
-                          return v || 'None';
+                          if (v === true) return 'Yes';
+                          if (typeof v === 'object') return JSON.stringify(v);
+                          return String(v).trim() || 'None';
                         };
                         return (
                           <div key={field} style={{ fontSize: '0.88rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
@@ -404,7 +412,7 @@ const BusinessProfileView = () => {
                               Previous {field.replace(/([A-Z_])/g, ' $1').replace('_', '').trim()}:
                             </span>
                             <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', wordBreak: 'break-word' }}>
-                              {formatVal(oldVal)}
+                              {normalize(oldVal)}
                             </span>
                           </div>
                         );
