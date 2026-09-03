@@ -61,7 +61,7 @@ const EditBusinessProfile = () => {
       setFormData({
         ...existingBusiness,
         name: existingBusiness.name || existingBusiness.business_name || '',
-        contact: (existingBusiness.phones && existingBusiness.phones.length > 0) ? existingBusiness.phones[0] : (existingBusiness.contact_info || existingBusiness.contact || ''),
+        contact: (existingBusiness.phones && existingBusiness.phones.length > 0) ? existingBusiness.phones.join(', ') : (existingBusiness.contact_info || existingBusiness.contact || ''),
         address: existingBusiness.address || '',
         operatingHours: (existingBusiness.hours && existingBusiness.hours.length > 0) ? existingBusiness.hours.join(', ') : (existingBusiness.operatingHours || ''),
         services: ((existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services : (existingBusiness.categories || [])).join(', ')
@@ -104,7 +104,7 @@ const EditBusinessProfile = () => {
   };
 
 
-  const isPhoneValid = !formData.contact.trim() || /^09\d{9}$/.test(formData.contact);
+  const isPhoneValid = !formData.contact.trim() || formData.contact.split(',').map(p => p.trim()).filter(Boolean).every(p => /^09\d{9}$/.test(p));
   const isValid = formData.name.trim() !== '' && formData.landmarkId !== '' && (formData.contact.trim() !== '' || formData.services.trim() !== '') && isPhoneValid;
 
   const handleSubmit = async (e) => {
@@ -122,7 +122,7 @@ const EditBusinessProfile = () => {
       address: formData.address,
       contact: formData.contact,
       contact_info: formData.contact,
-      phones: [formData.contact],
+      phones: formData.contact.split(',').map(p => p.trim()).filter(Boolean),
       hours: [formData.operatingHours],
       description: formData.description,
       ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous'),
@@ -229,8 +229,8 @@ const EditBusinessProfile = () => {
           <div className="grid form-grid-2 gap-4">
             <div className="input-group">
               <label className="input-label">Contact Number</label>
-              <input required type="tel" name="contact" pattern="^09\d{9}$" title="Must be a valid 11-digit Philippine mobile number starting with 09" className={`input-field ${formData.contact.trim() && !/^09\d{9}$/.test(formData.contact) ? 'border-danger/50 bg-danger/5' : ''}`} placeholder="09XX XXX XXXX" value={formData.contact} onChange={handleChange} />
-              {formData.contact.trim() && !/^09\d{9}$/.test(formData.contact) && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Please enter a valid 11-digit number starting with 09.</span>}
+              <input type="tel" name="contact" className={`input-field ${formData.contact.trim() && !isPhoneValid ? 'border-danger/50 bg-danger/5' : ''}`} placeholder="09XX XXX XXXX, 09YY YYY YYYY" value={formData.contact} onChange={handleChange} />
+              {formData.contact.trim() && !isPhoneValid && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Please enter valid 11-digit numbers starting with 09, separated by commas.</span>}
             </div>
             <div className="input-group">
               <label className="input-label">Facebook Page / Link (Optional)</label>
