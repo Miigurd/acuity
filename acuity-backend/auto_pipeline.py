@@ -21,9 +21,9 @@ def main():
     with open(urls_file, "r", encoding="utf-8") as f:
         target_urls = [line.strip() for line in f if line.strip()]
         
-    # Proxy for "6 months of posts" depending on group activity.
-    # Adjust max_posts to adequately cover roughly 6 months of group history.
-    MAX_POSTS_6_MONTHS = 800  
+    # Proxy for testing
+    # Set to 5 posts per URL to quickly verify the pipeline
+    MAX_POSTS_6_MONTHS = 5
     
     absolute_data_dir = os.path.abspath("data/chrome_session")
     os.makedirs(absolute_data_dir, exist_ok=True)
