@@ -52,14 +52,12 @@ def main():
         print(f"Error in processing pipeline: {e}")
         
     # 3. Migrate/Upload to Database (Supabase)
-    print("\n>>> STEP 3: Uploading to Database...")
-    import migrate_to_sqlite
+    print("\n>>> STEP 3: Uploading to Database (Safe Update)...")
+    import pipeline_db_update
     try:
-        # Note: migrate_to_sqlite uses SQLAlchemy, so it will automatically 
-        # push to Supabase as long as DATABASE_URL is set in your .env
-        migrate_to_sqlite.migrate()
+        pipeline_db_update.update_database()
     except Exception as e:
-        print(f"Error migrating to DB: {e}")
+        print(f"Error updating DB: {e}")
 
     print("\n==================================================")
     print("             PIPELINE RUN COMPLETE                ")
