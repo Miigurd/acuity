@@ -20,6 +20,7 @@ const EditBusinessProfile = () => {
   const [successNav, setSuccessNav] = useState('/');
   const [successMsg, setSuccessMsg] = useState('');
 
+  const [initialFormData, setInitialFormData] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     categoryId: '',
@@ -58,14 +59,16 @@ const EditBusinessProfile = () => {
 
   useEffect(() => {
     if (existingBusiness) {
-      setFormData({
+      const initData = {
         ...existingBusiness,
         name: existingBusiness.name || existingBusiness.business_name || '',
         contact: (existingBusiness.phones && existingBusiness.phones.length > 0) ? existingBusiness.phones.join(', ') : (existingBusiness.contact_info || existingBusiness.contact || ''),
         address: existingBusiness.address || '',
         operatingHours: (existingBusiness.hours && existingBusiness.hours.length > 0) ? existingBusiness.hours.join(', ') : (existingBusiness.operatingHours || ''),
         services: (existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services.join(', ') : ''
-      });
+      };
+      setFormData(initData);
+      setInitialFormData(initData);
     }
   }, [existingBusiness]);
 
@@ -105,7 +108,8 @@ const EditBusinessProfile = () => {
 
 
   const isPhoneValid = !formData.contact.trim() || formData.contact.split(',').map(p => p.trim()).filter(Boolean).every(p => /^09\d{9}$/.test(p));
-  const isValid = formData.name.trim() !== '' && isPhoneValid;
+  const isChanged = initialFormData ? JSON.stringify(formData) !== JSON.stringify(initialFormData) : true;
+  const isValid = formData.name.trim() !== '' && isPhoneValid && isChanged;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -284,7 +288,7 @@ const EditBusinessProfile = () => {
           className="btn btn-primary btn-full py-4 text-lg"
           style={!isValid ? { opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none', transform: 'none' } : {}}
         >
-          <FiSave /> Save Corrections
+          <FiSave /> {isChanged ? "Save Corrections" : "No Changes to Save"}
         </button>
       </form>
 
