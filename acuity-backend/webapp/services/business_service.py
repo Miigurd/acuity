@@ -9,7 +9,8 @@ def format_business_name(name: str) -> str:
     cleaned = re.sub(r'[#.,!_]', ' ', name)
     cleaned = re.sub(r'([a-z])([A-Z])', r'\1 \2', cleaned)
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
-    return cleaned.title()
+    import string
+    return string.capwords(cleaned)
 
 def get_base_query():
     return BusinessProfile.query.options(
@@ -75,7 +76,7 @@ def update_businesses(data, ip_address):
         
         if profile:
             sensitive_changed = False
-            if name != profile.business_name:
+            if name.lower() != profile.business_name.lower():
                 sensitive_changed = True
             if "phones" in b and set(b["phones"]) != set(p.phone for p in profile.phones):
                 sensitive_changed = True
