@@ -65,7 +65,15 @@ const EditBusinessProfile = () => {
         contact: (existingBusiness.phones && existingBusiness.phones.length > 0) ? existingBusiness.phones.join(', ') : (existingBusiness.contact_info || existingBusiness.contact || ''),
         address: existingBusiness.address || '',
         operatingHours: (existingBusiness.hours && existingBusiness.hours.length > 0) ? existingBusiness.hours.join(', ') : (existingBusiness.operatingHours || ''),
-        services: (existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services.join(', ') : ''
+        services: (existingBusiness.services && existingBusiness.services.length > 0) ? existingBusiness.services.join(', ') : '',
+        facebookUrl: existingBusiness.facebookUrl || '',
+        verifiedContact: existingBusiness.verifiedContact || false,
+        communityEngaged: existingBusiness.communityEngaged || false,
+        locationType: existingBusiness.locationType || 'Stall-based',
+        pin: existingBusiness.pin || '',
+        categoryId: existingBusiness.categoryId || existingBusiness.category_id || '',
+        landmarkId: existingBusiness.landmarkId || existingBusiness.landmark_id || '',
+        description: existingBusiness.description || ''
       };
       setFormData(initData);
       setInitialFormData(initData);
@@ -232,7 +240,7 @@ const EditBusinessProfile = () => {
             <div className="input-group">
               <label className="input-label">Contact Number</label>
               <input type="tel" name="contact" className={`input-field ${formData.contact.trim() && !isPhoneValid ? 'border-danger/50 bg-danger/5' : ''}`} placeholder="09XX XXX XXXX, 09YY YYY YYYY" value={formData.contact} onChange={handleChange} />
-              {formData.contact.trim() && !isPhoneValid && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Please enter valid 11-digit numbers starting with 09, separated by commas.</span>}
+              {formData.contact.trim() && !isPhoneValid && <span style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Please enter a valid 11-digit number starting with 09 (e.g. 09123456789). For multiple numbers, separate them with a comma.</span>}
             </div>
             <div className="input-group">
               <label className="input-label">Facebook Page / Link (Optional)</label>
