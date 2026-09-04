@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.orm import selectinload
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile, BusinessStatusHistory
-from acuity.utils import hybrid_fuzzy_match, levenshtein_details
+from acuity.utils import token_sort_ratio, levenshtein_details
 from acuity.config import AcuityConfig  # type: ignore
 
 config = AcuityConfig()
@@ -64,7 +64,7 @@ def upload_bplo_csv(records, fieldnames):
         else:
             matches_above_threshold = []
             for bplo_name in bplo_lower_names:
-                score = hybrid_fuzzy_match(profile_name, bplo_name)
+                score = token_sort_ratio(profile_name, bplo_name)
                 if score >= config.fuzzy_match_threshold_pending:
                     matches_above_threshold.append((bplo_name, score))
             

@@ -4,16 +4,16 @@ import GraphNodeTooltip from './GraphNodeTooltip';
 
 
 const NODE_INFO = {
-  inputA: { title: "Submitted Name", desc: "The name the user typed into the search bar." },
-  inputB: { title: "Official Registry Name", desc: "The actual, legally registered business name in our city database." },
-  editDist: { title: "Typo Count (Edit Distance)", desc: "Counts how many individual letters need to be added, removed, or changed to make the two names match perfectly." },
-  matchScore: { title: "Match Percentage", desc: "A score out of 100% showing how similar the names are based on the typo count." },
+  inputA: { title: "Token-Sorted Submitted Name", desc: "The user's input, stripped of special characters, tokenized by space, and sorted alphabetically." },
+  inputB: { title: "Token-Sorted Registry Name", desc: "The official BPLO name, similarly tokenized and sorted alphabetically for order-insensitive comparison." },
+  editDist: { title: "Typo Count (Edit Distance)", desc: "Counts how many individual letters need to be added, removed, or changed to make the two sorted names match perfectly." },
+  matchScore: { title: "Match Percentage", desc: "A score out of 100% showing how similar the token-sorted names are based on the typo count." },
   unverified: { title: "Unverified (<60%)", desc: "Match is too low. We hide or flag this result to prevent showing the wrong business." },
   pending: { title: "Pending (60-80%)", desc: "Match is okay, but not certain. A human needs to check if it's the same business." },
   verified: { title: "Verified (>80%)", desc: "Match is great! We automatically approve this as the correct business." }
 };
 
-const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', stringB = 'Kuya Juns Vulcanizing Shop', edits = 6 }) => {
+const LevenshteinThreshold = ({ currentScore, rawStringA, rawStringB, stringA = 'Kuya Jun Vulcanizing', stringB = 'Kuya Juns Vulcanizing Shop', edits = 6 }) => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [score, setScore] = useState(currentScore || 85);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
@@ -54,7 +54,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
       
 
       <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-card)', padding: '24px 0', position: 'relative', display: 'flex', justifyContent: 'center' }}>
-        <svg viewBox="0 0 420 600" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
+        <svg viewBox="0 -40 420 640" style={{ width: '100%', maxWidth: '420px', height: 'auto', overflow: 'visible' }}>
           <defs>
             <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M1 1L8 5L1 9" fill="none" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }}/>
@@ -127,11 +127,35 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
             </circle>
           )}
 
+          
+          {/* RAW STRINGS & TOKEN-SORT TRANSITION */}
+          {rawStringA && (
+            <g>
+              <text x="100" y="-20" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Raw Input A</text>
+              <text x="100" y="-6" textAnchor="middle" fill="var(--text-muted)" fontSize="9">
+                <title>{rawStringA}</title>
+                {truncate(rawStringA, 14)}
+              </text>
+              <path d="M100,2 L100,10" fill="none" stroke="var(--border)" strokeWidth="1.5" strokeDasharray="2 2" markerEnd="url(#arrow-inactive)" />
+            </g>
+          )}
+
+          {rawStringB && (
+            <g>
+              <text x="320" y="-20" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Raw Input B</text>
+              <text x="320" y="-6" textAnchor="middle" fill="var(--text-muted)" fontSize="9">
+                <title>{rawStringB}</title>
+                {truncate(rawStringB, 14)}
+              </text>
+              <path d="M320,2 L320,10" fill="none" stroke="var(--border)" strokeWidth="1.5" strokeDasharray="2 2" markerEnd="url(#arrow-inactive)" />
+            </g>
+          )}
+
           {/* NODES */}
           {/* Input A */}
           <g onClick={() => setSelectedNode("inputA")} style={{ cursor: "pointer" }}>
             <circle cx="100" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
-          <text x="100" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input A</text>
+          <text x="100" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Sorted A</text>
           </g>
           <text x="100" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringA}</title>
@@ -141,7 +165,7 @@ const LevenshteinThreshold = ({ currentScore, stringA = 'Kuya Jun Vulcanizing', 
           {/* Input B */}
           <g onClick={() => setSelectedNode("inputB")} style={{ cursor: "pointer" }}>
             <circle cx="320" cy="50" r="38" fill="var(--bg-base)" stroke={status.color} strokeWidth="2" style={{ transition: 'stroke 0.4s' }} />
-          <text x="320" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Input B</text>
+          <text x="320" y="47" textAnchor="middle" fill="var(--text-main)" fontSize="10" fontWeight="bold">Sorted B</text>
           </g>
           <text x="320" y="62" textAnchor="middle" fill="var(--text-secondary)" fontSize="9">
             <title>{stringB}</title>

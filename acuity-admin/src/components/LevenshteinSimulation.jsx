@@ -142,10 +142,19 @@ const TerminalLine = styled.div`
     margin-bottom: 4px;
 `;
 
+const tokenizeAndSort = (str) => {
+    return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().split(/\s+/).sort().join(" ");
+};
+
 function LevenshteinSimulation({ sourceText, targetText }) {
     const [levA, setLevA] = useState(sourceText || "");
     const [levB, setLevB] = useState(targetText || "");
-    const [levResult, setLevResult] = useState(levenshtein(levA, levB));
+    
+    // We compute the token-sorted versions
+    const sortedA = tokenizeAndSort(levA);
+    const sortedB = tokenizeAndSort(levB);
+    
+    const [levResult, setLevResult] = useState(levenshtein(sortedA, sortedB));
     
     const [simFrame, setSimFrame] = useState(-1);
     const [isSimulating, setIsSimulating] = useState(false);
@@ -157,7 +166,7 @@ function LevenshteinSimulation({ sourceText, targetText }) {
     };
 
     useEffect(() => {
-        setLevResult(levenshtein(levA, levB));
+        setLevResult(levenshtein(tokenizeAndSort(levA), tokenizeAndSort(levB)));
     }, [levA, levB]);
 
     useEffect(() => {
@@ -174,7 +183,7 @@ function LevenshteinSimulation({ sourceText, targetText }) {
 
     return (
         <MockTerminal>
-            <TerminalHeader>Interactive Python Simulator</TerminalHeader>
+            <TerminalHeader>Interactive Python Simulator (Token-Sort Ratio)</TerminalHeader>
             <TerminalBody>
                 <div style={{ marginBottom: '1rem', display: 'flex', gap: '8px' }}>
                     <TerminalInput 
@@ -193,10 +202,18 @@ function LevenshteinSimulation({ sourceText, targetText }) {
                     />
                 </div>
                 
+                <div style={{ marginBottom: '1rem', background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '4px' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Token-Sorted Forms:</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <span style={{ color: '#f59e0b' }}>[A] {sortedA || "..."}</span>
+                        <span style={{ color: '#10b981' }}>[B] {sortedB || "..."}</span>
+                    </div>
+                </div>
+                
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <TerminalLine style={{ flex: 1, height: '24px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
                         {simFrame === -1 || simFrame === levResult.path.length ? (
-                            <span><span style={{color: 'var(--text-muted)'}}>Result:</span> {levResult.path.length > 0 && simFrame === levResult.path.length ? (levB || "").toLowerCase() : (levA || "").toLowerCase()}</span>
+                            <span><span style={{color: 'var(--text-muted)'}}>Result:</span> {levResult.path.length > 0 && simFrame === levResult.path.length ? sortedB : sortedA}</span>
                         ) : (
                             <span style={{ fontFamily: 'monospace', whiteSpace: 'pre' }}>
                                 <span style={{color: 'var(--text-muted)'}}>Anim: </span>
@@ -213,7 +230,7 @@ function LevenshteinSimulation({ sourceText, targetText }) {
                                     })()}
                                     {(() => {
                                         const consumed = levResult.path.slice(0, simFrame + 1).filter(p => p.op !== 'insert').length;
-                                        return (levA || "").toLowerCase().substring(consumed);
+                                        return sortedA.substring(consumed);
                                     })()}
                                 </span>
                             </span>

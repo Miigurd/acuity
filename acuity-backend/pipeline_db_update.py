@@ -8,7 +8,7 @@ from webapp.models import (
     BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, 
     BusinessStatusHistory, HeldEdit
 )
-from acuity.utils import hybrid_fuzzy_match
+from acuity.utils import token_sort_ratio
 from acuity.config import AcuityConfig
 
 def update_database():
@@ -74,7 +74,7 @@ def update_database():
             matches_above_threshold = []
             
             for bplo_name in bplo_lower_names:
-                score = hybrid_fuzzy_match(profile_name, bplo_name)
+                score = token_sort_ratio(profile_name, bplo_name)
                 if score >= config.fuzzy_match_threshold_pending:
                     matches_above_threshold.append((bplo_name, score))
             

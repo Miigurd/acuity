@@ -119,10 +119,14 @@ const ITExpertValidation = () => {
   const [rankedResults, setRankedResults] = useState([]);
   const [isRanking, setIsRanking] = useState(false);
 
-  // Levenshtein State
+  const tokenizeAndSort = (str) => {
+    return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().split(/\s+/).sort().join(" ");
+  };
+
+  // Levenshtein State (Now Token-Sort)
   const [levA, setLevA] = useState("Kuya Jun Vulcanizing");
   const [levB, setLevB] = useState("Kuya Juns Vulcanizing Shop");
-  const [levResult, setLevResult] = useState(levenshtein(levA, levB));
+  const [levResult, setLevResult] = useState(levenshtein(tokenizeAndSort(levA), tokenizeAndSort(levB)));
 
   // TF-IDF State
   const [tfQuery, setTfQuery] = useState("bike repair");
@@ -141,7 +145,7 @@ const ITExpertValidation = () => {
   const [isExtracting, setIsExtracting] = useState(false);
 
   useEffect(() => {
-    setLevResult(levenshtein(levA, levB));
+    setLevResult(levenshtein(tokenizeAndSort(levA), tokenizeAndSort(levB)));
   }, [levA, levB]);
 
   useEffect(() => {
@@ -351,16 +355,18 @@ const ITExpertValidation = () => {
 
       {/* TAB 2: CORE ALGORITHM SANDBOXES */}
       {activeTab === 'algorithms' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Levenshtein */}
-          <div className="card">
-            <span className="badge badge-navy mb-2">STRING DISTANCE VERIFICATION</span>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
-              Levenshtein Registry Verifier (BPLO Fuzzy Matching)
-            </h3>
-            <p className="text-secondary text-sm mb-4">
-              Formula: <code>Score = 1.0 - (Edits / MaxLength)</code>
-            </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Levenshtein */}
+            <div className="card">
+              <span className="badge badge-navy mb-2">STRING DISTANCE VERIFICATION</span>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>
+                Token-Sort Ratio Verifier (BPLO Fuzzy Matching)
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.5, fontSize: '0.9rem' }}>
+                Simulate how the system extracts the business name and verifies it against the official Cabuyao BPLO registry. 
+                Instead of plain Levenshtein, this strips special characters, tokenizes by space, sorts alphabetically, and joins 
+                before computing the edit distance. This creates order-insensitivity (e.g., "Jun Vulcanizing" == "Vulcanizing Jun").
+              </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '14px' }}>
               <input type="text" className="form-control" value={levA} onChange={(e) => setLevA(e.target.value)} placeholder="Submitted Name" />
               <input type="text" className="form-control" value={levB} onChange={(e) => setLevB(e.target.value)} placeholder="Official BPLO Registry Name" />
@@ -372,7 +378,14 @@ const ITExpertValidation = () => {
               </span>
             </div>
             
-            <LevenshteinThreshold currentScore={levResult.score} stringA={levA} stringB={levB} edits={levResult.edits} />
+            <LevenshteinThreshold 
+              currentScore={levResult.score} 
+              rawStringA={levA}
+              rawStringB={levB}
+              stringA={tokenizeAndSort(levA)} 
+              stringB={tokenizeAndSort(levB)} 
+              edits={levResult.edits} 
+            />
           </div>
 
           {/* TF-IDF */}
