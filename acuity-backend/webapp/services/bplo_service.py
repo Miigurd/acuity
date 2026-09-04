@@ -2,6 +2,7 @@ from datetime import datetime
 from sqlalchemy.orm import selectinload
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile, BusinessStatusHistory
 import re
+import difflib
 from webapp.extensions import socketio
 from acuity.utils import token_sort_ratio, levenshtein_details, levenshtein_ratio
 from acuity.config import AcuityConfig  # type: ignore
@@ -9,6 +10,35 @@ from acuity.config import AcuityConfig  # type: ignore
 config = AcuityConfig()
 
 
+
+
+def _fast_levenshtein_ratio(s1: str, s2: str, threshold: float) -> float:
+    if not s1 or not s2: return 0.0
+    rows = len(s1) + 1
+    cols = len(s2) + 1
+    max_len = max(len(s1), len(s2))
+    max_allowed_edits = int((1.0 - threshold) * max_len)
+    
+    prev = list(range(cols))
+    curr = [0] * cols
+    
+    for row in range(1, rows):
+        curr[0] = row
+        min_in_row = row
+        char_s1 = s1[row - 1]
+        for col in range(1, cols):
+            cost = 0 if char_s1 == s2[col - 1] else 1
+            val = min(
+                curr[col - 1] + 1,
+                prev[col] + 1,
+                prev[col - 1] + cost
+            )
+            curr[col] = val
+            if val < min_in_row: min_in_row = val
+        if min_in_row > max_allowed_edits: return 0.0
+        prev, curr = curr, prev
+        
+    return 1.0 - (prev[-1] / max_len)
 
 def _pre_tokenize_sort(s: str) -> str:
     t = re.findall(r'\w+', str(s).lower())
@@ -66,6 +96,7 @@ def upload_bplo_csv(records, fieldnames):
                 "total": total_profiles,
                 "percentage": int(((i + 1) / total_profiles) * 100)
             })
+            socketio.sleep(0)  # Yield to event loop to push packet immediately
             
         old_status = profile.status
         new_status = "Unverified"
@@ -85,9 +116,23 @@ def upload_bplo_csv(records, fieldnames):
             profile_sorted = _pre_tokenize_sort(profile_name)
             matches_above_threshold = []
             
+            len_p = len(profile_sorted)
             for bplo_name in bplo_lower_names:
                 bplo_sorted = bplo_sorted_map[bplo_name]
-                score = levenshtein_ratio(profile_sorted, bplo_sorted)
+                len_b = len(bplo_sorted)
+                
+                max_len = max(len_p, len_b)
+                if max_len > 0:
+                    max_possible_score = 1.0 - (abs(len_p - len_b) / max_len)
+                    if max_possible_score < config.fuzzy_match_threshold_pending:
+                        continue
+                        
+                # Fast heuristic pruning using C-optimized SequenceMatcher
+                fast_heuristic = difflib.SequenceMatcher(None, profile_sorted, bplo_sorted).ratio()
+                if fast_heuristic < config.fuzzy_match_threshold_pending - 0.15:
+                    continue
+                        
+                score = _fast_levenshtein_ratio(profile_sorted, bplo_sorted, config.fuzzy_match_threshold_pending)
                 if score >= config.fuzzy_match_threshold_pending:
                     matches_above_threshold.append((bplo_name, score))
             
