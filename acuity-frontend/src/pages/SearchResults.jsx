@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMockData } from '../context/MockDataContext';
 import { useAuth } from '../context/AuthContext';
@@ -21,6 +21,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
   const [rankedData, setRankedData] = useState(null);
+  const trackedQueries = useRef(new Set());
 
   useEffect(() => {
     setQuery(initialQuery);

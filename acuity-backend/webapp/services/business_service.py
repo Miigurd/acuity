@@ -2,6 +2,7 @@ import json
 import re
 from datetime import datetime, timedelta
 from sqlalchemy.orm import selectinload
+from webapp.extensions import socketio
 from webapp.models import db, BusinessProfile, EditHistoryLog, HeldEdit, BusinessCategory, BusinessService, BusinessLocation, BusinessPrice, BusinessHour, BusinessPhone, BusinessStat, FlagLog, BusinessStatusHistory
 
 def format_business_name(name: str) -> str:
@@ -112,6 +113,7 @@ def update_businesses(data, ip_address):
                     )
                     db.session.add(held_edit)
                     db.session.commit()
+                    socketio.emit("business_updated", {"business_id": profile.id, "event": "held_edit"})
                     return {"status": "held", "message": f"Sensitive edits to unclaimed profile {name} held for admin review.", "code": 202}
     
     time_threshold = (datetime.utcnow() - timedelta(minutes=15)).isoformat()
@@ -149,6 +151,7 @@ def update_businesses(data, ip_address):
                 )
                 db.session.add(held_edit)
         db.session.commit()
+        socketio.emit("business_updated", {"event": "held_edit_batch"})
         return {"status": "held", "message": "Rate limit exceeded. Edits held for administrative review.", "code": 202}
 
     # Apply changes

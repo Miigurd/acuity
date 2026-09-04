@@ -1,6 +1,7 @@
 from sqlalchemy.orm import selectinload
 from acuity.recommendation import RecommendationEngine  # type: ignore
 from acuity.config import AcuityConfig  # type: ignore
+from webapp.extensions import socketio
 from webapp.models import db, BusinessProfile, BusinessStat
 from webapp.services.business_service import expire_old_permits
 
@@ -100,6 +101,9 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
             else:
                 db.session.add(BusinessStat(business_id=p.id, impressions=1))  # type: ignore
         db.session.commit()
+        # Broadcast analytics updates to admin panel
+        for p in profiles_to_update:
+            socketio.emit("analytics_updated", {"businessName": p.business_name, "event": "impression"})
 
     return res_data
 
