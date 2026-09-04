@@ -8,5 +8,5 @@ def get_real_ip():
         return forwarded.split(',')[0].strip()
     return request.remote_addr
 
-socketio = SocketIO(cors_allowed_origins="*")
+socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
 limiter = Limiter(key_func=get_real_ip)
