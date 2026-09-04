@@ -189,15 +189,7 @@ function DashboardHome() {
           </StatInfo>
         </StatCard>
         
-        <StatCard className="glass-card animate-float-in" style={{ animationDelay: '300ms' }}>
-          <IconWrapper bg="rgba(5, 150, 105, 0.1)" color="var(--success)" shadow="rgba(5, 150, 105, 0.15)">
-            <MdCheckCircle />
-          </IconWrapper>
-          <StatInfo>
-            <span className="label">Recent Approvals (Last 7d)</span>
-            <span className="value">0</span>
-          </StatInfo>
-        </StatCard>
+
       </Grid>
       
       <div style={{ marginTop: 'var(--spacing-8)' }}>
