@@ -16,6 +16,7 @@ from webapp.services import (
     get_bplo_queue,
     approve_bplo_match,
     reject_bplo_match,
+    unverify_business,
     get_held_edits,
     approve_held_edit,
     reject_held_edit,
@@ -387,6 +388,20 @@ def reject_bplo_route(id):
         
         log_admin_action("reject_bplo_match", id)
         socketio.emit("business_updated", {"type": "bplo_rejection"})
+        return jsonify({"message": result["message"]}), result.get("code", 200)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@api_bp.route("/businesses/<int:id>/unverify", methods=["POST"])
+@jwt_required()
+def unverify_route(id):
+    try:
+        result = unverify_business(id)
+        if result["status"] == "error":
+            return jsonify({"error": result["message"]}), result.get("code", 500)
+        
+        log_admin_action("unverify_business", id)
+        socketio.emit("business_updated", {"type": "manual_unverify"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

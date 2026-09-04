@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
 `;
 
 function RegistryManagement() {
-  const { registry, isLoading, fetchWithAuth } = useAdminData();
+  const { registry, isLoading, fetchWithAuth, unverifyBusiness } = useAdminData();
   const { showToast } = useToast();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -117,6 +117,15 @@ function RegistryManagement() {
       ? String(valA || '').localeCompare(String(valB || '')) 
       : String(valB || '').localeCompare(String(valA || ''));
   });
+
+  const handleUnverify = async () => {
+    if (!selectedBusiness) return;
+    if (window.confirm('Are you sure you want to unverify this business and remove its BPLO mapping?')) {
+      await unverifyBusiness(selectedBusiness.id);
+      showToast('success', 'Business unverified and mapping removed');
+      setSelectedBusiness(null);
+    }
+  };
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -309,8 +318,13 @@ function RegistryManagement() {
               </div>
             </div>
             
-            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end' }}>
-               <button className="btn btn-secondary" onClick={() => setSelectedBusiness(null)}>Close</button>
+            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+              {selectedBusiness.status === 'Verified' && (
+                <button className="btn btn-outline" onClick={handleUnverify} style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}>
+                  Unverify
+                </button>
+              )}
+              <button className="btn btn-secondary" onClick={() => setSelectedBusiness(null)}>Close</button>
             </div>
           </ModalContainer>
         </Overlay>

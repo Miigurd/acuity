@@ -168,6 +168,22 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
+  const unverifyBusiness = async (id) => {
+    try {
+      const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${id}/unverify`, { method: 'POST' });
+      if (res.ok) {
+        // Optimistic UI update
+        const updatedRaw = rawData.map(b => b.id === id ? { ...b, status: 'Unverified' } : b);
+        setRawData(updatedRaw);
+        
+        // Remove from registry state manually or rely on socket
+        setRegistry(prev => prev.filter(b => b.id !== id));
+      }
+    } catch (error) {
+      console.error("Failed to unverify business", error);
+    }
+  };
+
   const archiveFlaggedItem = async (id) => {
     const item = flagged.find(f => f.id === id);
     if (!item) return;
@@ -277,7 +293,7 @@ export const AdminDataProvider = ({ children }) => {
   return (
     <AdminDataContext.Provider value={{
       token, login, logout, fetchWithAuth,
-      registry, setRegistry,
+      registry, setRegistry, unverifyBusiness,
       queue, approveQueueItem, rejectQueueItem,
       flagged, setFlagged, isLoading,
       archiveFlaggedItem, investigateFlaggedItem, restrictFlaggedItem,
