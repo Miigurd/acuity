@@ -273,8 +273,16 @@ function RegistryManagement() {
             }`}>{selectedBusiness.status}</span></p>
 
             {selectedBusiness.raw?.bplo_match && (
-              <div style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px' }}>
-                <strong style={{ color: '#22c55e', display: 'block', marginBottom: '0.5rem' }}>✓ Verified via BPLO Match</strong>
+              <div style={{ 
+                marginBottom: '1.5rem', 
+                padding: '1rem', 
+                background: selectedBusiness.status === 'Verified' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)', 
+                border: `1px solid ${selectedBusiness.status === 'Verified' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`, 
+                borderRadius: '8px' 
+              }}>
+                <strong style={{ color: selectedBusiness.status === 'Verified' ? '#22c55e' : '#f59e0b', display: 'block', marginBottom: '0.5rem' }}>
+                  {selectedBusiness.status === 'Verified' ? '✓ Verified via BPLO Match' : '⚠ Pending BPLO Match'}
+                </strong>
                 <p className="text-primary" style={{ margin: 0, fontSize: '0.9rem' }}>
                   <strong>BPLO Name:</strong> {selectedBusiness.raw.bplo_match.name} <br/>
                   <strong>BPLO Address:</strong> {selectedBusiness.raw.bplo_match.address || 'N/A'} <br/>
