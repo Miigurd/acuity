@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
 `;
 
 function RegistryManagement() {
-  const { registry, isLoading, fetchWithAuth, unverifyBusiness } = useAdminData();
+  const { registry, isLoading, fetchWithAuth, unverifyBusiness, uploadProgress } = useAdminData();
   const { showToast } = useToast();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -181,7 +181,20 @@ function RegistryManagement() {
         </div>
       </HeaderActions>
 
-      {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
+      
+        {uploadProgress && isUploading && (
+          <div style={{ marginTop: '1rem', background: 'var(--bg-surface)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)' }}>Fuzzy Matching BPLO Registry...</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{uploadProgress.percentage}% ({uploadProgress.current} / {uploadProgress.total} profiles)</span>
+            </div>
+            <div style={{ height: '8px', background: 'var(--bg-deep)', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', background: 'var(--primary)', width: `${uploadProgress.percentage}%`, transition: 'width 0.2s ease-out' }} />
+            </div>
+          </div>
+        )}
+        
+        {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
       <>
         <div className="stack-mobile" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <input 

@@ -1,11 +1,19 @@
 from datetime import datetime
 from sqlalchemy.orm import selectinload
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile, BusinessStatusHistory
-from acuity.utils import token_sort_ratio, levenshtein_details
+import re
+from webapp.extensions import socketio
+from acuity.utils import token_sort_ratio, levenshtein_details, levenshtein_ratio
 from acuity.config import AcuityConfig  # type: ignore
 
 config = AcuityConfig()
 
+
+
+def _pre_tokenize_sort(s: str) -> str:
+    t = re.findall(r'\w+', str(s).lower())
+    t.sort()
+    return ' '.join(t)
 
 def upload_bplo_csv(records, fieldnames):
     name_col = None
@@ -46,7 +54,19 @@ def upload_bplo_csv(records, fieldnames):
     auto_verified = 0
     queued = 0
     
-    for profile in all_profiles:
+    bplo_sorted_map = {bplo_name: _pre_tokenize_sort(bplo_name) for bplo_name in bplo_lower_names}
+    
+    total_profiles = len(all_profiles)
+    
+    for i, profile in enumerate(all_profiles):
+        # Emit progress via SocketIO so the frontend doesn't hang
+        if i % max(1, total_profiles // 100) == 0 or i == total_profiles - 1:
+            socketio.emit("bplo_upload_progress", {
+                "current": i + 1,
+                "total": total_profiles,
+                "percentage": int(((i + 1) / total_profiles) * 100)
+            })
+            
         old_status = profile.status
         new_status = "Unverified"
         new_is_verified = False
@@ -62,9 +82,12 @@ def upload_bplo_csv(records, fieldnames):
             profile.last_verified_year = datetime.utcnow().year
             match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=bplo_name_map[profile_name].id, confidence_score=1.0))
         else:
+            profile_sorted = _pre_tokenize_sort(profile_name)
             matches_above_threshold = []
+            
             for bplo_name in bplo_lower_names:
-                score = token_sort_ratio(profile_name, bplo_name)
+                bplo_sorted = bplo_sorted_map[bplo_name]
+                score = levenshtein_ratio(profile_sorted, bplo_sorted)
                 if score >= config.fuzzy_match_threshold_pending:
                     matches_above_threshold.append((bplo_name, score))
             

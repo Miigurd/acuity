@@ -13,6 +13,7 @@ export const AdminDataProvider = ({ children }) => {
   const [flagged, setFlagged] = useState([]);
   const [heldEdits, setHeldEdits] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [uploadProgress, setUploadProgress] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('admin_token'));
 
   const login = (newToken) => {
@@ -140,6 +141,10 @@ export const AdminDataProvider = ({ children }) => {
     });
     socket.on('analytics_updated', () => {
         fetchBusinesses();
+    });
+    
+    socket.on('bplo_upload_progress', (data) => {
+        setUploadProgress(data);
     });
 
     return () => socket.disconnect();
@@ -297,7 +302,8 @@ export const AdminDataProvider = ({ children }) => {
       queue, approveQueueItem, rejectQueueItem,
       flagged, setFlagged, isLoading,
       archiveFlaggedItem, investigateFlaggedItem, restrictFlaggedItem,
-      heldEdits, approveHeldEdit, rejectHeldEdit
+      heldEdits, approveHeldEdit, rejectHeldEdit,
+      uploadProgress, setUploadProgress
     }}>
       {children}
     </AdminDataContext.Provider>
