@@ -120,7 +120,8 @@ const ITExpertValidation = () => {
   const [isRanking, setIsRanking] = useState(false);
 
   const tokenizeAndSort = (str) => {
-    return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().split(/\s+/).sort().join(" ");
+    const tokens = (str || "").toLowerCase().match(/\w+/g);
+    return tokens ? tokens.sort().join(" ") : "";
   };
 
   // Levenshtein State (Now Token-Sort)
