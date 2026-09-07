@@ -32,7 +32,13 @@ const SearchResults = () => {
     const fetchRankings = async () => {
       try {
         let fetchUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/search?q=${encodeURIComponent(initialQuery || '')}`;
-        const userLandmark = getLandmarkById ? getLandmarkById(user?.landmarkId) : null;
+          const queryKey = initialQuery || '';
+          if (trackedQueries.current.has(queryKey)) {
+            fetchUrl += `&simulate=true`;
+          } else {
+            trackedQueries.current.add(queryKey);
+          }
+          const userLandmark = getLandmarkById ? getLandmarkById(user?.landmarkId) : null;
         if (userLandmark && userLandmark.latLng) {
           fetchUrl += `&lat=${userLandmark.latLng[0]}&lon=${userLandmark.latLng[1]}`;
         }
@@ -50,7 +56,7 @@ const SearchResults = () => {
       }
     };
     fetchRankings();
-  }, [initialQuery, user?.landmarkId, getLandmarkById]);
+  }, [initialQuery, user?.landmarkId]);
 
   useEffect(() => {
     if (mockDataLoading) return;
