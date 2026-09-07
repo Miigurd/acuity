@@ -38,6 +38,7 @@ const LandingPage = () => {
                         {/* Clean, Production-Grade Search Bar */}
                         <div className="hero-search-container">
                             <form 
+                                id="tour-search-bar"
                                 onSubmit={(e) => {
                                     e.preventDefault();
                                     window.location.href = `/search?q=${encodeURIComponent(heroSearch)}`;
@@ -100,12 +101,12 @@ const LandingPage = () => {
             </section>
 
             {/* ===== BROWSE BY CATEGORY (Scrollable on Desktop & Mobile) ===== */}
-            <section className="category-browse-section">
+            <section className="category-browse-section" id="tour-categories">
                 <div className="container">
                     <div className="section-head-with-controls">
                         <div>
                             <span className="badge badge-navy mb-2">SERVICES DIRECTORY</span>
-                            <h2 className="section-heading">Browse Service Categories</h2>
+                            <h2 className="section-heading" id="tour-categories-title">Browse Service Categories</h2>
                             <p className="section-description">
                                 Find verified micro-enterprises nearest to your neighborhood landmark.
                             </p>
@@ -131,7 +132,7 @@ const LandingPage = () => {
                     </div>
 
                     {/* Scrollable Track for both Desktop & Mobile */}
-                    <div className="category-scroll-wrapper" ref={categoryScrollRef}>
+                    <div className="category-scroll-wrapper" id="tour-category-track" ref={categoryScrollRef}>
                         {CATEGORIES.map(cat => (
                             <Link
                                 key={cat.id}

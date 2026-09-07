@@ -210,7 +210,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; - Disabled globally to prevent breaking programmatic scrolling libraries like driver.js */
     -webkit-text-size-adjust: 100%;
 }
 

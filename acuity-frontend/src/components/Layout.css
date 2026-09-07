@@ -295,3 +295,35 @@
         font-size: 1.15rem;
     }
 }
+/* ====== TUTORIAL REPLAY BUTTON ====== */
+.tutorial-replay-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tutorial-replay-btn:hover {
+    background: var(--bg-hover);
+    color: var(--color-deep-navy);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .tutorial-replay-btn:hover {
+    color: var(--color-hero-sky);
+}
+
+.tutorial-replay-btn:active {
+    transform: translateY(0);
+    background: var(--border);
+    box-shadow: none;
+}
+

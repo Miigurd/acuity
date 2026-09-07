@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { FiHome, FiSearch, FiMap, FiShield } from 'react-icons/fi';
+import { FiHome, FiSearch, FiMap, FiShield, FiHelpCircle } from 'react-icons/fi';
 import ThemeSwitch from './ThemeSwitch';
+import OnboardingTutorial from './OnboardingTutorial';
 import './Layout.css';
 
 const Layout = () => {
     const location = useLocation();
+    const [startTutorial, setStartTutorial] = useState(false);
 
     // Single unified navigation menu across the platform
     const navLinks = [
@@ -19,6 +21,8 @@ const Layout = () => {
 
     return (
         <div className="layout-container">
+            <OnboardingTutorial startManually={startTutorial} onResetManual={() => setStartTutorial(false)} />
+            
             {/* Top Announcement Banner */}
             <div className="announcement-banner">
                 <div className="container banner-inner">
@@ -63,6 +67,13 @@ const Layout = () => {
                     </div>
 
                     <div className="desktop-actions flex items-center gap-3">
+                        <button 
+                            className="tutorial-replay-btn" 
+                            onClick={() => setStartTutorial(true)}
+                            title="Replay Tutorial"
+                        >
+                            <FiHelpCircle size={20} />
+                        </button>
                         <ThemeSwitch />
                     </div>
                 </div>

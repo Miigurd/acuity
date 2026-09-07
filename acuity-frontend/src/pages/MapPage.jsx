@@ -25,7 +25,7 @@ const MapPage = () => {
       border: '1px solid var(--border)',
       boxShadow: 'var(--shadow-card)',
       marginBottom: '20px'
-    }}>
+    }} id="tour-map-page">
       {/* Top Floating Control Bar with Clear Back Button */}
       <div style={{
         position: 'absolute', top: '14px', left: '14px', right: '14px',

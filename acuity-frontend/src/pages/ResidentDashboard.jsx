@@ -261,7 +261,7 @@ const ResidentDashboard = () => {
       {/* Featured Enterprises in Cabuyao */}
       <section style={{ marginBottom: '2.75rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h3 style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 id="tour-featured-heading" style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Featured Micro-Enterprises <FiCompass style={{ color: 'var(--color-deep-navy)' }} />
           </h3>
           <Link to="/search" style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-deep-navy)', display: 'flex', alignItems: 'center', gap: '4px' }}>
