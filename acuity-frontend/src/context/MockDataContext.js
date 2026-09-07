@@ -133,7 +133,10 @@ export const MockDataProvider = ({ children }) => {
                             flagCount: b.flagCount || 0,
                             flagReasons: b.flagReasons || [],
                             latitude: b.latitude,
-                            longitude: b.longitude
+                            longitude: b.longitude,
+                            isVerified: b.isVerified || b.is_verified || b.status === 'Verified',
+                            is_verified: b.is_verified || b.isVerified || b.status === 'Verified',
+                            status: b.status || 'Verified'
                         };
                     });
                     
