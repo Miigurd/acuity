@@ -140,7 +140,7 @@ const ITExpertValidation = () => {
   const [havDistance, setHavDistance] = useState(haversineDistance(LANDMARKS[0].latLng[0], LANDMARKS[0].latLng[1], LANDMARKS[1].latLng[0], LANDMARKS[1].latLng[1]));
 
   // NER Extraction State
-  const [liveText, setLiveText] = useState('Looking for a laundry shop near Brgy. Pulo, Cabuyao. Any recommendations?');
+  const [liveText, setLiveText] = useState('Looking for a laundry shop near Brgy. Pulo, Cabuyao. Open 8am-5pm, 0917-123-4567.');
   const [extractedEntities, setExtractedEntities] = useState(null);
   const [expectedEntities, setExpectedEntities] = useState({ business_name: '', category: 'Laundry', location: 'Brgy. Pulo' });
   const [isExtracting, setIsExtracting] = useState(false);
@@ -282,7 +282,7 @@ const ITExpertValidation = () => {
           className={`btn ${activeTab === 'ner' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
           onClick={() => setActiveTab('ner')}
         >
-          <FiActivity /> 3. NLP Extraction (NER) F1 Benchmark
+          <FiActivity /> 3. NLP Extraction
         </button>
         <button
           className={`btn ${activeTab === 'trace' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
@@ -464,6 +464,7 @@ const ITExpertValidation = () => {
           <textarea
             className="form-control mb-4"
             rows="3"
+            placeholder="Looking for a laundry shop near Brgy. Pulo, Cabuyao. Open 8am-5pm, 0917-123-4567."
             value={liveText}
             onChange={(e) => setLiveText(e.target.value)}
           />
