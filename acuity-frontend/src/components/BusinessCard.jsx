@@ -108,6 +108,13 @@ const BusinessCard = ({ business, distance, recommended }) => {
                     letterSpacing: '-0.02em'
                 }}>
                     {business.name}
+                    {(business.is_verified || business.isVerified || business.status === 'Verified') && (
+                        <FiCheckCircle 
+                            size={16} 
+                            style={{ color: 'var(--primary)', marginLeft: '6px', display: 'inline-block', verticalAlign: '-2px' }} 
+                            title="Verified Business"
+                        />
+                    )}
                 </h3>
 
                 {business.description && (

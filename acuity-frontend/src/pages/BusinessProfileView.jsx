@@ -304,9 +304,11 @@ const BusinessProfileView = () => {
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>
               COMMUNITY TRUST SIGNALS
             </span>
-            <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
-              <FiCheckCircle style={{ color: 'var(--success)' }} /> Verified in City of Cabuyao Registry
-            </div>
+            {(business.is_verified || business.isVerified || business.status === 'Verified') && (
+              <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
+                <FiCheckCircle style={{ color: 'var(--success)' }} /> Verified in City of Cabuyao Registry
+              </div>
+            )}
             <div className="flex items-center gap-2 text-sm font-semibold mb-2">
               <FiShield style={{ color: 'var(--color-deep-navy)' }} /> Anchored to {landmark ? landmark.name : 'Barangay Landmark'}
             </div>
