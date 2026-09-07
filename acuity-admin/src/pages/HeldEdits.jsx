@@ -20,7 +20,7 @@ function HeldEdits() {
 
     const diff = {};
     for (const key in proposed) {
-      if (['id', 'history', 'stats', 'flagCount', 'flagReasons', 'originalIndex'].includes(key)) continue;
+      if (['id', 'history', 'stats', 'flagCount', 'flagReasons', 'originalIndex', 'contact', 'contact_info', 'published_at', 'updated_at', 'created_at', 'pin', 'business_name', 'ownerId'].includes(key)) continue;
       
       const newVal = proposed[key];
       const oldVal = current[key];

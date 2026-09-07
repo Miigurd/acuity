@@ -358,11 +358,11 @@ const BusinessProfileView = () => {
                   <div style={{ background: 'var(--bg-elevated)', border: `1px solid var(--border)`, padding: '12px 16px', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {entry.previous_data ? (() => {
                       const ALLOWED_HISTORY_FIELDS = [
-                        'name', 'business_name', 'categories', 'category_id', 'categoryId',
-                        'locationType', 'description', 'services', 'phones', 'contact_info',
-                        'contact', 'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours',
-                        'verifiedContact', 'communityEngaged'
-                      ];
+                          'name', 'categories', 'category_id', 'categoryId',
+                          'locationType', 'description', 'services', 'phones',
+                          'facebookUrl', 'landmarkId', 'landmark_id', 'hours', 'operatingHours',
+                          'verifiedContact', 'communityEngaged'
+                        ];
                       
                       const nextState = index === 0 ? business : business.history[index - 1].previous_data;
                       
