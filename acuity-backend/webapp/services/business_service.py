@@ -29,6 +29,12 @@ def get_base_query():
         selectinload(BusinessProfile.status_history)  # type: ignore
     )
 
+def get_light_query():
+    return BusinessProfile.query.options(
+        selectinload(BusinessProfile.categories),  # type: ignore
+        selectinload(BusinessProfile.flags)        # type: ignore
+    )
+
 def expire_old_permits():
     current_year = datetime.utcnow().year
     expired_profiles = BusinessProfile.query.filter(
@@ -52,15 +58,13 @@ def get_business_by_id(business_id):
     return profile.to_dict() if profile else None
 
 def get_all_businesses():
-    expire_old_permits()
-    profiles = get_base_query().all()
-    return [p.to_dict() for p in profiles]
+    profiles = get_light_query().all()
+    return [p.to_dict_light() for p in profiles]
 
 def get_paginated_businesses(page=1, limit=50):
-    expire_old_permits()
-    pagination = get_base_query().paginate(page=page, per_page=limit, error_out=False)
+    pagination = get_light_query().paginate(page=page, per_page=limit, error_out=False)
     return {
-        "data": [p.to_dict() for p in pagination.items],
+        "data": [p.to_dict_light() for p in pagination.items],
         "total": pagination.total,
         "pages": pagination.pages,
         "current_page": pagination.page

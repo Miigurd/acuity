@@ -51,35 +51,21 @@ def _flush_impressions_loop(app):
 _engine_instance = None
 _last_verified_count = -1
 
-def get_base_query():
+def get_search_query():
     return BusinessProfile.query.options(
         selectinload(BusinessProfile.categories),  # type: ignore
         selectinload(BusinessProfile.services),  # type: ignore
-        selectinload(BusinessProfile.phones),  # type: ignore
-        selectinload(BusinessProfile.hours),  # type: ignore
         selectinload(BusinessProfile.locations),  # type: ignore
-        selectinload(BusinessProfile.prices),  # type: ignore
         selectinload(BusinessProfile.stats),  # type: ignore
-        selectinload(BusinessProfile.flags),  # type: ignore
-        selectinload(BusinessProfile.history_logs),  # type: ignore
-        selectinload(BusinessProfile.held_edits),  # type: ignore
-        selectinload(BusinessProfile.verification_matches),  # type: ignore
-        selectinload(BusinessProfile.status_history)  # type: ignore
+        selectinload(BusinessProfile.flags)  # type: ignore
     )
 
 def select_valid_profiles():
-    """Return profile dicts that are eligible for recommendation.
-
-    Mirrors the exact filter the production search applies: verified, active,
-    not Restricted, and under the flag threshold. Returns a list of dicts
-    in the same order ``RecommendationEngine.set_profiles`` consumes them.
-    """
-    # Filter to only vectorize verified profiles visible on the user side.
-    verified_profiles = get_base_query().filter(
+    """Return profile dicts that are eligible for recommendation."""
+    verified_profiles = get_search_query().filter(
         (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
     ).filter(BusinessProfile.is_active == True).all()
 
-    # Exclude businesses that are Restricted or have been flagged past threshold
     valid_profiles = []
     for p in verified_profiles:
         if p.flag_status == 'Restricted':
@@ -91,12 +77,18 @@ def select_valid_profiles():
     return [p.to_dict() for p in valid_profiles]
 
 def get_engine():
-    """Return the shared, cached RecommendationEngine used by production search.
-
-    The engine is rebuilt only when the number of eligible profiles changes,
-    so the live expert trace reads the exact same TF-IDF state as ``/api/search``.
-    """
     global _engine_instance, _last_verified_count
+
+    # Fast SQL count check
+    current_count = BusinessProfile.query.filter(
+        (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
+    ).filter(BusinessProfile.is_active == True).count()
+    
+    # If the count hasn't changed, return the cached engine immediately without fetching profiles
+    if _engine_instance is not None and current_count == getattr(get_engine, "_fast_count", -1):
+        return _engine_instance
+        
+    get_engine._fast_count = current_count
 
     profiles_dict = select_valid_profiles()
     if not profiles_dict:
@@ -112,8 +104,6 @@ def get_engine():
 def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
     global _engine_instance, _last_verified_count
     
-    expire_old_permits()
-
     _engine_instance = get_engine()
 
     if _engine_instance is None:
