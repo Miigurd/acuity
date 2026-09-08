@@ -32,6 +32,9 @@ def get_base_query():
 def get_light_query():
     return BusinessProfile.query.options(
         selectinload(BusinessProfile.categories),  # type: ignore
+        selectinload(BusinessProfile.services),    # type: ignore
+        selectinload(BusinessProfile.locations),   # type: ignore
+        selectinload(BusinessProfile.phones),      # type: ignore
         selectinload(BusinessProfile.flags)        # type: ignore
     )
 

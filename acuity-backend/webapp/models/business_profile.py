@@ -137,9 +137,13 @@ class BusinessProfile(Base):
             "flag_status": self.flag_status,
             "published_at": self.published_at,
             "categoryId": self.category_id,
+            "landmarkId": self.landmark_id,
             "latitude": landmark_data.get('lat'),
             "longitude": landmark_data.get('lon'),
-            "address": self.address,
+            "description": self.description,
+            "address": self.address if self.address else (self.locations[0].location if self.locations else "Address not extracted"),
+            "contact_info": self.contact_info if self.contact_info else (self.phones[0].phone if self.phones else ""),
+            "isActive": self.is_active,
             "isVerified": self.is_verified,
             "is_verified": self.is_verified,
             "facebookUrl": self.facebook_url,
@@ -150,7 +154,8 @@ class BusinessProfile(Base):
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],
             "pin_locked": self.pin_locked,
-            "categories": [c.category for c in self.categories] if self.categories else []
+            "categories": [c.category for c in self.categories] if self.categories else [],
+            "services": [s.service for s in self.services] if self.services else []
         }
 
 
