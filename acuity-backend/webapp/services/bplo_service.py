@@ -266,7 +266,11 @@ def reject_bplo_match(match_id):
         business.is_verified = False
         business.status = "Unverified"
         
-    db.session.delete(match)
+        # Delete ALL matches for this business so it doesn't reappear in the queue
+        VerificationMatch.query.filter_by(business_id=business.id).delete()
+    else:
+        db.session.delete(match)
+        
     db.session.commit()
     return {"status": "success", "message": "Rejected match and marked business as Unverified", "code": 200}
 
