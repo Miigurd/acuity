@@ -194,7 +194,10 @@ def get_bplo_queue():
         
         extracted_name = extracted.business_name or ""
         bplo_name = bplo.name or ""
-        details = levenshtein_details(extracted_name.lower(), bplo_name.lower())
+        
+        sorted_extracted = _pre_tokenize_sort(extracted_name)
+        sorted_bplo = _pre_tokenize_sort(bplo_name)
+        details = levenshtein_details(sorted_extracted, sorted_bplo)
         
         if extracted.id not in grouped_queue:
             grouped_queue[extracted.id] = {
