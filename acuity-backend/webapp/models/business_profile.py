@@ -128,6 +128,13 @@ class BusinessProfile(Base):
         from webapp.constants import LANDMARKS
         landmark_data = LANDMARKS.get(self.landmark_id or "", {})
 
+        stats_dict = {
+            "impressions": self.stats.impressions if self.stats else 0,
+            "clicks": self.stats.clicks if self.stats else 0,
+            "inquiries": self.stats.inquiries if self.stats else 0,
+            "created": self.stats.created_at if self.stats else ""
+        }
+
         active_flags = [f for f in self.flags if not f.is_archived] if self.flags else []
         return {
             "id": self.id,
@@ -155,7 +162,8 @@ class BusinessProfile(Base):
             "flagReasons": [f.reason for f in active_flags],
             "pin_locked": self.pin_locked,
             "categories": [c.category for c in self.categories] if self.categories else [],
-            "services": [s.service for s in self.services] if self.services else []
+            "services": [s.service for s in self.services] if self.services else [],
+            "stats": stats_dict
         }
 
 

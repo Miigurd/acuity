@@ -35,6 +35,7 @@ def get_light_query():
         selectinload(BusinessProfile.services),    # type: ignore
         selectinload(BusinessProfile.locations),   # type: ignore
         selectinload(BusinessProfile.phones),      # type: ignore
+        selectinload(BusinessProfile.stats),       # type: ignore
         selectinload(BusinessProfile.flags)        # type: ignore
     )
 
