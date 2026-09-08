@@ -78,7 +78,7 @@ const calculateCosineSimilarity = (query, doc) => {
     
     const uniqueTokens = Array.from(new Set([...qTokens, ...dTokens]));
     uniqueTokens.forEach(t => {
-        const isMatch = (token, vocabTerm) => token === vocabTerm || (token.length >= 3 && (vocabTerm.startsWith(token) || token.startsWith(vocabTerm)));
+        const isMatch = (token, vocabTerm) => token === vocabTerm || (token.length >= 3 && (vocabTerm.startsWith(token) || (vocabTerm.length >= 3 && token.startsWith(vocabTerm))));
         const qCount = qTokens.filter(x => isMatch(x, t)).length;
         const dCount = dTokens.filter(x => isMatch(x, t)).length;
         const qTf = getTf(qCount);
