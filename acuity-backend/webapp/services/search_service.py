@@ -51,18 +51,11 @@ def _flush_impressions_loop(app):
 _engine_instance = None
 _last_verified_count = -1
 
-def get_search_query():
-    return BusinessProfile.query.options(
-        selectinload(BusinessProfile.categories),  # type: ignore
-        selectinload(BusinessProfile.services),  # type: ignore
-        selectinload(BusinessProfile.locations),  # type: ignore
-        selectinload(BusinessProfile.stats),  # type: ignore
-        selectinload(BusinessProfile.flags)  # type: ignore
-    )
-
 def select_valid_profiles():
     """Return profile dicts that are eligible for recommendation."""
-    verified_profiles = get_search_query().filter(
+    from webapp.services.business_service import get_base_query
+    
+    verified_profiles = get_base_query().filter(
         (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
     ).filter(BusinessProfile.is_active == True).all()
 
