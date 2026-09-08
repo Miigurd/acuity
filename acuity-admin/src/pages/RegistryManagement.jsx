@@ -256,7 +256,19 @@ function RegistryManagement() {
                 </td>
                 <td>
                   <button 
-                    onClick={() => setSelectedBusiness(item)} 
+                    onClick={async () => {
+                      try {
+                        const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${item.id}`);
+                        if (res.ok) {
+                          const fullData = await res.json();
+                          setSelectedBusiness({ ...item, raw: fullData });
+                        } else {
+                          setSelectedBusiness(item);
+                        }
+                      } catch (e) {
+                        setSelectedBusiness(item);
+                      }
+                    }} 
                     style={{ color: 'var(--primary-light)', background: 'none', fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>
                     View Details
                   </button>
