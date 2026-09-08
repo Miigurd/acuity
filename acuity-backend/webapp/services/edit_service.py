@@ -3,10 +3,18 @@ from datetime import datetime
 from webapp.models import db, HeldEdit, BusinessProfile, EditHistoryLog, BusinessCategory, BusinessService, BusinessLocation, BusinessPrice, BusinessHour, BusinessPhone
 
 def get_held_edits():
+    from webapp.services.business_service import get_base_query
     edits = HeldEdit.query.filter_by(status='Pending').all()
     queue = []
+    if not edits:
+        return queue
+        
+    business_ids = [e.business_id for e in edits]
+    profiles = get_base_query().filter(BusinessProfile.id.in_(business_ids)).all()
+    profile_map = {p.id: p for p in profiles}
+    
     for edit in edits:
-        profile = BusinessProfile.query.get(edit.business_id)
+        profile = profile_map.get(edit.business_id)
         if profile:
             queue.append({
                 "id": edit.id,
@@ -14,7 +22,8 @@ def get_held_edits():
                 "business_name": profile.business_name,
                 "ip_address": edit.ip_address,
                 "timestamp": edit.timestamp,
-                "proposed_data": json.loads(edit.proposed_data)
+                "proposed_data": json.loads(edit.proposed_data),
+                "current_data": profile.to_dict()
             })
     return queue
 

@@ -14,8 +14,8 @@ function HeldEdits() {
     });
   };
 
-  const getDiff = (proposed, businessId) => {
-    const current = registry.find(r => r.raw.id === businessId)?.raw;
+  const getDiff = (proposed, currentData) => {
+    const current = currentData;
     if (!current) return proposed;
 
     const diff = {};
@@ -45,22 +45,23 @@ function HeldEdits() {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Profile Name</th>
-              
-              <th>Timestamp</th>
-              <th>Specific Changes</th>
+              <th>Business</th>
+              <th>IP Address</th>
+              <th>Held Time</th>
+              <th>Proposed Changes</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {heldEdits.map(item => {
               const isExpanded = expandedItems.has(item.id);
-              const diff = getDiff(item.proposed_data, item.business_id);
+              const diff = getDiff(item.proposed_data, item.current_data);
               
               return (
                 <tr key={item.id}>
                   <td className="font-semibold">{item.business_name}</td>
                   
+                  <td className="text-secondary">{item.ip_address}</td>
                   <td className="text-secondary">{new Date(item.timestamp).toLocaleString()}</td>
                   <td style={{ maxWidth: '300px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
