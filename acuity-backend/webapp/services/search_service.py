@@ -4,8 +4,49 @@ from acuity.config import AcuityConfig  # type: ignore
 from webapp.extensions import socketio
 from webapp.models import db, BusinessProfile, BusinessStat
 from webapp.services.business_service import expire_old_permits
+import threading
+import time
+import logging
+from collections import defaultdict
+from flask import current_app
 
 config = AcuityConfig()
+
+_impression_buffer = defaultdict(int)
+_buffer_lock = threading.Lock()
+_flusher_started = False
+
+def _flush_impressions_loop(app):
+    while True:
+        time.sleep(10)
+        
+        with _buffer_lock:
+            if not _impression_buffer:
+                continue
+            to_flush = dict(_impression_buffer)
+            _impression_buffer.clear()
+        
+        try:
+            with app.app_context():
+                business_names = list(to_flush.keys())
+                profiles_to_update = BusinessProfile.query.options(
+                    selectinload(BusinessProfile.stats)
+                ).filter(BusinessProfile.business_name.in_(business_names)).all()
+                
+                for p in profiles_to_update:
+                    count = to_flush.get(p.business_name, 0)
+                    if count > 0:
+                        if p.stats:
+                            p.stats.impressions += count
+                        else:
+                            db.session.add(BusinessStat(business_id=p.id, impressions=count))
+                
+                db.session.commit()
+                
+                for p in profiles_to_update:
+                    socketio.emit("analytics_updated", {"businessName": p.business_name, "event": "impression"})
+        except Exception as e:
+            logging.error(f"Error flushing impressions to DB: {e}")
 
 _engine_instance = None
 _last_verified_count = -1
@@ -93,17 +134,18 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
     
     returned_names = [r["name"] for r in res_data]
     if returned_names and query and not simulate:
-        # Update impressions stat in DB - eager load stats to avoid N+1
-        profiles_to_update = BusinessProfile.query.options(selectinload(BusinessProfile.stats)).filter(BusinessProfile.business_name.in_(returned_names)).all()  # type: ignore
-        for p in profiles_to_update:
-            if p.stats:
-                p.stats.impressions += 1
-            else:
-                db.session.add(BusinessStat(business_id=p.id, impressions=1))  # type: ignore
-        db.session.commit()
-        # Broadcast analytics updates to admin panel
-        for p in profiles_to_update:
-            socketio.emit("analytics_updated", {"businessName": p.business_name, "event": "impression"})
+        global _flusher_started
+        if not _flusher_started:
+            with _buffer_lock:
+                if not _flusher_started:
+                    app = current_app._get_current_object()
+                    t = threading.Thread(target=_flush_impressions_loop, args=(app,), daemon=True)
+                    t.start()
+                    _flusher_started = True
+
+        with _buffer_lock:
+            for name in returned_names:
+                _impression_buffer[name] += 1
 
     return res_data
 
