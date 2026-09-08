@@ -57,6 +57,8 @@ _crf_model = load_crf_model(_CRF_MODEL_PATH) if _CRF_MODEL_PATH else None
 @api_bp.route("/health", methods=["GET"])
 def health_check():
     """Simple health check endpoint for monitoring."""
+    if request.args.get("crash") == "true":
+        raise Exception("Sentry integration test error!")
     return jsonify({"status": "ok", "message": "Acuity API is running"}), 200
 
 def log_admin_action(action_type, target_id):

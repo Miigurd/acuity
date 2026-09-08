@@ -38,6 +38,10 @@ Flask-Limiter>=3.5.0
 gunicorn==21.2.0
 eventlet==0.33.3
 
+# --- Monitoring ---
+sentry-sdk[flask]>=1.39.0
+
+
 # --- Database ---
 # SQLite is built-in; uncomment below for PostgreSQL
 psycopg2-binary>=2.9.0

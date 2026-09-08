@@ -15,11 +15,42 @@ load_dotenv()
 
 def create_app() -> Flask:
     """Application factory for the ACUITY web app."""
+    import sentry_sdk
+    sentry_dsn = os.getenv("SENTRY_DSN")
+    if sentry_dsn:
+        sentry_sdk.init(
+            dsn=sentry_dsn,
+            # Set traces_sample_rate to 1.0 to capture 100%
+            # of transactions for performance monitoring.
+            traces_sample_rate=1.0,
+            # Set profiles_sample_rate to 1.0 to profile 100%
+            # of sampled transactions.
+            profiles_sample_rate=1.0,
+        )
+
     app = Flask(
         __name__,
         template_folder="templates",
         static_folder="static",
     )
+
+    import time
+    from flask import request, g
+    import logging
+
+    @app.before_request
+    def start_timer():
+        g.start = time.time()
+
+    @app.after_request
+    def log_request(response):
+        if hasattr(g, 'start'):
+            duration = (time.time() - g.start) * 1000
+            app.logger.info(
+                f"{request.method} {request.path} {response.status_code} "
+                f"[{duration:.2f}ms]"
+            )
+        return response
 
     from werkzeug.middleware.proxy_fix import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
