@@ -37,6 +37,10 @@ def create_app() -> Flask:
     import time
     from flask import request, g
     import logging
+    
+    # Force Flask logger to output INFO level messages to the console
+    logging.basicConfig(level=logging.INFO)
+    app.logger.setLevel(logging.INFO)
 
     @app.before_request
     def start_timer():
