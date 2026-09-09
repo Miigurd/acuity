@@ -135,19 +135,51 @@ function RegistryManagement() {
     formData.append('file', file);
 
     setIsUploading(true);
+    setUploadProgress(null);
 
     try {
       const res = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/upload', {
         method: 'POST',
         body: formData,
       });
+
       if (res.ok) {
-        const data = await res.json();
-        showToast(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`, 'success');
-        setTimeout(() => window.location.reload(), 2000);
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let done = false;
+        let buffer = '';
+
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+          if (value) {
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('
+');
+            buffer = lines.pop() || ''; // Keep the last incomplete line in buffer
+            
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const data = JSON.parse(line.substring(6));
+                  if (data.type === 'progress') {
+                    setUploadProgress(data);
+                  } else if (data.type === 'complete') {
+                    showToast(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`, 'success');
+                    setTimeout(() => window.location.reload(), 2000);
+                  } else if (data.type === 'error') {
+                    showToast('Failed: ' + data.message, 'error');
+                  }
+                } catch (e) {
+                  console.error("Error parsing chunk", e, line);
+                }
+              }
+            }
+          }
+        }
       } else {
         const errorData = await res.json();
-        showToast('Failed to upload BPLO data: ' + errorData.error, 'error');
+        showToast('Failed to upload BPLO data: ' + (errorData.error || 'Unknown error'), 'error');
       }
     } catch (err) {
       console.error(err);
