@@ -3,7 +3,6 @@ from sqlalchemy.orm import selectinload
 from webapp.models import db, BPLORegistry, VerificationMatch, BusinessProfile, BusinessStatusHistory
 import re
 import difflib
-from webapp.extensions import socketio
 from acuity.utils import token_sort_ratio, levenshtein_details, levenshtein_ratio
 from acuity.config import AcuityConfig  # type: ignore
 
@@ -89,14 +88,12 @@ def upload_bplo_csv(records, fieldnames):
     total_profiles = len(all_profiles)
     
     for i, profile in enumerate(all_profiles):
-        # Emit progress via SocketIO so the frontend doesn't hang
         if i % max(1, total_profiles // 100) == 0 or i == total_profiles - 1:
             socketio.emit("bplo_upload_progress", {
                 "current": i + 1,
                 "total": total_profiles,
                 "percentage": int(((i + 1) / total_profiles) * 100)
             })
-            socketio.sleep(0)  # Yield to event loop to push packet immediately
             
         old_status = profile.status
         new_status = "Unverified"

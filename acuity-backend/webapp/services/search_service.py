@@ -1,7 +1,6 @@
 from sqlalchemy.orm import selectinload
 from acuity.recommendation import RecommendationEngine  # type: ignore
 from acuity.config import AcuityConfig  # type: ignore
-from webapp.extensions import socketio
 from webapp.models import db, BusinessProfile, BusinessStat
 from webapp.services.business_service import expire_old_permits
 import threading
@@ -44,7 +43,6 @@ def _flush_impressions_loop(app):
                 db.session.commit()
                 
                 for p in profiles_to_update:
-                    socketio.emit("analytics_updated", {"businessName": p.business_name, "event": "impression"})
         except Exception as e:
             logging.error(f"Error flushing impressions to DB: {e}")
 

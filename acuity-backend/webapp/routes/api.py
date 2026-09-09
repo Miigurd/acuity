@@ -4,7 +4,6 @@ Serves data extracted by the pipeline to the frontend from the SQLite database.
 """
 from flask import Blueprint, jsonify, request  # type: ignore
 import logging
-from webapp.extensions import socketio
 from webapp.services import (
     get_business_by_id,
     get_all_businesses,
@@ -177,7 +176,6 @@ def update_flag_status(id):
             db.session.add(history_log)
             db.session.commit()
             
-            socketio.emit("business_updated", {"id": id, "type": "flag_status_change"})
             
         return jsonify({"message": f"Flag status updated to {new_status}"}), 200
     except Exception as e:
@@ -245,7 +243,6 @@ def update_businesses_route():
         elif result["status"] == "held":
             return jsonify({"message": result["message"]}), result.get("code", 202)
         else:
-            socketio.emit("business_updated", {"type": "update"})
             return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         logger.error(f"Error writing to database: {e}", exc_info=True)
@@ -266,7 +263,6 @@ def flag_business():
         forwarded = request.headers.get("X-Forwarded-For")
         ip_address = forwarded.split(',')[0].strip() if forwarded else request.remote_addr
         result = flag_business_service(name_to_flag, reason, ip_address)
-        socketio.emit("business_flagged", {"name": name_to_flag})
         return jsonify({"message": result["message"]}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -298,7 +294,6 @@ def track_event():
     
     try:
         result = track_interaction_event(event_type, biz_name)
-        socketio.emit("analytics_updated", {"businessName": biz_name, "event": event_type})
         return jsonify({"message": result["message"]}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -375,7 +370,6 @@ def approve_bplo_route(id):
             return jsonify({"error": result["message"]}), result.get("code", 500)
         
         log_admin_action("approve_bplo_match", id)
-        socketio.emit("business_updated", {"type": "bplo_approval"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -389,7 +383,6 @@ def reject_bplo_route(id):
             return jsonify({"error": result["message"]}), result.get("code", 500)
         
         log_admin_action("reject_bplo_match", id)
-        socketio.emit("business_updated", {"type": "bplo_rejection"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -403,7 +396,6 @@ def unverify_route(id):
             return jsonify({"error": result["message"]}), result.get("code", 500)
         
         log_admin_action("unverify_business", id)
-        socketio.emit("business_updated", {"type": "manual_unverify"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -428,7 +420,6 @@ def approve_held_edit_route(id):
             return jsonify({"error": result["message"]}), result.get("code", 500)
             
         log_admin_action("approve_held_edit", id)
-        socketio.emit("business_updated", {"type": "held_edit_approval"})
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

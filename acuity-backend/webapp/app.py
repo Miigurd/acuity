@@ -86,8 +86,8 @@ def create_app() -> Flask:
         # Ensure database tables are created
         db.create_all()
 
-    from .extensions import socketio, limiter # type: ignore
-    socketio.init_app(app)
+    from .extensions import limiter # type: ignore
+    
     limiter.init_app(app)
 
     from flask_jwt_extended import JWTManager # type: ignore
@@ -109,11 +109,9 @@ def create_app() -> Flask:
 
 if __name__ == "__main__":
     app = create_app()
-    from .extensions import socketio # type: ignore
+     # type: ignore
     is_debug = os.getenv("FLASK_DEBUG", "true").lower() == "true"
-    socketio.run(
-        app,
-        host=os.getenv("FLASK_HOST", "0.0.0.0"),
+    app.run(debug=True, port=int(os.environ.get("PORT", 5000))),
         port=int(os.getenv("FLASK_PORT", "5000")),
         debug=is_debug,
         allow_unsafe_werkzeug=is_debug

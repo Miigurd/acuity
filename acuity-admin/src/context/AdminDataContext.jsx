@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { io } from 'socket.io-client';
 
 const AdminDataContext = createContext();
 
@@ -132,22 +131,7 @@ export const AdminDataProvider = ({ children }) => {
     };
     fetchBusinesses();
 
-    const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '');
-    socket.on('business_updated', () => {
-        fetchBusinesses();
-    });
-    socket.on('business_flagged', () => {
-        fetchBusinesses();
-    });
-    socket.on('analytics_updated', () => {
-        fetchBusinesses();
-    });
-    
-    socket.on('bplo_upload_progress', (data) => {
-        setUploadProgress(data);
-    });
 
-    return () => socket.disconnect();
   }, [fetchWithAuth]);
 
   const approveQueueItem = async (id) => {

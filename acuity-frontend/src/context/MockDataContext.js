@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { io } from 'socket.io-client';
 
 const MockDataContext = createContext();
 
@@ -160,18 +159,7 @@ export const MockDataProvider = ({ children }) => {
 
         fetchBackendBusinesses();
 
-        const socket = io((process.env.REACT_APP_API_URL || 'http://localhost:5000') + '');
-        socket.on('business_updated', () => {
-            fetchBackendBusinesses();
-        });
-        socket.on('business_flagged', () => {
-            fetchBackendBusinesses();
-        });
-        socket.on('analytics_updated', () => {
-            fetchBackendBusinesses();
-        });
 
-        return () => socket.disconnect();
     }, []);
 
     const saveToBackend = async (data) => {
