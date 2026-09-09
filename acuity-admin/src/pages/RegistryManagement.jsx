@@ -154,8 +154,7 @@ function RegistryManagement() {
           done = readerDone;
           if (value) {
             buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('
-');
+            const lines = buffer.split('\n');
             buffer = lines.pop() || ''; // Keep the last incomplete line in buffer
             
             for (const line of lines) {
@@ -399,3 +398,4 @@ function RegistryManagement() {
 }
 
 export default RegistryManagement;
+
