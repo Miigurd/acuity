@@ -42,7 +42,6 @@ def _flush_impressions_loop(app):
                 
                 db.session.commit()
                 
-                for p in profiles_to_update:
         except Exception as e:
             logging.error(f"Error flushing impressions to DB: {e}")
 
