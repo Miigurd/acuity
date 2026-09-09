@@ -109,10 +109,8 @@ def create_app() -> Flask:
 
 if __name__ == "__main__":
     app = create_app()
-     # type: ignore
     is_debug = os.getenv("FLASK_DEBUG", "true").lower() == "true"
-    app.run(debug=True, port=int(os.environ.get("PORT", 5000))),
+    app.run(
         port=int(os.getenv("FLASK_PORT", "5000")),
-        debug=is_debug,
-        allow_unsafe_werkzeug=is_debug
+        debug=is_debug
     )
