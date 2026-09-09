@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
 `;
 
 function RegistryManagement() {
-  const { registry, isLoading, fetchWithAuth, unverifyBusiness, uploadProgress } = useAdminData();
+  const { registry, isLoading, fetchWithAuth, unverifyBusiness, uploadProgress, setUploadProgress } = useAdminData();
   const { showToast } = useToast();
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');

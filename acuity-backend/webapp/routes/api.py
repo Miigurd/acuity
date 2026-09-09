@@ -2,7 +2,7 @@
 ACUITY — API Routes
 Serves data extracted by the pipeline to the frontend from the SQLite database.
 """
-from flask import Blueprint, jsonify, request  # type: ignore
+from flask import Blueprint, jsonify, request, stream_with_context, Response  # type: ignore
 import logging
 from webapp.services import (
     get_business_by_id,
@@ -339,15 +339,15 @@ def upload_bplo():
         records = df.to_dict('records')
         fieldnames = df.columns.tolist()
         
-        result = upload_bplo_csv(records, fieldnames)
-        if result["status"] == "error":
-            return jsonify({"error": result["message"]}), 400
-        return jsonify({
-            "message": result["message"],
-            "auto_verified": result.get("auto_verified"),
-            "queued": result.get("queued"),
-            "bplo_count": result.get("bplo_count")
-        }), 200
+        import json
+        def generate():
+            try:
+                for event in upload_bplo_csv(records, fieldnames):
+                    yield f"data: {json.dumps(event)}\n\n"
+            except Exception as e:
+                yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+        
+        return Response(stream_with_context(generate()), mimetype='text/event-stream')
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500

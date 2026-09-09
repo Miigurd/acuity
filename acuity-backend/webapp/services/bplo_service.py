@@ -52,7 +52,8 @@ def upload_bplo_csv(records, fieldnames):
             break
     
     if not name_col:
-        return {"status": "error", "message": "Could not identify business name column"}
+        yield {"status": "error", "message": "Could not identify business name column"}
+        return
         
     VerificationMatch.query.delete()
     BPLORegistry.query.delete()
@@ -88,6 +89,13 @@ def upload_bplo_csv(records, fieldnames):
     total_profiles = len(all_profiles)
     
     for i, profile in enumerate(all_profiles):
+        if i % max(1, total_profiles // 100) == 0 or i == total_profiles - 1:
+            yield {
+                "type": "progress",
+                "current": i + 1,
+                "total": total_profiles,
+                "percentage": int(((i + 1) / total_profiles) * 100)
+            }
 
             
         old_status = profile.status
