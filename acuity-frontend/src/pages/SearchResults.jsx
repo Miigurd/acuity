@@ -8,15 +8,17 @@ import { FiSearch, FiAlertCircle, FiFilter, FiCheck } from 'react-icons/fi';
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { businesses, categories, calculateDistance, getLandmarkById, trackEvent, isLoading: mockDataLoading } = useMockData();
+  const { businesses, categories, landmarks, calculateDistance, getLandmarkById, trackEvent, isLoading: mockDataLoading } = useMockData();
   const { user } = useAuth();
 
   const queryParams = new URLSearchParams(location.search);
   const initialQuery = queryParams.get('q') || '';
   const initialCategory = queryParams.get('category') || '';
+  const initialLandmark = queryParams.get('landmark') || '';
 
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedLandmark, setSelectedLandmark] = useState(initialLandmark);
   const [sortBy, setSortBy] = useState('relevance'); // 'nearest', 'newest', or 'relevance'
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
@@ -26,7 +28,8 @@ const SearchResults = () => {
   useEffect(() => {
     setQuery(initialQuery);
     setSelectedCategory(initialCategory);
-  }, [initialQuery, initialCategory]);
+    setSelectedLandmark(initialLandmark);
+  }, [initialQuery, initialCategory, initialLandmark]);
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -95,6 +98,10 @@ const SearchResults = () => {
     if (initialCategory) {
       filtered = filtered.filter(b => b.categoryId === initialCategory);
     }
+    
+    if (initialLandmark) {
+      filtered = filtered.filter(b => b.landmarkId === initialLandmark);
+    }
 
     if (sortBy === 'nearest') {
       filtered.sort((a, b) => {
@@ -119,7 +126,7 @@ const SearchResults = () => {
 
     setResults(filtered);
     setLoading(false);
-  }, [rankedData, businesses, initialCategory, sortBy, initialQuery, mockDataLoading, calculateDistance, getLandmarkById, user]);
+  }, [rankedData, businesses, initialCategory, initialLandmark, sortBy, initialQuery, mockDataLoading, calculateDistance, getLandmarkById, user]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -187,6 +194,7 @@ const SearchResults = () => {
               const params = new URLSearchParams();
               if (query) params.set('q', query);
               if (newCategory) params.set('category', newCategory);
+              if (selectedLandmark) params.set('landmark', selectedLandmark);
               navigate(`/search?${params.toString()}`);
             }}
             style={{
@@ -208,6 +216,35 @@ const SearchResults = () => {
           </select>
 
           <select
+            value={selectedLandmark}
+            onChange={(e) => {
+              const newLandmark = e.target.value;
+              setSelectedLandmark(newLandmark);
+              const params = new URLSearchParams();
+              if (query) params.set('q', query);
+              if (selectedCategory) params.set('category', selectedCategory);
+              if (newLandmark) params.set('landmark', newLandmark);
+              navigate(`/search?${params.toString()}`);
+            }}
+            style={{
+              padding: '8px 16px',
+              borderRadius: 'var(--radius-pill)',
+              border: '1px solid var(--border-strong)',
+              background: 'var(--bg-surface)',
+              color: 'var(--text-primary)',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              outline: 'none'
+            }}
+          >
+            <option value="">All Landmarks</option>
+            {(landmarks || []).map(l => (
+              <option key={l.id} value={l.id}>{l.name}</option>
+            ))}
+          </select>
+
+          <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             style={{
@@ -225,7 +262,7 @@ const SearchResults = () => {
           >
             <option value="relevance">Sort by: {initialQuery ? 'ML Relevance' : 'Relevance / Proximity'}</option>
             <option value="nearest">Sort by: Nearest</option>
-            <option value="newest">Sort by: Newest</option>
+            
           </select>
         </div>
       </div>
@@ -238,6 +275,11 @@ const SearchResults = () => {
         {initialCategory && (
           <span className="badge badge-sky">
             Filter: {(categories || []).find(c => c.id === initialCategory)?.name}
+          </span>
+        )}
+        {initialLandmark && (
+          <span className="badge badge-indigo">
+            Landmark: {(landmarks || []).find(l => l.id === initialLandmark)?.name}
           </span>
         )}
       </div>
