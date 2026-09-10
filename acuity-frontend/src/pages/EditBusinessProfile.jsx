@@ -173,7 +173,7 @@ const EditBusinessProfile = () => {
   return (
     <div className="container py-6 max-w-3xl">
       <button 
-        onClick={() => navigate(`/business/${id}`)} 
+        onClick={() => navigate(-1)} 
         className="btn btn-outline btn-sm mb-4"
         style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}
       >
@@ -388,3 +388,4 @@ const EditBusinessProfile = () => {
 };
 
 export default EditBusinessProfile;
+
