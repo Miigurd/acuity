@@ -98,8 +98,17 @@ const SearchResults = () => {
 
     if (sortBy === 'nearest') {
       filtered.sort((a, b) => {
-        const distA = a.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(a.landmarkId)?.latLng) : Infinity);
-        const distB = b.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(b.landmarkId)?.latLng) : Infinity);
+        let distA = a.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(a.landmarkId)?.latLng) : Infinity);
+        let distB = b.distance_km ?? (calculateDistance && user?.location && getLandmarkById ? calculateDistance(user.location, getLandmarkById(b.landmarkId)?.latLng) : Infinity);
+        
+        // Ensure invalid numbers (NaN) are pushed to the bottom as Infinity
+        if (typeof distA !== 'number' || isNaN(distA)) distA = Infinity;
+        if (typeof distB !== 'number' || isNaN(distB)) distB = Infinity;
+        
+        if (distA === Infinity && distB === Infinity) return 0;
+        if (distA === Infinity) return 1;
+        if (distB === Infinity) return -1;
+        
         return distA - distB;
       });
     } else if (sortBy === 'newest') {
