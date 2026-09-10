@@ -188,7 +188,18 @@ def upload_bplo_csv(records, fieldnames):
             db.session.add(me)
                 
     db.session.commit()
-    return {
+    
+    # Save Audit Trail CSV
+    audit_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "processed", "bplo_audit_trail.csv")
+    os.makedirs(os.path.dirname(audit_file_path), exist_ok=True)
+    with open(audit_file_path, "w", newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Extracted Profile Name", "Best BPLO Match", "Levenshtein Score", "Final Status"])
+        for r in audit_records:
+            writer.writerow([r["extracted"], r["bplo"], f"{r['score']}%", r["status"]])
+            
+    yield {
+        "type": "complete",
         "status": "success",
         "message": "BPLO data processed successfully",
         "auto_verified": auto_verified,
