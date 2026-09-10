@@ -194,8 +194,9 @@ function RegistryManagement() {
                       setMatchLog(prev => [...prev, ...data.new_matches]);
                     }
                   } else if (data.type === 'complete') {
+                    if (data.new_matches && data.new_matches.length > 0) { setMatchLog(prev => [...prev, ...data.new_matches]); }
                     showToast(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`, 'success');
-                    setTimeout(() => window.location.reload(), 2000);
+                    // setTimeout(() => window.location.reload(), 2000); // intentionally removed to persist log
                   } else if (data.type === 'error') {
                     showToast('Failed: ' + data.message, 'error');
                   }
@@ -287,7 +288,7 @@ function RegistryManagement() {
           <div style={{ marginTop: '1rem', background: 'var(--bg-surface)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Processing Results Log</h3>
-              <button onClick={() => setShowMatchLog(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <button onClick={() => { setShowMatchLog(false); window.location.reload(); }} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                 <MdClose /> Close Log
               </button>
             </div>
@@ -515,4 +516,7 @@ function RegistryManagement() {
 }
 
 export default RegistryManagement;
+
+
+
 

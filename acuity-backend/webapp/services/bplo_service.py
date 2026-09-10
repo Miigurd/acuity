@@ -213,7 +213,8 @@ def upload_bplo_csv(records, fieldnames):
         "message": "BPLO data processed successfully",
         "auto_verified": auto_verified,
         "queued": queued,
-        "bplo_count": len(bplo_entries)
+        "bplo_count": len(bplo_entries),
+        "new_matches": [a for a in audit_records[last_yield_index:] if a['status'] in ("Verified", "Pending Verification")]
     }
 
 def get_bplo_queue():
