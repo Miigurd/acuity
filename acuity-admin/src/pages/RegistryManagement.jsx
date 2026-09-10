@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAdminData } from '../context/AdminDataContext';
 import { MdClose } from 'react-icons/md';
+import LevenshteinSimulation from '../components/LevenshteinSimulation';
 import { useToast } from '../context/ToastContext';
 
 const HeaderActions = styled.div`
@@ -68,6 +69,9 @@ function RegistryManagement() {
   const [statusFilter, setStatusFilter] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'status', direction: 'asc' });
   const [isUploading, setIsUploading] = useState(false);
+  const [matchLog, setMatchLog] = useState([]);
+  const [showMatchLog, setShowMatchLog] = useState(false);
+  const [simulationData, setSimulationData] = useState(null);
 
   const filteredRegistry = registry.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -157,6 +161,8 @@ function RegistryManagement() {
 
     setIsUploading(true);
     setUploadProgress(null);
+    setMatchLog([]);
+    setShowMatchLog(true);
 
     try {
       const res = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/upload', {
@@ -184,6 +190,9 @@ function RegistryManagement() {
                   const data = JSON.parse(line.substring(6));
                   if (data.type === 'progress') {
                     setUploadProgress(data);
+                    if (data.new_matches && data.new_matches.length > 0) {
+                      setMatchLog(prev => [...prev, ...data.new_matches]);
+                    }
                   } else if (data.type === 'complete') {
                     showToast(`BPLO synced! ${data.auto_verified} verified automatically, ${data.queued} sent to queue.`, 'success');
                     setTimeout(() => window.location.reload(), 2000);
@@ -265,7 +274,7 @@ function RegistryManagement() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0', marginTop: '0.5rem', borderTop: '1px dashed #30363d', paddingTop: '0.5rem' }}>
                     <span style={{ color: '#d2a8ff' }}>Levenshtein Score:</span>
-                    <span style={{ fontWeight: 'bold', color: uploadProgress.sample.score >= 80 ? '#3fb950' : '#ff7b72' }}>
+                    <span style={{ fontWeight: 'bold', color: uploadProgress.sample.status === 'Verified' ? '#3fb950' : (uploadProgress.sample.status === 'Pending Verification' ? '#d29922' : '#ff7b72') }}>
                       {uploadProgress.sample.score}% <span style={{ fontWeight: 'normal', color: '#8b949e', marginLeft: '0.5rem' }}>({uploadProgress.sample.status})</span>
                     </span>
                   </div>
@@ -274,7 +283,66 @@ function RegistryManagement() {
           </div>
         )}
         
-        {isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
+        {showMatchLog && (
+          <div style={{ marginTop: '1rem', background: 'var(--bg-surface)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Processing Results Log</h3>
+              <button onClick={() => setShowMatchLog(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <MdClose /> Close Log
+              </button>
+            </div>
+            
+            {matchLog.length === 0 ? (
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Waiting for matches...</p>
+            ) : (
+              <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid var(--border)', borderRadius: '4px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                  <thead style={{ position: 'sticky', top: 0, background: 'var(--bg-deep)', zIndex: 1 }}>
+                    <tr>
+                      <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid var(--border)' }}>Extracted Name</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid var(--border)' }}>BPLO Match</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid var(--border)' }}>Status</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border)' }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {matchLog.map((match, idx) => (
+                      <tr key={idx} style={{ borderBottom: '1px solid var(--border)' }}>
+                        <td style={{ padding: '0.5rem' }}>{match.extracted}</td>
+                        <td style={{ padding: '0.5rem' }}>{match.bplo}</td>
+                        <td style={{ padding: '0.5rem' }}>
+                          <span style={{ color: match.status === 'Verified' ? '#3fb950' : '#d29922' }}>
+                            {match.status} ({match.score}%)
+                          </span>
+                        </td>
+                        <td style={{ padding: '0.5rem', textAlign: 'right' }}>
+                          <button 
+                            onClick={() => setSimulationData(match)}
+                            style={{ background: 'transparent', color: 'var(--primary)', border: '1px solid var(--primary)', borderRadius: '4px', padding: '0.25rem 0.5rem', cursor: 'pointer', fontSize: '0.75rem' }}
+                          >
+                            View Algorithm
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {simulationData && (
+          <Overlay onClick={() => setSimulationData(null)}>
+            <ModalContainer onClick={e => e.stopPropagation()} style={{ maxWidth: '800px', width: '90%' }}>
+              <button className="text-muted" style={{position:'absolute', top: '1rem', right: '1rem', fontSize: '1.5rem', background: 'none', border: 'none', cursor: 'pointer'}} onClick={() => setSimulationData(null)}><MdClose /></button>
+              <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary-light)' }}>Algorithm Simulation</h3>
+              <p style={{ marginBottom: '1rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Showing the exact mathematical edits required to match these two strings.</p>
+              <LevenshteinSimulation sourceText={simulationData.extracted} targetText={simulationData.bplo} />
+            </ModalContainer>
+          </Overlay>
+        )}
+{isLoading ? <p className="text-muted">Loading extracted data from backend...</p> : (
       <>
         <div className="stack-mobile" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <input 

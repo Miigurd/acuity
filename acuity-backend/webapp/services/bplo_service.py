@@ -93,18 +93,22 @@ def upload_bplo_csv(records, fieldnames):
     
     total_profiles = len(all_profiles)
     audit_records = []
+    last_yield_index = 0
     import csv
     import os
     
     for i, profile in enumerate(all_profiles):
         if i % max(1, total_profiles // 100) == 0 or i == total_profiles - 1:
             sample = audit_records[-1] if audit_records else None
+            new_matches = [a for a in audit_records[last_yield_index:] if a['status'] in ("Verified", "Pending Verification")]
+            last_yield_index = len(audit_records)
             yield {
                 "type": "progress",
                 "current": i + 1,
                 "total": total_profiles,
                 "percentage": int(((i + 1) / total_profiles) * 100),
-                "sample": sample
+                "sample": sample,
+                "new_matches": new_matches
             }
 
             
