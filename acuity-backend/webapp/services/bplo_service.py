@@ -81,6 +81,11 @@ def upload_bplo_csv(records, fieldnames):
     
     all_profiles = BusinessProfile.query.all()
     
+    # Shuffle the profiles so that matches are distributed evenly throughout the progress bar
+    # (Makes for a much better live demo and audit CSV)
+    import random
+    random.shuffle(all_profiles)
+    
     auto_verified = 0
     queued = 0
     
