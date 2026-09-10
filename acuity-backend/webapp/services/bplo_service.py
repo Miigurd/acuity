@@ -87,14 +87,19 @@ def upload_bplo_csv(records, fieldnames):
     bplo_sorted_map = {bplo_name: _pre_tokenize_sort(bplo_name) for bplo_name in bplo_lower_names}
     
     total_profiles = len(all_profiles)
+    audit_records = []
+    import csv
+    import os
     
     for i, profile in enumerate(all_profiles):
         if i % max(1, total_profiles // 100) == 0 or i == total_profiles - 1:
+            sample = audit_records[-1] if audit_records else None
             yield {
                 "type": "progress",
                 "current": i + 1,
                 "total": total_profiles,
-                "percentage": int(((i + 1) / total_profiles) * 100)
+                "percentage": int(((i + 1) / total_profiles) * 100),
+                "sample": sample
             }
 
             
@@ -104,6 +109,9 @@ def upload_bplo_csv(records, fieldnames):
         match_entries = []
         
         profile_name = (profile.business_name or "").lower()
+        audit_bplo_name = "None"
+        audit_score = 0.0
+
         if not profile_name:
             pass # remains Unverified
         elif profile_name in bplo_name_map:
@@ -112,6 +120,8 @@ def upload_bplo_csv(records, fieldnames):
             auto_verified += 1
             profile.last_verified_year = datetime.utcnow().year
             match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=bplo_name_map[profile_name].id, confidence_score=1.0))
+            audit_bplo_name = bplo_name_map[profile_name].name
+            audit_score = 100.0
         else:
             profile_sorted = _pre_tokenize_sort(profile_name)
             matches_above_threshold = []
@@ -139,20 +149,30 @@ def upload_bplo_csv(records, fieldnames):
             if matches_above_threshold:
                 matches_above_threshold.sort(key=lambda x: x[1], reverse=True)
                 best_score = matches_above_threshold[0][1]
+                best_match = bplo_name_map[matches_above_threshold[0][0]]
+                audit_bplo_name = best_match.name
+                audit_score = round(best_score * 100, 1)
+
                 if best_score >= config.fuzzy_match_threshold_verified:
                     new_status = "Verified"
                     new_is_verified = True
                     auto_verified += 1
                     profile.last_verified_year = datetime.utcnow().year
-                    best_match = bplo_name_map[matches_above_threshold[0][0]]
                     match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=best_match.id, confidence_score=round(best_score, 2)))
                 else:
                     new_status = "Pending Verification"
                     queued += 1
                     for bplo_name, score in matches_above_threshold:
-                        best_match = bplo_name_map[bplo_name]
-                        match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=best_match.id, confidence_score=round(score, 2)))
+                        b_match = bplo_name_map[bplo_name]
+                        match_entries.append(VerificationMatch(business_id=profile.id, bplo_id=b_match.id, confidence_score=round(score, 2)))
                         
+        audit_records.append({
+            "extracted": profile.business_name or "Unknown",
+            "bplo": audit_bplo_name,
+            "score": audit_score,
+            "status": new_status
+        })
+
         if old_status != new_status:
             history = BusinessStatusHistory(
                 business_id=profile.id,

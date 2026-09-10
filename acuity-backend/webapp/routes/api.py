@@ -2,7 +2,7 @@
 ACUITY — API Routes
 Serves data extracted by the pipeline to the frontend from the SQLite database.
 """
-from flask import Blueprint, jsonify, request, stream_with_context, Response  # type: ignore
+from flask import Blueprint, jsonify, request, stream_with_context, Response, send_file  # type: ignore
 import logging
 from webapp.services import (
     get_business_by_id,
@@ -437,3 +437,13 @@ def reject_held_edit_route(id):
         return jsonify({"message": result["message"]}), result.get("code", 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/bplo/audit-report", methods=["GET"])
+@jwt_required()
+def download_bplo_audit_report():
+    import os
+    audit_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "processed", "bplo_audit_trail.csv")
+    if not os.path.exists(audit_file_path):
+        return jsonify({"error": "No audit report found. Please run a BPLO upload first."}), 404
+    return send_file(audit_file_path, as_attachment=True, download_name="Match_Audit_Report.csv", mimetype="text/csv")

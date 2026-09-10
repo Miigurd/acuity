@@ -127,6 +127,27 @@ function RegistryManagement() {
     }
   };
 
+  const handleDownloadAudit = async () => {
+    try {
+      const res = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/audit-report');
+      if (!res.ok) {
+          showToast('No audit report available. Please run an upload first.', 'error');
+          return;
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = 'Match_Audit_Report.csv';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      showToast('Failed to download report', 'error');
+    }
+  };
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
