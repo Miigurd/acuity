@@ -1,7 +1,12 @@
+import sys
+import os
+# Add the project root to sys.path so we can import modules like webapp
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import os
 import json
 from webapp.app import create_app
-from webapp.models import db, BusinessProfile, FlagLog, BusinessCategory, BusinessService, BusinessPhone, BusinessHour, BusinessLocation, BusinessPrice, BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, BusinessStatusHistory
+from webapp.models import db, BusinessProfile, FlagLog, BusinessCategory, BusinessService, BusinessPhone, BusinessHour, BusinessLocation, BusinessPrice, BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, BusinessStatusHistory, HeldEdit
 from datetime import datetime
 
 def migrate():
@@ -17,6 +22,7 @@ def migrate():
         BusinessCategory.query.delete()
         FlagLog.query.delete()
         BusinessStatusHistory.query.delete()
+        HeldEdit.query.delete()
         EditHistoryLog.query.delete()
         VerificationMatch.query.delete()
         BusinessProfile.query.delete()
@@ -53,12 +59,12 @@ def migrate():
                 db.session.add(profile)
                 db.session.flush() # Get the auto-incremented ID
                 
-                for c in b.get("categories", []): db.session.add(BusinessCategory(business_id=profile.id, category=c))
-                for s in b.get("services", []): db.session.add(BusinessService(business_id=profile.id, service=s))
-                for p in b.get("phones", []): db.session.add(BusinessPhone(business_id=profile.id, phone=p))
-                for h in b.get("hours", []): db.session.add(BusinessHour(business_id=profile.id, hour_schedule=h))
-                for l in b.get("locations", []): db.session.add(BusinessLocation(business_id=profile.id, location=l))
-                for pr in b.get("prices", []): db.session.add(BusinessPrice(business_id=profile.id, price_info=pr))
+                for c in b.get("categories", []): db.session.add(BusinessCategory(business_id=profile.id, category=c[:255] if isinstance(c, str) else c))
+                for s in b.get("services", []): db.session.add(BusinessService(business_id=profile.id, service=s[:255] if isinstance(s, str) else s))
+                for p in b.get("phones", []): db.session.add(BusinessPhone(business_id=profile.id, phone=p[:255] if isinstance(p, str) else p))
+                for h in b.get("hours", []): db.session.add(BusinessHour(business_id=profile.id, hour_schedule=h[:255] if isinstance(h, str) else h))
+                for l in b.get("locations", []): db.session.add(BusinessLocation(business_id=profile.id, location=l[:255] if isinstance(l, str) else l))
+                for pr in b.get("prices", []): db.session.add(BusinessPrice(business_id=profile.id, price_info=pr[:255] if isinstance(pr, str) else pr))
                 
                 stats_obj = b.get("stats", {})
                 db.session.add(BusinessStat(

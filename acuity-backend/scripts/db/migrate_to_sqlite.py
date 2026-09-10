@@ -1,0 +1,107 @@
+import sys
+import os
+# Add the project root to sys.path so we can import modules like webapp
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+import os
+import json
+from webapp.app import create_app
+from webapp.models import db, BusinessProfile, FlagLog, BusinessCategory, BusinessService, BusinessPhone, BusinessHour, BusinessLocation, BusinessPrice, BusinessStat, EditHistoryLog, BPLORegistry, VerificationMatch, BusinessStatusHistory, HeldEdit
+from datetime import datetime
+
+def migrate():
+    app = create_app()
+    with app.app_context():
+        # Clear existing data for businesses only (preserve BPLORegistry)
+        BusinessStat.query.delete()
+        BusinessPrice.query.delete()
+        BusinessLocation.query.delete()
+        BusinessHour.query.delete()
+        BusinessPhone.query.delete()
+        BusinessService.query.delete()
+        BusinessCategory.query.delete()
+        FlagLog.query.delete()
+        BusinessStatusHistory.query.delete()
+        EditHistoryLog.query.delete()
+        VerificationMatch.query.delete()
+        HeldEdit.query.delete()
+        BusinessProfile.query.delete()
+        db.session.commit()
+        
+        frontend_path = os.path.join(os.path.dirname(__file__), "data", "processed", "frontend_businesses_fixed.json")
+        logs_path = os.path.join(os.path.dirname(__file__), "data", "processed", "interaction_logs.json")
+        
+        if os.path.exists(frontend_path):
+            print("Migrating businesses...")
+            with open(frontend_path, "r", encoding="utf-8") as f:
+                businesses = json.load(f)
+                
+            for b in businesses:
+                name = b.get("name") or b.get("business_name")
+                if not name: continue
+                
+                # Deduplicate by name on insertion
+                if BusinessProfile.query.filter_by(business_name=name).first():
+                    continue
+                    
+                profile = BusinessProfile(
+                    business_name=name,
+                    description=b.get("description"),
+                    address=b.get("address"),
+                    contact_info=b.get("contact_info"),
+                    is_active=b.get("isActive", True),
+                    is_verified=b.get("is_verified") or b.get("isVerified") or False,
+                    status=b.get("status", "Pending"),
+                    category_id=b.get("categoryId"),
+                    landmark_id=b.get("landmarkId")
+                )
+                
+                db.session.add(profile)
+                db.session.flush() # Get the auto-incremented ID
+                
+                for c in b.get("categories", []): db.session.add(BusinessCategory(business_id=profile.id, category=c[:255]))
+                for s in b.get("services", []): db.session.add(BusinessService(business_id=profile.id, service=s[:255]))
+                for p in b.get("phones", []): db.session.add(BusinessPhone(business_id=profile.id, phone=p[:255]))
+                for h in b.get("hours", []): db.session.add(BusinessHour(business_id=profile.id, hour_schedule=h[:255]))
+                for l in b.get("locations", []): db.session.add(BusinessLocation(business_id=profile.id, location=l))
+                for pr in b.get("prices", []): db.session.add(BusinessPrice(business_id=profile.id, price_info=pr))
+                
+                stats_obj = b.get("stats", {})
+                db.session.add(BusinessStat(
+                    business_id=profile.id,
+                    impressions=stats_obj.get("impressions", 0),
+                    clicks=stats_obj.get("clicks", 0),
+                    inquiries=stats_obj.get("inquiries", 0),
+                    created_at=stats_obj.get("created", datetime.utcnow().isoformat()[:10])
+                ))
+                
+                # Migrate Flags
+                reasons = b.get("flagReasons", [])
+                count = b.get("flagCount", 0)
+                
+                if count > 0 and not reasons:
+                    reasons = ["Community Flag"] * count
+                elif count > len(reasons):
+                    reasons.extend(["Community Flag"] * (count - len(reasons)))
+                    
+                for r in reasons:
+                    flag = FlagLog(business_id=profile.id, reason=r)
+                    db.session.add(flag)
+                    
+                matched_name = b.get("matched_registry_name")
+                if matched_name:
+                    bplo_record = BPLORegistry.query.filter_by(name=matched_name).first()
+                    if bplo_record:
+                        vmatch = VerificationMatch(
+                            business_id=profile.id,
+                            bplo_id=bplo_record.id,
+                            confidence_score=b.get("verification_score", 0.0)
+                        )
+                        db.session.add(vmatch)
+        
+
+        db.session.commit()
+        print("Migration complete!")
+
+if __name__ == "__main__":
+    migrate()

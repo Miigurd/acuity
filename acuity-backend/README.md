@@ -39,10 +39,10 @@ python -m scraper.scraper <facebook-group-url>
 
 # 5. Train the Machine Learning Model (Required for evaluators)
 # You MUST run this to generate the CRF model before the extraction pipeline can run
-python train_crf.py
+python scripts/ml/train_crf.py
 
 # 5a. (Optional) Auto-label new scraped posts for CRF training via distant supervision
-python auto_label_posts.py   # reads ../posts.csv, writes data/annotated/posts_csv_auto.json
+python scripts/ml/auto_label_posts.py   # reads ../posts.csv, writes data/annotated/posts_csv_auto.json
 
 # 6. Run extraction pipeline
 python -m extraction.pipeline

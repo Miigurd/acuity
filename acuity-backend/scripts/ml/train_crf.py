@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the project root to sys.path so we can import modules like webapp
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import json
 import nltk
 import sklearn_crfsuite  # type: ignore
@@ -10,7 +15,12 @@ nltk.download('averaged_perceptron_tagger_eng')
 DATA_FILES = [
     "data/annotated/labeled_posts.json",
     "data/annotated/labeled_posts_2.json",
-    "data/annotated/posts_csv_auto.json"
+    "data/annotated/posts_csv_auto.json",
+    "data/annotated/labeled_posts_3.json",
+    "data/annotated/synthetic_labeled_posts_seeded.json"
+    # "data/annotated/synthetic_cabuyao_posts.json",
+    # "data/annotated/synthetic_labeled_posts.json",
+    # "data/annotated/synthetic_labeled_posts_2.json"
 ]
 
 LABEL_MAP = {
@@ -56,9 +66,24 @@ def process_label_studio_export(filepath):
     processed_data = {"tokens": [], "ner_tags": []}
     
     for item in ls_data:
-        text = item.get("text", "")
-        labels = item.get("label", [])
+        text = item.get("text")
+        if text is None and "data" in item:
+            text = item["data"].get("text", "")
+            
+        labels = item.get("label")
+        if labels is None and "annotations" in item and len(item["annotations"]) > 0:
+            labels = []
+            for result in item["annotations"][0].get("result", []):
+                if "value" in result:
+                    labels.append(result["value"])
+        if labels is None:
+            labels = []
+            
+        text = text or ""
         tokens = text.split()
+        if not tokens:
+            continue
+            
         ner_tags = ["O"] * len(tokens)
         
         word_starts, word_ends = [], []
@@ -160,6 +185,12 @@ def main():
     X = [sent2features(tokens) for tokens in dataset["tokens"]]
     y = [sent2labels(labels) for labels in dataset["ner_tags"]]
     
+    import random
+    combined = list(zip(X, y))
+    random.seed(42) # For reproducible splits
+    random.shuffle(combined)
+    X[:], y[:] = zip(*combined)
+    
     split_idx = int(len(X) * 0.8)
     X_train, X_test = X[:split_idx], X[split_idx:]
     y_train, y_test = y[:split_idx], y[split_idx:]
@@ -184,6 +215,17 @@ def main():
     labels.remove('O')
     
     print(metrics.flat_classification_report(y_test, y_pred, labels=labels, digits=3))
+    
+    # Export predictions for offline visualization
+    import csv
+    with open('ner_results.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['True_Label', 'Predicted_Label'])
+        for true_seq, pred_seq in zip(y_test, y_pred):
+            for t_label, p_label in zip(true_seq, pred_seq):
+                if t_label != 'O' or p_label != 'O': # Optionally filter out O-O pairs to reduce noise
+                    writer.writerow([t_label, p_label])
+    print("Exported predictions to ner_results.csv")
     
     # Save where the webapp expects it (monorepo root) AND locally for convenience.
     import os

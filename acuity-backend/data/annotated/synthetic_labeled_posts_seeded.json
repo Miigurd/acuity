@@ -1,0 +1,734 @@
+[
+  {
+    "index": 1,
+    "poster": "Unknown",
+    "text": "We’re open. Join us for our Soft Opening and experience handcrafted drinks made with care—from premium Japanese matcha to your everyday coffee favorites. Every cup is thoughtfully prepared, just for you. We can’t wait to welcome you. Open: 3:00 PM to 11:00 PM",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7000,
+    "label": [
+      {
+        "start": 112,
+        "end": 118,
+        "text": "matcha",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 136,
+        "end": 142,
+        "text": "coffee",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7000,
+    "lead_time": 0
+  },
+  {
+    "index": 2,
+    "poster": "Blendines Party Needs",
+    "text": "Magandang araw, Cabuyeños! Looking for useful, unique souvenirs and giveaways for your special events? Make it more enjoyable for guests to attend your party, by giving them giveaways. There's more! You can have them print the items with whatever design you choose. Perfect for all occasions Come and visit Blendines Party Needs at Cabuyao Retail Plaza Second Floor Stall no. 2H-06 Monday to Saturday (8am - 7pm)",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7001,
+    "label": [
+      {
+        "start": 54,
+        "end": 77,
+        "text": "souvenirs and giveaways",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 307,
+        "end": 328,
+        "text": "Blendines Party Needs",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 332,
+        "end": 381,
+        "text": "Cabuyao Retail Plaza Second Floor Stall no. 2H-06",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7001,
+    "lead_time": 0
+  },
+  {
+    "index": 3,
+    "poster": "BHHR Rentals",
+    "text": "BHHR Rentals Streetdance Costumes & Festival Props Rental For Competitions | School Events | Barangay Festivals Costumes | Backdrops | Panels | Props Mabuhay Phase 6, Brgy.Mamatid, Cabuyao, Laguna ⚡Same Day / Rush Available Message us! (Fast Reply!)",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7002,
+    "label": [
+      {
+        "start": 0,
+        "end": 12,
+        "text": "BHHR Rentals",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 25,
+        "end": 33,
+        "text": "Costumes",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 57,
+        "text": "Props Rental",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 112,
+        "end": 120,
+        "text": "Costumes",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 123,
+        "end": 132,
+        "text": "Backdrops",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 135,
+        "end": 141,
+        "text": "Panels",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 144,
+        "end": 149,
+        "text": "Props",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 150,
+        "end": 196,
+        "text": "Mabuhay Phase 6, Brgy.Mamatid, Cabuyao, Laguna",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7002,
+    "lead_time": 0
+  },
+  {
+    "index": 4,
+    "poster": "Cy Cy Mini Grocery 2.0",
+    "text": "Cy Cy Mini Grocery 2.0 We offer WHOLESALE & RETAIL sa murang halaga! Perfect pang: Personal grocery sa bahay Pang sari-sari store Pang resell or negosyo starter Naka direct tayo sa mga suppliers Like URC, Rebisco, Purefoods and more. Affordable prices Sulit bundles Friendly service Everyday grocery needs available Blk 25 Lot 2 Phase 1 Citadel Thank you sa suporta mga suki!",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7003,
+    "label": [
+      {
+        "start": 0,
+        "end": 22,
+        "text": "Cy Cy Mini Grocery 2.0",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 50,
+        "text": "WHOLESALE & RETAIL",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 92,
+        "end": 99,
+        "text": "grocery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 114,
+        "end": 129,
+        "text": "sari-sari store",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 316,
+        "end": 344,
+        "text": "Blk 25 Lot 2 Phase 1 Citadel",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7003,
+    "lead_time": 0
+  },
+  {
+    "index": 5,
+    "poster": "Evaporate Vape Lounge",
+    "text": "Evaporate Vape Lounge Re-stocks tayo mga bossing ko. AERO Dispo We Create (2+1) Promo Relx Pods & Device X Ultra X Slimbar Chillax Infinite Nexlim Vagend BIR Registerd Tax Stamp DTI Registered 100% Legit National Hi-way, Brgy. Banay-Banay, Cabuyao Laguna.",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7004,
+    "label": [
+      {
+        "start": 0,
+        "end": 21,
+        "text": "Evaporate Vape Lounge",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 204,
+        "end": 254,
+        "text": "National Hi-way, Brgy. Banay-Banay, Cabuyao Laguna",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7004,
+    "lead_time": 0
+  },
+  {
+    "index": 6,
+    "poster": "Goin Car Rental",
+    "text": "Rainy season na naman! Sino dito yung may lakad pero pagtingin sa labas... “Lord, tuloy pa ba?” Don’t let the rain ruin your plans. Whether it’s a family trip, quick errands, work, or a much-needed getaway, Goin Car Rental is ready to take you where you need to go. Kahit umuulan, tuloy ang byahe. Where are you heading this rainy season? Message us to book your ride.",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7005,
+    "label": [
+      {
+        "start": 207,
+        "end": 222,
+        "text": "Goin Car Rental",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7005,
+    "lead_time": 0
+  },
+  {
+    "index": 7,
+    "poster": "JMIE BEAUTY SALON",
+    "text": "Enjoy your salon experience with us ( Free COFFEE AND WIFI ) For inquiry Call/Txt 09491655581 Open mon-sun 8am to 8pm.. Visit us #93 SAN ISIDRO CABUYAO, LAGUNA Look for JHAM/JOSIE FOOT/HAND AND NAIL Massage BODY MASSAGE Body Massage Foot Reflex Ear Candling Eyelash Extension Eyelash Perming Check our latest PROMO OUR FB PAGE JMIE BEAUTY SALON See you guys",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7006,
+    "label": [
+      {
+        "start": 129,
+        "end": 159,
+        "text": "#93 SAN ISIDRO CABUYAO, LAGUNA",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 180,
+        "end": 206,
+        "text": "FOOT/HAND AND NAIL Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 207,
+        "end": 219,
+        "text": "BODY MASSAGE",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 220,
+        "end": 232,
+        "text": "Body Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 233,
+        "end": 244,
+        "text": "Foot Reflex",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 245,
+        "end": 257,
+        "text": "Ear Candling",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 258,
+        "end": 275,
+        "text": "Eyelash Extension",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 276,
+        "end": 291,
+        "text": "Eyelash Perming",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 327,
+        "end": 344,
+        "text": "JMIE BEAUTY SALON",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7006,
+    "lead_time": 0
+  },
+  {
+    "index": 8,
+    "poster": "Jr Lucañas Tattoo Studio",
+    "text": "Jr Lucañas Tattoo Studio SALA CABUYAO LAGUNA Lets get ink Get an appointment now * Professional and hygienic * Skilled tattoo artists * Personalized design consultation * Safe, clean, and comfortable environment Ink Your Story Today! Book your appointment and let your creativity come to life.",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7007,
+    "label": [
+      {
+        "start": 0,
+        "end": 24,
+        "text": "Jr Lucañas Tattoo Studio",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 25,
+        "end": 44,
+        "text": "SALA CABUYAO LAGUNA",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7007,
+    "lead_time": 0
+  },
+  {
+    "index": 9,
+    "poster": "Lavable Laundry Service",
+    "text": "Lavable Laundry Service Full service Wash, Dry & Fold Free delivery on selected areas We're open today for your laundry needs! Need a pick-up? Just send us a message and we'll take care of the rest. Looking forward to serving you!",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7008,
+    "label": [
+      {
+        "start": 0,
+        "end": 23,
+        "text": "Lavable Laundry Service",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 53,
+        "text": "Wash, Dry & Fold",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7008,
+    "lead_time": 0
+  },
+  {
+    "index": 10,
+    "poster": "LABAHOLIC Laundry Shop",
+    "text": "LABAHOLIC Laundry Shop Your friendly kapitbahay sa laundry! Mabilis, malinis, mabango—kami na bahala sa labada mo. Drop, relax, pick up, repeat! Be a Ka-Labaholic today! :0947-1314265 : 417 Mamatid Cabuyao, Laguna",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7009,
+    "label": [
+      {
+        "start": 0,
+        "end": 22,
+        "text": "LABAHOLIC Laundry Shop",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 51,
+        "end": 58,
+        "text": "laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 186,
+        "end": 213,
+        "text": "417 Mamatid Cabuyao, Laguna",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7009,
+    "lead_time": 0
+  },
+  {
+    "index": 11,
+    "poster": "MuscleControl Gym",
+    "text": "MuscleControl Gym P800.00/Month Only!! START YOUR FITNESS JOURNEY, WITH AFFORDABLE RATES POWERED BY: Brand New Xtreme Gym Equipments We are located at: No.22 GBDRI Bldg., Bgry. Pulo Cabuyao, Laguna (Divimall Pulo Parking Lot) NO HIDDEN CHARGES! NO CREDIT CARD NEEDED! NO MEMBERSHIP! NO FALSE ADS! NO 1 YEAR LOCK IN!! Monthly Payment Only! FULL GYM ACCESS INCLUDING TREADMILL FREE PARKING FREE DRINKING WATER(Just Bring your own tumbler) WI-FI ACCESS RATES: P800 Regular Monthly Rate!! Senior Citizen P700.00 Students P700.00 P100 Day pass/Per session Senior Citizen P80.00 Students P80.00 Let's make Fitness Fun Thank you and always stay healthy and strong",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7010,
+    "label": [
+      {
+        "start": 0,
+        "end": 17,
+        "text": "MuscleControl Gym",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 50,
+        "end": 57,
+        "text": "FITNESS",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 152,
+        "end": 225,
+        "text": "No.22 GBDRI Bldg., Bgry. Pulo Cabuyao, Laguna (Divimall Pulo Parking Lot)",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7010,
+    "lead_time": 0
+  },
+  {
+    "index": 12,
+    "poster": "Marz Printing Services",
+    "text": "Marz Printing Services specialize in digital printing services, offering high-quality prints with precision, speed and at AFFORDABLE PRICES. CUSTOMIZED: Vinyl Sticker Label T-shirt Printing (Silk screen, Heat Press, Full sublimation) DTF Mugs Lanyards Sintra Board Invitation/Giveaways Other Services: Document Copy Scan Photo Print Laminate Stickers PVC ID's Layout Design We give discount for BULK ORDERS. !! For inquiries kindly message: +639082535231 marzprintingservices@gmail.com Block 3 lot 14 mainroad Southville Marinig",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7011,
+    "label": [
+      {
+        "start": 0,
+        "end": 22,
+        "text": "Marz Printing Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 62,
+        "text": "digital printing services",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 153,
+        "end": 172,
+        "text": "Vinyl Sticker Label",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 173,
+        "end": 189,
+        "text": "T-shirt Printing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 234,
+        "end": 237,
+        "text": "DTF",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 238,
+        "end": 242,
+        "text": "Mugs",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 243,
+        "end": 251,
+        "text": "Lanyards",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 252,
+        "end": 264,
+        "text": "Sintra Board",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 302,
+        "end": 315,
+        "text": "Document Copy",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 316,
+        "end": 320,
+        "text": "Scan",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 321,
+        "end": 332,
+        "text": "Photo Print",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 333,
+        "end": 341,
+        "text": "Laminate",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 342,
+        "end": 350,
+        "text": "Stickers",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 351,
+        "end": 359,
+        "text": "PVC ID's",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 360,
+        "end": 373,
+        "text": "Layout Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 486,
+        "end": 528,
+        "text": "Block 3 lot 14 mainroad Southville Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7011,
+    "lead_time": 0
+  },
+  {
+    "index": 13,
+    "poster": "MJ Capital Flowers & Gift Shop",
+    "text": "Not just roses A mix of love, care, and thoughtfulness Make them feel special with a bouquet as colorful as your love Order now 09535366884 MJ Capital Flowers & Gift Shop Banlic Mamatid Banlic Cabuyao Laguna",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7012,
+    "label": [
+      {
+        "start": 140,
+        "end": 170,
+        "text": "MJ Capital Flowers & Gift Shop",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 171,
+        "end": 207,
+        "text": "Banlic Mamatid Banlic Cabuyao Laguna",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7012,
+    "lead_time": 0
+  },
+  {
+    "index": 14,
+    "poster": "Nayon Cafe",
+    "text": "A gentle reminder: Sundays are meant to be enjoyed slowly. Take a break, grab your favorite drink, and spend the afternoon with Nayon Cafe. Open from 2:00 PM to 10:00 PM! See you mga ka-Nayon!",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7013,
+    "label": [
+      {
+        "start": 128,
+        "end": 138,
+        "text": "Nayon Cafe",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7013,
+    "lead_time": 0
+  },
+  {
+    "index": 15,
+    "poster": "Naomi Chan Transport Services",
+    "text": "Naomi Chan Transport Services Trusted • Reliable • Affordable Car Rentals Pulo, Cabuyao Laguna Self-Drive & With Driver Available Clean & Well-Maintained Units Sedan • SUV • Family Cars “Safe. Comfortable. Reliable.” 0992 526 0216",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7014,
+    "label": [
+      {
+        "start": 0,
+        "end": 29,
+        "text": "Naomi Chan Transport Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 62,
+        "end": 73,
+        "text": "Car Rentals",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 74,
+        "end": 94,
+        "text": "Pulo, Cabuyao Laguna",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7014,
+    "lead_time": 0
+  },
+  {
+    "index": 16,
+    "poster": "PetMaster Pet Supplies and Accessories Shop",
+    "text": "PetMaster Pet Supplies and Accessories Shop Open 7:00 am - 10:00 pm Monday - Sunday Located @ Brgy. San Isidro, Cabuyao City, Laguna, In front of San Isidro Heights Subdivision, Beside Uncle John's Convenience Store",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7015,
+    "label": [
+      {
+        "start": 0,
+        "end": 43,
+        "text": "PetMaster Pet Supplies and Accessories Shop",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 94,
+        "end": 215,
+        "text": "Brgy. San Isidro, Cabuyao City, Laguna, In front of San Isidro Heights Subdivision, Beside Uncle John's Convenience Store",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7015,
+    "lead_time": 0
+  },
+  {
+    "index": 17,
+    "poster": "ROKI'S PICKLE PIT",
+    "text": "UNDER THE LIGHTS at ROKI'S PICKLE PIT Open play nights are our favorite — all levels welcome, all smiles after. From seasoned paddles to first-timers and to our future little dinkker. Thanks to everyone who showed up last night. More nights like this soon. Roki's - Brgy. Poblacion Tres, Cabuyao",
+    "source_url": "https://www.facebook.com/groups/971581879943807/?sorting_setting=CHRONOLOGICAL",
+    "id": 7016,
+    "label": [
+      {
+        "start": 20,
+        "end": 37,
+        "text": "ROKI'S PICKLE PIT",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      },
+      {
+        "start": 266,
+        "end": 295,
+        "text": "Brgy. Poblacion Tres, Cabuyao",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ],
+    "annotator": "assistant-labeled-from-seed",
+    "annotation_id": 7016,
+    "lead_time": 0
+  }
+]

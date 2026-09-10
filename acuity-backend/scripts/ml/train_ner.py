@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the project root to sys.path so we can import modules like webapp
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 """
 ACUITY — Fine-Tuning Script for Google Colab
 Upload this script along with the `hf_dataset` folder (zipped) to Google Colab.

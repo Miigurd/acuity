@@ -1,0 +1,3696 @@
+[
+  {
+    "text": "Looking for Aircon Repair here in Marinig. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 41,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Pest Control at Sala. Visit J&T today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 21,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 25,
+        "end": 29,
+        "text": "Sala",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 40,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Mamatid Auto Care in Baclaran if you need Nail Spa.",
+    "label": [
+      {
+        "start": 59,
+        "end": 67,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 38,
+        "end": 46,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 34,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Cabuyao Fixers in Poblacion II if you need Car Wash.",
+    "label": [
+      {
+        "start": 60,
+        "end": 68,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 47,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 31,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Laptop Repair ASAP. I am located at Banay-Banay.",
+    "label": [
+      {
+        "start": 5,
+        "end": 18,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 52,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Photography around Mamatid?",
+    "label": [
+      {
+        "start": 21,
+        "end": 32,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 40,
+        "end": 47,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable LBC for Massage near Diezmo?",
+    "label": [
+      {
+        "start": 38,
+        "end": 45,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 51,
+        "end": 57,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 33,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Haircut ASAP. I am located at Butong.",
+    "label": [
+      {
+        "start": 5,
+        "end": 12,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 41,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Banlic Eats in Pittland if you need Tutoring.",
+    "label": [
+      {
+        "start": 53,
+        "end": 61,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 40,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 28,
+        "text": "Banlic Eats",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Sparkle Laundry for the best Water Delivery in Banlic!",
+    "label": [
+      {
+        "start": 33,
+        "end": 47,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 51,
+        "end": 57,
+        "text": "Banlic",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 19,
+        "text": "Sparkle Laundry",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Aircon Repair in Mamatid?",
+    "label": [
+      {
+        "start": 28,
+        "end": 41,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 52,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Plumbing around San Isidro?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 47,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Car Wash around Pulo?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 41,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Laundry ASAP. I am located at Tres Cruses.",
+    "label": [
+      {
+        "start": 5,
+        "end": 12,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 46,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Massage in Mamatid?",
+    "label": [
+      {
+        "start": 28,
+        "end": 35,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 46,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Motorcycle Repair in Banay-Banay?",
+    "label": [
+      {
+        "start": 28,
+        "end": 45,
+        "text": "Motorcycle Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 49,
+        "end": 60,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Pest Control around Pittland?",
+    "label": [
+      {
+        "start": 21,
+        "end": 33,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 49,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable CoolBreeze Aircon for House Cleaning near Butong?",
+    "label": [
+      {
+        "start": 52,
+        "end": 66,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 72,
+        "end": 78,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 47,
+        "text": "CoolBreeze Aircon",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Photography around Gulod?",
+    "label": [
+      {
+        "start": 21,
+        "end": 32,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 40,
+        "end": 45,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Tita Jane's is now open in Banay-Banay offering Massage.",
+    "label": [
+      {
+        "start": 48,
+        "end": 55,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 38,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 11,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Car Wash here in Gulod. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 34,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good House Cleaning near Mamatid?",
+    "label": [
+      {
+        "start": 16,
+        "end": 30,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 43,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Tita Jane's in Casile if you need Massage.",
+    "label": [
+      {
+        "start": 51,
+        "end": 58,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 38,
+        "text": "Casile",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 28,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap House Cleaning around Tres Cruses?",
+    "label": [
+      {
+        "start": 21,
+        "end": 35,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 43,
+        "end": 54,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer House Cleaning at Casile. Visit LBC today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 23,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 33,
+        "text": "Casile",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 44,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Tita Jane's for the best Car Wash in Banlic!",
+    "label": [
+      {
+        "start": 29,
+        "end": 37,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 47,
+        "text": "Banlic",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try J&T for the best Graphic Design in Butong!",
+    "label": [
+      {
+        "start": 21,
+        "end": 35,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 45,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 7,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Cabuyao Fixers for Graphic Design near Banlic?",
+    "label": [
+      {
+        "start": 49,
+        "end": 63,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 69,
+        "end": 75,
+        "text": "Banlic",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 44,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Haircut around Casile?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 42,
+        "text": "Casile",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Haircut around Poblacion II?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 48,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Nail Spa at Poblacion I. Visit J&T today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 32,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 40,
+        "end": 43,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Tita Jane's for the best Pest Control in Poblacion I!",
+    "label": [
+      {
+        "start": 29,
+        "end": 41,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 56,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Speedy Clean is now open in San Isidro offering Car Wash.",
+    "label": [
+      {
+        "start": 48,
+        "end": 56,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 38,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 12,
+        "text": "Speedy Clean",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Nail Spa at Baclaran. Visit Kuya Juan Services today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 55,
+        "text": "Kuya Juan Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Banlic Eats for the best Photography in San Isidro!",
+    "label": [
+      {
+        "start": 29,
+        "end": 40,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 44,
+        "end": 54,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Banlic Eats",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for House Cleaning here in Mamatid. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 26,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 42,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Tutoring here in Pittland. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 37,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Motorcycle Repair here in Casile. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 29,
+        "text": "Motorcycle Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 38,
+        "end": 44,
+        "text": "Casile",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Haircut around Butong?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 42,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Laundry around Pittland?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 44,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Mamatid Auto Care is now open in Pulo offering Catering.",
+    "label": [
+      {
+        "start": 47,
+        "end": 55,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 37,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 17,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Haircut at Gulod. Visit J&T today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 25,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 36,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Graphic Design near Mamatid?",
+    "label": [
+      {
+        "start": 16,
+        "end": 30,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 43,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend J&T in Marinig if you need Aircon Repair.",
+    "label": [
+      {
+        "start": 44,
+        "end": 57,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 24,
+        "end": 31,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 20,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Banlic Eats for the best Catering in Niugan!",
+    "label": [
+      {
+        "start": 29,
+        "end": 37,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 47,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Banlic Eats",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Ate Joy Catering for the best Graphic Design in Tres Cruses!",
+    "label": [
+      {
+        "start": 34,
+        "end": 48,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 52,
+        "end": 63,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 20,
+        "text": "Ate Joy Catering",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Laundry near Gulod?",
+    "label": [
+      {
+        "start": 16,
+        "end": 23,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 34,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need House Cleaning ASAP. I am located at Poblacion II.",
+    "label": [
+      {
+        "start": 5,
+        "end": 19,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 54,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Mamatid Auto Care in Baclaran if you need Massage.",
+    "label": [
+      {
+        "start": 59,
+        "end": 66,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 38,
+        "end": 46,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 34,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Tutoring around Banay-Banay?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 48,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Aircon Repair near Tres Cruses?",
+    "label": [
+      {
+        "start": 16,
+        "end": 29,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 46,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Plumbing at Marinig. Visit Mamatid Auto Care today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 53,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Graphic Design here in Baclaran. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 26,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 43,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Pest Control near Tres Cruses?",
+    "label": [
+      {
+        "start": 16,
+        "end": 28,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 45,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Laptop Repair here in Sala. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 38,
+        "text": "Sala",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Plumbing here in Bigaa. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 34,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Haircut at Tres Cruses. Visit Ate Joy Catering today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 31,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 55,
+        "text": "Ate Joy Catering",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Motorcycle Repair in Diezmo?",
+    "label": [
+      {
+        "start": 28,
+        "end": 45,
+        "text": "Motorcycle Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 49,
+        "end": 55,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer House Cleaning at Tres Cruses. Visit Ate Joy Catering today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 23,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 38,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 46,
+        "end": 62,
+        "text": "Ate Joy Catering",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Photography here in Mamatid. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 23,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 39,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Laundry in Baclaran?",
+    "label": [
+      {
+        "start": 28,
+        "end": 35,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 47,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Haircut here in Mamatid. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 19,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 35,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Haircut here in Mamatid. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 19,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 35,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Aircon Repair here in Pittland. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 42,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Water Delivery at San Isidro. Visit Speedy Clean today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 23,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 37,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 57,
+        "text": "Speedy Clean",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Photography at Marinig. Visit Kuya Juan Services today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 20,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 24,
+        "end": 31,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 57,
+        "text": "Kuya Juan Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Plumbing at Poblacion I. Visit Speedy Clean today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 32,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 40,
+        "end": 52,
+        "text": "Speedy Clean",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable CoolBreeze Aircon for Aircon Repair near Mamatid?",
+    "label": [
+      {
+        "start": 52,
+        "end": 65,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 71,
+        "end": 78,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 47,
+        "text": "CoolBreeze Aircon",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Catering around Poblacion II?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 49,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Graphic Design ASAP. I am located at Banay-Banay.",
+    "label": [
+      {
+        "start": 5,
+        "end": 19,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 53,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Photography ASAP. I am located at Diezmo.",
+    "label": [
+      {
+        "start": 5,
+        "end": 16,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 45,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Speedy Clean for Tutoring near Niugan?",
+    "label": [
+      {
+        "start": 47,
+        "end": 55,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 61,
+        "end": 67,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 42,
+        "text": "Speedy Clean",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Tita Jane's in San Isidro if you need Car Wash.",
+    "label": [
+      {
+        "start": 55,
+        "end": 63,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 42,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 28,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Mamatid Auto Care for Tutoring near Tres Cruses?",
+    "label": [
+      {
+        "start": 52,
+        "end": 60,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 66,
+        "end": 77,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 47,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need Motorcycle Repair ASAP. I am located at Gulod.",
+    "label": [
+      {
+        "start": 5,
+        "end": 22,
+        "text": "Motorcycle Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 50,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Haircut around Diezmo?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 42,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Aircon Repair here in San Isidro. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 44,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Water Delivery here in Niugan. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 26,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 41,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try LBC for the best Pest Control in Diezmo!",
+    "label": [
+      {
+        "start": 21,
+        "end": 33,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 43,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 7,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Tutoring here in Poblacion I. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 40,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Pest Control here in Banay-Banay. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 24,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 44,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Tech Hub for the best Massage in Mamatid!",
+    "label": [
+      {
+        "start": 26,
+        "end": 33,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 44,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 12,
+        "text": "Tech Hub",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Nail Spa near Sala?",
+    "label": [
+      {
+        "start": 16,
+        "end": 24,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 34,
+        "text": "Sala",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Laundry at Pulo. Visit Cabuyao Fixers today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 46,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Catering in Mamatid?",
+    "label": [
+      {
+        "start": 28,
+        "end": 36,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 40,
+        "end": 47,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Photography at Marinig. Visit Tech Hub today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 20,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 24,
+        "end": 31,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 39,
+        "end": 47,
+        "text": "Tech Hub",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Plumbing around Pittland?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 45,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Tita Jane's in Tres Cruses if you need Car Wash.",
+    "label": [
+      {
+        "start": 56,
+        "end": 64,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 43,
+        "text": "Tres Cruses",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 28,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Ate Joy Catering for Car Wash near Banlic?",
+    "label": [
+      {
+        "start": 51,
+        "end": 59,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 65,
+        "end": 71,
+        "text": "Banlic",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 46,
+        "text": "Ate Joy Catering",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "CoolBreeze Aircon is now open in Bigaa offering Graphic Design.",
+    "label": [
+      {
+        "start": 48,
+        "end": 62,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 38,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 17,
+        "text": "CoolBreeze Aircon",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "LBC is now open in Pittland offering Photography.",
+    "label": [
+      {
+        "start": 37,
+        "end": 48,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 19,
+        "end": 27,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 3,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Tita Jane's is now open in Sala offering Graphic Design.",
+    "label": [
+      {
+        "start": 41,
+        "end": 55,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 31,
+        "text": "Sala",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 11,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Pest Control in Baclaran?",
+    "label": [
+      {
+        "start": 28,
+        "end": 40,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 44,
+        "end": 52,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Water Delivery here in Sala. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 26,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 39,
+        "text": "Sala",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Car Wash around Mamatid?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 44,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Tita Jane's for the best Pest Control in Banay-Banay!",
+    "label": [
+      {
+        "start": 29,
+        "end": 41,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 56,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Sparkle Laundry for the best Graphic Design in Gulod!",
+    "label": [
+      {
+        "start": 33,
+        "end": 47,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 51,
+        "end": 56,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 19,
+        "text": "Sparkle Laundry",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Aircon Repair in Casile?",
+    "label": [
+      {
+        "start": 28,
+        "end": 41,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 51,
+        "text": "Casile",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Graphic Design near Poblacion I?",
+    "label": [
+      {
+        "start": 16,
+        "end": 30,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 47,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Car Wash here in Niugan. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 35,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need House Cleaning ASAP. I am located at Butong.",
+    "label": [
+      {
+        "start": 5,
+        "end": 19,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 48,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Tutoring around Diezmo?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 43,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Photography near Diezmo?",
+    "label": [
+      {
+        "start": 16,
+        "end": 27,
+        "text": "Photography",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 39,
+        "text": "Diezmo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Sparkle Laundry for the best Car Wash in Pittland!",
+    "label": [
+      {
+        "start": 33,
+        "end": 41,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 45,
+        "end": 53,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 19,
+        "text": "Sparkle Laundry",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Laundry here in Baclaran. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 19,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 36,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Speedy Clean is now open in Poblacion I offering Laptop Repair.",
+    "label": [
+      {
+        "start": 49,
+        "end": 62,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 39,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 12,
+        "text": "Speedy Clean",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Laundry at Pulo. Visit Mamatid Auto Care today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 49,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try J&T for the best Aircon Repair in Bigaa!",
+    "label": [
+      {
+        "start": 21,
+        "end": 34,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 38,
+        "end": 43,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 7,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Kuya Juan Services for Aircon Repair near Gulod?",
+    "label": [
+      {
+        "start": 53,
+        "end": 66,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 72,
+        "end": 77,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 48,
+        "text": "Kuya Juan Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Need House Cleaning ASAP. I am located at Pittland.",
+    "label": [
+      {
+        "start": 5,
+        "end": 19,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 50,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Tutoring here in Poblacion I. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 40,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Tita Jane's is now open in Pulo offering Car Wash.",
+    "label": [
+      {
+        "start": 41,
+        "end": 49,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 27,
+        "end": 31,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 11,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Laptop Repair around Poblacion I?",
+    "label": [
+      {
+        "start": 21,
+        "end": 34,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 53,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Sparkle Laundry is now open in Banay-Banay offering Haircut.",
+    "label": [
+      {
+        "start": 52,
+        "end": 59,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 31,
+        "end": 42,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 15,
+        "text": "Sparkle Laundry",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Tita Jane's for the best Catering in Baclaran!",
+    "label": [
+      {
+        "start": 29,
+        "end": 37,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 49,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 15,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Aircon Repair here in Bigaa. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 39,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Laptop Repair here in Mamatid. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 25,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 34,
+        "end": 41,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Aircon Repair around Mamatid?",
+    "label": [
+      {
+        "start": 21,
+        "end": 34,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 49,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Highly recommend Tita Jane's in San Isidro if you need House Cleaning.",
+    "label": [
+      {
+        "start": 55,
+        "end": 69,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 32,
+        "end": 42,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 17,
+        "end": 28,
+        "text": "Tita Jane's",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Haircut here in Niugan. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 19,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 28,
+        "end": 34,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable LBC for Water Delivery near Pulo?",
+    "label": [
+      {
+        "start": 38,
+        "end": 52,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 58,
+        "end": 62,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 33,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Haircut around Banlic?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 42,
+        "text": "Banlic",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "CoolBreeze Aircon is now open in Marinig offering Laptop Repair.",
+    "label": [
+      {
+        "start": 50,
+        "end": 63,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 33,
+        "end": 40,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 17,
+        "text": "CoolBreeze Aircon",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Pest Control around Poblacion II?",
+    "label": [
+      {
+        "start": 21,
+        "end": 33,
+        "text": "Pest Control",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 41,
+        "end": 53,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Massage around Gulod?",
+    "label": [
+      {
+        "start": 21,
+        "end": 28,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 41,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Plumbing around Bigaa?",
+    "label": [
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 42,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Aircon Repair around Gulod?",
+    "label": [
+      {
+        "start": 21,
+        "end": 34,
+        "text": "Aircon Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 47,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Looking for Plumbing here in Pulo. Any recommendations?",
+    "label": [
+      {
+        "start": 12,
+        "end": 20,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 33,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Massage at Marinig. Visit Mamatid Auto Care today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 27,
+        "text": "Marinig",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 52,
+        "text": "Mamatid Auto Care",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Cabuyao Fixers for the best Water Delivery in Butong!",
+    "label": [
+      {
+        "start": 32,
+        "end": 46,
+        "text": "Water Delivery",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 50,
+        "end": 56,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 18,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "J&T is now open in Poblacion I offering Laptop Repair.",
+    "label": [
+      {
+        "start": 40,
+        "end": 53,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 19,
+        "end": 30,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 3,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Motorcycle Repair in Niugan?",
+    "label": [
+      {
+        "start": 28,
+        "end": 45,
+        "text": "Motorcycle Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 49,
+        "end": 55,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Kuya Juan Services for the best Nail Spa in Pittland!",
+    "label": [
+      {
+        "start": 36,
+        "end": 44,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 48,
+        "end": 56,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 22,
+        "text": "Kuya Juan Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Cabuyao Fixers for the best House Cleaning in Butong!",
+    "label": [
+      {
+        "start": 32,
+        "end": 46,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 50,
+        "end": 56,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 18,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Try Cabuyao Fixers for the best Graphic Design in Poblacion II!",
+    "label": [
+      {
+        "start": 32,
+        "end": 46,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 50,
+        "end": 62,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 4,
+        "end": 18,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Tutoring at Butong. Visit Tech Hub today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Tutoring",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 27,
+        "text": "Butong",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 35,
+        "end": 43,
+        "text": "Tech Hub",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap House Cleaning around Mamatid?",
+    "label": [
+      {
+        "start": 21,
+        "end": 35,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 43,
+        "end": 50,
+        "text": "Mamatid",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Anyone knows a cheap Laptop Repair around San Isidro?",
+    "label": [
+      {
+        "start": 21,
+        "end": 34,
+        "text": "Laptop Repair",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 42,
+        "end": 52,
+        "text": "San Isidro",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Laundry at Baclaran. Visit LBC today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 16,
+        "text": "Laundry",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 20,
+        "end": 28,
+        "text": "Baclaran",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 39,
+        "text": "LBC",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Haircut near Pulo?",
+    "label": [
+      {
+        "start": 16,
+        "end": 23,
+        "text": "Haircut",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 29,
+        "end": 33,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cabuyao Fixers is now open in Niugan offering Catering.",
+    "label": [
+      {
+        "start": 46,
+        "end": 54,
+        "text": "Catering",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 36,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 14,
+        "text": "Cabuyao Fixers",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "We offer Car Wash at Pittland. Visit Kuya Juan Services today!",
+    "label": [
+      {
+        "start": 9,
+        "end": 17,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 21,
+        "end": 29,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 37,
+        "end": 55,
+        "text": "Kuya Juan Services",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Graphic Design in Poblacion I?",
+    "label": [
+      {
+        "start": 28,
+        "end": 42,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 46,
+        "end": 57,
+        "text": "Poblacion I",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Nail Spa near Pulo?",
+    "label": [
+      {
+        "start": 16,
+        "end": 24,
+        "text": "Nail Spa",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 34,
+        "text": "Pulo",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good House Cleaning near Pittland?",
+    "label": [
+      {
+        "start": 16,
+        "end": 30,
+        "text": "House Cleaning",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 36,
+        "end": 44,
+        "text": "Pittland",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "J&T is now open in Poblacion II offering Plumbing.",
+    "label": [
+      {
+        "start": 41,
+        "end": 49,
+        "text": "Plumbing",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 19,
+        "end": 31,
+        "text": "Poblacion II",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 0,
+        "end": 3,
+        "text": "J&T",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Where can I find affordable Graphic Design in Bigaa?",
+    "label": [
+      {
+        "start": 28,
+        "end": 42,
+        "text": "Graphic Design",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 46,
+        "end": 51,
+        "text": "Bigaa",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Can anyone suggest a reliable Sparkle Laundry for Massage near Banay-Banay?",
+    "label": [
+      {
+        "start": 50,
+        "end": 57,
+        "text": "Massage",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 63,
+        "end": 74,
+        "text": "Banay-Banay",
+        "labels": [
+          "LOCATION"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 45,
+        "text": "Sparkle Laundry",
+        "labels": [
+          "BUSINESS_NAME"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Car Wash near Niugan?",
+    "label": [
+      {
+        "start": 16,
+        "end": 24,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 36,
+        "text": "Niugan",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Is there a good Car Wash near Gulod?",
+    "label": [
+      {
+        "start": 16,
+        "end": 24,
+        "text": "Car Wash",
+        "labels": [
+          "SERVICE_CATEGORY"
+        ]
+      },
+      {
+        "start": 30,
+        "end": 35,
+        "text": "Gulod",
+        "labels": [
+          "LOCATION"
+        ]
+      }
+    ]
+  }
+]

@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the project root to sys.path so we can import modules like webapp
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import os
 import subprocess
 import sys
@@ -53,7 +58,7 @@ def main():
         
     # 3. Migrate/Upload to Database (Supabase)
     print("\n>>> STEP 3: Uploading to Database (Safe Update)...")
-    import pipeline_db_update
+    from scripts.db import pipeline_db_update
     try:
         pipeline_db_update.update_database()
     except Exception as e:
