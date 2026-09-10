@@ -83,7 +83,7 @@ const EditBusinessProfile = () => {
   /* Auto-navigate after modal is shown */
   useEffect(() => {
     if (!showSuccessModal) return;
-    const t = setTimeout(() => navigate(successNav), 2500);
+    const t = setTimeout(() => navigate(successNav, { replace: true }), 2500);
     return () => clearTimeout(t);
   }, [showSuccessModal, successNav, navigate]);
 
@@ -314,7 +314,7 @@ const EditBusinessProfile = () => {
       {/* ── Success Modal ── */}
       {showSuccessModal && (
         <div
-          onClick={() => navigate(successNav)}
+          onClick={() => navigate(successNav, { replace: true })}
           style={{
             position: 'fixed', inset: 0,
             background: 'rgba(0,0,0,0.55)',
@@ -367,7 +367,7 @@ const EditBusinessProfile = () => {
             </div>
 
             <button
-              onClick={() => navigate(successNav)}
+              onClick={() => navigate(successNav, { replace: true })}
               className="btn btn-primary btn-full"
               style={{ fontSize: '0.95rem' }}
             >
