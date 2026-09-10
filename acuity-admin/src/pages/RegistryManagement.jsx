@@ -214,10 +214,18 @@ function RegistryManagement() {
     <div>
       <HeaderActions>
         <h2>Extracted Business Registry</h2>
-        <div>
-          <input 
-            type="file" 
-            id="bplo-upload" 
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button 
+              className="btn full-width-mobile" 
+              onClick={handleDownloadAudit}
+              style={{ background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+              disabled={isUploading}
+            >
+              Download Audit CSV
+            </button>
+            <input 
+              type="file" 
+              id="bplo-upload"  
             accept=".csv, .xlsx, .xls" 
             style={{ display: 'none' }} 
             onChange={handleFileUpload} 
@@ -243,6 +251,26 @@ function RegistryManagement() {
             <div style={{ height: '8px', background: 'var(--bg-deep)', borderRadius: '4px', overflow: 'hidden' }}>
               <div style={{ height: '100%', background: 'var(--primary)', width: `${uploadProgress.percentage}%`, transition: 'width 0.2s ease-out' }} />
             </div>
+              
+              {uploadProgress.sample && (
+                <div style={{ background: '#0d1117', padding: '1rem', borderRadius: '6px', fontFamily: 'monospace', fontSize: '0.85rem', color: '#c9d1d9', marginTop: '1rem' }}>
+                  <div style={{ color: '#8b949e', marginBottom: '0.5rem' }}>&gt; Live Processing Engine...</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
+                    <span style={{ color: '#58a6ff' }}>Extracted Profile:</span>
+                    <span>"{uploadProgress.sample.extracted}"</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
+                    <span style={{ color: '#3fb950' }}>BPLO Registry Match:</span>
+                    <span>"{uploadProgress.sample.bplo}"</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0', marginTop: '0.5rem', borderTop: '1px dashed #30363d', paddingTop: '0.5rem' }}>
+                    <span style={{ color: '#d2a8ff' }}>Levenshtein Score:</span>
+                    <span style={{ fontWeight: 'bold', color: uploadProgress.sample.score >= 80 ? '#3fb950' : '#ff7b72' }}>
+                      {uploadProgress.sample.score}% <span style={{ fontWeight: 'normal', color: '#8b949e', marginLeft: '0.5rem' }}>({uploadProgress.sample.status})</span>
+                    </span>
+                  </div>
+                </div>
+              )}
           </div>
         )}
         
