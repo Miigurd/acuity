@@ -214,7 +214,6 @@ const EditBusinessProfile = () => {
                 { id: 'phones', label: 'Contact Number' },
                 { id: 'categoryId', label: 'Category' },
                 { id: 'services', label: 'Services' },
-                { id: 'address', label: 'Address' },
                 { id: 'hours', label: 'Operating Hours' },
                 { id: 'locationType', label: 'Location Type' },
                 { id: 'description', label: 'Description' },
@@ -303,8 +302,6 @@ const EditBusinessProfile = () => {
                   <option key={l.id} value={l.id}>{l.name}</option>
                 ))}
               </select>
-              
-              <p className="text-xs text-muted mt-1">Used to group businesses instead of specific GPS points.</p>
             </div>
           </div>
           <div className="input-group">
