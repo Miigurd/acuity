@@ -202,6 +202,24 @@ def update_businesses(data, ip_address):
         if "locationType" in b: profile.location_type = b["locationType"]
         if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
         if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
+        
+        is_owner_edit = False
+        if profile.pin_locked:
+            provided_pin = b.get("pin") or b.get("owner_pin")
+            if provided_pin:
+                from werkzeug.security import check_password_hash
+                try:
+                    is_owner_edit = check_password_hash(str(profile.owner_pin), str(provided_pin))
+                except ValueError:
+                    pass
+                if not is_owner_edit:
+                    is_owner_edit = str(profile.owner_pin) == str(provided_pin)
+            
+            if is_owner_edit and "sensitive_fields" in b:
+                if isinstance(b["sensitive_fields"], list):
+                    profile.sensitive_fields = ",".join(b["sensitive_fields"])
+                else:
+                    profile.sensitive_fields = b["sensitive_fields"]
 
         profile.status = b.get("status", profile.status)
         
@@ -263,7 +281,6 @@ def update_businesses(data, ip_address):
             current_time = datetime.utcnow().isoformat()
             profile.published_at = current_time
             
-            # Check if this was an authoritative owner edit
             is_owner_edit = False
             if profile.pin_locked:
                 provided_pin = b.get("pin") or b.get("owner_pin")
@@ -275,12 +292,6 @@ def update_businesses(data, ip_address):
                         pass
                     if not is_owner_edit:
                         is_owner_edit = str(profile.owner_pin) == str(provided_pin)
-                
-                if is_owner_edit and "sensitive_fields" in b:
-                    if isinstance(b["sensitive_fields"], list):
-                        profile.sensitive_fields = ",".join(b["sensitive_fields"])
-                    else:
-                        profile.sensitive_fields = b["sensitive_fields"]
                     
             # Only log crowdsourced edits to the public history
             if not is_owner_edit:
