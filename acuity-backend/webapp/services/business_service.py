@@ -83,16 +83,25 @@ def update_businesses(data, ip_address):
         profile = BusinessProfile.query.get(biz_id) if biz_id else BusinessProfile.query.filter_by(business_name=name).first()
         
         if profile:
+            sensitive_keys = []
+            if getattr(profile, 'sensitive_fields', None):
+                sensitive_keys = [k.strip() for k in profile.sensitive_fields.split(',')]
+            
             sensitive_changed = False
-            if name.lower() != profile.business_name.lower():
+            
+            if "name" in sensitive_keys and name.lower() != profile.business_name.lower():
                 sensitive_changed = True
-            if "phones" in b and set(b["phones"]) != set(p.phone for p in profile.phones):
+            if "phones" in sensitive_keys and "phones" in b and set(b["phones"]) != set(p.phone for p in profile.phones):
                 sensitive_changed = True
-            if "categories" in b and set(b["categories"]) != set(c.category for c in profile.categories):
+            if "categories" in sensitive_keys and "categories" in b and set(b["categories"]) != set(c.category for c in profile.categories):
                 sensitive_changed = True
-            if "services" in b and set(b["services"]) != set(s.service for s in profile.services):
+            if "services" in sensitive_keys and "services" in b and set(b["services"]) != set(s.service for s in profile.services):
                 sensitive_changed = True
-            if "categoryId" in b and b["categoryId"] and str(b["categoryId"]) != str(profile.category_id):
+            if "categoryId" in sensitive_keys and "categoryId" in b and b["categoryId"] and str(b["categoryId"]) != str(profile.category_id):
+                sensitive_changed = True
+            if "address" in sensitive_keys and "address" in b and b["address"] != profile.address:
+                sensitive_changed = True
+            if "hours" in sensitive_keys and "hours" in b and set(b["hours"]) != set(h.hour_schedule for h in profile.hours):
                 sensitive_changed = True
                 
             if sensitive_changed:
@@ -250,8 +259,20 @@ def update_businesses(data, ip_address):
             is_owner_edit = False
             if profile.pin_locked:
                 provided_pin = b.get("pin") or b.get("owner_pin")
-                if provided_pin and str(provided_pin) == str(profile.owner_pin):
-                    is_owner_edit = True
+                if provided_pin:
+                    from werkzeug.security import check_password_hash
+                    try:
+                        is_owner_edit = check_password_hash(str(profile.owner_pin), str(provided_pin))
+                    except ValueError:
+                        pass
+                    if not is_owner_edit:
+                        is_owner_edit = str(profile.owner_pin) == str(provided_pin)
+                
+                if is_owner_edit and "sensitive_fields" in b:
+                    if isinstance(b["sensitive_fields"], list):
+                        profile.sensitive_fields = ",".join(b["sensitive_fields"])
+                    else:
+                        profile.sensitive_fields = b["sensitive_fields"]
                     
             # Only log crowdsourced edits to the public history
             if not is_owner_edit:

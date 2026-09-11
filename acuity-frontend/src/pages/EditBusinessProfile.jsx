@@ -71,6 +71,7 @@ const EditBusinessProfile = () => {
         communityEngaged: existingBusiness.communityEngaged || false,
         locationType: existingBusiness.locationType || '',
         pin: existingBusiness.pin || '',
+        sensitiveFields: existingBusiness.sensitive_fields ? existingBusiness.sensitive_fields.split(',') : ['name', 'phones', 'categories', 'services', 'categoryId'],
         categoryId: existingBusiness.categoryId || existingBusiness.category_id || '',
         landmarkId: existingBusiness.landmarkId || existingBusiness.landmark_id || '',
         description: existingBusiness.description || ''
@@ -141,7 +142,8 @@ const EditBusinessProfile = () => {
       hours: formData.operatingHours ? formData.operatingHours.split(',').map(h => h.trim()).filter(Boolean) : [],
       description: formData.description,
       ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous'),
-      pin: formData.pin
+      pin: formData.pin,
+      sensitive_fields: formData.sensitiveFields
     };
 
     if (existingBusiness) {
@@ -198,9 +200,37 @@ const EditBusinessProfile = () => {
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
               This profile is managed by its owner. If you are the owner and want to edit sensitive information (like the name or contact number), please enter your 6-digit secure PIN.
             </p>
-            <div>
+            <div style={{ marginBottom: '16px' }}>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Owner PIN</label>
               <input type="text" name="pin" placeholder="Enter PIN..." value={formData.pin} onChange={handleChange} style={{ width: '100%', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }} />
+            </div>
+
+            <h4 style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-primary)' }}>Security Settings (Owner Only)</h4>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '12px' }}>Select which fields require this PIN to be edited by the community.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              {[
+                { id: 'name', label: 'Business Name' },
+                { id: 'phones', label: 'Contact Number' },
+                { id: 'categoryId', label: 'Category' },
+                { id: 'services', label: 'Services' },
+                { id: 'address', label: 'Address' },
+                { id: 'hours', label: 'Operating Hours' }
+              ].map(field => (
+                <label key={field.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={formData.sensitiveFields.includes(field.id)}
+                    onChange={(e) => {
+                      const newFields = e.target.checked 
+                        ? [...formData.sensitiveFields, field.id] 
+                        : formData.sensitiveFields.filter(f => f !== field.id);
+                      setFormData({ ...formData, sensitiveFields: newFields });
+                    }}
+                    style={{ accentColor: '#d97706', width: '16px', height: '16px' }}
+                  />
+                  {field.label}
+                </label>
+              ))}
             </div>
           </div>
         )}

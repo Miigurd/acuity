@@ -40,6 +40,7 @@ class BusinessProfile(Base):
     # Layer 1 Edit Protection
     pin_locked: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
     owner_pin: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    sensitive_fields: Mapped[str | None] = db.mapped_column(db.String(255), default="name,phones,categories,services,categoryId")
 
     # 3NF Relationships
     categories: Mapped[list[BusinessCategory]] = relationship('BusinessCategory', back_populates='business', lazy=True, cascade="all, delete-orphan")
@@ -110,6 +111,7 @@ class BusinessProfile(Base):
             "stats": stats_dict,
             "bplo_match": bplo_match_info,
             "pin_locked": self.pin_locked,
+            "sensitive_fields": self.sensitive_fields,
 
             # Frontend required
             "services": [s.service for s in self.services],
@@ -161,6 +163,7 @@ class BusinessProfile(Base):
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],
             "pin_locked": self.pin_locked,
+            "sensitive_fields": self.sensitive_fields,
             "categories": [c.category for c in self.categories] if self.categories else [],
             "services": [s.service for s in self.services] if self.services else [],
             "stats": stats_dict
