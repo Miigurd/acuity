@@ -362,22 +362,67 @@ def rollback_business(business_id, timestamp):
         return {"status": "error", "message": "History log not found", "code": 404}
         
     b = json.loads(log.previous_data)
+    n = json.loads(log.new_data) if getattr(log, 'new_data', None) else None
+    current_dict = profile.to_dict()
     
-    profile.business_name = b.get("name") or b.get("business_name") or profile.business_name
-    profile.description = b.get("description", profile.description)
-    profile.address = b.get("address", profile.address)
-    profile.contact_info = b.get("contact_info", profile.contact_info)
-    
-    if "facebookUrl" in b: profile.facebook_url = b["facebookUrl"]
-    if "locationType" in b: profile.location_type = b["locationType"]
-    if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
-    if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
+    def should_revert(field_key, db_val=None):
+        if not n: return True # legacy fallback
+        
+        old_val = b.get(field_key)
+        new_val = n.get(field_key)
+        
+        if old_val == new_val:
+            return False # This edit didn't touch this field
+            
+        current_val = db_val if db_val is not None else current_dict.get(field_key)
+        
+        # In Python, lists [1,2] != [2,1], but we usually treat set equality for tags
+        if isinstance(current_val, list) and isinstance(new_val, list):
+            if set(current_val) != set(new_val):
+                return False
+        elif current_val != new_val:
+            return False
+            
+        return True
 
-    profile.status = b.get("status", profile.status)
-    profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
-    profile.is_active = b.get("isActive", profile.is_active)
-    profile.category_id = b.get("categoryId", profile.category_id)
-    profile.landmark_id = b.get("landmarkId", profile.landmark_id)
+    if should_revert("name", profile.business_name) or should_revert("business_name", profile.business_name):
+        profile.business_name = b.get("name") or b.get("business_name") or profile.business_name
+        
+    if should_revert("description", profile.description):
+        profile.description = b.get("description", profile.description)
+        
+    if should_revert("address", profile.address):
+        profile.address = b.get("address", profile.address)
+        
+    if should_revert("contact_info", profile.contact_info):
+        profile.contact_info = b.get("contact_info", profile.contact_info)
+    
+    if "facebookUrl" in b and should_revert("facebookUrl", profile.facebook_url): 
+        profile.facebook_url = b["facebookUrl"]
+        
+    if "locationType" in b and should_revert("locationType", profile.location_type): 
+        profile.location_type = b["locationType"]
+        
+    if "verifiedContact" in b and should_revert("verifiedContact", profile.verified_contact): 
+        profile.verified_contact = b["verifiedContact"]
+        
+    if "communityEngaged" in b and should_revert("communityEngaged", profile.community_engaged): 
+        profile.community_engaged = b["communityEngaged"]
+
+    if should_revert("status", profile.status):
+        profile.status = b.get("status", profile.status)
+        
+    if should_revert("isVerified", profile.is_verified) or should_revert("is_verified", profile.is_verified):
+        profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
+        
+    if should_revert("isActive", profile.is_active):
+        profile.is_active = b.get("isActive", profile.is_active)
+        
+    if should_revert("categoryId", profile.category_id):
+        profile.category_id = b.get("categoryId", profile.category_id)
+        
+    if should_revert("landmarkId", profile.landmark_id):
+        profile.landmark_id = b.get("landmarkId", profile.landmark_id)
     
     def update_relation(model, field_name, items_list, business_id):
         existing = model.query.filter_by(business_id=business_id).all()
@@ -388,12 +433,12 @@ def rollback_business(business_id, timestamp):
         for item in items_list:
             db.session.add(model(business_id=business_id, **{field_name: item}))
 
-    if "categories" in b: update_relation(BusinessCategory, "category", b["categories"], profile.id)
-    if "services" in b: update_relation(BusinessService, "service", b["services"], profile.id)
-    if "locations" in b: update_relation(BusinessLocation, "location", b["locations"], profile.id)
-    if "prices" in b: update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
-    if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
-    if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
+    if "categories" in b and should_revert("categories"): update_relation(BusinessCategory, "category", b["categories"], profile.id)
+    if "services" in b and should_revert("services"): update_relation(BusinessService, "service", b["services"], profile.id)
+    if "locations" in b and should_revert("locations"): update_relation(BusinessLocation, "location", b["locations"], profile.id)
+    if "prices" in b and should_revert("prices"): update_relation(BusinessPrice, "price_info", b["prices"], profile.id)
+    if "hours" in b and should_revert("hours"): update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
+    if "phones" in b and should_revert("phones"): update_relation(BusinessPhone, "phone", b["phones"], profile.id)
     
     EditHistoryLog.query.filter(EditHistoryLog.business_id == business_id, EditHistoryLog.timestamp >= timestamp).update({"is_rolled_back": True})
     db.session.commit()
