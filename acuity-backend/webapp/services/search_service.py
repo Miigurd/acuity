@@ -102,6 +102,7 @@ def search_businesses(query, user_lat=None, user_lon=None, simulate=False):
     results = _engine_instance.recommend(query=query, user_lat=user_lat, user_lon=user_lon, top_k=50)
     
     res_data = [{
+        "id": r.get("id"),
         "name": r.get("name") or r.get("business_name"), 
         "relevance_score": r.get("relevance_score"), 
         "proximity_score": r.get("proximity_score"),

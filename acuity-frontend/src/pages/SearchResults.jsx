@@ -70,7 +70,10 @@ const SearchResults = () => {
     if (rankedData && rankedData.length > 0) {
       const matched = [];
       for (const rankItem of rankedData) {
-        const localBusiness = filtered.find(b => b.name === rankItem.name || b.id === rankItem.id);
+        const localBusiness = filtered.find(b => 
+          b.name === rankItem.name || 
+          (rankItem.id && String(b.id) === String(rankItem.id))
+        );
         if (localBusiness) {
           matched.push({ 
             ...localBusiness, 
@@ -83,6 +86,15 @@ const SearchResults = () => {
       }
       if (matched.length > 0) {
         filtered = matched;
+      } else if (initialQuery) {
+        // If TF-IDF returned results but none matched our frontend list, fallback to local search
+        const q = initialQuery.toLowerCase();
+        filtered = filtered.filter(b => 
+          (b.name && b.name.toLowerCase().includes(q)) ||
+          (b.description && b.description.toLowerCase().includes(q)) ||
+          (b.services && Array.isArray(b.services) && b.services.some(s => s.toLowerCase().includes(q))) ||
+          (b.tags && Array.isArray(b.tags) && b.tags.some(t => t.toLowerCase().includes(q)))
+        );
       }
     } else if (initialQuery) {
       // Local text fallback match
