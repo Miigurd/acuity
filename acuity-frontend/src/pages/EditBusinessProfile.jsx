@@ -215,7 +215,11 @@ const EditBusinessProfile = () => {
                 { id: 'categoryId', label: 'Category' },
                 { id: 'services', label: 'Services' },
                 { id: 'address', label: 'Address' },
-                { id: 'hours', label: 'Operating Hours' }
+                { id: 'hours', label: 'Operating Hours' },
+                { id: 'locationType', label: 'Location Type' },
+                { id: 'description', label: 'Description' },
+                { id: 'facebookUrl', label: 'Facebook URL' },
+                { id: 'landmarkId', label: 'Landmark' }
               ].map(field => (
                 <label key={field.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer' }}>
                   <input 

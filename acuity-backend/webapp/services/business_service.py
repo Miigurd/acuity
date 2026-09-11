@@ -103,6 +103,14 @@ def update_businesses(data, ip_address):
                 sensitive_changed = True
             if "hours" in sensitive_keys and "hours" in b and set(b["hours"]) != set(h.hour_schedule for h in profile.hours):
                 sensitive_changed = True
+            if "locationType" in sensitive_keys and "locationType" in b and b["locationType"] != profile.location_type:
+                sensitive_changed = True
+            if "description" in sensitive_keys and "description" in b and b["description"] != profile.description:
+                sensitive_changed = True
+            if "facebookUrl" in sensitive_keys and "facebookUrl" in b and b["facebookUrl"] != profile.facebook_url:
+                sensitive_changed = True
+            if "landmarkId" in sensitive_keys and "landmarkId" in b and b["landmarkId"] != profile.landmark_id:
+                sensitive_changed = True
                 
             if sensitive_changed:
                 if profile.pin_locked:
