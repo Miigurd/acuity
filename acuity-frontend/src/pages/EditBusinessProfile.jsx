@@ -36,7 +36,8 @@ const EditBusinessProfile = () => {
     isOpen: true,
     landmarkId: '',
     coordinates: { x: 50, y: 50 },
-    pin: ''
+    pin: '',
+    sensitiveFields: []
   });
 
   useEffect(() => {
