@@ -39,7 +39,7 @@ class BusinessProfile(Base):
 
     # Layer 1 Edit Protection
     pin_locked: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
-    owner_pin: Mapped[str | None] = db.mapped_column(db.String(100), nullable=True)
+    owner_pin: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
 
     # 3NF Relationships
     categories: Mapped[list[BusinessCategory]] = relationship('BusinessCategory', back_populates='business', lazy=True, cascade="all, delete-orphan")
