@@ -18,6 +18,7 @@ class EditHistoryLog(Base):
     business_id: Mapped[int] = db.mapped_column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
     timestamp: Mapped[str] = db.mapped_column(db.String(50), nullable=False)
     previous_data: Mapped[str] = db.mapped_column(db.Text, nullable=False)
+    new_data: Mapped[str | None] = db.mapped_column(db.Text, nullable=True)
     ip_address: Mapped[str | None] = db.mapped_column(db.String(45), nullable=True)
     is_rolled_back: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
     published_at: Mapped[str | None] = db.mapped_column(db.String(50), nullable=True)

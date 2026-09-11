@@ -321,6 +321,7 @@ def update_businesses(data, ip_address):
                     business_id=profile.id,
                     timestamp=current_time,
                     previous_data=json.dumps(old_dict),
+                    new_data=json.dumps(new_dict),
                     ip_address=ip_address,
                     published_at=current_time
                 )

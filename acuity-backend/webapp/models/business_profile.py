@@ -121,7 +121,7 @@ class BusinessProfile(Base):
             "flagCount": len(active_flags),
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],
-            "history": [{"timestamp": h.timestamp, "previous_data": json.loads(h.previous_data)} for h in sorted(self.history_logs, key=lambda x: x.timestamp, reverse=True) if not h.is_rolled_back],
+            "history": [{"timestamp": h.timestamp, "previous_data": json.loads(h.previous_data), "new_data": json.loads(h.new_data) if h.new_data else None} for h in sorted(self.history_logs, key=lambda x: x.timestamp, reverse=True) if not h.is_rolled_back],
             "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp or "", reverse=True)]
         }
 

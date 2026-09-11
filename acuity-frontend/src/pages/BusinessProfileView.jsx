@@ -371,7 +371,7 @@ const BusinessProfileView = () => {
                       const changedFields = Object.entries(entry.previous_data)
                         .filter(([field]) => ALLOWED_HISTORY_FIELDS.includes(field))
                         .map(([field, oldVal]) => {
-                          let newVal = nextState[field];
+                          let newVal = entry.new_data ? entry.new_data[field] : nextState[field];
                           if (newVal === undefined) newVal = nextState.raw?.[field];
                           if (newVal === undefined) newVal = nextState[field.replace('_', '')];
                           return { field, oldVal, newVal };
