@@ -89,6 +89,28 @@ def update_businesses(data, ip_address):
             
             sensitive_changed = False
             
+            if profile.pin_locked and b.get("pin"):
+                provided_pin = b.get("pin")
+                is_valid = False
+                from werkzeug.security import check_password_hash
+                try:
+                    is_valid = check_password_hash(str(profile.owner_pin), str(provided_pin))
+                except ValueError:
+                    pass
+                if not is_valid:
+                    is_valid = str(profile.owner_pin) == str(provided_pin)
+                if not is_valid:
+                    return {"status": "error", "message": "Incorrect PIN provided. Edit rejected.", "code": 403}
+                    
+            if "sensitive_fields" in b:
+                incoming_sf = ",".join(b["sensitive_fields"]) if isinstance(b["sensitive_fields"], list) else b["sensitive_fields"]
+                current_sf = getattr(profile, "sensitive_fields", "")
+                # Handle None cases
+                if current_sf is None: current_sf = ""
+                if incoming_sf is None: incoming_sf = ""
+                if incoming_sf != current_sf:
+                    sensitive_changed = True
+                    
             if "name" in sensitive_keys and name.lower() != profile.business_name.lower():
                 sensitive_changed = True
             if "phones" in sensitive_keys and "phones" in b and set(b["phones"]) != set(p.phone for p in profile.phones):
