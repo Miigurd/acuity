@@ -212,6 +212,12 @@ def update_businesses(data, ip_address):
         else:
             profile = get_base_query().filter_by(business_name=name).with_for_update().first()
             
+        if profile and "edit_version" in b:
+            current_version = len(profile.history_logs) if getattr(profile, 'history_logs', None) else 0
+            if current_version > int(b["edit_version"]):
+                db.session.rollback()
+                return {"status": "conflict", "message": "This business profile was updated by someone else while you were editing. Please review the new changes.", "code": 409}
+            
         if not profile:
             profile = BusinessProfile(business_name=name)
             db.session.add(profile)

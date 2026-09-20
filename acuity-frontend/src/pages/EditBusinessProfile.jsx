@@ -144,7 +144,8 @@ const EditBusinessProfile = () => {
       description: formData.description,
       ownerId: existingBusiness ? existingBusiness.ownerId : (user ? user.id : 'anonymous'),
       pin: formData.pin,
-      sensitive_fields: formData.sensitiveFields
+      sensitive_fields: formData.sensitiveFields,
+      edit_version: existingBusiness && existingBusiness.history ? existingBusiness.history.length : 0
     };
 
     if (existingBusiness) {
@@ -164,6 +165,9 @@ const EditBusinessProfile = () => {
           }
           setSuccessNav(`/business/${existingBusiness.id}`);
           setShowSuccessModal(true);
+        } else if (response.status === 409) {
+          showToast(data.error || 'Conflict! Someone else edited this profile. Refreshing...', 'error');
+          setTimeout(() => navigate(`/business/${existingBusiness.id}`, { replace: true }), 3000);
         } else {
           showToast(data.error || data.message || 'Failed to save edits to server.', 'error');
         }

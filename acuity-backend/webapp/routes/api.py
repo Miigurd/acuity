@@ -241,6 +241,8 @@ def update_businesses_route():
         result = update_businesses(data, ip_address)
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
+        elif result["status"] == "conflict":
+            return jsonify({"error": result["message"]}), result.get("code", 409)
         elif result["status"] == "held":
             return jsonify({"message": result["message"]}), result.get("code", 202)
         else:
