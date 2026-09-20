@@ -5,12 +5,14 @@ import { useMockData } from '../context/MockDataContext';
 import { FiArrowLeft, FiMapPin, FiClock, FiPhoneCall, FiMessageCircle, FiCheckCircle, FiInfo, FiFlag, FiAlertTriangle, FiEdit2, FiX, FiRotateCcw, FiShield } from 'react-icons/fi';
 import BanayBanayMap from '../components/BanayBanayMap';
 import { useToast } from '../context/ToastContext';
+import { useConfirm } from '../context/ConfirmContext';
 
 const BusinessProfileView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getCategoryById, getLandmarkById, flagBusiness, trackEvent } = useMockData();
   const { showToast } = useToast();
+  const confirm = useConfirm();
 
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -69,9 +71,9 @@ const BusinessProfileView = () => {
   const landmark = getLandmarkById(business.landmarkId);
   const isFlagged = business.flagCount >= 3;
 
-  const handleFlagSubmit = () => {
+  const handleFlagSubmit = async () => {
     if (!flagReason) return;
-    if (!window.confirm("Are you sure you want to flag this business? This action will alert the community.")) return;
+    if (!(await confirm("Are you sure you want to flag this business? This action will alert the community."))) return;
     flagBusiness(business.id, flagReason);
     setShowFlagSection(false);
     setFlagReason('');
@@ -79,7 +81,7 @@ const BusinessProfileView = () => {
   };
 
   const handleRollback = async (timestamp) => {
-    const confirmRollback = window.confirm("Are you sure you want to rollback to this version? All newer edits will be undone permanently.");
+    const confirmRollback = await confirm("Are you sure you want to rollback to this version? All newer edits will be undone permanently.");
     if (confirmRollback) {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/rollback`, {
@@ -101,7 +103,7 @@ const BusinessProfileView = () => {
   };
 
   const handleClaim = async () => {
-    if (!window.confirm("Are you the owner? A secure verification PIN will be sent to the contact number on this profile.")) return;
+    if (!(await confirm("Are you the owner? A secure verification PIN will be sent to the contact number on this profile."))) return;
     setClaiming(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim`, {

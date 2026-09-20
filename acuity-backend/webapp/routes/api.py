@@ -126,6 +126,7 @@ def get_business(id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 @api_bp.route("/businesses/<int:id>/flag-status", methods=["PATCH"])
+@jwt_required()
 def update_flag_status(id):
     """Directly update a business profile's flag status (Admin only)."""
     payload = request.json

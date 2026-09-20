@@ -6,17 +6,20 @@ import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import { AdminDataProvider } from './context/AdminDataContext';
 import { ToastProvider } from './context/ToastContext';
+import { ConfirmProvider } from './context/ConfirmContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <ToastProvider>
-        <ErrorBoundary>
-          <AdminDataProvider>
-            <App />
-          </AdminDataProvider>
-        </ErrorBoundary>
-      </ToastProvider>
+      <ConfirmProvider>
+        <ToastProvider>
+          <ErrorBoundary>
+            <AdminDataProvider>
+              <App />
+            </AdminDataProvider>
+          </ErrorBoundary>
+        </ToastProvider>
+      </ConfirmProvider>
     </BrowserRouter>
   </StrictMode>,
 );

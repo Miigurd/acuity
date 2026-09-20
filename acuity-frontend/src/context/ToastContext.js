@@ -19,7 +19,7 @@ const slideIn = keyframes`
 
 const ToastContainer = styled.div`
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   right: 24px;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,8 @@ const ToastContainer = styled.div`
   @media (max-width: 752px) {
     left: 16px;
     right: 16px;
-    bottom: calc(24px + 68px);
+    top: 24px;
+    bottom: auto;
     align-items: stretch;
   }
 `;

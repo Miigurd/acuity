@@ -20,7 +20,7 @@ const slideIn = keyframes`
 
 const ToastContainer = styled.div`
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   right: 24px;
   display: flex;
   flex-direction: column;

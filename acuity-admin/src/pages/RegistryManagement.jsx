@@ -4,6 +4,7 @@ import { useAdminData } from '../context/AdminDataContext';
 import { MdClose } from 'react-icons/md';
 import LevenshteinSimulation from '../components/LevenshteinSimulation';
 import { useToast } from '../context/ToastContext';
+import { useConfirm } from '../context/ConfirmContext';
 
 const HeaderActions = styled.div`
   display: flex;
@@ -122,9 +123,11 @@ function RegistryManagement() {
       : String(valB || '').localeCompare(String(valA || ''));
   });
 
+  const confirm = useConfirm();
+
   const handleUnverify = async () => {
     if (!selectedBusiness) return;
-    if (window.confirm('Are you sure you want to unverify this business and remove its BPLO mapping?')) {
+    if (await confirm('Are you sure you want to unverify this business and remove its BPLO mapping?')) {
       await unverifyBusiness(selectedBusiness.id);
       showToast('success', 'Business unverified and mapping removed');
       setSelectedBusiness(null);

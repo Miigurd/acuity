@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { useConfirm } from './ConfirmContext';
 
 const AdminDataContext = createContext();
 
@@ -145,8 +146,10 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
+  const confirm = useConfirm();
+
   const rejectQueueItem = async (id) => {
-    if (!window.confirm("Are you sure you want to permanently reject this match?")) return;
+    if (!(await confirm("Are you sure you want to permanently reject this match?"))) return;
     try {
       const res = await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/bplo/queue/${id}/reject`, { method: 'POST' });
       if (res.ok) {
