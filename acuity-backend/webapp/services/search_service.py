@@ -69,16 +69,25 @@ def select_valid_profiles():
 def get_engine():
     global _engine_instance, _last_verified_count
 
+    from webapp.models import EditHistoryLog, FlagLog, BusinessStatusHistory
+
     # Fast SQL count check
     current_count = BusinessProfile.query.filter(
         (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
     ).filter(BusinessProfile.is_active == True).count()
     
-    # If the count hasn't changed, return the cached engine immediately without fetching profiles
-    if _engine_instance is not None and current_count == getattr(get_engine, "_fast_count", -1):
+    # Check max IDs of logs to detect ANY changes to profiles (edits, flags, status changes)
+    latest_edit = db.session.query(db.func.max(EditHistoryLog.id)).scalar() or 0
+    latest_flag = db.session.query(db.func.max(FlagLog.id)).scalar() or 0
+    latest_status = db.session.query(db.func.max(BusinessStatusHistory.id)).scalar() or 0
+    
+    cache_key = f"{current_count}_{latest_edit}_{latest_flag}_{latest_status}"
+    
+    # If the cache key hasn't changed, return the cached engine immediately
+    if _engine_instance is not None and getattr(get_engine, "_cache_key", "") == cache_key:
         return _engine_instance
         
-    get_engine._fast_count = current_count
+    get_engine._cache_key = cache_key
 
     profiles_dict = select_valid_profiles()
     if not profiles_dict:
