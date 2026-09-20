@@ -206,7 +206,11 @@ def update_businesses(data, ip_address):
             
         name = format_business_name(raw_name)
         biz_id = b.get("id")
-        profile = get_base_query().get(biz_id) if biz_id else get_base_query().filter_by(business_name=name).first()
+        
+        if biz_id:
+            profile = get_base_query().filter_by(id=biz_id).with_for_update().first()
+        else:
+            profile = get_base_query().filter_by(business_name=name).with_for_update().first()
             
         if not profile:
             profile = BusinessProfile(business_name=name)
