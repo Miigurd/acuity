@@ -55,6 +55,10 @@ def upload_bplo_csv(records, fieldnames):
         yield {"status": "error", "message": "Could not identify business name column"}
         return
         
+    if not records or len(records) == 0:
+        yield {"status": "error", "message": "The uploaded registry file contains no data."}
+        return
+        
     VerificationMatch.query.delete()
     BPLORegistry.query.delete()
     
