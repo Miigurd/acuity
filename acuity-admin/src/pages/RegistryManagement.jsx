@@ -134,6 +134,27 @@ function RegistryManagement() {
     }
   };
 
+  const handleUnrestrict = async () => {
+    if (!selectedBusiness) return;
+    if (await confirm('Are you sure you want to unrestrict this business? It will be restored to its previous status.')) {
+      try {
+        await fetchWithAuth(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/businesses/${selectedBusiness.id}/flag-status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ flag_status: 'Safe' })
+        });
+        showToast('success', 'Business has been unrestricted');
+        
+        // Optimistically update the UI to avoid forcing a full reload
+        setSelectedBusiness(null);
+        // A full refresh of the admin context might be needed, but closing the modal is fine for now
+      } catch (err) {
+        console.error(err);
+        showToast('error', 'Failed to unrestrict business');
+      }
+    }
+  };
+
   const handleDownloadAudit = async () => {
     try {
       const res = await fetchWithAuth((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/bplo/audit-report');
@@ -533,6 +554,11 @@ function RegistryManagement() {
             </div>
 
             <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+              {selectedBusiness.status === 'Restricted' && (
+                <button className="btn btn-outline" onClick={handleUnrestrict} style={{ borderColor: 'var(--success)', color: 'var(--success)' }}>
+                  Unrestrict
+                </button>
+              )}
               {selectedBusiness.status === 'Verified' && (
                 <button className="btn btn-outline" onClick={handleUnverify} style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}>
                   Unverify

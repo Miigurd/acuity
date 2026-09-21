@@ -147,6 +147,8 @@ def update_flag_status(id):
             if new_status in ["Archived", "Safe", "Restricted"]:
                 if new_status in ["Archived", "Safe"]:
                     profile.flag_status = "None"
+                    if profile.status == "Restricted":
+                        profile.status = "Verified" if profile.is_verified else "Pending Verification"
                 else:
                     profile.flag_status = "Restricted"
                     profile.status = "Restricted"
