@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 import sqlite3
 import os
 
-db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "acuity.db")
+db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "acuity.db")
 conn = sqlite3.connect(db_path)
 c = conn.cursor()
 
@@ -19,7 +19,9 @@ def try_exec(sql):
 
 try_exec("ALTER TABLE flag_logs ADD COLUMN ip_address VARCHAR(45);")
 try_exec("ALTER TABLE businesses ADD COLUMN published_at VARCHAR(50);")
+try_exec("ALTER TABLE businesses ADD COLUMN sensitive_fields TEXT;")
 try_exec("ALTER TABLE edit_history_logs ADD COLUMN published_at VARCHAR(50);")
+try_exec("ALTER TABLE edit_history_logs ADD COLUMN new_data TEXT;")
 try_exec("CREATE INDEX ix_businesses_business_name ON businesses (business_name);")
 try_exec("CREATE INDEX ix_businesses_status ON businesses (status);")
 try_exec("CREATE INDEX ix_businesses_is_verified ON businesses (is_verified);")

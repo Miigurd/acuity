@@ -28,8 +28,8 @@ def migrate():
         BusinessProfile.query.delete()
         db.session.commit()
         
-        frontend_path = os.path.join(os.path.dirname(__file__), "data", "processed", "frontend_businesses_fixed.json")
-        logs_path = os.path.join(os.path.dirname(__file__), "data", "processed", "interaction_logs.json")
+        frontend_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "processed", "frontend_businesses_fixed.json")
+        logs_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "processed", "interaction_logs.json")
         
         if os.path.exists(frontend_path):
             print("Migrating businesses...")

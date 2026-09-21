@@ -17,10 +17,10 @@ DATA_FILES = [
     "data/annotated/labeled_posts_2.json",
     "data/annotated/posts_csv_auto.json",
     "data/annotated/labeled_posts_3.json",
-    "data/annotated/synthetic_labeled_posts_seeded.json"
-    # "data/annotated/synthetic_cabuyao_posts.json",
-    # "data/annotated/synthetic_labeled_posts.json",
-    # "data/annotated/synthetic_labeled_posts_2.json"
+    # "data/annotated/synthetic_labeled_posts_seeded.json"
+    "data/annotated/synthetic_cabuyao_posts.json",
+    "data/annotated/synthetic_labeled_posts.json",
+    "data/annotated/synthetic_labeled_posts_2.json"
 ]
 
 LABEL_MAP = {

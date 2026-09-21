@@ -232,7 +232,6 @@ def update_businesses(data, ip_address):
         
         if "facebookUrl" in b: profile.facebook_url = b["facebookUrl"]
         if "locationType" in b: profile.location_type = b["locationType"]
-        if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
         if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
         
         is_owner_edit = False
@@ -253,29 +252,10 @@ def update_businesses(data, ip_address):
                 else:
                     profile.sensitive_fields = b["sensitive_fields"]
 
-        profile.status = b.get("status", profile.status)
+        # Removed admin-only fields from public edits: 
+        # status, flag_status, is_verified, isActive, and stats 
+        # These must ONLY be modified via protected Admin endpoints.
         
-        previous_flag_status = profile.flag_status
-        new_flag_status = b.get("flag_status", profile.flag_status)
-        
-        if new_flag_status != previous_flag_status:
-            history_entry = BusinessStatusHistory(
-                business_id=profile.id,
-                admin_id="Admin",
-                previous_status=previous_flag_status,
-                new_status=new_flag_status,
-                timestamp=datetime.utcnow().isoformat()
-            )
-            db.session.add(history_entry)
-            
-            if new_flag_status == "Archived":
-                flags = FlagLog.query.filter_by(business_id=profile.id).all()
-                for f in flags:
-                    f.is_archived = True
-                
-        profile.flag_status = new_flag_status
-        profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
-        profile.is_active = b.get("isActive", profile.is_active)
         profile.category_id = b.get("categoryId", profile.category_id)
         profile.landmark_id = b.get("landmarkId", profile.landmark_id)
         
@@ -295,17 +275,7 @@ def update_businesses(data, ip_address):
         if "hours" in b: update_relation(BusinessHour, "hour_schedule", b["hours"], profile.id)
         if "phones" in b: update_relation(BusinessPhone, "phone", b["phones"], profile.id)
             
-        if "stats" in b:
-            stats_obj = b["stats"]
-            stats = profile.stats
-            if stats is None:
-                stats = BusinessStat(business_id=profile.id)
-                db.session.add(stats)
-                profile.stats = stats
-            
-            stats.impressions = stats_obj.get("impressions", stats.impressions or 0)
-            stats.clicks = stats_obj.get("clicks", stats.clicks or 0)
-            stats.inquiries = stats_obj.get("inquiries", stats.inquiries or 0)
+        # Stats are tracked separately via interaction events and should not be modified by profile edits
             
         # Check if actual changes were made before creating a history log
         new_dict = profile.to_dict()
@@ -413,21 +383,9 @@ def rollback_business(business_id, timestamp):
     if "locationType" in b and should_revert("locationType", profile.location_type): 
         profile.location_type = b["locationType"]
         
-    if "verifiedContact" in b and should_revert("verifiedContact", profile.verified_contact): 
-        profile.verified_contact = b["verifiedContact"]
-        
     if "communityEngaged" in b and should_revert("communityEngaged", profile.community_engaged): 
         profile.community_engaged = b["communityEngaged"]
 
-    if should_revert("status", profile.status):
-        profile.status = b.get("status", profile.status)
-        
-    if should_revert("isVerified", profile.is_verified) or should_revert("is_verified", profile.is_verified):
-        profile.is_verified = b.get("is_verified") or b.get("isVerified") or profile.is_verified
-        
-    if should_revert("isActive", profile.is_active):
-        profile.is_active = b.get("isActive", profile.is_active)
-        
     if should_revert("categoryId", profile.category_id):
         profile.category_id = b.get("categoryId", profile.category_id)
         
