@@ -182,16 +182,30 @@ function FlaggedProfiles() {
                     <td colSpan="5" style={{ padding: '1rem' }}>
                       <div style={{ marginBottom: '0.5rem', fontWeight: 'bold' }}>Status History:</div>
                       {item.status_history && item.status_history.length > 0 ? (
-                        <ul style={{ listStyleType: 'none', padding: 0, margin: 0, fontSize: 'var(--font-size-sm)' }}>
+                        <ul style={{ listStyleType: 'none', padding: 0, margin: 0, fontSize: 'var(--font-size-sm)', marginBottom: '1rem' }}>
                           {item.status_history.map((hist, idx) => (
-                            <li key={idx} style={{ marginBottom: '0.25rem' }}>
+                            <li key={`hist-${idx}`} style={{ marginBottom: '0.25rem' }}>
                               <span style={{ color: 'var(--text-secondary)' }}>{new Date(hist.timestamp).toLocaleString()}</span> - 
                               Admin <strong>{hist.admin_id}</strong> changed status from <strong>{hist.previous_status || 'None'}</strong> to <strong>{hist.new_status.split('|')[0]}</strong>
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>No status history available.</div>
+                        <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginBottom: '1rem' }}>No status history available.</div>
+                      )}
+                      
+                      <div style={{ marginBottom: '0.5rem', fontWeight: 'bold' }}>Action Logs:</div>
+                      {item.admin_actions && item.admin_actions.length > 0 ? (
+                        <ul style={{ listStyleType: 'none', padding: 0, margin: 0, fontSize: 'var(--font-size-sm)' }}>
+                          {item.admin_actions.map((action, idx) => (
+                            <li key={`act-${idx}`} style={{ marginBottom: '0.25rem' }}>
+                              <span style={{ color: 'var(--text-secondary)' }}>{new Date(action.timestamp).toLocaleString()}</span> - 
+                              Admin <strong>{action.admin_id}</strong> performed: <strong>{action.action_type}</strong>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>No recent admin actions.</div>
                       )}
                     </td>
                   </tr>

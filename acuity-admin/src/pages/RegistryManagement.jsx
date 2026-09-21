@@ -503,6 +503,35 @@ function RegistryManagement() {
               </div>
             </div>
             
+            {/* Logs Section */}
+            <div style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
+              <h4 style={{ marginBottom: '1rem', color: 'var(--primary-light)' }}>Admin Logs</h4>
+              
+              {selectedBusiness.raw?.status_history?.length > 0 || selectedBusiness.raw?.admin_actions?.length > 0 ? (
+                <ul style={{ listStyleType: 'none', padding: 0, margin: 0, fontSize: '0.85rem' }}>
+                  
+                  {selectedBusiness.raw?.status_history?.map((hist, idx) => (
+                    <li key={`status-${idx}`} style={{ marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+                      <strong>{new Date(hist.timestamp).toLocaleString()}</strong> - 
+                      Admin <strong style={{ color: 'var(--primary)' }}>{hist.admin_id}</strong> changed status from 
+                      <em> {hist.previous_status || 'None'}</em> to <em>{hist.new_status.split('|')[0]}</em>
+                    </li>
+                  ))}
+
+                  {selectedBusiness.raw?.admin_actions?.map((action, idx) => (
+                    <li key={`action-${idx}`} style={{ marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+                      <strong>{new Date(action.timestamp).toLocaleString()}</strong> - 
+                      Admin <strong style={{ color: 'var(--primary)' }}>{action.admin_id}</strong> performed action: 
+                      <em> {action.action_type}</em>
+                    </li>
+                  ))}
+
+                </ul>
+              ) : (
+                <p className="text-muted" style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>No admin actions recorded yet.</p>
+              )}
+            </div>
+
             <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
               {selectedBusiness.status === 'Verified' && (
                 <button className="btn btn-outline" onClick={handleUnverify} style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}>

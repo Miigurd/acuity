@@ -122,7 +122,7 @@ class BusinessProfile(Base):
             "allFlagCount": len(self.flags) if self.flags else 0,
             "flagReasons": [f.reason for f in active_flags],
             "history": [{"timestamp": h.timestamp, "previous_data": json.loads(h.previous_data), "new_data": json.loads(h.new_data) if h.new_data else None} for h in sorted(self.history_logs, key=lambda x: x.timestamp, reverse=True) if not h.is_rolled_back],
-            "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp or "", reverse=True)]
+            "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp or "", reverse=True)], "admin_actions": [{"timestamp": a.timestamp, "admin_id": a.admin_id, "action_type": a.action_type} for a in sorted(__import__("webapp.models", fromlist=["AdminActionLog"]).AdminActionLog.query.filter_by(target_id=str(self.id)).all(), key=lambda x: x.timestamp or "", reverse=True)]
         }
 
     def to_dict_light(self):
