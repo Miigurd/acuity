@@ -232,6 +232,7 @@ def update_businesses(data, ip_address):
         
         if "facebookUrl" in b: profile.facebook_url = b["facebookUrl"]
         if "locationType" in b: profile.location_type = b["locationType"]
+        if "verifiedContact" in b: profile.verified_contact = b["verifiedContact"]
         if "communityEngaged" in b: profile.community_engaged = b["communityEngaged"]
         
         is_owner_edit = False
@@ -382,6 +383,9 @@ def rollback_business(business_id, timestamp):
         
     if "locationType" in b and should_revert("locationType", profile.location_type): 
         profile.location_type = b["locationType"]
+        
+    if "verifiedContact" in b and should_revert("verifiedContact", profile.verified_contact): 
+        profile.verified_contact = b["verifiedContact"]
         
     if "communityEngaged" in b and should_revert("communityEngaged", profile.community_engaged): 
         profile.community_engaged = b["communityEngaged"]
