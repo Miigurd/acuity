@@ -172,7 +172,7 @@ def update_flag_status(id):
                 business_id=profile.id,
                 previous_status=old_status,
                 new_status=logged_status,
-                admin_id="Admin Dashboard"
+                admin_id=get_jwt_identity() or "unknown_admin"
             )
             db.session.add(history_log)
             db.session.commit()
@@ -368,7 +368,7 @@ def get_queue():
 @jwt_required()
 def approve_bplo_route(id):
     try:
-        result = approve_bplo_match(id)
+        result = approve_bplo_match(id, get_jwt_identity() or "unknown_admin")
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
         
@@ -381,7 +381,7 @@ def approve_bplo_route(id):
 @jwt_required()
 def reject_bplo_route(id):
     try:
-        result = reject_bplo_match(id)
+        result = reject_bplo_match(id, get_jwt_identity() or "unknown_admin")
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
         
@@ -394,7 +394,7 @@ def reject_bplo_route(id):
 @jwt_required()
 def unverify_route(id):
     try:
-        result = unverify_business(id)
+        result = unverify_business(id, get_jwt_identity() or "unknown_admin")
         if result["status"] == "error":
             return jsonify({"error": result["message"]}), result.get("code", 500)
         

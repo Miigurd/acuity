@@ -271,7 +271,7 @@ def get_bplo_queue():
         
     return list(grouped_queue.values())
 
-def approve_bplo_match(match_id):
+def approve_bplo_match(match_id, admin_id="Admin (Manual Queue Approval)"):
     match = VerificationMatch.query.options(selectinload(VerificationMatch.business)).filter_by(id=match_id).first()  # type: ignore
     if not match:
         return {"status": "error", "message": "Queue item not found", "code": 404}
@@ -281,7 +281,7 @@ def approve_bplo_match(match_id):
     if profile.status != "Verified":
         history = BusinessStatusHistory(
             business_id=profile.id,
-            admin_id="Admin (Manual Queue Approval)",
+            admin_id=admin_id,
             previous_status=profile.status,
             new_status="Verified"
         )
@@ -295,7 +295,7 @@ def approve_bplo_match(match_id):
     db.session.commit()
     return {"status": "success", "message": "Approved and verified", "code": 200}
     
-def reject_bplo_match(match_id):
+def reject_bplo_match(match_id, admin_id="Admin (Manual Queue Rejection)"):
     match = VerificationMatch.query.filter_by(id=match_id).first()
     if not match:
         return {"status": "error", "message": "Queue item not found", "code": 404}
@@ -305,7 +305,7 @@ def reject_bplo_match(match_id):
         if business.status != "Unverified":
             history = BusinessStatusHistory(
                 business_id=business.id,
-                admin_id="Admin (Manual Queue Rejection)",
+                admin_id=admin_id,
                 previous_status=business.status,
                 new_status="Unverified"
             )
@@ -322,7 +322,7 @@ def reject_bplo_match(match_id):
     db.session.commit()
     return {"status": "success", "message": "Rejected match and marked business as Unverified", "code": 200}
 
-def unverify_business(business_id):
+def unverify_business(business_id, admin_id="Admin (Manual Unverify Override)"):
     business = BusinessProfile.query.get(business_id)
     if not business:
         return {"status": "error", "message": "Business not found", "code": 404}
@@ -334,7 +334,7 @@ def unverify_business(business_id):
     if business.status != "Unverified":
         history = BusinessStatusHistory(
             business_id=business.id,
-            admin_id="Admin (Manual Unverify Override)",
+            admin_id=admin_id,
             previous_status=business.status,
             new_status="Unverified"
         )
