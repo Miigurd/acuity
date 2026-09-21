@@ -9,6 +9,7 @@ from .business_profile import (
     BusinessPrice, 
     BusinessStat, 
     FlagLog,
+    AdminUser,
     AdminActionLog,
     BusinessStatusHistory
 )
@@ -26,6 +27,7 @@ __all__ = [
     'BusinessPrice',
     'BusinessStat',
     'FlagLog',
+    'AdminUser',
     'AdminActionLog',
     'BusinessStatusHistory',
     'EditHistoryLog',

@@ -269,6 +269,16 @@ class BusinessStatusHistory(Base):
     business: Mapped[BusinessProfile] = relationship('BusinessProfile', back_populates='status_history')
 
 
+class AdminUser(Base):
+    __tablename__ = 'admin_users'
+
+    id: Mapped[int] = db.mapped_column(db.Integer, primary_key=True, autoincrement=True)
+    username: Mapped[str] = db.mapped_column(db.String(255), unique=True, nullable=False)
+    password_hash: Mapped[str] = db.mapped_column(db.String(255), nullable=False)
+    role: Mapped[str] = db.mapped_column(db.String(50), default="Admin")
+    created_at: Mapped[str | None] = db.mapped_column(db.String(50), default=lambda: datetime.utcnow().isoformat())
+
+
 class AdminActionLog(Base):
     __tablename__ = 'admin_action_logs'
 

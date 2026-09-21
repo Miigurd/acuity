@@ -17,10 +17,22 @@ def admin_login():
         return jsonify({"error": "Missing password"}), 400
 
     password = data.get("password")
-    admin_password = os.getenv("ADMIN_PASSWORD", "admin123")
+    username = data.get("username")
 
-    if password == admin_password:
-        access_token = create_access_token(identity="admin")
-        return jsonify({"access_token": access_token}), 200
+    if username:
+        from webapp.models import AdminUser
+        from werkzeug.security import check_password_hash
+        admin = AdminUser.query.filter_by(username=username).first()
+        if admin and check_password_hash(admin.password_hash, password):
+            access_token = create_access_token(identity=admin.username)
+            return jsonify({"access_token": access_token}), 200
+        else:
+            return jsonify({"error": "Invalid credentials"}), 401
     else:
-        return jsonify({"error": "Invalid credentials"}), 401
+        # Fallback to single universal password for bootstrapping / backwards compatibility
+        admin_password = os.getenv("ADMIN_PASSWORD", "admin123")
+        if password == admin_password:
+            access_token = create_access_token(identity="admin")
+            return jsonify({"access_token": access_token}), 200
+        else:
+            return jsonify({"error": "Invalid credentials"}), 401

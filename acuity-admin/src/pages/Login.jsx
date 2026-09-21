@@ -157,6 +157,7 @@ const Spinner = styled.div`
 `;
 
 function Login() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -172,7 +173,7 @@ function Login() {
       const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/auth/admin-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ username, password })
       });
       
       const data = await res.json();
@@ -206,6 +207,22 @@ function Login() {
         )}
         
         <form onSubmit={handleLogin}>
+          <FormGroup>
+            <Label>Username</Label>
+            <InputWrapper>
+              <InputIcon>
+                <FiLock size={18} />
+              </InputIcon>
+              <Input 
+                type="text" 
+                placeholder="Enter username..."
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoading}
+              />
+            </InputWrapper>
+          </FormGroup>
+
           <FormGroup>
             <Label>Admin Password</Label>
             <InputWrapper>
