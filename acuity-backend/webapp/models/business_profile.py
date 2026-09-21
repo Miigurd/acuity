@@ -166,7 +166,9 @@ class BusinessProfile(Base):
             "sensitive_fields": self.sensitive_fields,
             "categories": [c.category for c in self.categories] if self.categories else [],
             "services": [s.service for s in self.services] if self.services else [],
-            "stats": stats_dict
+            "stats": stats_dict,
+            "status_history": [{"timestamp": h.timestamp, "admin_id": h.admin_id, "previous_status": h.previous_status, "new_status": h.new_status} for h in sorted(self.status_history, key=lambda x: x.timestamp or "", reverse=True)],
+            "admin_actions": [{"timestamp": a.timestamp, "admin_id": a.admin_id, "action_type": a.action_type} for a in sorted(__import__("webapp.models", fromlist=["AdminActionLog"]).AdminActionLog.query.filter_by(target_id=str(self.id)).all(), key=lambda x: x.timestamp or "", reverse=True)]
         }
 
 

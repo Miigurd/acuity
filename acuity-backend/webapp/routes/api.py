@@ -148,7 +148,8 @@ def update_flag_status(id):
                 if new_status in ["Archived", "Safe"]:
                     profile.flag_status = "None"
                     if profile.status == "Restricted":
-                        profile.status = "Verified" if profile.is_verified else "Pending Verification"
+                        profile.status = "Verified"
+                        profile.is_verified = True
                 else:
                     profile.flag_status = "Restricted"
                     profile.status = "Restricted"
@@ -177,6 +178,15 @@ def update_flag_status(id):
                 admin_id=get_jwt_identity() or "unknown_admin"
             )
             db.session.add(history_log)
+            
+            from webapp.models import AdminActionLog
+            action_log = AdminActionLog(
+                admin_id=get_jwt_identity() or "unknown_admin",
+                action_type=f"changed_flag_status_to_{new_status}",
+                target_id=str(profile.id)
+            )
+            db.session.add(action_log)
+            
             db.session.commit()
             
             
@@ -282,7 +292,12 @@ def search_route():
 
     try:
         results = search_businesses(query, user_lat, user_lon, simulate=simulate)
-        return jsonify(results)
+        from flask import make_response
+        response = make_response(jsonify(results))
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        return response
     except Exception as e:
         logger.error(f"Search error: {e}", exc_info=True)
         return jsonify([]), 500

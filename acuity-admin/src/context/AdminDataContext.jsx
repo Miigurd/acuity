@@ -120,7 +120,8 @@ export const AdminDataProvider = ({ children }) => {
               flag_status: b.flag_status || 'Flagged',
               raw: b,
               originalIndex: b.originalIndex,
-              status_history: b.status_history || []
+              status_history: b.status_history || [],
+              admin_actions: b.admin_actions || []
             }));
           setFlagged(mappedFlagged);
         }
