@@ -51,11 +51,11 @@ const SearchResults = () => {
           const data = await res.json();
           setRankedData(data);
         } else {
-          setRankedData([]);
+          setRankedData(null);
         }
       } catch (e) {
         console.error("Backend search failed, fallback to local search", e);
-        setRankedData([]);
+        setRankedData(null);
       }
     };
     fetchRankings();
