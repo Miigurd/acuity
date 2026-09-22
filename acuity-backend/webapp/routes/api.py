@@ -310,11 +310,23 @@ def finalize_claim(id):
         if not check_password_hash(profile_obj.claim_otp_hash, str(otp)):
             return jsonify({"error": "Invalid OTP."}), 400
             
+        # Check if this is an initial claim (not a PIN reset)
+        is_initial_claim = not profile_obj.pin_locked
+        
         # Success! Clear OTP and set PIN
         profile_obj.owner_pin = generate_password_hash(str(new_pin))
         profile_obj.pin_locked = True
         profile_obj.claim_otp_hash = None
         profile_obj.claim_otp_expires_at = None
+        
+        if is_initial_claim:
+            # Remove old edit logs to prevent rolling back to a pre-claimed state
+            from webapp.models.edit_history import EditHistoryLog, HeldEdit
+            EditHistoryLog.query.filter_by(business_id=id).delete()
+            
+            # Also clear any pending held edits since the owner is now in control
+            HeldEdit.query.filter_by(business_id=id).delete()
+        
         db.session.commit()
         
         return jsonify({"message": "Profile claimed successfully!"}), 200
