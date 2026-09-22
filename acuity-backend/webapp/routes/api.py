@@ -219,21 +219,31 @@ def request_claim_otp(id):
         profile_obj.claim_otp_expires_at = (datetime.utcnow() + timedelta(minutes=10)).isoformat()
         db.session.commit()
         
-        target_phone = profile_obj.phones[0].phone
+        target_phone = str(profile_obj.phones[0].phone or "")
+        if not target_phone.strip():
+            return jsonify({"error": "Phone number is empty."}), 400
+            
+        # Sanitize phone number (remove non-digits, convert 63 to 0)
+        import re
+        clean_phone = re.sub(r'\D', '', target_phone)
+        if clean_phone.startswith('63'):
+            clean_phone = '0' + clean_phone[2:]
+            
         message = f"Your ACUITY claim OTP for {profile_obj.business_name} is: {new_otp}. It expires in 10 minutes."
         
         iprog_token = os.environ.get("IPROG_API_TOKEN")
-        if iprog_token:
+        if iprog_token and clean_phone:
             try:
-                requests.post("https://www.iprogsms.com/api/v1/sms_messages", json={
+                response = requests.post("https://www.iprogsms.com/api/v1/sms_messages", json={
                     "api_token": iprog_token,
-                    "phone_number": target_phone,
+                    "phone_number": clean_phone,
                     "message": message
                 }, timeout=5)
+                response.raise_for_status()
             except Exception as e:
                 logger.error(f"IPROG SMS Error: {e}")
                 
-        logger.info(f"MOCK SMS to {target_phone}: {message}")
+        logger.info(f"MOCK SMS to {clean_phone}: {message}")
         
         return jsonify({"message": f"OTP sent to {target_phone}."}), 200
     except Exception as e:
