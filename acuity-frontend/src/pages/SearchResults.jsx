@@ -67,37 +67,33 @@ const SearchResults = () => {
     let filtered = (businesses || []).filter(b => b && b.isActive && (!b.flagCount || b.flagCount < 3));
 
     // If backend provided ranking scores, map them to local items
-    if (rankedData && rankedData.length > 0) {
-      const matched = [];
-      for (const rankItem of rankedData) {
-        const localBusiness = filtered.find(b => 
-          b.name === rankItem.name || 
-          (rankItem.id && String(b.id) === String(rankItem.id))
-        );
-        if (localBusiness) {
-          matched.push({ 
-            ...localBusiness, 
-            relevance_score: rankItem.relevance_score, 
-            proximity_score: rankItem.proximity_score,
-            distance_km: rankItem.distance_km,
-            final_score: rankItem.final_score 
-          });
+    if (rankedData !== null) {
+      if (rankedData.length > 0) {
+        const matched = [];
+        for (const rankItem of rankedData) {
+          const localBusiness = filtered.find(b => 
+            b.name === rankItem.name || 
+            (rankItem.id && String(b.id) === String(rankItem.id))
+          );
+          if (localBusiness) {
+            matched.push({ 
+              ...localBusiness, 
+              relevance_score: rankItem.relevance_score, 
+              proximity_score: rankItem.proximity_score,
+              distance_km: rankItem.distance_km,
+              final_score: rankItem.final_score 
+            });
+          }
+        }
+        filtered = matched;
+      } else {
+        // Backend returned 0 results. Respect the backend!
+        if (initialQuery) {
+          filtered = [];
         }
       }
-      if (matched.length > 0) {
-        filtered = matched;
-      } else if (initialQuery) {
-        // If TF-IDF returned results but none matched our frontend list, fallback to local search
-        const q = initialQuery.toLowerCase();
-        filtered = filtered.filter(b => 
-          (b.name && b.name.toLowerCase().includes(q)) ||
-          (b.description && b.description.toLowerCase().includes(q)) ||
-          (b.services && Array.isArray(b.services) && b.services.some(s => s.toLowerCase().includes(q))) ||
-          (b.tags && Array.isArray(b.tags) && b.tags.some(t => t.toLowerCase().includes(q)))
-        );
-      }
     } else if (initialQuery) {
-      // Local text fallback match
+      // Local text fallback match ONLY if backend failed (rankedData is null)
       const q = initialQuery.toLowerCase();
       filtered = filtered.filter(b => 
         (b.name && b.name.toLowerCase().includes(q)) ||
