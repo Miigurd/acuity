@@ -56,15 +56,25 @@ def select_valid_profiles():
         (BusinessProfile.is_verified == True) | (BusinessProfile.status == 'Verified')
     ).filter(BusinessProfile.is_active == True).all()
 
+    from webapp.constants import LANDMARKS
     valid_profiles = []
     for p in verified_profiles:
         if p.flag_status == 'Restricted':
             continue
         active_flags = [f for f in p.flags if not getattr(f, 'is_archived', False)]
         if len(active_flags) < config.max_flags_threshold:
-            valid_profiles.append(p)
+            landmark_data = LANDMARKS.get(p.landmark_id or "", {})
+            valid_profiles.append({
+                "id": p.id,
+                "name": p.business_name,
+                "description": p.description,
+                "categories": [c.category for c in p.categories],
+                "services": [s.service for s in p.services],
+                "latitude": landmark_data.get('lat'),
+                "longitude": landmark_data.get('lon')
+            })
 
-    return [p.to_dict() for p in valid_profiles]
+    return valid_profiles
 
 def get_engine():
     global _engine_instance, _last_verified_count
@@ -94,10 +104,10 @@ def get_engine():
     if not profiles_dict:
         return None
 
-    if _engine_instance is None or len(profiles_dict) != _last_verified_count:
-        _engine_instance = RecommendationEngine()
-        _engine_instance.set_profiles(profiles_dict)
-        _last_verified_count = len(profiles_dict)
+    engine = RecommendationEngine(config=config)
+    engine.set_profiles(profiles_dict)
+    _engine_instance = engine
+    _last_verified_count = len(profiles_dict)
 
     return _engine_instance
 
