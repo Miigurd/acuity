@@ -24,7 +24,6 @@ const SearchResults = () => {
   const [results, setResults] = useState([]);
   const [rankedData, setRankedData] = useState(null);
   const [backendStatus, setBackendStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
-  const [backendError, setBackendError] = useState('');
   const trackedQueries = useRef(new Set());
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchRankings = async () => {
       setBackendStatus('loading');
-      setBackendError('');
       try {
         let fetchUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/search?q=${encodeURIComponent(initialQuery || '')}`;
           const queryKey = initialQuery || '';
@@ -58,13 +56,11 @@ const SearchResults = () => {
         } else {
           setRankedData(null);
           setBackendStatus('error');
-          setBackendError(`HTTP ${res.status} ${res.statusText}`);
         }
       } catch (e) {
         console.error("Backend search failed, fallback to local search", e);
         setRankedData(null);
         setBackendStatus('error');
-        setBackendError(e.message || String(e));
       }
     };
     fetchRankings();
@@ -178,11 +174,7 @@ const SearchResults = () => {
         marginBottom: '1.5rem',
         boxShadow: 'var(--shadow-sm)'
       }}>
-        {/* Debug Info */}
-        <div style={{ padding: '8px', background: backendStatus === 'error' ? '#fee2e2' : '#e0e7ff', fontSize: '12px', borderRadius: '4px', marginBottom: '16px', color: '#333' }}>
-          Backend Status: <strong>{backendStatus}</strong> | URL: {process.env.REACT_APP_API_URL || 'http://localhost:5000'}
-          {backendError && <div>Error: {backendError}</div>}
-        </div>
+
 
         <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap' }}>
           <div style={{
