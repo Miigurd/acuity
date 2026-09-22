@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useMockData } from '../context/MockDataContext';
 import { FiArrowLeft, FiMapPin, FiClock, FiPhoneCall, FiMessageCircle, FiCheckCircle, FiInfo, FiFlag, FiAlertTriangle, FiEdit2, FiX, FiRotateCcw, FiShield } from 'react-icons/fi';
 import BanayBanayMap from '../components/BanayBanayMap';
@@ -312,19 +312,9 @@ const BusinessProfileView = () => {
             <FiCheckCircle /> {claiming ? 'Verifying...' : 'Claim as Store Owner'}
           </button>
         ) : (
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <span className="badge badge-success">
-              <FiCheckCircle /> Owner Verified
-            </span>
-            <button 
-              onClick={onClaimClick} 
-              disabled={claiming}
-              className="chip" 
-              style={{ background: 'transparent', border: '1px solid var(--border)', fontSize: '0.8rem', padding: '4px 10px' }}
-            >
-              {claiming ? 'Sending...' : 'Reset PIN'}
-            </button>
-          </div>
+          <span className="badge badge-success">
+            <FiCheckCircle /> Owner Verified
+          </span>
         )}
 
         <button

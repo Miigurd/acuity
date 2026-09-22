@@ -206,7 +206,10 @@ const EditBusinessProfile = () => {
               This profile is managed by its owner. If you are the owner and want to edit sensitive information (like the name or contact number), please enter your 6-digit secure PIN.
             </p>
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Owner PIN</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>Owner PIN</label>
+                  <button type="button" onClick={() => navigate(`/business/${existingBusiness.id}?resetPin=true`)} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', padding: 0 }}>Forgot PIN?</button>
+                </div>
               <input type="text" name="pin" placeholder="Enter PIN..." value={formData.pin} onChange={handleChange} style={{ width: '100%', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }} />
             </div>
 
