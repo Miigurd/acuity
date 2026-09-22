@@ -197,6 +197,7 @@ def update_flag_status(id):
 
 @api_bp.route("/businesses/<int:id>/claim/request-otp", methods=["POST"])
 @limiter.limit("3 per minute")
+@limiter.limit("3 per day", key_func=lambda: str(request.view_args.get('id', '')))
 def request_claim_otp(id):
     """Generate and send an OTP for claiming a business."""
     try:

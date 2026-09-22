@@ -112,14 +112,12 @@ const BusinessProfileView = () => {
   const onClaimClick = async () => {
     if (!(await confirm("Are you the owner? An OTP will be sent to your contact number via SMS to verify."))) return;
     
-    if (business.phones && business.phones.length > 1) {
+    if (business.phones && business.phones.length > 0) {
       setSelectedPhone(business.phones[0]);
       setOtpStep(0);
       setShowOtpModal(true);
     } else {
-      const targetPhone = (business.phones && business.phones.length > 0) ? business.phones[0] : null;
-      setSelectedPhone(targetPhone);
-      handleRequestOtp(targetPhone);
+      showToast('No phone number on record.', 'error');
     }
   };
 
