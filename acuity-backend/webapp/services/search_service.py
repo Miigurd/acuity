@@ -11,6 +11,27 @@ from flask import current_app
 
 config = AcuityConfig()
 
+# --- MONKEY PATCH ---
+# The default acuity-framework package ignores words that are 3 letters or less.
+# We patch it here at runtime to allow 3-letter words (gas, car, spa, gym).
+import acuity.recommendation.vectorizer as vec
+def fixed_tokenize(self, text: str):
+    import re
+    text = text.lower()
+    tokens = re.findall(r'\b[a-z0-9]+\b', text)
+    tokens = [t for t in tokens if t not in vec.STOP_WORDS and len(t) >= 3]
+    ngrams = []
+    min_n, max_n = self.ngram_range
+    if min_n <= 1:
+        ngrams.extend(tokens)
+    for n in range(max(2, min_n), max_n + 1):
+        for i in range(len(tokens) - n + 1):
+            ngram = " ".join(tokens[i:i + n])
+            ngrams.append(ngram)
+    return ngrams
+vec.CustomTfidfVectorizer._tokenize_and_ngrams = fixed_tokenize
+# --------------------
+
 _impression_buffer = defaultdict(int)
 _buffer_lock = threading.Lock()
 _flusher_started = False
