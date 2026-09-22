@@ -196,6 +196,7 @@ def update_flag_status(id):
         return jsonify({"error": str(e)}), 500
 
 @api_bp.route("/businesses/<int:id>/claim/request-otp", methods=["POST"])
+@limiter.limit("3 per minute")
 def request_claim_otp(id):
     """Generate and send an OTP for claiming a business."""
     try:
@@ -242,6 +243,7 @@ def request_claim_otp(id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 @api_bp.route("/businesses/<int:id>/claim/verify-otp", methods=["POST"])
+@limiter.limit("10 per minute")
 def verify_claim_otp(id):
     """Verify the OTP without claiming yet."""
     payload = request.json or {}
@@ -271,17 +273,18 @@ def verify_claim_otp(id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 @api_bp.route("/businesses/<int:id>/claim/finalize", methods=["POST"])
+@limiter.limit("10 per minute")
 def finalize_claim(id):
     """Finalize claim by verifying OTP again and setting the new PIN."""
     payload = request.json or {}
     otp = payload.get("otp")
-    new_pin = payload.get("new_pin")
+    new_pin = str(payload.get("new_pin", ""))
     
     if not otp or not new_pin:
         return jsonify({"error": "OTP and New PIN are required"}), 400
         
-    if len(str(new_pin)) != 6:
-        return jsonify({"error": "PIN must be exactly 6 digits."}), 400
+    if len(new_pin) != 6 or not new_pin.isdigit():
+        return jsonify({"error": "PIN must be exactly 6 numeric digits."}), 400
         
     try:
         profile_obj = BusinessProfile.query.get(id)
