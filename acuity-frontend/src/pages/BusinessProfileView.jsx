@@ -295,9 +295,19 @@ const BusinessProfileView = () => {
             <FiCheckCircle /> {claiming ? 'Verifying...' : 'Claim as Store Owner'}
           </button>
         ) : (
-          <span className="badge badge-success">
-            <FiCheckCircle /> Owner Verified
-          </span>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <span className="badge badge-success">
+              <FiCheckCircle /> Owner Verified
+            </span>
+            <button 
+              onClick={handleRequestOtp} 
+              disabled={claiming}
+              className="chip" 
+              style={{ background: 'transparent', border: '1px solid var(--border)', fontSize: '0.8rem', padding: '4px 10px' }}
+            >
+              {claiming ? 'Sending...' : 'Reset PIN'}
+            </button>
+          </div>
         )}
 
         <button

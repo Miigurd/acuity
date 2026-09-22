@@ -203,8 +203,6 @@ def request_claim_otp(id):
         profile_obj = BusinessProfile.query.get(id)
         if profile_obj is None:
             return jsonify({"error": "Business not found"}), 404
-        if profile_obj.pin_locked:
-            return jsonify({"error": "Profile is already claimed."}), 400
             
         if not profile_obj.phones:
             return jsonify({"error": "No phone number on record to send the OTP to."}), 400
