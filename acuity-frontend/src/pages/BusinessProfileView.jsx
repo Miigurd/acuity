@@ -24,9 +24,10 @@ const BusinessProfileView = () => {
 
   const [claiming, setClaiming] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(false);
-  const [otpStep, setOtpStep] = useState(1); // 1 = OTP, 2 = New PIN
+  const [otpStep, setOtpStep] = useState(1); // 0 = Phone Select, 1 = OTP, 2 = New PIN
   const [otpValue, setOtpValue] = useState('');
   const [newPinValue, setNewPinValue] = useState('');
+  const [selectedPhone, setSelectedPhone] = useState('');
 
 
   useEffect(() => {
@@ -108,12 +109,28 @@ const BusinessProfileView = () => {
     }
   };
 
-  const handleRequestOtp = async () => {
-    if (!(await confirm("Are you the owner? An OTP will be sent to the contact number on this profile via SMS."))) return;
+  const onClaimClick = async () => {
+    if (!(await confirm("Are you the owner? An OTP will be sent to your contact number via SMS to verify."))) return;
+    
+    if (business.phones && business.phones.length > 1) {
+      setSelectedPhone(business.phones[0]);
+      setOtpStep(0);
+      setShowOtpModal(true);
+    } else {
+      const targetPhone = (business.phones && business.phones.length > 0) ? business.phones[0] : null;
+      setSelectedPhone(targetPhone);
+      handleRequestOtp(targetPhone);
+    }
+  };
+
+  const handleRequestOtp = async (phoneStr) => {
+    const targetPhone = phoneStr || selectedPhone;
     setClaiming(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim/request-otp`, {
-        method: 'POST'
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target_phone: targetPhone })
       });
       const data = await response.json();
       if (response.ok) {
@@ -287,7 +304,7 @@ const BusinessProfileView = () => {
         
         {!business.pin_locked ? (
           <button
-            onClick={handleRequestOtp}
+            onClick={onClaimClick}
             disabled={claiming}
             className="chip"
             style={{ color: 'var(--success)' }}
@@ -300,7 +317,7 @@ const BusinessProfileView = () => {
               <FiCheckCircle /> Owner Verified
             </span>
             <button 
-              onClick={handleRequestOtp} 
+              onClick={onClaimClick} 
               disabled={claiming}
               className="chip" 
               style={{ background: 'transparent', border: '1px solid var(--border)', fontSize: '0.8rem', padding: '4px 10px' }}
@@ -609,10 +626,39 @@ const BusinessProfileView = () => {
         }}>
           <div className="card" style={{ padding: '2rem', width: '90%', maxWidth: '400px' }}>
             <h3 style={{ marginBottom: '1rem', color: 'var(--color-deep-navy)' }}>
-              {otpStep === 1 ? 'Enter OTP' : 'Create Your PIN'}
+              {otpStep === 0 ? 'Select Phone Number' : otpStep === 1 ? 'Enter OTP' : 'Create Your PIN'}
             </h3>
             
-            {otpStep === 1 ? (
+            {otpStep === 0 ? (
+              <>
+                <p style={{ marginBottom: '1.5rem', color: 'var(--color-medium-gray)' }}>
+                  This business has multiple contact numbers. Please select where you want the OTP to be sent:
+                </p>
+                <div style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {business.phones.map((p, idx) => (
+                    <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '10px', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', background: selectedPhone === p ? 'var(--bg-highlight)' : 'var(--bg-surface)' }}>
+                      <input 
+                        type="radio" 
+                        name="phoneSelection" 
+                        value={p} 
+                        checked={selectedPhone === p} 
+                        onChange={(e) => setSelectedPhone(e.target.value)} 
+                        style={{ accentColor: 'var(--primary)' }}
+                      />
+                      <span style={{ fontWeight: 600 }}>{p}</span>
+                    </label>
+                  ))}
+                </div>
+                <button
+                  className="btn btn-primary"
+                  style={{ width: '100%', marginBottom: '0.5rem' }}
+                  onClick={() => handleRequestOtp(selectedPhone)}
+                  disabled={claiming || !selectedPhone}
+                >
+                  {claiming ? 'Sending...' : 'Send OTP'}
+                </button>
+              </>
+            ) : otpStep === 1 ? (
               <>
                 <p style={{ marginBottom: '1.5rem', color: 'var(--color-medium-gray)' }}>
                   We sent a 6-digit OTP to the contact number on this profile.
@@ -637,7 +683,7 @@ const BusinessProfileView = () => {
                 <button
                   className="btn btn-outline"
                   style={{ width: '100%' }}
-                  onClick={handleRequestOtp}
+                  onClick={onClaimClick}
                   disabled={claiming}
                 >
                   Resend OTP

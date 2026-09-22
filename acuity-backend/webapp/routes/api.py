@@ -215,12 +215,24 @@ def request_claim_otp(id):
         
         new_otp = str(random.randint(100000, 999999))
         profile_obj.claim_otp_hash = generate_password_hash(new_otp)
-        # Expires in 10 minutes
         profile_obj.claim_otp_expires_at = (datetime.utcnow() + timedelta(minutes=10)).isoformat()
         db.session.commit()
         
-        target_phone = str(profile_obj.phones[0].phone or "")
-        if not target_phone.strip():
+        payload = request.json or {}
+        requested_phone = payload.get("target_phone")
+        
+        target_phone = None
+        if requested_phone:
+            for p in profile_obj.phones:
+                if p.phone == requested_phone:
+                    target_phone = p.phone
+                    break
+            if not target_phone:
+                return jsonify({"error": "Requested phone number is not registered to this profile."}), 400
+        else:
+            target_phone = str(profile_obj.phones[0].phone or "")
+            
+        if not target_phone or not target_phone.strip():
             return jsonify({"error": "Phone number is empty."}), 400
             
         # Sanitize phone number (remove non-digits, convert 63 to 0)
