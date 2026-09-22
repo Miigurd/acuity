@@ -40,6 +40,8 @@ class BusinessProfile(Base):
     # Layer 1 Edit Protection
     pin_locked: Mapped[bool | None] = db.mapped_column(db.Boolean, default=False)
     owner_pin: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    claim_otp_hash: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
+    claim_otp_expires_at: Mapped[str | None] = db.mapped_column(db.String(255), nullable=True)
     sensitive_fields: Mapped[str | None] = db.mapped_column(db.String(255), default="name,phones,categories,services,categoryId")
 
     # 3NF Relationships

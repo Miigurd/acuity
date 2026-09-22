@@ -21,7 +21,13 @@ const BusinessProfileView = () => {
   const [showFlagSection, setShowFlagSection] = useState(false);
   const [flagReason, setFlagReason] = useState('');
   const [showFullMap, setShowFullMap] = useState(false);
+
   const [claiming, setClaiming] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpStep, setOtpStep] = useState(1); // 1 = OTP, 2 = New PIN
+  const [otpValue, setOtpValue] = useState('');
+  const [newPinValue, setNewPinValue] = useState('');
+
 
   useEffect(() => {
     if (showFullMap) {
@@ -102,22 +108,78 @@ const BusinessProfileView = () => {
     }
   };
 
-  const handleClaim = async () => {
-    if (!(await confirm("Are you the owner? A secure verification PIN will be sent to the contact number on this profile."))) return;
+  const handleRequestOtp = async () => {
+    if (!(await confirm("Are you the owner? An OTP will be sent to the contact number on this profile via SMS."))) return;
     setClaiming(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim/request-otp`, {
         method: 'POST'
       });
       const data = await response.json();
       if (response.ok) {
         showToast(data.message, 'success');
-        setBusiness(prev => ({ ...prev, pin_locked: true }));
+        setOtpStep(1);
+        setOtpValue('');
+        setNewPinValue('');
+        setShowOtpModal(true);
       } else {
-        showToast(data.error || 'Failed to claim profile.', 'error');
+        showToast(data.error || 'Failed to request OTP.', 'error');
       }
     } catch (err) {
-      showToast('Network error while claiming.', 'error');
+      showToast('Network error while requesting OTP.', 'error');
+    } finally {
+      setClaiming(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otpValue || otpValue.length < 6) {
+      showToast("Please enter a valid 6-digit OTP", "error");
+      return;
+    }
+    setClaiming(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ otp: otpValue })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showToast('OTP Verified! Please create your new 6-digit PIN.', 'success');
+        setOtpStep(2);
+      } else {
+        showToast(data.error || 'Invalid OTP.', 'error');
+      }
+    } catch (err) {
+      showToast('Network error verifying OTP.', 'error');
+    } finally {
+      setClaiming(false);
+    }
+  };
+
+  const handleFinalizeClaim = async () => {
+    if (!newPinValue || newPinValue.length !== 6) {
+      showToast("PIN must be exactly 6 digits.", "error");
+      return;
+    }
+    setClaiming(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/claim/finalize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ otp: otpValue, new_pin: newPinValue })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showToast('Profile successfully claimed and PIN locked!', 'success');
+        setBusiness(prev => ({ ...prev, pin_locked: true }));
+        setShowOtpModal(false);
+      } else {
+        showToast(data.error || 'Failed to finalize claim.', 'error');
+      }
+    } catch (err) {
+      showToast('Network error while finalizing.', 'error');
     } finally {
       setClaiming(false);
     }
@@ -225,7 +287,7 @@ const BusinessProfileView = () => {
         
         {!business.pin_locked ? (
           <button
-            onClick={handleClaim}
+            onClick={handleRequestOtp}
             disabled={claiming}
             className="chip"
             style={{ color: 'var(--success)' }}
@@ -526,6 +588,87 @@ const BusinessProfileView = () => {
           </div>
         </div>,
         document.body
+      )}
+
+      {/* OTP Claim Modal */}
+      {showOtpModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div className="card" style={{ padding: '2rem', width: '90%', maxWidth: '400px' }}>
+            <h3 style={{ marginBottom: '1rem', color: 'var(--color-deep-navy)' }}>
+              {otpStep === 1 ? 'Enter OTP' : 'Create Your PIN'}
+            </h3>
+            
+            {otpStep === 1 ? (
+              <>
+                <p style={{ marginBottom: '1.5rem', color: 'var(--color-medium-gray)' }}>
+                  We sent a 6-digit OTP to the contact number on this profile.
+                </p>
+                <input
+                  type="text"
+                  placeholder="Enter 6-digit OTP"
+                  className="input-field"
+                  maxLength={6}
+                  value={otpValue}
+                  onChange={(e) => setOtpValue(e.target.value.replace(/[^0-9]/g, ''))}
+                  style={{ marginBottom: '1rem', fontSize: '1.2rem', letterSpacing: '2px', textAlign: 'center' }}
+                />
+                <button
+                  className="btn btn-primary"
+                  style={{ width: '100%', marginBottom: '0.5rem' }}
+                  onClick={handleVerifyOtp}
+                  disabled={claiming}
+                >
+                  {claiming ? 'Verifying...' : 'Verify OTP'}
+                </button>
+                <button
+                  className="btn btn-outline"
+                  style={{ width: '100%' }}
+                  onClick={handleRequestOtp}
+                  disabled={claiming}
+                >
+                  Resend OTP
+                </button>
+              </>
+            ) : (
+              <>
+                <p style={{ marginBottom: '1.5rem', color: 'var(--color-medium-gray)' }}>
+                  OTP verified! Now create a secure 6-digit PIN to lock this business profile. You will need this PIN to make future edits.
+                </p>
+                <input
+                  type="password"
+                  placeholder="Enter 6-digit PIN"
+                  className="input-field"
+                  maxLength={6}
+                  value={newPinValue}
+                  onChange={(e) => setNewPinValue(e.target.value.replace(/[^0-9]/g, ''))}
+                  style={{ marginBottom: '1rem', fontSize: '1.2rem', letterSpacing: '4px', textAlign: 'center' }}
+                />
+                <button
+                  className="btn btn-primary"
+                  style={{ width: '100%' }}
+                  onClick={handleFinalizeClaim}
+                  disabled={claiming}
+                >
+                  {claiming ? 'Saving...' : 'Lock & Claim Business'}
+                </button>
+              </>
+            )}
+            
+            <button
+              style={{
+                marginTop: '1.5rem', background: 'transparent', border: 'none',
+                color: 'var(--color-medium-gray)', textDecoration: 'underline', cursor: 'pointer', width: '100%'
+              }}
+              onClick={() => setShowOtpModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

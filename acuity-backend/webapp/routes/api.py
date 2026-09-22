@@ -195,14 +195,10 @@ def update_flag_status(id):
         logger.error(f"Error updating flag status: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
-@api_bp.route("/businesses/<int:id>/claim", methods=["POST"])
-def claim_business(id):
-    """Claim a business profile and receive an SMS PIN."""
+@api_bp.route("/businesses/<int:id>/claim/request-otp", methods=["POST"])
+def request_claim_otp(id):
+    """Generate and send an OTP for claiming a business."""
     try:
-        profile = get_business_by_id(id)
-        if not profile:
-            return jsonify({"error": "Business not found"}), 404
-            
         profile_obj = BusinessProfile.query.get(id)
         if profile_obj is None:
             return jsonify({"error": "Business not found"}), 404
@@ -210,21 +206,109 @@ def claim_business(id):
             return jsonify({"error": "Profile is already claimed."}), 400
             
         if not profile_obj.phones:
-            return jsonify({"error": "No phone number on record to send the PIN to."}), 400
+            return jsonify({"error": "No phone number on record to send the OTP to."}), 400
             
         import random
+        import os
+        import requests
+        from datetime import datetime, timedelta
         from werkzeug.security import generate_password_hash
-        new_pin = str(random.randint(100000, 999999))
-        profile_obj.owner_pin = generate_password_hash(new_pin)
-        profile_obj.pin_locked = True
+        
+        new_otp = str(random.randint(100000, 999999))
+        profile_obj.claim_otp_hash = generate_password_hash(new_otp)
+        # Expires in 10 minutes
+        profile_obj.claim_otp_expires_at = (datetime.utcnow() + timedelta(minutes=10)).isoformat()
         db.session.commit()
         
         target_phone = profile_obj.phones[0].phone
-        logger.info(f"MOCK SMS to {target_phone}: Your ACUITY Business PIN for {profile_obj.business_name} is: {new_pin}")
+        message = f"Your ACUITY claim OTP for {profile_obj.business_name} is: {new_otp}. It expires in 10 minutes."
         
-        return jsonify({"message": f"Profile claimed successfully! PIN sent to {target_phone}."}), 200
+        iprog_token = os.environ.get("IPROG_API_TOKEN")
+        if iprog_token:
+            try:
+                requests.post("https://www.iprogsms.com/api/v1/sms_messages", json={
+                    "api_token": iprog_token,
+                    "phone_number": target_phone,
+                    "message": message
+                }, timeout=5)
+            except Exception as e:
+                logger.error(f"IPROG SMS Error: {e}")
+                
+        logger.info(f"MOCK SMS to {target_phone}: {message}")
+        
+        return jsonify({"message": f"OTP sent to {target_phone}."}), 200
     except Exception as e:
-        logger.error(f"Error claiming business: {e}", exc_info=True)
+        logger.error(f"Error requesting OTP: {e}", exc_info=True)
+        return jsonify({"error": "Internal Server Error"}), 500
+
+@api_bp.route("/businesses/<int:id>/claim/verify-otp", methods=["POST"])
+def verify_claim_otp(id):
+    """Verify the OTP without claiming yet."""
+    payload = request.json or {}
+    otp = payload.get("otp")
+    if not otp:
+        return jsonify({"error": "OTP is required"}), 400
+        
+    try:
+        profile_obj = BusinessProfile.query.get(id)
+        if profile_obj is None:
+            return jsonify({"error": "Business not found"}), 404
+            
+        if not profile_obj.claim_otp_hash:
+            return jsonify({"error": "No OTP requested."}), 400
+            
+        from datetime import datetime
+        if profile_obj.claim_otp_expires_at and datetime.utcnow() > datetime.fromisoformat(profile_obj.claim_otp_expires_at):
+            return jsonify({"error": "OTP has expired. Please request a new one."}), 400
+            
+        from werkzeug.security import check_password_hash
+        if not check_password_hash(profile_obj.claim_otp_hash, str(otp)):
+            return jsonify({"error": "Invalid OTP."}), 400
+            
+        return jsonify({"message": "OTP is valid.", "valid": True}), 200
+    except Exception as e:
+        logger.error(f"Error verifying OTP: {e}", exc_info=True)
+        return jsonify({"error": "Internal Server Error"}), 500
+
+@api_bp.route("/businesses/<int:id>/claim/finalize", methods=["POST"])
+def finalize_claim(id):
+    """Finalize claim by verifying OTP again and setting the new PIN."""
+    payload = request.json or {}
+    otp = payload.get("otp")
+    new_pin = payload.get("new_pin")
+    
+    if not otp or not new_pin:
+        return jsonify({"error": "OTP and New PIN are required"}), 400
+        
+    if len(str(new_pin)) != 6:
+        return jsonify({"error": "PIN must be exactly 6 digits."}), 400
+        
+    try:
+        profile_obj = BusinessProfile.query.get(id)
+        if profile_obj is None:
+            return jsonify({"error": "Business not found"}), 404
+            
+        if not profile_obj.claim_otp_hash:
+            return jsonify({"error": "No OTP requested."}), 400
+            
+        from datetime import datetime
+        if profile_obj.claim_otp_expires_at and datetime.utcnow() > datetime.fromisoformat(profile_obj.claim_otp_expires_at):
+            return jsonify({"error": "OTP has expired. Please request a new one."}), 400
+            
+        from werkzeug.security import check_password_hash, generate_password_hash
+        if not check_password_hash(profile_obj.claim_otp_hash, str(otp)):
+            return jsonify({"error": "Invalid OTP."}), 400
+            
+        # Success! Clear OTP and set PIN
+        profile_obj.owner_pin = generate_password_hash(str(new_pin))
+        profile_obj.pin_locked = True
+        profile_obj.claim_otp_hash = None
+        profile_obj.claim_otp_expires_at = None
+        db.session.commit()
+        
+        return jsonify({"message": "Profile claimed successfully!"}), 200
+    except Exception as e:
+        logger.error(f"Error finalizing claim: {e}", exc_info=True)
         return jsonify({"error": "Internal Server Error"}), 500
 
 @api_bp.route("/businesses", methods=["GET"])
