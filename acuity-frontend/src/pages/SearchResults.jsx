@@ -23,6 +23,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
   const [rankedData, setRankedData] = useState(null);
+  const [backendStatus, setBackendStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
   const trackedQueries = useRef(new Set());
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const SearchResults = () => {
 
   useEffect(() => {
     const fetchRankings = async () => {
+      setBackendStatus('loading');
       try {
         let fetchUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/search?q=${encodeURIComponent(initialQuery || '')}`;
           const queryKey = initialQuery || '';
@@ -50,12 +52,15 @@ const SearchResults = () => {
         if (res.ok) {
           const data = await res.json();
           setRankedData(data);
+          setBackendStatus('success');
         } else {
           setRankedData(null);
+          setBackendStatus('error');
         }
       } catch (e) {
         console.error("Backend search failed, fallback to local search", e);
         setRankedData(null);
+        setBackendStatus('error');
       }
     };
     fetchRankings();
@@ -63,11 +68,18 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (mockDataLoading) return;
+    
+    // If backend is still loading, wait!
+    if (backendStatus === 'idle' || backendStatus === 'loading') {
+      setLoading(true);
+      return;
+    }
+
     setLoading(true);
     let filtered = (businesses || []).filter(b => b && b.isActive && (!b.flagCount || b.flagCount < 3));
 
     // If backend provided ranking scores, map them to local items
-    if (rankedData !== null) {
+    if (backendStatus === 'success' && rankedData !== null) {
       if (rankedData.length > 0) {
         const matched = [];
         for (const rankItem of rankedData) {
@@ -92,8 +104,8 @@ const SearchResults = () => {
           filtered = [];
         }
       }
-    } else if (initialQuery) {
-      // Local text fallback match ONLY if backend failed (rankedData is null)
+    } else if (backendStatus === 'error' && initialQuery) {
+      // Local text fallback match ONLY if backend failed
       const q = initialQuery.toLowerCase();
       filtered = filtered.filter(b => 
         (b.name && b.name.toLowerCase().includes(q)) ||
@@ -134,7 +146,7 @@ const SearchResults = () => {
 
     setResults(filtered);
     setLoading(false);
-  }, [rankedData, businesses, initialCategory, initialLandmark, sortBy, initialQuery, mockDataLoading, calculateDistance, getLandmarkById, user]);
+  }, [backendStatus, rankedData, businesses, initialCategory, initialLandmark, sortBy, initialQuery, mockDataLoading, calculateDistance, getLandmarkById, user]);
 
   const handleSearch = (e) => {
     e.preventDefault();
