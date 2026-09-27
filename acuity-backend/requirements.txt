@@ -44,6 +44,7 @@ sentry-sdk[flask]>=1.39.0
 # --- Database ---
 # SQLite is built-in; uncomment below for PostgreSQL
 psycopg2-binary>=2.9.0
+psycopg[binary]>=3.0.0
 
 # --- Notebooks / Experimentation ---
 jupyter>=1.0.0
