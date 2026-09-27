@@ -587,3 +587,31 @@ def download_bplo_audit_report():
     if not os.path.exists(audit_file_path):
         return jsonify({"error": "No audit report found. Please run a BPLO upload first."}), 404
     return send_file(audit_file_path, as_attachment=True, download_name="Match_Audit_Report.csv", mimetype="text/csv")
+
+@api_bp.route("/businesses/<int:id>/analytics", methods=["GET"])
+@jwt_required(optional=True)
+def get_business_analytics(id):
+    """Retrieve analytics for a specific business (Admin JWT or Owner PIN)."""
+    biz = db.session.get(BusinessProfile, id)
+    if not biz:
+        return jsonify({"error": "Not found"}), 404
+        
+    admin_id = get_jwt_identity()
+    provided_pin = request.args.get("pin")
+    
+    if not admin_id:
+        if not biz.pin_locked or not biz.pin:
+            return jsonify({"error": "Unauthorized"}), 401
+        
+        from werkzeug.security import check_password_hash
+        if not provided_pin or not check_password_hash(biz.pin, provided_pin):
+            return jsonify({"error": "Invalid PIN"}), 401
+            
+    stats = biz.stats
+    return jsonify({
+        "impressions": stats.impressions if stats else 0,
+        "clicks": stats.clicks if stats else 0,
+        "inquiries": stats.inquiries if stats else 0,
+        "created": stats.created_at if stats else ""
+    })
+

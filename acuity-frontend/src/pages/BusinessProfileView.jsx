@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useMockData } from '../context/MockDataContext';
-import { FiArrowLeft, FiMapPin, FiClock, FiPhoneCall, FiMessageCircle, FiCheckCircle, FiInfo, FiFlag, FiAlertTriangle, FiEdit2, FiX, FiRotateCcw, FiShield } from 'react-icons/fi';
+import { FiArrowLeft, FiMapPin, FiClock, FiPhoneCall, FiMessageCircle, FiCheckCircle, FiInfo, FiFlag, FiAlertTriangle, FiEdit2, FiX, FiRotateCcw, FiShield, FiTrendingUp } from 'react-icons/fi';
 import BanayBanayMap from '../components/BanayBanayMap';
+import BusinessAnalyticsDashboard from '../components/BusinessAnalyticsDashboard';
 import { useToast } from '../context/ToastContext';
 import { useConfirm } from '../context/ConfirmContext';
 
@@ -17,6 +18,11 @@ const BusinessProfileView = () => {
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
+  const [analyticsPin, setAnalyticsPin] = useState('');
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
 
   const [showFlagSection, setShowFlagSection] = useState(false);
   const [flagReason, setFlagReason] = useState('');
@@ -173,6 +179,29 @@ const BusinessProfileView = () => {
     }
   };
 
+  const handleFetchAnalytics = async () => {
+    if (!analyticsPin || analyticsPin.length !== 6) {
+      showToast("PIN must be 6 digits.", "error");
+      return;
+    }
+    setAnalyticsLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/businesses/${business.id}/analytics?pin=${analyticsPin}`);
+      const data = await response.json();
+      if (response.ok) {
+        setAnalyticsData(data);
+        setShowAnalyticsModal(false);
+        showToast('Analytics loaded successfully.', 'success');
+      } else {
+        showToast(data.error || 'Invalid PIN.', 'error');
+      }
+    } catch (err) {
+      showToast('Error connecting to server.', 'error');
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
   const handleFinalizeClaim = async () => {
     if (!newPinValue || newPinValue.length !== 6) {
       showToast("PIN must be exactly 6 digits.", "error");
@@ -296,9 +325,20 @@ const BusinessProfileView = () => {
 
       {/* Quick Action Pills: Edit, Claim, Flag */}
       <div className="card mb-6 flex justify-between items-center flex-wrap gap-4" style={{ padding: '14px 20px' }}>
-        <Link to={`/business/${business.id}/edit`} className="chip" style={{ textDecoration: 'none' }}>
-          <FiEdit2 /> Edit / Suggest Update
-        </Link>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <Link to={`/business/${business.id}/edit`} className="chip" style={{ textDecoration: 'none' }}>
+            <FiEdit2 /> Edit / Suggest Update
+          </Link>
+          {business.pin_locked && (
+            <button 
+              onClick={() => analyticsData ? setAnalyticsData(null) : setShowAnalyticsModal(true)} 
+              className="chip" 
+              style={{ background: analyticsData ? 'var(--primary)' : 'var(--bg-body)', color: analyticsData ? 'white' : 'var(--text-primary)', border: 'none', cursor: 'pointer' }}
+            >
+              <FiTrendingUp /> {analyticsData ? 'Hide Analytics' : 'View Analytics'}
+            </button>
+          )}
+        </div>
         
         {!business.pin_locked ? (
           <button
@@ -326,6 +366,10 @@ const BusinessProfileView = () => {
           <FiFlag /> Report Store
         </button>
       </div>
+
+      {analyticsData && (
+        <BusinessAnalyticsDashboard stats={analyticsData} />
+      )}
 
       {/* Information Cards Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '20px' }}>
@@ -603,6 +647,53 @@ const BusinessProfileView = () => {
           </div>
         </div>,
         document.body
+      )}
+
+      {/* Analytics Modal */}
+      {showAnalyticsModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div className="card" style={{ padding: '2rem', width: '90%', maxWidth: '400px' }}>
+            <h3 style={{ marginBottom: '1rem', color: 'var(--color-deep-navy)' }}>
+              Analytics Access
+            </h3>
+            <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+              Enter your 6-digit Owner PIN to view performance metrics for this business.
+            </p>
+            <input
+              type="password"
+              placeholder="Enter PIN"
+              className="input-field"
+              maxLength={6}
+              value={analyticsPin}
+              onChange={(e) => setAnalyticsPin(e.target.value.replace(/[^0-9]/g, ''))}
+              style={{ marginBottom: '1rem', fontSize: '1.2rem', letterSpacing: '4px', textAlign: 'center' }}
+            />
+            <button
+              className="btn btn-primary"
+              style={{ width: '100%', padding: '12px' }}
+              onClick={handleFetchAnalytics}
+              disabled={analyticsLoading || analyticsPin.length !== 6}
+            >
+              {analyticsLoading ? 'Verifying...' : 'Unlock Analytics'}
+            </button>
+            <button
+              style={{
+                marginTop: '1rem', background: 'transparent', border: 'none',
+                color: 'var(--color-medium-gray)', textDecoration: 'underline', cursor: 'pointer', width: '100%'
+              }}
+              onClick={() => {
+                setShowAnalyticsModal(false);
+                setAnalyticsPin('');
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
 
       {/* OTP Claim Modal */}
