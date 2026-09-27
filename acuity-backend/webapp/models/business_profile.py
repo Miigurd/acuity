@@ -60,6 +60,9 @@ class BusinessProfile(Base):
 
     def to_dict(self):
         stats_dict = {
+            "impressions": self.stats.impressions if self.stats else 0,
+            "clicks": self.stats.clicks if self.stats else 0,
+            "inquiries": self.stats.inquiries if self.stats else 0,
             "created": self.stats.created_at if self.stats else ""
         }
 
@@ -130,6 +133,9 @@ class BusinessProfile(Base):
         landmark_data = LANDMARKS.get(self.landmark_id or "", {})
 
         stats_dict = {
+            "impressions": self.stats.impressions if self.stats else 0,
+            "clicks": self.stats.clicks if self.stats else 0,
+            "inquiries": self.stats.inquiries if self.stats else 0,
             "created": self.stats.created_at if self.stats else ""
         }
 

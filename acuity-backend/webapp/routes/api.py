@@ -600,11 +600,22 @@ def get_business_analytics(id):
     provided_pin = request.args.get("pin")
     
     if not admin_id:
-        if not biz.pin_locked or not biz.pin:
+        if not biz.pin_locked or not biz.owner_pin:
             return jsonify({"error": "Unauthorized"}), 401
         
         from werkzeug.security import check_password_hash
-        if not provided_pin or not check_password_hash(biz.pin, provided_pin):
+        
+        # Check hash first, fallback to plaintext for older db records
+        is_valid = False
+        try:
+            is_valid = check_password_hash(str(biz.owner_pin), str(provided_pin))
+        except ValueError:
+            pass
+            
+        if not is_valid:
+            is_valid = str(biz.owner_pin) == str(provided_pin)
+            
+        if not is_valid:
             return jsonify({"error": "Invalid PIN"}), 401
             
     stats = biz.stats
