@@ -210,7 +210,7 @@ const EditBusinessProfile = () => {
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>Owner PIN</label>
                   <button type="button" onClick={() => navigate(`/business/${existingBusiness.id}?resetPin=true`)} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', padding: 0 }}>Forgot PIN?</button>
                 </div>
-              <input type="text" name="pin" placeholder="Enter PIN..." value={formData.pin} onChange={handleChange} style={{ width: '100%', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }} />
+              <input type="password" maxLength={6} name="pin" placeholder="Enter 6-digit PIN..." value={formData.pin} onChange={handleChange} style={{ width: '100%', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }} />
             </div>
 
             <h4 style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-primary)' }}>Security Settings (Owner Only)</h4>
